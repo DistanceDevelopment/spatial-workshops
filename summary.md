@@ -4,18 +4,6 @@ author: David L. Miller
 date: 5 September 2014
 ---
 
-# Notes
-
-  * Think of a better title
-  * I remember there being some issue with Navy folks and the workshop vs. course? (Check w. Len)
-  * How much prior knowledge of spatial modelling?!
-  * How much prior knowledge of R?
-  * What won't we cover?
-     * survey design
-     * points/cue counting etc?
-     * stratification
-     * MRDS?
-
 # Spec
 
 
