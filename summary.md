@@ -44,7 +44,7 @@ The following publications and software will be provided to  participants at no 
   * Advanced Distance Sampling. S.T. Buckland, D.R. Anderson, K.P. Burnham, J.L. Laake, D.L. Borchers and L. Thomas. (Editors) Oxford University Press, 2004.
   * Lecture notes containing all of the overheads and slides shown during the workshop. This material supplements and extends the distance sampling text book.
 
-To save time during the workshop, participants are asked to bring portable computers with the most recent version of R, and up-to-date versions of the `Distance`, `mrds` and `dsm` packages from CRAN installed. Instructions on this are [available at this address](http://distancesampling.org/R/workshop-instsall.html). Participants should feel free to contact the organisers should they have problems with installation.
+To save time during the workshop, participants are asked to bring portable computers with the most recent version of R, and up-to-date versions of the `Distance`, `mrds` and `dsm` packages from CRAN installed. Instructions on this are [available at this address](http://distancesampling.org/R/workshop-install.html). Participants should feel free to contact the organisers should they have problems with installation.
 
 
 
