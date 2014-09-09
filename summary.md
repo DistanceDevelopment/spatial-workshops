@@ -4,7 +4,7 @@ author: David L. Miller
 date: 5 September 2014
 ---
 
-# Spec
+## Introduction
 
 
 This workshop aims to give a solid grounding in the spatial modelling of distance sampling data for applied ecologists, wildlife managers and statisticians. This will take the form of lectures, discussion of whole-group and individually pertinant issues, as well as a series of practical sessions involving R packages developed by those delivering the course. The course also covers recent developments in the areas of distance sampling and spatial modelling using generalized additive models.
@@ -37,6 +37,7 @@ The workshop will begin will primarily address spatial modelling of line transec
      * `dsm`
 
 
+## Materials
 
 The following publications and software will be provided to  participants at no additional cost.
 
