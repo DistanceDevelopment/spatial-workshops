@@ -18,7 +18,7 @@ Focus will be on practical methods and applications, though in order to gain und
 The workshop will begin will primarily address spatial modelling of line transect data. Detection function modelling will be covered in detail, from there the process of including detectability estimates as corrections to spatial models are addressed. The fitting and checking of detection function models, inclusion of covariates, group size bias and other topics will be covered. The course will include some rudimentry generalised additive modelling theory, including model selection and checking for GAMS, which form the basis of our spatially explicit modelling framework.
 
   * Distance sampling
-     * Line transects sampling
+     * Line transect sampling
      * Fitting detection functions
      * When should we include covariates?
      * Group size issues
