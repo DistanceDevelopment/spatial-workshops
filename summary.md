@@ -1,7 +1,7 @@
 ---
 title: Spatial modelling of distance sampling data
-author: David L. Miller
-date: 5 September 2014
+author: David L Miller, Jason Roberts, Eric Rexstad
+date: 1 May 2015
 ---
 
 ## Introduction
@@ -39,13 +39,19 @@ The workshop will begin will primarily address spatial modelling of line transec
 
 ## Materials
 
-The following publications and software will be provided to  participants at no additional cost.
+The following publications and software will be provided to participants:
 
-  * Introduction to Distance Sampling: Estimating Abundance of Biological Populations. S.T. Buckland, D.R. Anderson, K.P. Burnham, J.L. Laake, D.L. Borchers and L. Thomas. Oxford University Press, 2001.
-  * Advanced Distance Sampling. S.T. Buckland, D.R. Anderson, K.P. Burnham, J.L. Laake, D.L. Borchers and L. Thomas. (Editors) Oxford University Press, 2004.
-  * Lecture notes containing all of the overheads and slides shown during the workshop. This material supplements and extends the distance sampling text book.
+  * Lecture notes containing all slides shown during the workshop.
+  * Copies of relevant recent distance sampling and spatial modelling literature and background materials.
+  * Copies of MGET and R packages necessary to complete the practicals covered in the workshop.
 
-To save time during the workshop, participants are asked to bring portable computers with the most recent version of R, and up-to-date versions of the `Distance`, `mrds` and `dsm` packages from CRAN installed. Instructions on this are [available at this address](http://distancesampling.org/R/workshop-install.html). Participants should feel free to contact the organisers should they have problems with installation.
+To save time during the workshop, participants are asked to bring portable computers with the following software installed:
+
+  * Most recent version of R (**[version]**), and up-to-date versions of the `[R packages we choose]` packages from CRAN installed. Instructions on this are [available at this address](http://distancesampling.org/R/workshop-install.html).
+  * ArcGIS version **[Arc version]** installed along with the MGET toolbox version **[MGET version]**.
+
+
+Participants should feel free to contact the organisers should they have problems with installation.
 
 
 
