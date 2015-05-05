@@ -12,8 +12,8 @@ Some options:
 
  * Spatially explicit models for distance sampling data
  * Spatial models for distance sampling data
- * Spatial modelling of line transect data
- * Species distribution modelling for distance sampling data
+ * ~~Spatial modelling of line transect data~~
+ * ~~Species distribution modelling for distance sampling data~~
 
 
 # Audience
