@@ -72,7 +72,7 @@ Practical lessons will be taught in a computer lab at Duke, however participants
 # Instructors
 
  * [David L Miller](http://converged.yt), Research Fellow, Centre for Research into Ecological and Environmental Modelling and School of Mathematics and Statistics, University of St Andrews, Scotland.
- * Jason Roberts
+ * [Jason Roberts](http://mgel.env.duke.edu/people/jason-roberts/), Marine Geospatial Ecology Lab, Duke University, USA.
 
 
 
