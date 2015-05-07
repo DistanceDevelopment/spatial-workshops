@@ -15,7 +15,8 @@ Some options:
  * ~~Spatial modelling of line transect data~~
  * ~~Species distribution modelling for distance sampling data~~
 
-The novelty of this course is that it will teach the R packages and (I hypothesize) many people respond to courses that offer specific practical skills. Therefore, how about a practical title, such as:  
+The novelty of this course is that it will teach the R packages and (I hypothesize) many people respond to courses that offer specific practical skills. Therefore, how about a practical title, such as:
+
  * Distance sampling and density surface modelling in R
  * Distance sampling and density surface modelling with R, ArcGIS, and MGET
  * Distance sampling and density surface modelling: theory and practice, with R, ArcGIS, and MGET
@@ -33,7 +34,7 @@ The course is intended for quantitatively-minded scientists who wish to analyse 
 
 The workshop will cover both theory and practice and demonstrate an end-to-end workflow for spatial modelling of distance sampling data collected via line transect surveys.
 
-Throughout the course we will follow the "density surface modelling" approach of [Hedley and Buckalnd (2004)[URL], updated with methods from [Miller et al (2014)](URL) -- that is first modelling detectability via a detection function, then using this to create a detection-adjusted spatial model using generalized additive models (GAMs). Modelling will take place in R using packages developed by the Centre for Research into Ecological and Environmental Modelling and NOAA.
+Throughout the course we will follow the "density surface modelling" approach of [Hedley and Buckland (2004)](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.129.4271&rep=rep1&type=pdf), updated with methods from [Miller et al (2014)](http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12105/pdf) -- that is first modelling detectability via a detection function, then using this to create a detection-adjusted spatial model using generalized additive models (GAMs). Modelling will take place in R using packages developed by the Centre for Research into Ecological and Environmental Modelling and NOAA.
 
 An integral part of developing these models is the management and manipulation of geospatial data. Important skills include mapping and exploring data, reformatting data for analysis, obtaining and sampling environmental predictors (e.g. from remote sensing imagery), and moving data between GIS and R. For these activities, we will use ArcGIS and the Marine Geospatial Ecology Tools (MGET) package, developed at the Duke Marine Geospatial Ecology Lab.
 
@@ -54,12 +55,11 @@ An integral part of developing these models is the management and manipulation o
   * Obtaining and sampling environmental data
   * Exchanging data between ArcGIS and R
   * Performing exploratory analyses
-  * Fitting simple DSMs
 
-(Should we move this last bullet to day 3?)
 
 ## Day 3
 
+  * Fitting simple DSMs
   * Which environmental predictors should I include in my model?
   * Fitting DSMs with many predictors
   * DSM model selection
@@ -70,12 +70,10 @@ An integral part of developing these models is the management and manipulation o
   * Variance estimation for DSMs
   * Advanced DSM topics
 
-(Do we want to have any explicit section for discussion of the participants research problems? I think we decided no, but we could tack it on the end if we wanted.)
-
 
 ## Note
 
-Practical lessons will be taught in a computer lab at Duke, however participants are encouraged to bring their own laptops and use them for some or all parts of the practical sessions. Those bringing their own laptops should consult materials [on the course website](github pages URL) to ensure that their software is setup correctly beforehand.
+Practical lessons will be taught in a computer lab at Duke, however participants are encouraged to bring their own laptops and use them for some or all parts of the practical sessions. Those bringing their own laptops should consult materials [on the course website](http://distancesampling.org/workshops/duke-spatial-2015) to ensure that their software is setup correctly beforehand.
 
 # Instructors
 
