@@ -37,7 +37,7 @@ The workshop will cover both theory and practice and demonstrate an end-to-end w
 
 Throughout the course we will follow the "density surface modelling" approach of [Hedley and Buckland (2004)](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.129.4271&rep=rep1&type=pdf), updated with methods from [Miller et al (2014)](http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12105/pdf) -- that is first modelling detectability via a detection function, then using this to create a detection-adjusted spatial model using generalized additive models (GAMs). Modelling will take place in R using packages developed by the Centre for Research into Ecological and Environmental Modelling and NOAA.
 
-An integral part of developing these models is the management and manipulation of geospatial data. Important skills include mapping and exploring data, reformatting data for analysis, obtaining and sampling environmental predictors (e.g. from remote sensing imagery), and moving data between GIS and R. For these activities, we will use ArcGIS and the Marine Geospatial Ecology Tools (MGET) package, developed at the Duke Marine Geospatial Ecology Lab.
+An integral part of developing these models is the management and manipulation of geospatial data. Important skills include mapping and exploring data, reformatting data for analysis, obtaining and sampling environmental predictors (e.g. from remote sensing imagery), and moving data between GIS and R. For these activities, we will use ArcGIS and the Marine Geospatial Ecology Tools (MGET) package ([Roberts et al. 2010](http://www.sciencedirect.com/science/article/pii/S1364815210000885)), developed at the Duke Marine Geospatial Ecology Lab.
 
 
 ## Day 1
