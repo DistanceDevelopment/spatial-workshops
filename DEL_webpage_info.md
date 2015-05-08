@@ -21,6 +21,7 @@ The novelty of this course is that it will teach the R packages and (I hypothesi
  * Distance sampling and density surface modelling with R, ArcGIS, and MGET
  * Distance sampling and density surface modelling: theory and practice, with R, ArcGIS, and MGET
 
+Suggestion: **Spatial models for distance sampling data using R and ArcGIS**
 
 # Audience
 
