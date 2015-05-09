@@ -1,27 +1,14 @@
 ---
 title: Information for the DEL website
-author: David L Miller
-date: 4 May 2015
+author: David L Miller, Jason J Roberts, Eric Rexstad
+date: 9 May 2015
 
 ---
 
 
 # Course title
 
-Some options:
-
- * Spatially explicit models for distance sampling data
- * Spatial models for distance sampling data
- * ~~Spatial modelling of line transect data~~
- * ~~Species distribution modelling for distance sampling data~~
-
-The novelty of this course is that it will teach the R packages and (I hypothesize) many people respond to courses that offer specific practical skills. Therefore, how about a practical title, such as:
-
- * Distance sampling and density surface modelling in R
- * Distance sampling and density surface modelling with R, ArcGIS, and MGET
- * Distance sampling and density surface modelling: theory and practice, with R, ArcGIS, and MGET
-
-Suggestion: **Spatial models for distance sampling data using R and ArcGIS**
+**Spatial models for distance sampling data using R and ArcGIS**
 
 # Audience
 
@@ -31,7 +18,7 @@ The course is intended for quantitatively-minded scientists who wish to analyse 
 # Program Description
 
 
-*Exact schedule may be subject to change, please see [the course site](github pages URL) for up-to-date information.*
+*Exact schedule may be subject to change, please see [the course site](http://distancesampling.org/workshops/duke-spatial-2015) for up-to-date information.*
 
 The workshop will cover both theory and practice and demonstrate an end-to-end workflow for spatial modelling of distance sampling data collected via line transect surveys.
 
@@ -79,7 +66,7 @@ Practical lessons will be taught in a computer lab at Duke, however participants
 # Instructors
 
  * [David L Miller](http://converged.yt), Research Fellow, Centre for Research into Ecological and Environmental Modelling and School of Mathematics and Statistics, University of St Andrews, Scotland.
- * [Jason Roberts](http://mgel.env.duke.edu/people/jason-roberts/), Marine Geospatial Ecology Lab, Duke University, USA.
-
+ * [Jason J Roberts](http://mgel.env.duke.edu/people/jason-roberts/), Marine Geospatial Ecology Lab, Duke University, USA.
+ * [Eric Rexstad](http://www.creem.st-and.ac.uk/ericr/), Research Fellow, Centre for Research into Ecological and Environmental Modelling and School of Mathematics and Statistics, University of St Andrews, Scotland.
 
 
