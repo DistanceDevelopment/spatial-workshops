@@ -1,7 +1,7 @@
 ---
 title: Mailing list course description for "Spatial modelling of distance sampling data"
 author: David L Miller & Jason J Roberts
-date: 1 May 2015
+date: 30 May 2015
 ---
 
 
@@ -13,9 +13,9 @@ The course is intended for graduate students/postdocs/faculty in applied ecology
 
 The course will be taught by David L Miller (St Andrews), Jason J Roberts (Duke) and Eric Rexstad (St Andrews), at the Duke campus in Durham, NC.
 
-The deadline for registration is **[DATE (registration)]**.
+The deadline for registration is 12 October 2015.
 
-Detailed information on the course content and registration can be found at **[URL (DEL course page)]**.
+Detailed information on the course content and registration can be found at https://nicholas.duke.edu/del/distance.
 
 
 
