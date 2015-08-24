@@ -57,7 +57,6 @@ Times here are *approximate*: please edit, expand/contract slots and fill in.
     * AIC
     * Detection function criteria
       * Assumptions
-      * Monotonicity
       * Convergence
   * Variance estimation
     * Where does uncertainty come from? (Conceptually)
@@ -67,7 +66,6 @@ Times here are *approximate*: please edit, expand/contract slots and fill in.
 
   * Finding the AIC, GoF test results
   * Q-Q plotting
-  * Montonicity checking
 
 
 ## Further detection function modelling
@@ -78,7 +76,7 @@ Times here are *approximate*: please edit, expand/contract slots and fill in.
     * Group size issues
   * What are detection functions good for?
     - Estimating probability of detection
-    - Simple Horvitz-Thompson ideas
+    - Simple Horvitz-Thompson ideas -- in the limit, many strata leads to DSM
 
 ### Practical: Covariates and abundance
 
