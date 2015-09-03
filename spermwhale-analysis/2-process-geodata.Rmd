@@ -1,0 +1,64 @@
+---
+title: Process geographical data
+author: David L Miller
+
+---
+
+# Preamble
+
+```{r load-libraries}
+library(rgdal)
+library(ggplot2)
+library(Distance)
+library(knitr)
+library(dsm)
+```
+
+# Load and arrange data
+
+```{r effort-data}
+effort <- readOGR("Analysis.gdb","Segment_Centroids")
+effort <- effort@data
+head(effort)
+```
+
+```{r rename-effort-cols}
+effort$x <- effort$POINT_X
+effort$y <- effort$POINT_Y
+effort$Effort <- effort$Length
+effort$Sample.Label <- effort$SegmentID
+```
+
+```{r obs-data}
+obs <- readOGR("Analysis.gdb","Sightings")
+obs <- obs@data
+head(obs)
+```
+
+```{r rename-obs-cols}
+# just save this in 1. at the same time as the model
+obs$distance <- obs$Distance
+obs$object <- obs$SightingID
+obs$Sample.Label <- obs$SegmentID
+obs$size <- obs$GroupSize
+obs <- obs[obs$distance<=df_model$ddf$meta.data$width,]
+```
+
+```{r load-df}
+load("df-models.RData")
+```
+
+# Try a model
+
+
+```{r dsm-xy}
+dsm.xy <- dsm(abundance.est~s(x,y), df_model, effort, obs, method="REML")
+```
+
+```{r dsm-xy-visgam}
+# looks like a case for Duchon?
+vis.gam(dsm.xy, view=c("x","y"), plot.type="contour", type="response")
+```
+
+
+
