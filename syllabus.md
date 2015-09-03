@@ -1,7 +1,6 @@
 ---
 title: 'Syllabus for "Spatial modelling of distance sampling data"'
 author: David L Miller
-date: 30 April 2015
 
 ---
 
@@ -14,17 +13,20 @@ This document defines the syllabus for the *"Spatial modelling of distance sampl
 
   * Perhaps worth having the confirmed participants go through a questionnaire beforehand to see what the level of the audience is.
   * Data set names (in monospace font after reference) relate to data that is freely available and shipped with R packages.
+  * Have folks log into mozpad to post questions and answer questionnaires anonymously.
+
+
 
 # Timetable
 
 Times here are *approximate*: please edit, expand/contract slots and fill in.
 
- Day/Time     0900-1030   1100-1230   1400-1530   1600-1730
------------- ----------- ----------- ----------- -----------
- Monday
- Tuesday
+ Day/Time     0900-1030          1100-1230   1400-1530   1600-1730
+------------ -----------        ----------- ----------- -----------
+ Tuesday      Welcome/landscape
  Wednesday
  Thursday
+ Friday
 
 
 # Distance sampling topics
