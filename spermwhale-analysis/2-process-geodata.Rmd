@@ -46,7 +46,7 @@ obs$distance <- obs$Distance
 obs$object <- obs$SightingID
 obs$Sample.Label <- obs$SegmentID
 obs$size <- obs$GroupSize
-obs <- obs[obs$distance<=df_model$ddf$meta.data$width,]
+obs <- obs[obs$distance<=df_hr$ddf$meta.data$width,]
 ```
 
 
@@ -54,7 +54,7 @@ obs <- obs[obs$distance<=df_model$ddf$meta.data$width,]
 
 
 ```{r dsm-xy}
-dsm.xy <- dsm(abundance.est~s(x,y), df_model, effort, obs, method="REML")
+dsm.xy <- dsm(abundance.est~s(x,y), df_hr, effort, obs, method="REML")
 ```
 
 ```{r dsm-xy-visgam}
@@ -92,6 +92,6 @@ Oh hey, look at all those nice interactions!
 # Save some data
 
 ```{r save-models}
-save(df_model, effort, obs, file="sperm-data.RData")
+save(effort, obs, file="sperm-data.RData")
 ```
 

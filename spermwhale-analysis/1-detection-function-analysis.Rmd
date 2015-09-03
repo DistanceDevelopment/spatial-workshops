@@ -160,8 +160,9 @@ ddf.gof(models$hn.ss$ddf)
 Let's go with `hr.ss` for now...
 
 ```{r save-models}
-df_model <- models$hr.ss
-save(df_model, file="df-models.RData")
+df_hr_ss <- models$hr.ss
+df_hr <- models$hr
+save(df_hr_ss, df_hr, file="df-models.RData")
 ```
 
 

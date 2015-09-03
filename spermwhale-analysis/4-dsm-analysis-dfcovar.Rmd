@@ -1,0 +1,98 @@
+---
+title: Density surface models
+author: David L Miller
+
+---
+
+# Load some data and packages
+
+```{r load-data-packages}
+library(Distance)
+library(dsm)
+library(ggplot2)
+load("sperm-data.RData")
+load("df-models.RData")
+```
+
+# Fit some models
+
+
+## quasipoisson
+
+Letting `k`s go to default leaves bad "p" values for location, disttocas, EKE, SST: set to 30/20.
+
+```{r fit-models-qp}
+k2 <- 50
+k1 <- 20
+
+dsm.big.qp <- dsm(abundance.est~s(x,y, k=k2)+
+                                s(Depth, k=k1)+
+#                                s(DistToCAS, k=k1)+
+                                s(SST, k=k1),#+
+#                                s(EKE, k=k1)+
+#                                s(NPP, k=k1),
+               family=quasipoisson(),
+               df_hr_ss, effort, obs, method="REML")
+summary(dsm.big.qp)
+```
+
+checking plots
+
+```{r qp-check}
+gam.check(dsm.big.qp)
+```
+
+
+plot that
+
+
+
+## Tweedie
+
+```{r fit-models-tw}
+dsm.big.tw <- dsm(abundance.est~s(x,y, k=k2)+
+                                s(Depth, k=k1)+
+#                                s(DistToCAS, k=k1)+
+                                s(SST, k=k1),#+
+#                                s(EKE, k=k1)+
+#                                s(NPP, k=k1),
+               family=tw(),
+               df_hr_ss, effort, obs, method="REML")
+summary(dsm.big.tw)
+```
+
+```{r tw-check}
+gam.check(dsm.big.tw)
+```
+
+```{r tw-rq-check}
+rqgam.check(dsm.big.tw)
+```
+
+
+## negative binomial
+
+```{r fit-models-qp}
+dsm.big.nb <- dsm(abundance.est~
+#                                s(x,y, k=k2)+
+                                s(Depth, k=k1)+
+#                                s(DistToCAS, k=k1)+
+#                                s(SST, k=k1)+
+                                s(EKE, k=k1),#+
+#                                s(NPP, k=k1),
+               family=nb(),
+               df_hr_ss, effort, obs, method="REML")
+summary(dsm.big.nb)
+```
+
+```{r nb-check}
+gam.check(dsm.big.nb)
+```
+
+```{r nb-rq-check}
+rqgam.check(dsm.big.nb)
+```
+
+
+
+
