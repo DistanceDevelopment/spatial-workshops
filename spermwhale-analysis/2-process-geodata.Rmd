@@ -12,6 +12,7 @@ library(ggplot2)
 library(Distance)
 library(knitr)
 library(dsm)
+library(reshape2)
 ```
 
 # Load and arrange data
@@ -35,6 +36,10 @@ obs <- obs@data
 head(obs)
 ```
 
+```{r load-df}
+load("df-models.RData")
+```
+
 ```{r rename-obs-cols}
 # just save this in 1. at the same time as the model
 obs$distance <- obs$Distance
@@ -44,9 +49,6 @@ obs$size <- obs$GroupSize
 obs <- obs[obs$distance<=df_model$ddf$meta.data$width,]
 ```
 
-```{r load-df}
-load("df-models.RData")
-```
 
 # Try a model
 
@@ -60,5 +62,36 @@ dsm.xy <- dsm(abundance.est~s(x,y), df_model, effort, obs, method="REML")
 vis.gam(dsm.xy, view=c("x","y"), plot.type="contour", type="response")
 ```
 
+# Model dissection
 
+```{r dissect-xy}
+mod_data <- dsm.xy$data
+mod_data$CentreTime <- NULL
+mod_data$POINT_X <- NULL
+mod_data$POINT_Y <- NULL
+mod_data$segment.area <- NULL
+mod_data$off.set <- NULL
+mod_data$CenterTime <- NULL
+mod_data$Effort <- NULL
+mod_data$Length <- NULL
+mod_data$SegmentID <- NULL
+
+mod_data <- melt(mod_data, id.vars=c("Sample.Label", "abundance.est"))
+p <- ggplot(mod_data)
+p <- p + geom_histogram(aes(value, weight=abundance.est))
+p <- p + facet_wrap(~variable, scale="free")
+print(p)
+```
+
+Oh hey, look at all those nice interactions!
+
+
+
+
+
+# Save some data
+
+```{r save-models}
+save(df_model, effort, obs, file="sperm-data.RData")
+```
 
