@@ -10,6 +10,7 @@ author: David L Miller
 library(Distance)
 library(dsm)
 library(ggplot2)
+library(knitr)
 load("sperm-data.RData")
 load("df-models.RData")
 ```
@@ -21,16 +22,43 @@ load("df-models.RData")
 
 Letting `k`s go to default leaves bad "p" values for location, disttocas, EKE, SST: set to 30/20.
 
-```{r fit-models-qp}
+```{r fit-models-qp-xy}
 k2 <- 50
-k1 <- 20
+k1 <- 10
 
-dsm.big.qp <- dsm(abundance.est~s(x,y, k=k2)+
-                                s(Depth, k=k1)+
-#                                s(DistToCAS, k=k1)+
-                                s(SST, k=k1),#+
-#                                s(EKE, k=k1)+
-#                                s(NPP, k=k1),
+dsm.big.qp.xy <- dsm(abundance.est~s(x,y, k=k2, bs="ts")+
+                                s(Depth, k=k1, bs="ts")+
+#                                s(DistToCAS, k=k1, bs="ts")+
+                                s(SST, k=30, bs="ts"),#+
+#                                s(EKE, k=k1, bs="ts")+
+#                                s(NPP, k=k1, bs="ts"),
+               family=quasipoisson(),
+               df_hr_ss, effort, obs, method="REML")
+summary(dsm.big.qp.xy)
+```
+
+checking plots
+
+```{r qp-check-xy}
+gam.check(dsm.big.qp.xy)
+```
+
+
+plot that
+
+```{r qp-terms-xy}
+plot(dsm.big.qp.xy, scale=0, pages=1)
+```
+
+
+```{r fit-models-qp}
+dsm.big.qp <- dsm(abundance.est~s(x, k=k1, bs="ts")+
+                                s(y, k=k1, bs="ts")+
+                                s(Depth, k=k1, bs="ts")+
+#                                s(DistToCAS, k=k1, bs="ts")+
+                                s(SST, k=30, bs="ts"),#+
+#                                s(EKE, k=k1, bs="ts")+
+#                                s(NPP, k=k1, bs="ts"),
                family=quasipoisson(),
                df_hr_ss, effort, obs, method="REML")
 summary(dsm.big.qp)
@@ -45,41 +73,105 @@ gam.check(dsm.big.qp)
 
 plot that
 
+```{r qp-terms}
+plot(dsm.big.qp, scale=0, pages=1)
+```
+
 
 
 ## Tweedie
 
+
+This model is much worse -- check REML score.
+
+```{r fit-models-tw-xy}
+dsm.big.tw.xy <- dsm(abundance.est~s(x,y, k=k2, bs="ts")+
+                                s(Depth, k=k1, bs="ts"),#+
+#                                s(DistToCAS, k=k1, bs="ts")+
+#                                s(SST, k=k1, bs="ts")+
+#                                s(EKE, k=k1, bs="ts"),#+
+#                                s(NPP, k=k1, bs="ts"),
+               family=tw(),
+               df_hr_ss, effort, obs, method="REML")
+summary(dsm.big.tw.xy)
+```
+
+```{r tw-check}
+gam.check(dsm.big.tw.xy)
+```
+
+```{r tw-rq-check}
+rqgam.check(dsm.big.tw.xy)
+```
+
+```{r tw-terms}
+plot(dsm.big.tw.xy, scale=0, pages=1)
+```
+
+
 ```{r fit-models-tw}
-dsm.big.tw <- dsm(abundance.est~s(x,y, k=k2)+
-                                s(Depth, k=k1)+
-#                                s(DistToCAS, k=k1)+
-                                s(SST, k=k1),#+
-#                                s(EKE, k=k1)+
-#                                s(NPP, k=k1),
+dsm.big.tw <- dsm(abundance.est~s(x, k=k1, bs="ts")+
+                                s(y, k=k1, bs="ts")+
+                                s(Depth, k=k1, bs="ts"),#+
+#                                s(DistToCAS, k=k1, bs="ts")+
+#                                s(SST, k=k1, bs="ts")+
+#                                s(EKE, k=k1, bs="ts"),#+
+#                                s(NPP, k=k1, bs="ts"),
                family=tw(),
                df_hr_ss, effort, obs, method="REML")
 summary(dsm.big.tw)
 ```
 
-```{r tw-check}
+```{r tw-check-xy}
 gam.check(dsm.big.tw)
 ```
 
-```{r tw-rq-check}
+```{r tw-rq-check-xy}
 rqgam.check(dsm.big.tw)
+```
+
+```{r tw-terms-xy}
+plot(dsm.big.tw, scale=0, pages=1)
 ```
 
 
 ## negative binomial
 
-```{r fit-models-qp}
-dsm.big.nb <- dsm(abundance.est~
-#                                s(x,y, k=k2)+
-                                s(Depth, k=k1)+
-#                                s(DistToCAS, k=k1)+
-#                                s(SST, k=k1)+
-                                s(EKE, k=k1),#+
-#                                s(NPP, k=k1),
+Here note that `DistToCAS` and `EKE` are "`.`" significant AND have low EDFs.
+
+```{r fit-models-nb-xy}
+dsm.big.nb.xy <- dsm(abundance.est~s(x,y, k=k2, bs="ts")+
+                                   s(Depth, k=k1, bs="ts"),#+
+#                                   s(DistToCAS, k=k1, bs="ts")+
+#                                   s(SST, k=k1, bs="ts")+
+#                                   s(EKE, k=k1, bs="ts"),#+
+#                                   s(NPP, k=k1, bs="ts"),
+               family=nb(),
+               df_hr_ss, effort, obs, method="REML")
+summary(dsm.big.nb.xy)
+```
+
+```{r nb-check-xy}
+gam.check(dsm.big.nb.xy)
+```
+
+```{r nb-rq-check-xy}
+rqgam.check(dsm.big.nb.xy)
+```
+
+```{r nb-terms-xy}
+plot(dsm.big.nb.xy, scale=0, pages=1)
+```
+
+
+```{r fit-models-nb}
+dsm.big.nb <- dsm(abundance.est~#s(x, k=k1, bs="ts")+
+                                s(y, k=k1, bs="ts")+
+                                s(Depth, k=k1, bs="ts"),#+
+#                                s(DistToCAS, k=k1, bs="ts")+
+#                                s(SST, k=k1, bs="ts")+
+#                                s(EKE, k=k1, bs="ts"),#+
+#                                s(NPP, k=k1, bs="ts"),
                family=nb(),
                df_hr_ss, effort, obs, method="REML")
 summary(dsm.big.nb)
@@ -93,6 +185,38 @@ gam.check(dsm.big.nb)
 rqgam.check(dsm.big.nb)
 ```
 
+```{r nb-terms}
+plot(dsm.big.nb, scale=0, pages=1)
+```
 
 
+## Model summary
 
+
+```{r summarize-models}
+summarize_dsm <- function(model){
+
+  summ <- summary(model)
+
+  data.frame(response = model$family$family,
+             terms    = paste(rownames(summ$s.table), collapse=", "),
+             AIC      = AIC(model),
+             REML     = model$gcv.ubre
+            )
+
+}
+library(plyr)
+summary_table <- ldply(list(dsm.big.qp,
+                             dsm.big.qp.xy,
+                             dsm.big.tw,
+                             dsm.big.tw.xy,
+                             dsm.big.nb,
+                             dsm.big.nb.xy),
+                        summarize_dsm)
+summary_table <- as.data.frame(summary_table)
+```
+
+```{r print-table, results="asis"}
+summary_table <- summary_table[order(summary_table$REML, decreasing=TRUE),]
+kable(summary_table)
+```

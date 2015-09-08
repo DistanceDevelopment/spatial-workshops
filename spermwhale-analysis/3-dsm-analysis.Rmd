@@ -10,6 +10,7 @@ author: David L Miller
 library(Distance)
 library(dsm)
 library(ggplot2)
+library(knitr)
 load("sperm-data.RData")
 load("df-models.RData")
 ```
@@ -19,85 +20,203 @@ load("df-models.RData")
 
 ## quasipoisson
 
-only small reduction in %dev (0.1%) when removing EKE
+warnings about fitting linear terms (and terms that up tick) for prediction/extrapolation.
 
-disttoCAS could be removed -- what about biological relevance? Smooth looks like the story we know (but big uncertainty)
+try models with bivariate location term and separate additive terms
 
-```{r fit-models-qp}
+```{r fit-models-qp-xy}
 k2 <- 30
 k1 <- 10
 
-dsm.big.qp <- dsm(count~s(x,y, k=k2)+
-                                s(Depth, k=k1)+
-                                s(DistToCAS, k=k1),#+
-#                                s(SST, k=k1)+
-#                                s(EKE, k=k1),#+
-#                                s(NPP, k=k1),
+dsm.big.qp.xy <- dsm(count~s(x, y, k=k2, bs="ts")+
+                           s(Depth, k=k1, bs="ts")+
+#                           s(DistToCAS, k=k1, bs="ts")+
+                           s(SST, k=20, bs="ts")+
+#                           s(EKE, k=k1, bs="ts")+
+                           s(NPP, k=k1, bs="ts"),
+                     family=quasipoisson(),
+                     df_hr, effort, obs, method="REML")
+summary(dsm.big.qp.xy)
+```
+
+checking plots
+
+```{r qp-check-xy, fig.width=6, fig.height=6}
+gam.check(dsm.big.qp.xy)
+```
+
+plot smooths
+
+```{r qp-plot-xy, fig.width=6, fig.height=6}
+plot(dsm.big.qp.xy, pages=1, scale=0)
+```
+
+```{r fit-models-qp}
+dsm.big.qp <- dsm(count~s(x, k=k1, bs="ts")+
+                        s(y, k=k1, bs="ts")+
+                        s(Depth, k=k1, bs="ts")+
+#                        s(DistToCAS, k=k1, bs="ts")+
+                        s(SST, k=20, bs="ts"),#+
+#                        s(EKE, k=k1, bs="ts"),#+
+#                        s(NPP, k=k1, bs="ts"),
                family=quasipoisson(),
                df_hr, effort, obs, method="REML")
 summary(dsm.big.qp)
 ```
 
+
+note that NPP goes out first with `x`,`y` additive but stays in for bivariate terms
+
 checking plots
 
-```{r qp-check}
+```{r qp-check, fig.width=6, fig.height=6}
 gam.check(dsm.big.qp)
 ```
 
-
 plot that
 
-```{r qp-plot}
-plot(dsm.big.qp, pages=1)
+```{r qp-plot, fig.width=6, fig.height=6}
+plot(dsm.big.qp, pages=1, scale=0)
 ```
 
 
 ## Tweedie
 
+
+`DistToCAS` and `NPP` here give good examples of `bs="ts"` working.
+
+```{r fit-models-tw-xy}
+dsm.big.tw.xy <- dsm(count~ s(x,y, k=k2, bs="ts")+
+                         s(Depth, k=k1, bs="ts"),#+
+#                         s(DistToCAS, k=k1, bs="ts")+
+#                         s(SST, k=k1, bs="ts")+
+#                         s(EKE, k=k1, bs="ts"),#+
+#                         s(NPP, k=k1, bs="ts"),
+               family=tw(),
+               df_hr, effort, obs, method="REML")
+summary(dsm.big.tw.xy)
+```
+
+```{r tw-check-xy, fig.width=6, fig.height=6}
+gam.check(dsm.big.tw.xy)
+```
+
+```{r tw-rq-check-xy, fig.width=6, fig.height=6}
+rqgam.check(dsm.big.tw.xy)
+```
+
+```{r tw-plot-xy, fig.width=6, fig.height=6}
+plot(dsm.big.tw.xy, pages=1, scale=0)
+```
+
 ```{r fit-models-tw}
-dsm.big.tw <- dsm(count~ #s(x,y, k=k2)+
-                         s(Depth, k=k1)+
-#                         s(DistToCAS, k=k1)+
-                         s(SST, k=k1),#+
-#                         s(EKE, k=k1),#+
-#                         s(NPP, k=k1),
+dsm.big.tw <- dsm(count~ #s(x, k=k1, bs="ts")+
+#                         s(y, k=k1, bs="ts")+
+                         s(Depth, k=k1, bs="ts")+
+#                         s(DistToCAS, k=k1, bs="ts")+
+#                         s(SST, k=k1, bs="ts")+
+#                         s(EKE, k=k1, bs="ts")+
+                         s(NPP, k=k1, bs="ts"),
                family=tw(),
                df_hr, effort, obs, method="REML")
 summary(dsm.big.tw)
 ```
 
-```{r tw-check}
+```{r tw-check, fig.width=6, fig.height=6}
 gam.check(dsm.big.tw)
 ```
 
-```{r tw-rq-check}
+```{r tw-rq-check, fig.width=6, fig.height=6}
 rqgam.check(dsm.big.tw)
 ```
 
+```{r tw-plot, fig.width=6, fig.height=6}
+plot(dsm.big.tw, pages=1, scale=0)
+```
 
 ## negative binomial
 
-```{r fit-models-qp}
-dsm.big.nb <- dsm(count~
-#                        s(x,y, k=k2)+
-                        s(Depth, k=k1)+
-#                        s(DistToCAS, k=k1)+
-#                        s(SST, k=k1)+
-                        s(EKE, k=k1),#+
-#                        s(NPP, k=k1),
+```{r fit-models-nb-xy}
+dsm.big.nb.xy <- dsm(count~s(x,y, k=k2, bs="ts")+
+                        s(Depth, k=k1, bs="ts"),#+
+#                        s(DistToCAS, k=k1, bs="ts")+
+#                        s(SST, k=k1, bs="ts")+
+#                        s(EKE, k=k1, bs="ts"),#+
+#                        s(NPP, k=k1, bs="ts"),
+               family=nb(),
+               df_hr, effort, obs, method="REML")
+summary(dsm.big.nb.xy)
+```
+
+```{r nb-check-xy, fig.width=6, fig.height=6}
+gam.check(dsm.big.nb.xy)
+```
+
+```{r nb-rq-check-xy, fig.width=6, fig.height=6}
+rqgam.check(dsm.big.nb.xy)
+```
+
+```{r nb-plot-xy, fig.width=6, fig.height=6}
+plot(dsm.big.nb.xy, pages=1, scale=0)
+```
+
+
+
+
+```{r fit-models-nb}
+dsm.big.nb <- dsm(count~#s(x, k=k2, bs="ts")+
+                        s(y, k=k2, bs="ts")+
+                        s(Depth, k=k1, bs="ts"),#+
+#                        s(DistToCAS, k=k1, bs="ts")+
+#                        s(SST, k=k1, bs="ts")+
+#                        s(EKE, k=k1, bs="ts"),#+
+#                        s(NPP, k=k1, bs="ts"),
                family=nb(),
                df_hr, effort, obs, method="REML")
 summary(dsm.big.nb)
 ```
 
-```{r nb-check}
+```{r nb-check, fig.width=6, fig.height=6}
 gam.check(dsm.big.nb)
 ```
 
-```{r nb-rq-check}
+```{r nb-rq-check, fig.width=6, fig.height=6}
 rqgam.check(dsm.big.nb)
 ```
 
-Do a comparison with `select=TRUE`?
+```{r nb-plot, fig.width=6, fig.height=6}
+plot(dsm.big.nb, pages=1, scale=0)
+```
 
 
+
+## Model summary
+
+
+```{r summarize-models}
+summarize_dsm <- function(model){
+
+  summ <- summary(model)
+
+  data.frame(response = model$family$family,
+             terms    = paste(rownames(summ$s.table), collapse=", "),
+             AIC      = AIC(model),
+             REML     = model$gcv.ubre
+            )
+
+}
+library(plyr)
+summary_table <- ldply(list(dsm.big.qp,
+                             dsm.big.qp.xy,
+                             dsm.big.tw,
+                             dsm.big.tw.xy,
+                             dsm.big.nb,
+                             dsm.big.nb.xy),
+                        summarize_dsm)
+summary_table <- as.data.frame(summary_table)
+```
+
+```{r print-table, results="asis"}
+summary_table <- summary_table[order(summary_table$REML, decreasing=TRUE),]
+kable(summary_table)
+```
