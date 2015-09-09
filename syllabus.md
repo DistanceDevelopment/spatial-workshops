@@ -21,12 +21,33 @@ This document defines the syllabus for the *"Spatial modelling of distance sampl
 
 Times here are *approximate*: please edit, expand/contract slots and fill in.
 
- Day/Time     0900-1030          1100-1230   1400-1530   1600-1730
------------- -----------        ----------- ----------- -----------
- Tuesday      Welcome/landscape
- Wednesday
- Thursday
- Friday
+------------------------------------------------------------------------------------------------------
+ Day/Time    0900-1030                  1100-1230                1400-1530             1600-1730
+----------- --------------------------- ----------------------- --------------------- ----------------
+ Tuesday     Welcome/landscape          DS:Covariates            [Practicals 1-3]    What is a DSM?
+             Intro to DS                DS:Model checking        *will this work?*
+
+ Wednesday   Spatial data/Arc           Arc practical            Intro to GAMs       GAM practical
+
+ Thursday    Making predictions         Getting data (Arc)       More complex models
+             Getting prediction data    Making predictions (R)
+
+ Friday                                                          Advanced topics
+------------------------------------------------------------------------------------------------------
+
+**NB when scheduling:** (from Laura)
+
+  * The ICL has a class in it on Tuesday/Thursday, from 1:20-2:40 pm,that cannot be moved. Could you please schedule a topic for these times that would not require computing?
+  * Due to another Tuesday/Thursday class that begins at 4:40 pm, we’re being requested to end by 4:30 pm on those days (in computer room).
+
+
+To fit in:
+
+  * getting covariate data (Arc)
+  * fit more models (R prac)
+  * variance in dsm (dlm lect)
+  * advanced topics
+
 
 
 # Distance sampling topics
@@ -92,6 +113,21 @@ Times here are *approximate*: please edit, expand/contract slots and fill in.
 
 # Spatial modelling
 
+
+## What is density surface modelling?
+
+  * Survey/data setup
+    - What is a segment?
+    - Useful conventions for data management
+    - Offsets
+  * Count as response
+    - Calculation of offset
+    - Model formulation
+  * Estimated abundance as response
+    * Calculation of response/offset
+    * Model formulation
+
+
 ## Introduction to Generalized Additive Models
 
   * What is a GAM?
@@ -110,6 +146,9 @@ Times here are *approximate*: please edit, expand/contract slots and fill in.
     - Residuals
     - AIC/deviance/$R^2$/REML score/GCV score
 
+
+
+
 ### Practical: First look at GAMs
 
   * Syntax-maths/concepts translation
@@ -117,27 +156,10 @@ Times here are *approximate*: please edit, expand/contract slots and fill in.
     * 1D smooths
     * 2D smooths
   * Emphasis on plotting smooths, looking at model checking plots
-
-
-## Introduction to density surface modelling
-
-  * Survey/data setup
-    - What is a segment?
-    - Useful conventions for data management
-    - Offsets
-  * Count as response
-    - Calculation of offset
-    - Model formulation
-  * Estimated abundance as response
-    * Calculation of response/offset
-    * Model formulation
-
-### Practical: First look at DSM
-
   * Getting data into R
-  * Exploratory analysis *(maybe this is an Arc topic)*
   * Fitting basic models with just spatial covariates
   * Model checking as covered above
+
 
 ## Day-to-day use of DSM
 
