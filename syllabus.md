@@ -29,7 +29,7 @@ Times here are *approximate*: please edit, expand/contract slots and fill in.
 
  Wednesday   Spatial data/Arc           Arc practical            Intro to GAMs       GAM practical
 
- Thursday    Making predictions         Getting data (Arc)       More complex models
+ Thursday    Making predictions         Getting data (Arc)       More complex DSMs
              Getting prediction data    Making predictions (R)
 
  Friday                                                          Advanced topics
