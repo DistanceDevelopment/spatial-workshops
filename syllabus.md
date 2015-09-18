@@ -19,21 +19,26 @@ This document defines the syllabus for the *"Spatial modelling of distance sampl
 
 # Timetable
 
-Times here are *approximate*: please edit, expand/contract slots and fill in.
 
-------------------------------------------------------------------------------------------------------
- Day/Time    0900-1030                  1100-1230                1400-1530             1600-1730
------------ --------------------------- ----------------------- --------------------- ----------------
- Tuesday     Welcome/landscape          DS:Covariates            [Practicals 1-3]    What is a DSM?
-             Intro to DS                DS:Model checking        *will this work?*
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+ Day/Time    0900-1030                  1045-1215                1315-1445                 1500-1630              1630-1800   Objective
+----------- --------------------------- ----------------------- -----------------------   --------------------- ------------ ---------------------------
+             **Classroom**                 **Lab**                   **Classroom**                 **Lab**                     Fit detection function
+ Tuesday     Welcome/landscape          Spatial data/Arc         DS:Covariates,variance    Practicals 1-3         BREAK        H-T estimate of abundance
+             Intro to DS                Arc practical            Model checking/selection
+                                                                 Horvitz-Thompson
 
- Wednesday   Spatial data/Arc           Arc practical            Intro to GAMs       GAM practical
+ Wednesday   What is a DSM?             Produce segments and         Intro to GAMs          GAM practical         (Potential   Map of abundance
+                                        grid (Arc)                                                                 extra lab
+                                                                                                                   time)
 
- Thursday    Making predictions         Getting data (Arc)       More complex DSMs
-             Getting prediction data    Making predictions (R)
+ Thursday    Adding covariates          Getting data (Arc)       Multiple smooths           Multivariate DSMs     BREAK
+             (Why, how, what?)                                   Model selection
 
- Friday                                                          Advanced topics
-------------------------------------------------------------------------------------------------------
+ Friday      **Lab**                    **Lab**                  Advanced topics            Special topics &      GO HOME       Map of abundance
+             Predictions                Variance                                            follow-up                           (using covariates)
+             (theory and R)             (theory and R)
+-------------------------------------------------------------------------------------------------------------------------------------------------------
 
 **NB when scheduling:** (from Laura)
 
@@ -126,6 +131,8 @@ To fit in:
   * Estimated abundance as response
     * Calculation of response/offset
     * Model formulation
+  * Relative merits of each approach
+    * Segment-level observation covariates
 
 
 ## Introduction to Generalized Additive Models
