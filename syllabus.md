@@ -20,25 +20,30 @@ This document defines the syllabus for the *"Spatial modelling of distance sampl
 # Timetable
 
 
---------------------------------------------------------------------------------------------------------------------------------------------------------
- Day/Time    0900-1030                  1045-1215                1315-1445                 1500-1630              1630-1800   Objective
------------ --------------------------- ----------------------- -----------------------   --------------------- ------------ ---------------------------
-             **Classroom**                 **Lab**                   **Classroom**                 **Lab**                     Fit detection function
- Tuesday     Welcome/landscape          Spatial data/Arc         DS:Covariates,variance    Practicals 1-3         BREAK        H-T estimate of abundance
-             Intro to DS                Arc practical            Model checking/selection
-                                                                 Horvitz-Thompson
+---------------------------------------------------------------------------------------------------------------------------------------------------
+Day/Time     Objective                   0900-1030                  1045-1215                  1315-1445                  1500-1630                
+-----------  --------------------------  -------------------------  -------------------------  -------------------------  -------------------------
+Tuesday      Fit detection function,     **Classroom:**             **Lab:**                   **Classroom:**             **Lab:**
+             estimate abundance with     Welcome, intro to          Introduce example data,    DS covariates, variance,   DS practicals
+             Horvitz-Thompson            distance sampling (DS)     get sightings into ArcGIS  model checking and
+                                                                    and R                      selection, 
+                                                                                               Horvitz-Thompson
 
- Wednesday   What is a DSM?             Produce segments and         Intro to GAMs          GAM practical         (Potential   Map of abundance
-                                        grid (Arc)                                                                 extra lab
-                                                                                                                   time)
+Wednesday    Fit and check a density     **Classroom:**             **Lab:**                   **Classroom:**             **Lab:**
+             surface model (DSM)         What is a DSM?             Get segments into ArcGIS   Intro to generalized       GAM practicals, fit
+                                                                    and R, produce prediction  additive models (GAMs)     first DSM
+                                                                    grid
 
- Thursday    Adding covariates          Getting data (Arc)       Multiple smooths           Multivariate DSMs     BREAK
-             (Why, how, what?)                                   Model selection
+Thursday     Add environmental           **Classroom:**             **Lab:**                   **Classroom:**             **Lab:**
+             covariates to the model     Adding covariates: why,    Download and process       Multiple smooths, model    Fit and check multivariate
+                                         how, what? Intro to        environmental data         selection                  DSMs
+                                         environmental data
 
- Friday      **Lab**                    **Lab**                  Advanced topics            Special topics &      GO HOME       Map of abundance
-             Predictions                Variance                                            follow-up                           (using covariates)
-             (theory and R)             (theory and R)
--------------------------------------------------------------------------------------------------------------------------------------------------------
+Friday       Produce maps of predicted   **Lab:**                   **Lab:**                   **Classroom:**             **Classroom:**
+             abundance                   Predictions: theory and    Variance: theory and in    Advanced topics            Special topics and
+                                         in practice                practice                                              follow-up
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 **NB when scheduling:** (from Laura)
 
