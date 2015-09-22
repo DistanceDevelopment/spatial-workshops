@@ -17,11 +17,11 @@ library(knitr)
 
 # Load the data
 
-The observations are located in a "geodatabase" we created in Arc. We want to pull out the "Sightings" table and from that we just want the `@data` element. We can check it has the correct format using `head`:
+The observations are located in a "geodatabase" we created in Arc. We want to pull out the "Sightings" table and make it into a `data.frame` (so that it's easier for R to manipulate). We can check it has the correct format using `head`:
 
 ```{r load-data}
 distdata <- readOGR("Analysis.gdb","Sightings")
-distdata <- distdata@data
+distdata <- as.data.frame(distdata)
 head(distdata)
 ```
 
@@ -207,7 +207,7 @@ we can calculate each part of this equation in R:
 First we need to load the effort data from the geodatabase, this is in the "Segments" table. We can then sum the total line length (recalling that $a=2wL$ where $w$ is the truncation and $L$ is the total line length):
 ```{r get-effort}
 segs <- readOGR("Analysis.gdb", "Segments")
-total_length <- sum(segs@data$Length)
+total_length <- sum(as.data.frame(segs)$Length)
 a <- 2 * 6000 * total_length
 ```
 
