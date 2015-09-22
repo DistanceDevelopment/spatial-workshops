@@ -165,5 +165,18 @@ df_hr <- models$hr
 save(df_hr_ss, df_hr, file="df-models.RData")
 ```
 
+## Estimating abundance
 
+Just for fun, let's estimate abundance from these models using a Horvtiz-Thompson-type estimator.
 
+```{r ht}
+segs <- readOGR("Analysis.gdb", "Segments")
+total_length <- segs@data$Length
+ht_est <- (5.285e+11/(2*sum(total_length)*df_hr$ddf$meta.data$width))* sum(df_hr$ddf$data$size/predict(df_hr$ddf)$fitted)
+ht_est
+```
+
+```{r ht-cov}
+ht_est_cov <- (5.285e+11/(2*sum(total_length)*df_hr$ddf$meta.data$width))* sum(df_hr$ddf$data$size/predict(df_hr_ss$ddf)$fitted)
+ht_est_cov
+```
