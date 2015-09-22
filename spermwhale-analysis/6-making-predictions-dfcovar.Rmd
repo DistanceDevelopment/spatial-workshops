@@ -1,0 +1,86 @@
+---
+title: Making predictions (detection function with covars)
+author: David L Miller
+
+---
+
+# Predictions within the study area
+
+Now we've fitted some models, let's use the `predict` functions and the data from GIS to make predictions of abundance.
+
+## Loading the data
+
+```{r load-packages}
+library(mgcv)
+library(raster)
+library(ggplot2)
+```
+
+```{r load-models}
+load("abundance-est-models.RData")
+```
+
+First need to load the variables into a "stack" from their files on disk.
+```{r preddata}
+predictorStack <- stack(c("Covariates_for_Study_Area/Depth.img","Covariates_for_Study_Area/GLOB/CMC/CMC0.2deg/analysed_sst/2004/20040601-CMC-L4SSTfnd-GLOB-v02-fv02.0-CMC0.2deg-analysed_sst.img","Covariates_for_Study_Area/VGPM/Rasters/vgpm.2004153.hdf.gz.img"))
+names(predictorStack) <- c("Depth","SST","NPP")
+```
+
+Now these are loaded, we can coerce the stack into something `dsm` can talk to via the `as.data.frame` function. Note we need the `xy=TRUE` to ensure that `x` and `y` are included in the prediction data. We also set the offset value.
+
+```{r dataframeandoffset}
+predgrid <- as.data.frame(predictorStack, xy=TRUE)
+predgrid$off.set <- (10*1000)^2
+```
+
+We can then predict for the model `dsm.big.nb.xy`:
+```{r makepred1}
+pp <- predict(dsm.big.nb.xy, predgrid)
+```
+This is just a list of numbers -- the predictions per cell. We can sum these to get the estimated abundance for the study area:
+```{r predsum}
+sum(pp)
+```
+We can also plot this to get a spatial representation of the predictions:
+```{r predsp}
+predgrid$Nhat <- pp
+predgrid <- predgrid[!is.na(predgrid$Nhat),]
+p <- ggplot(predgrid)
+p <- p + geom_tile(aes(x=x, y=y, fill=Nhat, width=10*1000, height=10*1000))
+print(p)
+```
+
+
+## Predictions for all models
+
+```{r make-preds-enmasse}
+model_list <- list(dsm.big.nb, dsm.big.nb.xy, dsm.big.qp, dsm.big.qp.xy, dsm.big.tw, dsm.big.tw.xy)
+aa <- lapply(model_list, function(model) predict(model, predgrid))
+allmodels_Nhat <- lapply(aa, sum, na.rm=TRUE)
+big_pred <- predgrid[rep(1:nrow(predgrid),6),]
+big_pred$Nhat <- unlist(aa)
+big_pred$model_id <- rep(1:6, rep(nrow(predgrid),6))
+```
+
+```{r}
+allmodels_Nhat
+```
+
+
+```{r plotall}
+big_pred <- big_pred[!is.na(big_pred$Nhat),]
+p <- ggplot(big_pred)
+p <- p + geom_tile(aes(x=x, y=y, fill=Nhat, width=10*1000, height=10*1000))
+p <- p + facet_wrap(~model_id)
+print(p)
+```
+
+This plot sucks because the tqo quasi-Poisson model throw out the scale, let's throw them out...
+
+```{r plotsome}
+big_pred <- big_pred[!(big_pred$model_id %in% 3:4),]
+p <- ggplot(big_pred)
+p <- p + geom_tile(aes(x=x, y=y, fill=Nhat, width=10*1000, height=10*1000))
+p <- p + facet_wrap(~model_id)
+print(p)
+```
