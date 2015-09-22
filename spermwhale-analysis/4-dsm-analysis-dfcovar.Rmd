@@ -220,3 +220,43 @@ summary_table <- as.data.frame(summary_table)
 summary_table <- summary_table[order(summary_table$REML, decreasing=TRUE),]
 kable(summary_table)
 ```
+
+## Final models
+
+```{r plot-qq}
+par(mfrow=c(2,3))
+qq.gam.p <- function(x){qq.gam(x, main=paste0(substitute(x)))}
+qq.gam.p(dsm.big.qp)
+qq.gam.p(dsm.big.qp.xy)
+qq.gam.p(dsm.big.tw)
+qq.gam.p(dsm.big.tw.xy)
+qq.gam.p(dsm.big.nb)
+qq.gam.p(dsm.big.nb.xy)
+```
+
+
+Comparing the depth terms we see a similar story:
+
+```{r depth-plots, fig.width=5, fig.height=8}
+par(mfrow=c(3,2))
+plot_depth <- function(model){
+  plot(model, select=which(grepl("Depth", unlist(strsplit(as.character(terms(model$formula)[[3]]), "\\+"))))-1, scale=0, main=paste0(substitute(x)))
+  }
+plot_depth(dsm.big.qp)
+plot_depth(dsm.big.qp.xy)
+plot_depth(dsm.big.tw)
+plot_depth(dsm.big.tw.xy)
+plot_depth(dsm.big.nb)
+plot_depth(dsm.big.nb.xy)
+```
+
+
+```{r save-models}
+save(dsm.big.qp,
+     dsm.big.qp.xy,
+     dsm.big.tw,
+     dsm.big.tw.xy,
+     dsm.big.nb,
+     dsm.big.nb.xy,
+     file="abundance-est-models.RData")
+```
