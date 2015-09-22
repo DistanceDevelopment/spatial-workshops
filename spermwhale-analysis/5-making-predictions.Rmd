@@ -77,7 +77,7 @@ print(p)
 
 This plot sucks because the tqo quasi-Poisson model throw out the scale, let's throw them out...
 
-```{r plotall}
+```{r plotsome}
 big_pred <- big_pred[!(big_pred$model_id %in% 3:4),]
 p <- ggplot(big_pred)
 p <- p + geom_tile(aes(x=x, y=y, fill=Nhat, width=10*1000, height=10*1000))
