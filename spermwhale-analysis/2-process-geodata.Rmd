@@ -6,7 +6,7 @@ author: David L Miller
 
 # Preamble
 
-```{r load-libraries}
+```{r load-libraries, message=FALSE}
 library(rgdal)
 library(ggplot2)
 library(Distance)
@@ -17,55 +17,71 @@ library(reshape2)
 
 # Load and arrange data
 
-```{r effort-data}
-effort <- readOGR("Analysis.gdb","Segment_Centroids")
-effort <- effort@data
-head(effort)
+To fit out models we require three objects.
+
+  1. The detection function we fitted previously.
+  2. The segment or effort data. This tells us how much effort was expended per segment in the data (how far the boat went) and includes the covariates that we want to use to fit our model.
+  3. The observation table. This links the observations in the detection function object to the segments.
+
+
+## Segment data
+
+For our analysis the segment data is located in in the "Segment_Centroids" table in the geodatabase. We can extract that, turn it into a `data.frame` and then check that it looks like it's in the right format using `head`:
+```{r segs-data}
+segs <- readOGR("Analysis.gdb","Segment_Centroids")
+segs <- as.data.frame(segs)
+head(segs)
+```
+As with the distance data, we need to give the columns of the data particular names for them to work with `dsm`:
+```{r rename-segs-cols}
+segs$x <- segs$POINT_X
+segs$y <- segs$POINT_Y
+segs$Effort <- segs$Length
+segs$Sample.Label <- segs$SegmentID
 ```
 
-```{r rename-effort-cols}
-effort$x <- effort$POINT_X
-effort$y <- effort$POINT_Y
-effort$Effort <- effort$Length
-effort$Sample.Label <- effort$SegmentID
-```
+## Observation data
+
+The observation data is exactly what we used to fit out detection function in the previous exercise (though this is not necessarily always true).
 
 ```{r obs-data}
 obs <- readOGR("Analysis.gdb","Sightings")
-obs <- obs@data
+obs <- as.data.frame(obs)
 head(obs)
 ```
-
-```{r load-df}
-load("df-models.RData")
-```
-
+Again, we need to rename some of the columns:
 ```{r rename-obs-cols}
-# just save this in 1. at the same time as the model
 obs$distance <- obs$Distance
 obs$object <- obs$SightingID
 obs$Sample.Label <- obs$SegmentID
 obs$size <- obs$GroupSize
+```
+
+## Detection functions
+
+Finally, we can load the fitted detection function objects that we saved previously.
+```{r load-df}
+load("df-models.RData")
+```
+We need to remove the observations at distances greater than the truncation
+```{r rm-obs-truncation}
 obs <- obs[obs$distance<=df_hr$ddf$meta.data$width,]
 ```
 
 
-# Try a model
+# Exploratory analysis
 
+By fitting a model to the data, we can quickly and easily allocate our observations to the segments and use the resulting data to create some exploratory plots.
 
 ```{r dsm-xy}
-dsm.xy <- dsm(abundance.est~s(x,y), df_hr, effort, obs, method="REML")
+dsm.xy <- dsm(abundance.est~s(x,y), df_hr, segs, obs, method="REML")
 ```
-
-```{r dsm-xy-visgam}
-# looks like a case for Duchon?
-vis.gam(dsm.xy, view=c("x","y"), plot.type="contour", type="response")
-```
-
-# Model dissection
-
-```{r dissect-xy}
+Having fitted the model, we need to extract the data, remove some of the columns and then "`melt`" the `data.frame` to put it into the correct format. Once we've done this we can plot the histograms of observations by covariate, to give us an idea of the relationship between abundance and the covariates.
+```{r dissect-EDA, fig.width=8, fig.height=7}
+# extract the data
 mod_data <- dsm.xy$data
+
+# remove the columns we don't need,
 mod_data$CentreTime <- NULL
 mod_data$POINT_X <- NULL
 mod_data$POINT_Y <- NULL
@@ -75,23 +91,36 @@ mod_data$CenterTime <- NULL
 mod_data$Effort <- NULL
 mod_data$Length <- NULL
 mod_data$SegmentID <- NULL
+mod_data$coords.x1 <- NULL
+mod_data$coords.x2 <- NULL
+```
 
+We are left with just columns for the sample labels, the covariates, and the abundance:
+```{r}
+head(mod_data)
+```
+We can then `melt` the data so that we have one row per segment replicated for each variable:
+```{r meltdat}
 mod_data <- melt(mod_data, id.vars=c("Sample.Label", "abundance.est"))
+head(mod_data)
+```
+Finally, we can plot the histograms:
+```{r}
 p <- ggplot(mod_data)
 p <- p + geom_histogram(aes(value, weight=abundance.est))
 p <- p + facet_wrap(~variable, scale="free")
+p <- p + xlab("Covariate value") + ylab("Aggregated estimated abundance")
 print(p)
 ```
 
-Oh hey, look at all those nice interactions!
+These plots give a very rough idea of the relationships we can expect in the model. Notably these plots don't take into account interactions between the variables and potential correlations between the terms.
 
 
+# Save the data
 
-
-
-# Save some data
+We can now save the `data.frame`s that we've created into an `RData` file so we can use them later.
 
 ```{r save-models}
-save(effort, obs, file="sperm-data.RData")
+save(segs, obs, file="sperm-data.RData")
 ```
 
