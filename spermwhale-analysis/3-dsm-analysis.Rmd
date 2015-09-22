@@ -28,31 +28,31 @@ try models with bivariate location term and separate additive terms
 k2 <- 30
 k1 <- 10
 
-dsm.big.qp.xy <- dsm(count~s(x, y, k=k2, bs="ts")+
+dsm.qp.xy <- dsm(count~s(x, y, k=k2, bs="ts")+
                            s(Depth, k=k1, bs="ts")+
 #                           s(DistToCAS, k=k1, bs="ts")+
                            s(SST, k=20, bs="ts")+
 #                           s(EKE, k=k1, bs="ts")+
                            s(NPP, k=k1, bs="ts"),
                      family=quasipoisson(),
-                     df_hr, effort, obs, method="REML")
-summary(dsm.big.qp.xy)
+                     df_hr, segs, obs, method="REML")
+summary(dsm.qp.xy)
 ```
 
 checking plots
 
 ```{r qp-check-xy, fig.width=6, fig.height=6}
-gam.check(dsm.big.qp.xy)
+gam.check(dsm.qp.xy)
 ```
 
 plot smooths
 
 ```{r qp-plot-xy, fig.width=6, fig.height=6}
-plot(dsm.big.qp.xy, pages=1, scale=0)
+plot(dsm.qp.xy, pages=1, scale=0)
 ```
 
 ```{r fit-models-qp}
-dsm.big.qp <- dsm(count~s(x, k=k1, bs="ts")+
+dsm.qp <- dsm(count~s(x, k=k1, bs="ts")+
                         s(y, k=k1, bs="ts")+
                         s(Depth, k=k1, bs="ts")+
 #                        s(DistToCAS, k=k1, bs="ts")+
@@ -60,8 +60,8 @@ dsm.big.qp <- dsm(count~s(x, k=k1, bs="ts")+
 #                        s(EKE, k=k1, bs="ts"),#+
 #                        s(NPP, k=k1, bs="ts"),
                family=quasipoisson(),
-               df_hr, effort, obs, method="REML")
-summary(dsm.big.qp)
+               df_hr, segs, obs, method="REML")
+summary(dsm.qp)
 ```
 
 
@@ -70,13 +70,13 @@ note that NPP goes out first with `x`,`y` additive but stays in for bivariate te
 checking plots
 
 ```{r qp-check, fig.width=6, fig.height=6}
-gam.check(dsm.big.qp)
+gam.check(dsm.qp)
 ```
 
 plot that
 
 ```{r qp-plot, fig.width=6, fig.height=6}
-plot(dsm.big.qp, pages=1, scale=0)
+plot(dsm.qp, pages=1, scale=0)
 ```
 
 
@@ -86,31 +86,31 @@ plot(dsm.big.qp, pages=1, scale=0)
 `DistToCAS` and `NPP` here give good examples of `bs="ts"` working.
 
 ```{r fit-models-tw-xy}
-dsm.big.tw.xy <- dsm(count~ s(x,y, k=k2, bs="ts")+
+dsm.tw.xy <- dsm(count~ s(x,y, k=k2, bs="ts")+
                          s(Depth, k=k1, bs="ts"),#+
 #                         s(DistToCAS, k=k1, bs="ts")+
 #                         s(SST, k=k1, bs="ts")+
 #                         s(EKE, k=k1, bs="ts"),#+
 #                         s(NPP, k=k1, bs="ts"),
                family=tw(),
-               df_hr, effort, obs, method="REML")
-summary(dsm.big.tw.xy)
+               df_hr, segs, obs, method="REML")
+summary(dsm.tw.xy)
 ```
 
 ```{r tw-check-xy, fig.width=6, fig.height=6}
-gam.check(dsm.big.tw.xy)
+gam.check(dsm.tw.xy)
 ```
 
 ```{r tw-rq-check-xy, fig.width=6, fig.height=6}
-rqgam.check(dsm.big.tw.xy)
+rqgam.check(dsm.tw.xy)
 ```
 
 ```{r tw-plot-xy, fig.width=6, fig.height=6}
-plot(dsm.big.tw.xy, pages=1, scale=0)
+plot(dsm.tw.xy, pages=1, scale=0)
 ```
 
 ```{r fit-models-tw}
-dsm.big.tw <- dsm(count~ #s(x, k=k1, bs="ts")+
+dsm.tw <- dsm(count~ #s(x, k=k1, bs="ts")+
 #                         s(y, k=k1, bs="ts")+
                          s(Depth, k=k1, bs="ts")+
 #                         s(DistToCAS, k=k1, bs="ts")+
@@ -118,53 +118,53 @@ dsm.big.tw <- dsm(count~ #s(x, k=k1, bs="ts")+
 #                         s(EKE, k=k1, bs="ts")+
                          s(NPP, k=k1, bs="ts"),
                family=tw(),
-               df_hr, effort, obs, method="REML")
-summary(dsm.big.tw)
+               df_hr, segs, obs, method="REML")
+summary(dsm.tw)
 ```
 
 ```{r tw-check, fig.width=6, fig.height=6}
-gam.check(dsm.big.tw)
+gam.check(dsm.tw)
 ```
 
 ```{r tw-rq-check, fig.width=6, fig.height=6}
-rqgam.check(dsm.big.tw)
+rqgam.check(dsm.tw)
 ```
 
 ```{r tw-plot, fig.width=6, fig.height=6}
-plot(dsm.big.tw, pages=1, scale=0)
+plot(dsm.tw, pages=1, scale=0)
 ```
 
 ## negative binomial
 
 ```{r fit-models-nb-xy}
-dsm.big.nb.xy <- dsm(count~s(x,y, k=k2, bs="ts")+
+dsm.nb.xy <- dsm(count~s(x,y, k=k2, bs="ts")+
                         s(Depth, k=k1, bs="ts"),#+
 #                        s(DistToCAS, k=k1, bs="ts")+
 #                        s(SST, k=k1, bs="ts")+
 #                        s(EKE, k=k1, bs="ts"),#+
 #                        s(NPP, k=k1, bs="ts"),
                family=nb(),
-               df_hr, effort, obs, method="REML")
-summary(dsm.big.nb.xy)
+               df_hr, segs, obs, method="REML")
+summary(dsm.nb.xy)
 ```
 
 ```{r nb-check-xy, fig.width=6, fig.height=6}
-gam.check(dsm.big.nb.xy)
+gam.check(dsm.nb.xy)
 ```
 
 ```{r nb-rq-check-xy, fig.width=6, fig.height=6}
-rqgam.check(dsm.big.nb.xy)
+rqgam.check(dsm.nb.xy)
 ```
 
 ```{r nb-plot-xy, fig.width=6, fig.height=6}
-plot(dsm.big.nb.xy, pages=1, scale=0)
+plot(dsm.nb.xy, pages=1, scale=0)
 ```
 
 
 
 
 ```{r fit-models-nb}
-dsm.big.nb <- dsm(count~#s(x, k=k2, bs="ts")+
+dsm.nb <- dsm(count~#s(x, k=k2, bs="ts")+
                         s(y, k=k2, bs="ts")+
                         s(Depth, k=k1, bs="ts"),#+
 #                        s(DistToCAS, k=k1, bs="ts")+
@@ -172,20 +172,20 @@ dsm.big.nb <- dsm(count~#s(x, k=k2, bs="ts")+
 #                        s(EKE, k=k1, bs="ts"),#+
 #                        s(NPP, k=k1, bs="ts"),
                family=nb(),
-               df_hr, effort, obs, method="REML")
-summary(dsm.big.nb)
+               df_hr, segs, obs, method="REML")
+summary(dsm.nb)
 ```
 
 ```{r nb-check, fig.width=6, fig.height=6}
-gam.check(dsm.big.nb)
+gam.check(dsm.nb)
 ```
 
 ```{r nb-rq-check, fig.width=6, fig.height=6}
-rqgam.check(dsm.big.nb)
+rqgam.check(dsm.nb)
 ```
 
 ```{r nb-plot, fig.width=6, fig.height=6}
-plot(dsm.big.nb, pages=1, scale=0)
+plot(dsm.nb, pages=1, scale=0)
 ```
 
 
@@ -207,14 +207,20 @@ summarize_dsm <- function(model){
 
 }
 library(plyr)
-summary_table <- ldply(list(dsm.big.qp,
-                             dsm.big.qp.xy,
-                             dsm.big.tw,
-                             dsm.big.tw.xy,
-                             dsm.big.nb,
-                             dsm.big.nb.xy),
+summary_table <- ldply(list(dsm.qp,
+                            dsm.qp.xy,
+                            dsm.tw,
+                            dsm.tw.xy,
+                            dsm.nb,
+                            dsm.nb.xy),
                         summarize_dsm)
 summary_table <- as.data.frame(summary_table)
+row.names(summary_table) <- c("`dsm.qp`",
+                              "`dsm.qp.xy`",
+                              "`dsm.tw`",
+                              "`dsm.tw.xy`",
+                              "`dsm.nb`",
+                              "`dsm.nb.xy`")
 ```
 
 ```{r print-table, results="asis"}
@@ -227,12 +233,12 @@ kable(summary_table)
 ```{r plot-qq}
 par(mfrow=c(2,3))
 qq.gam.p <- function(x){qq.gam(x, main=paste0(substitute(x)))}
-qq.gam.p(dsm.big.qp)
-qq.gam.p(dsm.big.qp.xy)
-qq.gam.p(dsm.big.tw)
-qq.gam.p(dsm.big.tw.xy)
-qq.gam.p(dsm.big.nb)
-qq.gam.p(dsm.big.nb.xy)
+qq.gam.p(dsm.qp)
+qq.gam.p(dsm.qp.xy)
+qq.gam.p(dsm.tw)
+qq.gam.p(dsm.tw.xy)
+qq.gam.p(dsm.nb)
+qq.gam.p(dsm.nb.xy)
 ```
 
 Looking at the results we see that 
@@ -245,20 +251,20 @@ par(mfrow=c(3,2))
 plot_depth <- function(model){
   plot(model, select=which(grepl("Depth", unlist(strsplit(as.character(terms(model$formula)[[3]]), "\\+"))))-1, scale=0, main=paste0(substitute(model)))
   }
-plot_depth(dsm.big.qp)
-plot_depth(dsm.big.qp.xy)
-plot_depth(dsm.big.tw)
-plot_depth(dsm.big.tw.xy)
-plot_depth(dsm.big.nb)
-plot_depth(dsm.big.nb.xy)
+plot_depth(dsm.qp)
+plot_depth(dsm.qp.xy)
+plot_depth(dsm.tw)
+plot_depth(dsm.tw.xy)
+plot_depth(dsm.nb)
+plot_depth(dsm.nb.xy)
 ```
 
 ```{r save-models}
-save(dsm.big.qp,
-     dsm.big.qp.xy,
-     dsm.big.tw,
-     dsm.big.tw.xy,
-     dsm.big.nb,
-     dsm.big.nb.xy,
+save(dsm.qp,
+     dsm.qp.xy,
+     dsm.tw,
+     dsm.tw.xy,
+     dsm.nb,
+     dsm.nb.xy,
      file="count-models.RData")
 ```
