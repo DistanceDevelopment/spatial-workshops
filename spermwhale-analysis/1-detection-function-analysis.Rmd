@@ -6,7 +6,9 @@ author: David L Miller
 
 # Preamble
 
-```{r load-libraries}
+First need to load the requisite R libraries
+
+```{r load-libraries, messages=FALSE}
 library(rgdal)
 library(ggplot2)
 library(Distance)
@@ -15,13 +17,15 @@ library(knitr)
 
 # Load the data
 
+The observations are located in a "geodatabase" we created in Arc. We want to pull out the "Sightings" table and from that we just want the `@data` element. We can check it has the correct format using `head`:
+
 ```{r load-data}
 distdata <- readOGR("Analysis.gdb","Sightings")
 distdata <- distdata@data
 head(distdata)
 ```
 
-Rename the columns to be compatible with `Distance`:
+The `Distance` package expects certain column names to be used. This is much easier to do in R than ArcGIS, so we do it here.
 ```{r rename-cols}
 distdata$distance <- distdata$Distance
 distdata$object <- distdata$SightingID
@@ -29,7 +33,23 @@ distdata$Sample.Label <- distdata$SegmentID
 distdata$size <- distdata$GroupSize
 ```
 
+
 # Exploratory analysis
+
+Before setting off fitting detection functions, let's look at the relationship of various variables in the data.
+
+## Distances
+
+Obviously, the most important covariate in a distance sampling analysis is distance itself. We can plot a histogram of the distances to check that (1) we imported the data correctly and (2) it conforms to the usual line transect shape.
+
+```{r eda-dist}
+hist(distdata$distance, xlab="Distance (m)")
+```
+
+
+## Size and distance
+
+We might expect that there will be a relationship between the distance at whcih we see animals and the size of the groups observed (larger groups are easier to see at larger distances), so let's plot that and use `loess` and `lm` to fit models to the relationship to help us visualise the relationship.
 
 ```{r eda-covars}
 par(mfrow=c(1,2))
@@ -51,10 +71,9 @@ lines(x=preddat$SeaState, y=predict(lmm, preddat),lty=2)
 lines(x=preddat$SeaState, y=predict(lo, preddat))
 ```
 
+## Distance and sea state
 
-```{r eda-dist}
-hist(distdata$distance, xlab="Distance (m)")
-```
+We might also expect that increaing sea state would result in a drop in observations. We can plot histograms of distance for each sea state level (making the sea state take only values 0,1,2,4,5 for this).
 
 ```{r eda-dist-facet-seastate}
 distdata$SeaStateCut <- cut(distdata$SeaState,seq(0,5,by=1), include.lowest=TRUE)
@@ -63,6 +82,10 @@ p <- p + geom_histogram(aes(distance))
 p <- p + facet_wrap(~SeaStateCut)
 print(p)
 ```
+
+## Survey effect
+
+Given we are including data from two different surveys we can also investigate the relationship between survey and distances observed.
 
 ```{r eda-dist-facet-survey}
 p <- ggplot(distdata)
@@ -74,8 +97,37 @@ print(p)
 
 
 
-# Fit some detection functions
+# Fitting detection functions
 
+
+
+Here we fit all possible detection function mdoels with half-normal and hazard-rate functions using each combination of covariates. This is somewhat brute force.
+
+```{r df-models}
+models <- list()
+
+# half-normal models
+models$hn <- ds(distdata, truncation=6000, adjustment=NULL)
+models$hn.ss <- ds(distdata, truncation=6000, adjustment=NULL, formula=~SeaState)
+models$hn.size <- ds(distdata, truncation=6000, adjustment=NULL, formula=~size)
+models$hn.ss.size <- ds(distdata, truncation=6000, adjustment=NULL, formula=~size+SeaState)
+models$hn.survey <- ds(distdata, truncation=6000, adjustment=NULL, formula=~as.factor(Survey))
+models$hn.survey.ss <- ds(distdata, truncation=6000, adjustment=NULL, formula=~as.factor(Survey)+SeaState)
+models$hn.survey.size <- ds(distdata, truncation=6000, adjustment=NULL, formula=~as.factor(Survey)+size)
+models$hn.survey.size.ss <- ds(distdata, truncation=6000, adjustment=NULL, formula=~as.factor(Survey)+size+SeaState)
+
+# hazard-rate models
+models$hr <- ds(distdata, truncation=6000, adjustment=NULL, key="hr")
+models$hr.ss <- ds(distdata, truncation=6000, adjustment=NULL, formula=~SeaState, key="hr")
+models$hr.size <- ds(distdata, truncation=6000, adjustment=NULL, formula=~size, key="hr")
+models$hr.ss.size <- ds(distdata, truncation=6000, adjustment=NULL, formula=~size+SeaState, key="hr")
+models$hr.survey <- ds(distdata, truncation=6000, adjustment=NULL, formula=~as.factor(Survey), key="hr")
+models$hr.survey.ss <- ds(distdata, truncation=6000, adjustment=NULL, formula=~as.factor(Survey)+SeaState, key="hr")
+models$hr.survey.size <- ds(distdata, truncation=6000, adjustment=NULL, formula=~as.factor(Survey)+size, key="hr")
+models$hr.survey.size.ss <- ds(distdata, truncation=6000, adjustment=NULL, formula=~as.factor(Survey)+size+SeaState, key="hr")
+```
+
+This code will make a results table with relevant statistics for model selection in it.
 
 ```{r support-make-table}
 make_table <- function(models){
@@ -108,56 +160,33 @@ make_table <- function(models){
 }
 ```
 
-
-```{r df-models}
-models <- list()
-
-# half-normal models
-models$hn <- ds(distdata, truncation=6000, adjustment=NULL)
-models$hn.ss <- ds(distdata, truncation=6000, adjustment=NULL, formula=~SeaState)
-models$hn.size <- ds(distdata, truncation=6000, adjustment=NULL, formula=~size)
-models$hn.ss.size <- ds(distdata, truncation=6000, adjustment=NULL, formula=~size+SeaState)
-models$hn.survey <- ds(distdata, truncation=6000, adjustment=NULL, formula=~as.factor(Survey))
-models$hn.survey.ss <- ds(distdata, truncation=6000, adjustment=NULL, formula=~as.factor(Survey)+SeaState)
-models$hn.survey.size <- ds(distdata, truncation=6000, adjustment=NULL, formula=~as.factor(Survey)+size)
-models$hn.survey.size.ss <- ds(distdata, truncation=6000, adjustment=NULL, formula=~as.factor(Survey)+size+SeaState)
-
-# hazard-rate models
-models$hr <- ds(distdata, truncation=6000, adjustment=NULL, key="hr")
-models$hr.ss <- ds(distdata, truncation=6000, adjustment=NULL, formula=~SeaState, key="hr")
-models$hr.size <- ds(distdata, truncation=6000, adjustment=NULL, formula=~size, key="hr")
-models$hr.ss.size <- ds(distdata, truncation=6000, adjustment=NULL, formula=~size+SeaState, key="hr")
-models$hr.survey <- ds(distdata, truncation=6000, adjustment=NULL, formula=~as.factor(Survey), key="hr")
-models$hr.survey.ss <- ds(distdata, truncation=6000, adjustment=NULL, formula=~as.factor(Survey)+SeaState, key="hr")
-models$hr.survey.size <- ds(distdata, truncation=6000, adjustment=NULL, formula=~as.factor(Survey)+size, key="hr")
-models$hr.survey.size.ss <- ds(distdata, truncation=6000, adjustment=NULL, formula=~as.factor(Survey)+size+SeaState, key="hr")
-```
-
 ```{r df-results, results="asis"}
 kable(make_table(models), digits=3)
 ```
 
 Plot the best 4 models:
 
-```{r plot-top-models}
+```{r plot-top-models, fig.width=6, fig.height=6}
 par(mfrow=c(2,2))
-plot(models$hr.ss)
-plot(models$hr)
-plot(models$hr.survey.ss)
-plot(models$hn.ss)
+plot(models$hr.ss, main="hr.ss")
+plot(models$hr, main="hr")
+plot(models$hr.survey.ss, main="hr.survey.ss")
+plot(models$hn.ss, main="hn.ss")
 ```
 
-and corresponding qq plots
+We can produce the corresponding quantile-quantile plots and goodness of fit test results
 
-```{r qqplot-top-models}
+```{r qqplot-top-models, fig.width=6, fig.height=6}
 par(mfrow=c(2,2))
-ddf.gof(models$hr.ss$ddf)
-ddf.gof(models$hr$ddf)
-ddf.gof(models$hr.survey.ss$ddf)
-ddf.gof(models$hn.ss$ddf)
+ddf.gof(models$hr.ss$ddf, main="hr.ss")
+ddf.gof(models$hr$ddf, main="hr")
+ddf.gof(models$hr.survey.ss$ddf, main="hr.survey.ss")
+ddf.gof(models$hn.ss$ddf, main="hn.ss")
 ```
 
-Let's go with `hr.ss` for now...
+## Save the "best" models
+
+Let's save `hr` and `hr.ss` for now...
 
 ```{r save-models}
 df_hr_ss <- models$hr.ss
@@ -169,14 +198,57 @@ save(df_hr_ss, df_hr, file="df-models.RData")
 
 Just for fun, let's estimate abundance from these models using a Horvtiz-Thompson-type estimator.
 
-```{r ht}
+We know the Horvitz-Thompson estimator has the following form:
+$$
+\hat{N} = \frac{A}{a} \sum_{i=1}^n \frac{s_i}{p_i}
+$$
+we can calculate each part of this equation in R:
+
+First we need to load the effort data from the geodatabase, this is in the "Segments" table. We can then sum the total line length (recalling that $a=2wL$ where $w$ is the truncation and $L$ is the total line length):
+```{r get-effort}
 segs <- readOGR("Analysis.gdb", "Segments")
-total_length <- segs@data$Length
-ht_est <- (5.285e+11/(2*sum(total_length)*df_hr$ddf$meta.data$width))* sum(df_hr$ddf$data$size/predict(df_hr$ddf)$fitted)
+total_length <- sum(segs@data$Length)
+a <- 2 * 6000 * total_length
+```
+
+The total area of the EEZ is $A=5.285e+11$, we can extract the probabilities of detection using `predict(model)$fitted` and the group/cluster sizes are stored in the model object in `model$ddf$data$size`.
+
+We now have everything we need to make an abundance estimate:
+```{r ht}
+A <- 5.285e+11
+p <- predict(df_hr$ddf)$fitted
+sizes <- df_hr$ddf$data$size
+ht_est <- (A/a) * sum( sizes/p )
 ht_est
 ```
 
+Now replacing `p` with the values from the `df_hr_ss` model we can make an estimate for that model too:
 ```{r ht-cov}
-ht_est_cov <- (5.285e+11/(2*sum(total_length)*df_hr$ddf$meta.data$width))* sum(df_hr$ddf$data$size/predict(df_hr_ss$ddf)$fitted)
+p <- predict(df_hr_ss$ddf)$fitted
+ht_est_cov <- (A/a) * sum( sizes/p )
 ht_est_cov
 ```
+
+
+### Accounting for perception bias
+
+From Palka (2006), we think that observations on the track line were such that $g(0)=0.46$, we can apply that correction to our abundance estimate (in a very primitive way):
+
+```{r ht-perception}
+p <- predict(df_hr$ddf)$fitted * 0.46
+ht_est_p <- (A/a) * sum( sizes/p )
+ht_est_p
+```
+
+```{r ht-cov-perception}
+p <- predict(df_hr_ss$ddf)$fitted * 0.46
+ht_est_cov_p <- (A/a) * sum( sizes/p )
+ht_est_cov_p
+```
+
+
+
+## References
+
+
+Palka, D. (2006). Summer Abundance Estimates of Cetaceans in US North Atlantic Navy Operating Areas. Northeast Fisheries Science Center Reference Document 06-03.
