@@ -14,6 +14,7 @@ Now we've fitted some models, let's use the `predict` functions and the data fro
 library(mgcv)
 library(raster)
 library(ggplot2)
+library(dsm)
 ```
 
 ```{r load-models}
@@ -33,9 +34,9 @@ predgrid <- as.data.frame(predictorStack, xy=TRUE)
 predgrid$off.set <- (10*1000)^2
 ```
 
-We can then predict for the model `dsm.big.nb.xy`:
+We can then predict for the model `dsm.nb.xy`:
 ```{r makepred1}
-pp <- predict(dsm.big.nb.xy, predgrid)
+pp <- predict(dsm.nb.xy, predgrid)
 ```
 This is just a list of numbers -- the predictions per cell. We can sum these to get the estimated abundance for the study area:
 ```{r predsum}
@@ -54,7 +55,7 @@ print(p)
 ## Predictions for all models
 
 ```{r make-preds-enmasse}
-model_list <- list(dsm.big.nb, dsm.big.nb.xy, dsm.big.qp, dsm.big.qp.xy, dsm.big.tw, dsm.big.tw.xy)
+model_list <- list(dsm.nb, dsm.nb.xy, dsm.qp, dsm.qp.xy, dsm.tw, dsm.tw.xy)
 aa <- lapply(model_list, function(model) predict(model, predgrid))
 allmodels_Nhat <- lapply(aa, sum, na.rm=TRUE)
 big_pred <- predgrid[rep(1:nrow(predgrid),6),]
