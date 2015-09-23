@@ -1,0 +1,52 @@
+---
+title: Estimating variance (detection function with covariates)
+author: David L Miller
+
+---
+
+Now we've fitted some models and estimated abundance, we can estimate the variance associated with the abundance estimate (and plot it).
+
+# Loading the data
+
+```{r load-packages}
+library(mgcv)
+library(raster)
+library(ggplot2)
+library(dsm)
+```
+
+```{r load-models}
+load("abundance-est-models.RData")
+```
+
+Again, we need to load the variables into a "stack" from their files on disk and put them into a `data.frame`.
+```{r preddata}
+predictorStack <- stack(c("Covariates_for_Study_Area/Depth.img", "Covariates_for_Study_Area/GLOB/CMC/CMC0.2deg/analysed_sst/2004/20040601-CMC-L4SSTfnd-GLOB-v02-fv02.0-CMC0.2deg-analysed_sst.img", "Covariates_for_Study_Area/VGPM/Rasters/vgpm.2004153.hdf.gz.img"))
+names(predictorStack) <- c("Depth","SST","NPP")
+
+predgrid <- as.data.frame(predictorStack, xy=TRUE)
+predgrid$off.set <- (10*1000)^2
+predgrid <- predgrid[!is.na(predgrid$Depth),]
+```
+
+# Estimation of variance
+
+The models were count was the response don't include any covariates at the observer level in the detection function, so we can use the variance propagation method and estimate the uncertainty in detection function parameters in one step.
+
+```{r varest}
+varest <- dsm.var.gam(dsm.nb.xy, predgrid, off.set=predgrid$off.set)
+summary(varest)
+```
+
+# Plotting uncertainty
+
+It's convenient to plot the coefficient of variation, as this provides a summary of uncertainty relative to the estimate of abundance.
+
+
+```{r varest-plot}
+predgrid$width <- 10000
+predgrid$height <- 10000
+predgrid_plot <- split(predgrid, 1:nrow(predgrid))
+varest_plot <- dsm.var.gam(dsm.nb.xy, predgrid_plot, off.set=(10*1000)^2)
+plot(varest_plot, observations=FALSE)
+```
