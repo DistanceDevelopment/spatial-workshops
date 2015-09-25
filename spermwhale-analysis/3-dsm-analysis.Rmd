@@ -266,5 +266,6 @@ save(dsm.qp,
      dsm.tw.xy,
      dsm.nb,
      dsm.nb.xy,
+     k1, k2,
      file="count-models.RData")
 ```
