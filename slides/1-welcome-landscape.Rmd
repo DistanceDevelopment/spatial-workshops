@@ -58,7 +58,8 @@ author: David L Miller, Jason Roberts, Eric Rexstad
 
   * Can be found at [URL]
   * In rooms BLAH and BLAH
-  * Starting at 9am, finish at 5:30pm.
+  * Starting at 9am, finish at 4:30pm.
+  * Wed and Fri we have the room longer, we will be around
   * Lunch 12:30pm to 2pm (nearest lunch venue is BLAH)
 
 
@@ -66,7 +67,7 @@ author: David L Miller, Jason Roberts, Eric Rexstad
 
   * Additional notes and bibliography available on course website [URL]
   * Slides/practicals/code also there
-  * MozPad session at [URL], Eric can answer questions there
+  * MozPad session at [URL], we can answer questions there
   * Extra code and links to be posted at MozPad, which will be archived for later
 
 ## Software

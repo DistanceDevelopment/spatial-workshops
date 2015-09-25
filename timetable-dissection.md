@@ -22,14 +22,14 @@ author: David L Miller
   * Table of sightings from Arc -> R (to use in "Practicals 1-3")
 
 
-## DS:Covariates,variance, model checking/selection, Horvitz-Thompson
+## DS: Covariates,variance, model checking/selection, Horvitz-Thompson
 
-  * Availability
-  * Perception
+  * Availability/perception bias
+    - Need to include the NOAA number so that we can compare in practicals
 
 ## Practicals 1-3
 
-### Practical: fitting detection functions in R
+### Practical 1: fitting detection functions in R
 
   * Investigating the data, basic EDA in R
   * Fitting a detection functions
@@ -37,12 +37,12 @@ author: David L Miller
   * Some setup for covariate models (plot group size etc against $\hat{p}$)
 
 
-### Practical: model checking in R
+### Practical 2: model checking in R
 
   * Finding the AIC, GoF test results
   * Q-Q plotting
 
-### Practical: Covariates and abundance
+### Practical 3: Covariates and abundance
 
   * Fitting covariate models
     * Model checking from above, revisited
