@@ -191,7 +191,7 @@ Let's save `hr` and `hr.ss` for now...
 ```{r save-models}
 df_hr_ss <- models$hr.ss
 df_hr <- models$hr
-save(df_hr_ss, df_hr, file="df-models.RData")
+save(df_hr_ss, df_hr, distdata, file="df-models.RData")
 ```
 
 ## Estimating abundance
