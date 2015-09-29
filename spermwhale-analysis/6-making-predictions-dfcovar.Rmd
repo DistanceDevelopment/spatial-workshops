@@ -15,6 +15,7 @@ library(mgcv)
 library(raster)
 library(ggplot2)
 library(dsm)
+library(viridis)
 ```
 
 ```{r load-models}
@@ -48,6 +49,8 @@ predgrid$Nhat <- pp
 predgrid <- predgrid[!is.na(predgrid$Nhat),]
 p <- ggplot(predgrid)
 p <- p + geom_tile(aes(x=x, y=y, fill=Nhat, width=10*1000, height=10*1000))
+p <- p + coord_equal()
+p <- p + scale_fill_viridis()
 print(p)
 ```
 
@@ -55,33 +58,49 @@ print(p)
 ## Predictions for all models
 
 ```{r make-preds-enmasse}
+# make a list of models
 model_list <- list(dsm.nb, dsm.nb.xy, dsm.qp, dsm.qp.xy, dsm.tw, dsm.tw.xy)
-aa <- lapply(model_list, function(model) predict(model, predgrid))
-allmodels_Nhat <- lapply(aa, sum, na.rm=TRUE)
+# give the list names for the models, so we can identify them later
+names(model_list) <- c("dsm.nb", "dsm.nb.xy", "dsm.qp", "dsm.qp.xy", "dsm.tw", "dsm.tw.xy")
+
+# use lapply to calculate the predictions for each fo the models in the list
+per_model_Nhat <- lapply(model_list, function(model) predict(model, predgrid))
+# sum for each model to give the overall abundance
+allmodels_Nhat <- lapply(per_model_Nhat, sum, na.rm=TRUE)
+
+# now make a big prediction data.frame for plotting
 big_pred <- predgrid[rep(1:nrow(predgrid),6),]
-big_pred$Nhat <- unlist(aa)
-big_pred$model_id <- rep(1:6, rep(nrow(predgrid),6))
+big_pred$Nhat <- unlist(per_model_Nhat)
+big_pred$model_id <- rep(names(model_list), rep(nrow(predgrid),6))
 ```
 
+What were the total abundances per model?
 ```{r}
 allmodels_Nhat
 ```
 
+Again we see that the quasi-Poisson is predicting almost an order of magnitude more than the other models.
 
-```{r plotall}
+
+```{r plotall, fig.width=8, fig.height=8}
 big_pred <- big_pred[!is.na(big_pred$Nhat),]
 p <- ggplot(big_pred)
 p <- p + geom_tile(aes(x=x, y=y, fill=Nhat, width=10*1000, height=10*1000))
 p <- p + facet_wrap(~model_id)
+p <- p + coord_equal()
+p <- p + scale_fill_viridis()
 print(p)
 ```
 
-This plot sucks because the tqo quasi-Poisson model throw out the scale, let's throw them out...
+This plot sucks because the quasi-Poisson models throw out the scale, let's throw them out...
 
-```{r plotsome}
-big_pred <- big_pred[!(big_pred$model_id %in% 3:4),]
+```{r plotsome, fig.width=8, fig.height=8}
+big_pred <- big_pred[!(big_pred$model_id %in% c("dsm.qp","dsm.qp.xy")),]
 p <- ggplot(big_pred)
 p <- p + geom_tile(aes(x=x, y=y, fill=Nhat, width=10*1000, height=10*1000))
-p <- p + facet_wrap(~model_id)
+p <- p + facet_wrap(~model_id, nrow=3)
+p <- p + coord_equal()
+p <- p + scale_fill_viridis()
 print(p)
 ```
+

@@ -13,26 +13,75 @@ library(mgcv)
 library(raster)
 library(ggplot2)
 library(dsm)
+library(viridis)
 ```
 
+Load the models and prediction grid:
 ```{r load-models}
 load("count-models.RData")
-```
-
-Again, we need to load the variables into a "stack" from their files on disk and put them into a `data.frame`.
-```{r preddata}
-predictorStack <- stack(c("Covariates_for_Study_Area/Depth.img", "Covariates_for_Study_Area/GLOB/CMC/CMC0.2deg/analysed_sst/2004/20040601-CMC-L4SSTfnd-GLOB-v02-fv02.0-CMC0.2deg-analysed_sst.img", "Covariates_for_Study_Area/VGPM/Rasters/vgpm.2004153.hdf.gz.img"))
-names(predictorStack) <- c("Depth","SST","NPP")
-
-predgrid <- as.data.frame(predictorStack, xy=TRUE)
-predgrid$off.set <- (10*1000)^2
-predgrid <- predgrid[!is.na(predgrid$Depth),]
+load("predgrid.RData")
 ```
 
 # Estimation of variance
 
-The models were count was the response don't include any covariates at the observer level in the detection function, so we can use the variance propagation method and estimate the uncertainty in detection function parameters in one step.
+The models we investigate here have count as the response, so don't include any covariates at the observer level in the detection function, so we can use the variance propagation method and estimate the uncertainty in detection function parameters in one step.
 
 ```{r varest}
 varest <- dsm.var.prop(dsm.nb.xy, predgrid, off.set=predgrid$off.set)
+```
+To summarise the results of this variance estimate:
+```{r varest-summary}
+summary(varest)
+```
+We can again summarise all the models:
+```{r summarise-all}
+# make a list of models
+model_list <- list(dsm.nb, dsm.nb.xy, dsm.qp, dsm.qp.xy, dsm.tw, dsm.tw.xy)
+# give the list names for the models, so we can identify them later
+names(model_list) <- c("dsm.nb", "dsm.nb.xy", "dsm.qp", "dsm.qp.xy", "dsm.tw", "dsm.tw.xy")
+
+# use lapply to calculate the predictions for each fo the models in the list
+per_model_var <- lapply(model_list, function(model){
+  vp <- summary(dsm.var.prop(model, predgrid, off.set=predgrid$off.set))
+  unconditional.cv.square <- vp$cv^2
+  asymp.ci.c.term <- exp(1.96*sqrt(log(1+unconditional.cv.square)))
+  asymp.tot <- c(vp$pred.est / asymp.ci.c.term,
+                 vp$pred.est,
+                 vp$pred.est * asymp.ci.c.term)
+  return(asymp.tot)
+})
+# make a data.frame to plot
+per_model_var <- data.frame(model = names(per_model_var)[sort(rep(1:6, 3))],
+                            stat  = c("lower", "Nhat", "upper"),
+                            value = unlist(per_model_var))
+
+```
+
+```{r plotvar}
+p <- ggplot(per_model_var)
+p <- p + geom_point(aes(x=model, y=value))
+print(p)
+```
+
+Again the quasi-Poisson is throwing out the scale here:
+
+```{r plotvar-noqp}
+p <- ggplot(per_model_var[!(per_model_var$model %in% c("dsm.qp","dsm.qp.xy")),])
+p <- p + geom_point(aes(x=model, y=value))
+print(p)
+```
+
+# Maps
+
+We can also make maps of the uncertainty (the coefficient of variation gives the most information). For this we need to estimate the uncertainty per cell of the map we want to generate.
+
+We can also overlay the sightings of sperm whales on top of the CV map.
+
+```{r varest-map}
+predgrid$width <- predgrid$height <- 10*1000
+varest_map <- dsm.var.prop(dsm.nb.xy, split(predgrid, 1:nrow(predgrid)), off.set=predgrid$off.set)
+pp <- plot(varest_map, observations=FALSE, plot=FALSE)
+pp <- pp + scale_fill_viridis()
+pp <- pp + geom_point(aes(x=x,y=y, size=count), data=dsm.nb$data[dsm.nb$data$count>0,])
+print(pp)
 ```

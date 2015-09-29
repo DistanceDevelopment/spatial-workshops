@@ -14,13 +14,15 @@ Now we've fitted some models, let's use the `predict` functions and the data fro
 library(mgcv)
 library(raster)
 library(ggplot2)
+library(viridis)
 ```
 
 ```{r load-models}
 load("count-models.RData")
 ```
 
-First need to load the variables into a "stack" from their files on disk.
+First need to load the variables into a "stack" from their files on disk. At this point we arbitrarily choose the time periods of the SST and NPP rasters.
+
 ```{r preddata}
 predictorStack <- stack(c("Covariates_for_Study_Area/Depth.img","Covariates_for_Study_Area/GLOB/CMC/CMC0.2deg/analysed_sst/2004/20040601-CMC-L4SSTfnd-GLOB-v02-fv02.0-CMC0.2deg-analysed_sst.img","Covariates_for_Study_Area/VGPM/Rasters/vgpm.2004153.hdf.gz.img"))
 names(predictorStack) <- c("Depth","SST","NPP")
@@ -47,6 +49,8 @@ predgrid$Nhat <- pp
 predgrid <- predgrid[!is.na(predgrid$Nhat),]
 p <- ggplot(predgrid)
 p <- p + geom_tile(aes(x=x, y=y, fill=Nhat, width=10*1000, height=10*1000))
+p <- p + coord_equal()
+p <- p + scale_fill_viridis()
 print(p)
 ```
 
@@ -54,33 +58,55 @@ print(p)
 ## Predictions for all models
 
 ```{r make-preds-enmasse}
+# make a list of models
 model_list <- list(dsm.nb, dsm.nb.xy, dsm.qp, dsm.qp.xy, dsm.tw, dsm.tw.xy)
-aa <- lapply(model_list, function(model) predict(model, predgrid))
-allmodels_Nhat <- lapply(aa, sum, na.rm=TRUE)
+# give the list names for the models, so we can identify them later
+names(model_list) <- c("dsm.nb", "dsm.nb.xy", "dsm.qp", "dsm.qp.xy", "dsm.tw", "dsm.tw.xy")
+
+# use lapply to calculate the predictions for each fo the models in the list
+per_model_Nhat <- lapply(model_list, function(model) predict(model, predgrid))
+# sum for each model to give the overall abundance
+allmodels_Nhat <- lapply(per_model_Nhat, sum, na.rm=TRUE)
+
+# now make a big prediction data.frame for plotting
 big_pred <- predgrid[rep(1:nrow(predgrid),6),]
-big_pred$Nhat <- unlist(aa)
-big_pred$model_id <- rep(1:6, rep(nrow(predgrid),6))
+big_pred$Nhat <- unlist(per_model_Nhat)
+big_pred$model_id <- rep(names(model_list), rep(nrow(predgrid),6))
 ```
 
-```{r}
+What were the per model abundance estimates:
+```{r per-model-est}
 allmodels_Nhat
 ```
 
+Note here that the quasi-Poisson models are a whole order of magnitude different from the other models.
 
-```{r plotall}
+
+```{r plotall, fig.width=8, fig.height=8}
 big_pred <- big_pred[!is.na(big_pred$Nhat),]
 p <- ggplot(big_pred)
 p <- p + geom_tile(aes(x=x, y=y, fill=Nhat, width=10*1000, height=10*1000))
-p <- p + facet_wrap(~model_id)
+p <- p + facet_wrap(~model_id, nrow=3)
+p <- p + coord_equal()
+p <- p + scale_fill_viridis()
 print(p)
 ```
 
-This plot sucks because the tqo quasi-Poisson model throw out the scale, let's throw them out...
+This plot sucks because the two quasi-Poisson models throw out the scale, let's throw them out...
 
-```{r plotsome}
-big_pred <- big_pred[!(big_pred$model_id %in% 3:4),]
+```{r plotsome, fig.width=8, fig.height=8}
+big_pred <- big_pred[!(big_pred$model_id %in% c("dsm.qp","dsm.qp.xy")),]
 p <- ggplot(big_pred)
 p <- p + geom_tile(aes(x=x, y=y, fill=Nhat, width=10*1000, height=10*1000))
 p <- p + facet_wrap(~model_id)
+p <- p + coord_equal()
+p <- p + scale_fill_viridis()
 print(p)
 ```
+
+Note we'll write the results out to a raster once we've calculated the uncertainty attached to these abundance estimates.
+
+# Save the predictiond data
+
+```{r savepred}
+save(predgrid, file="predgrid.RData")

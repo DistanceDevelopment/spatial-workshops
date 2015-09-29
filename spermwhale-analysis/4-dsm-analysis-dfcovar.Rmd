@@ -17,10 +17,11 @@ load("df-models.RData")
 
 # Fit some models
 
+As with the previous set of models, we fit models when `x` and `y` are included as additive terms and as a bivariate smooth and compare the resulting models.
 
-## quasipoisson
+## Quasi-Poisson
 
-Letting `k`s go to default leaves bad "p" values for location, disttocas, EKE, SST: set to 30/20.
+Letting `k`s go to default leaves bad "p" values (in `gam.check`) for location, disttocas, EKE, SST: set to 30/20.
 
 ```{r fit-models-qp-xy}
 k2 <- 50
@@ -37,19 +38,20 @@ dsm.qp.xy <- dsm(abundance.est~s(x,y, k=k2, bs="ts")+
 summary(dsm.qp.xy)
 ```
 
-checking plots
+Checking plots look as bad as usual.
 
 ```{r qp-check-xy, fig.width=6, fig.height=6}
 gam.check(dsm.qp.xy)
 ```
 
 
-plot that
+Plot the resulting smooths:
 
 ```{r qp-terms-xy, fig.width=6, fig.height=6}
 plot(dsm.qp.xy, scale=0, pages=1)
 ```
 
+Now fitting the additive location terms:
 
 ```{r fit-models-qp}
 dsm.qp <- dsm(abundance.est~s(x, k=k1, bs="ts")+
@@ -64,14 +66,14 @@ dsm.qp <- dsm(abundance.est~s(x, k=k1, bs="ts")+
 summary(dsm.qp)
 ```
 
-checking plots
+Check plots
 
 ```{r qp-check, fig.width=6, fig.height=6}
 gam.check(dsm.qp)
 ```
 
 
-plot that
+Smooths:
 
 ```{r qp-terms, fig.width=6, fig.height=6}
 plot(dsm.qp, scale=0, pages=1)
@@ -81,8 +83,6 @@ plot(dsm.qp, scale=0, pages=1)
 
 ## Tweedie
 
-
-This model is much worse -- check REML score.
 
 ```{r fit-models-tw-xy}
 dsm.tw.xy <- dsm(abundance.est~s(x,y, k=k2, bs="ts")+
@@ -98,10 +98,6 @@ summary(dsm.tw.xy)
 
 ```{r tw-check, fig.width=6, fig.height=6}
 gam.check(dsm.tw.xy)
-```
-
-```{r tw-rq-check, fig.width=6, fig.height=6}
-rqgam.check(dsm.tw.xy)
 ```
 
 ```{r tw-terms, fig.width=8}
@@ -126,16 +122,12 @@ summary(dsm.tw)
 gam.check(dsm.tw)
 ```
 
-```{r tw-rq-check-xy, fig.width=6, fig.height=6}
-rqgam.check(dsm.tw)
-```
-
 ```{r tw-terms-xy, fig.width=6, fig.height=6}
 plot(dsm.tw, scale=0, pages=1)
 ```
 
 
-## negative binomial
+## Negative binomial
 
 Here note that `DistToCAS` and `EKE` are "`.`" significant AND have low EDFs.
 
@@ -153,10 +145,6 @@ summary(dsm.nb.xy)
 
 ```{r nb-check-xy, fig.width=6, fig.height=6}
 gam.check(dsm.nb.xy)
-```
-
-```{r nb-rq-check-xy, fig.width=6, fig.height=6}
-rqgam.check(dsm.nb.xy)
 ```
 
 ```{r nb-terms-xy, fig.width=8}
@@ -181,10 +169,6 @@ summary(dsm.nb)
 gam.check(dsm.nb)
 ```
 
-```{r nb-rq-check, fig.width=6, fig.height=6}
-rqgam.check(dsm.nb)
-```
-
 ```{r nb-terms, fig.width=8}
 plot(dsm.nb, scale=0, pages=1)
 ```
@@ -201,7 +185,8 @@ summarize_dsm <- function(model){
   data.frame(response = model$family$family,
              terms    = paste(rownames(summ$s.table), collapse=", "),
              AIC      = AIC(model),
-             REML     = model$gcv.ubre
+             REML     = model$gcv.ubre,
+             "Deviance explained" = paste0(round(summ$dev.expl*100,2),"%")
             )
 
 }
@@ -241,7 +226,7 @@ qq.gam.p(dsm.nb.xy)
 ```
 
 
-Comparing the depth terms we see a similar story:
+Comparing the depth terms we again see a similar story:
 
 ```{r depth-plots, fig.width=5, fig.height=8}
 par(mfrow=c(3,2))
@@ -256,6 +241,11 @@ plot_depth(dsm.nb)
 plot_depth(dsm.nb.xy)
 ```
 
+## "Best" model
+
+Discarding the two quasi-Poisson models due to their poor Q-Q plot, we can also discard the Tweedie models for the same reason -- both look much poorer compared to the negative binomial models. Between the negative binomial models, though, there is not much of a difference.
+
+The bivariate model has a **very** marginally better AIC and REML score, so we pick that but again save all the models for later comparison when it comes to prediction and variance estimation.
 
 ```{r save-models}
 save(dsm.qp,

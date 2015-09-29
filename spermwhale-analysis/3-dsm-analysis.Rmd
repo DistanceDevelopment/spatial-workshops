@@ -17,12 +17,12 @@ load("df-models.RData")
 
 # Fit some models
 
+General strategy here is to try to models with bivariate location term and separate additive terms and compare. May also be interesting to fit models with environmental covariates in them only (no location terms).
 
-## quasipoisson
+## Quasi-Poisson
 
-warnings about fitting linear terms (and terms that up tick) for prediction/extrapolation.
+*Need to warn folks here about fitting linear terms (and terms that up tick) for prediction/extrapolation.*
 
-try models with bivariate location term and separate additive terms
 
 ```{r fit-models-qp-xy}
 k2 <- 30
@@ -39,41 +39,43 @@ dsm.qp.xy <- dsm(count~s(x, y, k=k2, bs="ts")+
 summary(dsm.qp.xy)
 ```
 
-checking plots
+Checking plots don't look great:
 
 ```{r qp-check-xy, fig.width=6, fig.height=6}
 gam.check(dsm.qp.xy)
 ```
 
-plot smooths
+Plot the estiamted smooth effects:
 
 ```{r qp-plot-xy, fig.width=6, fig.height=6}
 plot(dsm.qp.xy, pages=1, scale=0)
 ```
 
+Now the model with the separate terms for `x` and `y`.
+
 ```{r fit-models-qp}
 dsm.qp <- dsm(count~s(x, k=k1, bs="ts")+
-                        s(y, k=k1, bs="ts")+
-                        s(Depth, k=k1, bs="ts")+
-#                        s(DistToCAS, k=k1, bs="ts")+
-                        s(SST, k=20, bs="ts"),#+
-#                        s(EKE, k=k1, bs="ts"),#+
-#                        s(NPP, k=k1, bs="ts"),
-               family=quasipoisson(),
-               df_hr, segs, obs, method="REML")
+                    s(y, k=k1, bs="ts")+
+                    s(Depth, k=k1, bs="ts")+
+#                    s(DistToCAS, k=k1, bs="ts")+
+                    s(SST, k=20, bs="ts"),#+
+#                    s(EKE, k=k1, bs="ts"),#+
+#                    s(NPP, k=k1, bs="ts"),
+              family=quasipoisson(),
+              df_hr, segs, obs, method="REML")
 summary(dsm.qp)
 ```
 
 
-note that NPP goes out first with `x`,`y` additive but stays in for bivariate terms
+Note that NPP goes out first when `x` and `y` are additive, but stays in for bivariate terms.
 
-checking plots
+Checking plot again don't look great here
 
 ```{r qp-check, fig.width=6, fig.height=6}
 gam.check(dsm.qp)
 ```
 
-plot that
+Plot the smooths:
 
 ```{r qp-plot, fig.width=6, fig.height=6}
 plot(dsm.qp, pages=1, scale=0)
@@ -82,6 +84,7 @@ plot(dsm.qp, pages=1, scale=0)
 
 ## Tweedie
 
+Now doing the same procedure with Tweedie...
 
 `DistToCAS` and `NPP` here give good examples of `bs="ts"` working.
 
@@ -101,11 +104,7 @@ summary(dsm.tw.xy)
 gam.check(dsm.tw.xy)
 ```
 
-```{r tw-rq-check-xy, fig.width=6, fig.height=6}
-rqgam.check(dsm.tw.xy)
-```
-
-```{r tw-plot-xy, fig.width=6, fig.height=6}
+```{r tw-plot-xy, fig.width=8, fig.height=6}
 plot(dsm.tw.xy, pages=1, scale=0)
 ```
 
@@ -126,15 +125,14 @@ summary(dsm.tw)
 gam.check(dsm.tw)
 ```
 
-```{r tw-rq-check, fig.width=6, fig.height=6}
-rqgam.check(dsm.tw)
-```
-
-```{r tw-plot, fig.width=6, fig.height=6}
+```{r tw-plot, fig.width=8, fig.height=6}
 plot(dsm.tw, pages=1, scale=0)
 ```
 
-## negative binomial
+## Negative binomial
+
+
+Now again going through all that for negative binomial:
 
 ```{r fit-models-nb-xy}
 dsm.nb.xy <- dsm(count~s(x,y, k=k2, bs="ts")+
@@ -152,15 +150,9 @@ summary(dsm.nb.xy)
 gam.check(dsm.nb.xy)
 ```
 
-```{r nb-rq-check-xy, fig.width=6, fig.height=6}
-rqgam.check(dsm.nb.xy)
-```
-
-```{r nb-plot-xy, fig.width=6, fig.height=6}
+```{r nb-plot-xy, fig.width=8, fig.height=6}
 plot(dsm.nb.xy, pages=1, scale=0)
 ```
-
-
 
 
 ```{r fit-models-nb}
@@ -180,11 +172,7 @@ summary(dsm.nb)
 gam.check(dsm.nb)
 ```
 
-```{r nb-rq-check, fig.width=6, fig.height=6}
-rqgam.check(dsm.nb)
-```
-
-```{r nb-plot, fig.width=6, fig.height=6}
+```{r nb-plot, fig.width=8, fig.height=6}
 plot(dsm.nb, pages=1, scale=0)
 ```
 
@@ -192,6 +180,9 @@ plot(dsm.nb, pages=1, scale=0)
 
 ## Model summary
 
+Quick function to generate model results tables with appropriate summary statistics:
+
+*This should probably get distributed with the workshop materials.*
 
 ```{r summarize-models}
 summarize_dsm <- function(model){
@@ -202,7 +193,7 @@ summarize_dsm <- function(model){
              terms    = paste(rownames(summ$s.table), collapse=", "),
              AIC      = AIC(model),
              REML     = model$gcv.ubre,
-             Deviance = round(summ$dev.expl*100,2)
+             "Deviance explained" = paste0(round(summ$dev.expl*100,2),"%")
             )
 
 }
@@ -230,6 +221,8 @@ kable(summary_table)
 
 ## Final models
 
+Let's look at all the Q-Q plots together and see which one looks the most favourable:
+
 ```{r plot-qq}
 par(mfrow=c(2,3))
 qq.gam.p <- function(x){qq.gam(x, main=paste0(substitute(x)))}
@@ -241,10 +234,9 @@ qq.gam.p(dsm.nb)
 qq.gam.p(dsm.nb.xy)
 ```
 
-Looking at the results we see that 
+Seems like we can immediately throw out the quasi-Poisson models here.
 
-
-Comparing the depth terms we see a similar story:
+Comparing the depth terms we see a similar story for every model, a peak at around 1500m:
 
 ```{r depth-plots, fig.width=5, fig.height=8}
 par(mfrow=c(3,2))
@@ -258,6 +250,13 @@ plot_depth(dsm.tw.xy)
 plot_depth(dsm.nb)
 plot_depth(dsm.nb.xy)
 ```
+
+## "Best" model
+
+If we throw away the quasi-Poisson models, we are left with negative binomial and Tweedie. We throw out `dsm.tw.xy` as it has the next poorest Q-Q plot. It seems like the negative binomial models have better goodness of fit than the Tweedie models, though all have roughly the same REML scores and % deviance explained.
+
+We therefore prefer `dsm.nb.xy` but save all models for use later.
+
 
 ```{r save-models}
 save(dsm.qp,
