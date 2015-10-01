@@ -15,10 +15,14 @@ In case I forget about these things:
 
 # R/RStudio stuff
 
-  * R for cats is a good intro
+  * [R for cats](http://rforcats.net/) is a good introduction to R
   * RStudio project files
+    - Make a "project" per project
+    * Keep all files in that folder
+    * Number your files if they have an order
   * Clearing your session in RStudio
-  * what is RMarkdown?
+    * `Session > Clear Workspace...`
+  * What is RMarkdown?
     * chunks vs text
     * options (just figure dimensions and captions?)
     * HTML vs PDF (vs Word!)?
