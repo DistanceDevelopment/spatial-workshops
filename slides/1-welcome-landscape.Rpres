@@ -1,0 +1,101 @@
+Welcome & landscape
+=====================
+author: David L Miller, Jason Roberts, Eric Rexstad
+date: 
+transition: rotate
+css: custom.css
+
+Welcome
+=====================
+type: section
+
+Who are we?
+==============
+type: section
+
+David L Miller (Dave)
+==============
+type: section
+  * Research fellow, CREEM, University of St Andrews
+  * Worked on R distance sampling software since 2005
+  * Author/maintainer of `Distance`, `mrds`, `dsm`, `readst`, `mmds`
+  
+Jason Roberts
+==============
+type: section
+  * Research fellow (?), MGEL, Duke University
+  * [more bio info !]
+  * Author of MGET toolbox for ArcGIS
+
+What is this course about?
+===================
+
+* Building practical spatial models using R and ArcGIS
+* Getting data out of ArcGIS and into R
+* Distance sampling detection functions
+* Spatial modelling with GAMs
+* Model checking
+* Predictions and visualisation
+
+
+
+What is this course not about?
+===================
+
+* Survey design
+* "Advanced" techniques
+* Basic statistics
+* Basic R
+* Basic ArcGIS
+
+
+Schedule & landscape
+===================
+
+1. Modelling detectability
+2. Spatial data in ArcGIS
+3. Spatial models in R (and how to check them)
+4. Getting and using appropriate covariates
+5. Making and visualising predictions
+
+Daily schedule
+===================
+
+* Can be found at:
+  - [distancesampling.org/workshops/duke-spatial-2015/](http://distancesampling.org/workshops/duke-spatial-2015/)
+* In rooms BLAH and BLAH
+* Starting at 9am, finish at 4:30pm.
+* Wed and Fri we have the room longer, we will be around
+* Lunch 12:15pm to 1:15pm
+  - nearest lunch venue is ...
+
+
+Other info
+===========
+
+* Additional notes and bibliography online
+  - [distancesampling.org/workshops/duke-spatial-2015/](http://distancesampling.org/workshops/duke-spatial-2015/)
+* Slides/practicals/code also there
+* MozPad session at [URL], we can answer questions there
+* Extra code and links to be posted at MozPad, which will be archived for later
+
+ Software
+===================
+
+* Using Arc and RStudio
+* If you have your own copies make correct software is installed:
+  * instructions on course site
+* Computer classroom is already setup
+
+ Data
+===================
+
+* Sperm whale data from NOAA
+* East coast surveys
+* ...
+* Data can be downloaded at [URL]
+
+ Let's get started...
+=====================
+
+
