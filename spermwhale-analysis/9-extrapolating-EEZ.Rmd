@@ -1,0 +1,166 @@
+---
+title: Extrapolating over the EEZ
+author: David L Miller
+
+---
+
+Let's get cocky and try to predict over a much wider area: the entire US Exclusive Economic Zone.
+
+## Loading the data
+
+```{r load-packages}
+library(mgcv)
+library(raster)
+library(ggplot2)
+library(dsm)
+library(viridis)
+```
+
+# Count models
+
+```{r load-models}
+load("count-models.RData")
+#load("abundance-est-models.RData")
+```
+
+Load the covariates into a "stack" from their files on disk -- this time using the EEZ data. Putting these in ~July to match Jason's EEZ numbers...
+```{r preddata}
+predictorStack <- stack(c("Covariates_for_EEZ/Depth.img","Covariates_for_EEZ/GLOB/CMC/CMC0.2deg/analysed_sst/2004/20040715-CMC-L4SSTfnd-GLOB-v02-fv02.0-CMC0.2deg-analysed_sst.img","Covariates_for_EEZ/VGPM/Rasters/vgpm.2004201.hdf.gz.img"))
+names(predictorStack) <- c("Depth","SST","NPP")
+```
+
+```{r dataframeandoffset}
+predgrid <- as.data.frame(predictorStack, xy=TRUE)
+predgrid$off.set <- (10*1000)^2
+```
+
+We can then predict for the model `dsm.nb.xy`:
+```{r makepred1}
+pp <- predict(dsm.nb.xy, predgrid)
+sum(pp, na.rm=TRUE)
+```
+And a map!
+```{r predsp}
+predgrid$Nhat <- pp
+predgrid <- predgrid[!is.na(predgrid$Nhat),]
+p <- ggplot(predgrid)
+p <- p + geom_tile(aes(x=x, y=y, fill=Nhat, width=10*1000, height=10*1000))
+p <- p + coord_equal()
+p <- p + scale_fill_viridis()
+print(p)
+```
+
+
+## Predictions for all models
+
+```{r make-preds-enmasse}
+# make a list of models
+model_list <- list(dsm.nb, dsm.nb.xy, dsm.qp, dsm.qp.xy, dsm.tw, dsm.tw.xy)
+# give the list names for the models, so we can identify them later
+names(model_list) <- c("dsm.nb", "dsm.nb.xy", "dsm.qp", "dsm.qp.xy", "dsm.tw", "dsm.tw.xy")
+
+# use lapply to calculate the predictions for each fo the models in the list
+per_model_Nhat <- lapply(model_list, function(model) predict(model, predgrid))
+# sum for each model to give the overall abundance
+allmodels_Nhat <- lapply(per_model_Nhat, sum, na.rm=TRUE)
+
+# now make a big prediction data.frame for plotting
+big_pred <- predgrid[rep(1:nrow(predgrid),6),]
+big_pred$Nhat <- unlist(per_model_Nhat)
+big_pred$model_id <- rep(names(model_list), rep(nrow(predgrid),6))
+```
+
+What were the total abundances per model?
+```{r}
+allmodels_Nhat
+```
+
+Again we see that the quasi-Poisson is predicting almost an order of magnitude more than the other models.
+
+
+```{r plotsome, fig.width=8, fig.height=8}
+big_pred <- big_pred[!(big_pred$model_id %in% c("dsm.qp","dsm.qp.xy")),]
+p <- ggplot(big_pred)
+p <- p + geom_tile(aes(x=x, y=y, fill=Nhat, width=10*1000, height=10*1000))
+p <- p + facet_wrap(~model_id, nrow=3)
+p <- p + coord_equal()
+p <- p + scale_fill_viridis()
+print(p)
+```
+
+Calculating variance for `dsm.nb.xy`:
+
+```{r varnb}
+varnb <- dsm.var.prop(dsm.nb.xy, predgrid, off.set=predgrid$off.set)
+summary(varnb)
+```
+
+
+
+
+
+# Estimated abundance
+
+```{r load-models2}
+load("abundance-est-models.RData")
+```
+
+
+We can then predict for the model `dsm.nb.xy`:
+```{r makepred2}
+pp <- predict(dsm.nb.xy, predgrid)
+sum(pp, na.rm=TRUE)
+```
+And a map!
+```{r predsp2}
+predgrid$Nhat <- pp
+predgrid <- predgrid[!is.na(predgrid$Nhat),]
+p <- ggplot(predgrid)
+p <- p + geom_tile(aes(x=x, y=y, fill=Nhat, width=10*1000, height=10*1000))
+p <- p + coord_equal()
+p <- p + scale_fill_viridis()
+print(p)
+```
+
+
+## Predictions for all models
+
+```{r make-preds-enmasse2}
+# make a list of models
+model_list <- list(dsm.nb, dsm.nb.xy, dsm.qp, dsm.qp.xy, dsm.tw, dsm.tw.xy)
+# give the list names for the models, so we can identify them later
+names(model_list) <- c("dsm.nb", "dsm.nb.xy", "dsm.qp", "dsm.qp.xy", "dsm.tw", "dsm.tw.xy")
+
+# use lapply to calculate the predictions for each fo the models in the list
+per_model_Nhat <- lapply(model_list, function(model) predict(model, predgrid))
+# sum for each model to give the overall abundance
+allmodels_Nhat <- lapply(per_model_Nhat, sum, na.rm=TRUE)
+
+# now make a big prediction data.frame for plotting
+big_pred <- predgrid[rep(1:nrow(predgrid),6),]
+big_pred$Nhat <- unlist(per_model_Nhat)
+big_pred$model_id <- rep(names(model_list), rep(nrow(predgrid),6))
+```
+
+What were the total abundances per model?
+```{r}
+allmodels_Nhat
+```
+
+Again we see that the quasi-Poisson is predicting almost an order of magnitude more than the other models.
+
+
+```{r plotsome2, fig.width=8, fig.height=8}
+big_pred <- big_pred[!(big_pred$model_id %in% c("dsm.qp","dsm.qp.xy")),]
+p <- ggplot(big_pred)
+p <- p + geom_tile(aes(x=x, y=y, fill=Nhat, width=10*1000, height=10*1000))
+p <- p + facet_wrap(~model_id, nrow=3)
+p <- p + coord_equal()
+p <- p + scale_fill_viridis()
+print(p)
+```
+
+```{r varnb2}
+varnb <- dsm.var.gam(dsm.nb.xy, predgrid, off.set=predgrid$off.set)
+summary(varnb)
+```
