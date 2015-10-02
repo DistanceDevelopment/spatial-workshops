@@ -1,6 +1,6 @@
 ---
 title: Information for the DEL website
-author: David L Miller, Jason J Roberts, Eric Rexstad
+author: David L Miller, Jason J Roberts
 date: 9 May 2015
 
 ---
