@@ -204,29 +204,47 @@ $$
 $$
 we can calculate each part of this equation in R:
 
-First we need to load the effort data from the geodatabase, this is in the "Segments" table. We can then sum the total line length (recalling that $a=2wL$ where $w$ is the truncation and $L$ is the total line length):
-```{r get-effort}
+First we need to load the effort data from the geodatabase, this is in the "Segments" table. We can then use this to build the "`sample.table`"
+```{r get-sample-table}
 segs <- readOGR("Analysis.gdb", "Segments")
-total_length <- sum(as.data.frame(segs)$Length)
-a <- 2 * 6000 * total_length
+segs <- as.data.frame(segs)
+segs$Shape_Length <- NULL
+segs$BeginTime <- NULL
+segs$CenterTime <- NULL
+segs$EndTime <- NULL
+segs$FIRST_Survey <- NULL
+
+library(plyr)
+segs2 <- segs
+segs2$SegmentID <- NULL
+sample.table <- ddply(segs2, .(EffortDayID), summarize, Transect.Length=sum(Length))
+names(sample.table) <- c("Sample.Label", "Effort")
+sample.table$Region.Label <- "StudyArea"
 ```
 
-The total area of the EEZ is $A=5.285e+11$, we can extract the probabilities of detection using `predict(model)$fitted` and the group/cluster sizes are stored in the model object in `model$ddf$data$size`.
+The total area of the EEZ is $A=5.285e+11$, we can use that to construct the region table, with one region in it:
+```{r get-region-table}
+region.table <- data.frame(Region.Label = "StudyArea",
+                           Area         = 5.285e+11)
+```
 
-We now have everything we need to make an abundance estimate:
+Finally we can construct the observation table to link the samples to the detection function:
+```{r get-obs-table}
+segs$Sample.Label <- segs$SegmentID
+obs.table <- join(distdata, segs, by="Sample.Label")
+distdata$Sample.Label <- NULL
+obs.table$Sample.Label <- obs.table$EffortDayID
+obs.table <- obs.table[,c("object","Sample.Label")]
+obs.table$Region.Label <- "StudyArea"
+```
+
 ```{r ht}
-A <- 5.285e+11
-p <- predict(df_hr$ddf)$fitted
-sizes <- df_hr$ddf$data$size
-ht_est <- (A/a) * sum( sizes/p )
-ht_est
+Nhat_hr <- dht(df_hr$ddf, region.table, sample.table, obs.table)
 ```
 
 Now replacing `p` with the values from the `df_hr_ss` model we can make an estimate for that model too:
 ```{r ht-cov}
-p <- predict(df_hr_ss$ddf)$fitted
-ht_est_cov <- (A/a) * sum( sizes/p )
-ht_est_cov
+Nhat_hr_ss <- dht(df_hr_ss$ddf, region.table, sample.table, obs.table)
 ```
 
 
@@ -235,15 +253,11 @@ ht_est_cov
 From Palka (2006), we think that observations on the track line were such that $g(0)=0.46$, we can apply that correction to our abundance estimate (in a very primitive way):
 
 ```{r ht-perception}
-p <- predict(df_hr$ddf)$fitted * 0.46
-ht_est_p <- (A/a) * sum( sizes/p )
-ht_est_p
+Nhat_hr$individuals$N$Estimate/0.46
 ```
 
 ```{r ht-cov-perception}
-p <- predict(df_hr_ss$ddf)$fitted * 0.46
-ht_est_cov_p <- (A/a) * sum( sizes/p )
-ht_est_cov_p
+Nhat_hr_ss$individuals$N$Estimate/0.46
 ```
 
 
