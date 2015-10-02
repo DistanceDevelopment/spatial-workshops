@@ -5,8 +5,9 @@ date:
 transition: rotate
 css: custom.css
 
-Counting animals
-========================================================
+
+Overview
+====================
 
 ```{r setup, include=FALSE}
 library(knitr)
@@ -16,13 +17,6 @@ load("../spermwhale-analysis/df-models.RData")
 # remove the fitted models to avoid confusion
 rm(df_hr, df_hr_ss)
 ```
-
-- Counting animals is hard
-- Limited resources
-- 
-
-Overview
-====================
 
 Here we'll look at:
 
@@ -533,6 +527,18 @@ Plotting models
 par(mfrow=c(1,2))
 plot(df_hn)
 plot(df_hr)
+```
+
+Truncation
+============
+
+- We set `truncation=6000`, why?
+- Remove observations in the tail of the distribution
+- Such observation lead to bad model fit
+***
+```{r trunc}
+par(mfrow=c(1,2))
+hist(distdata$distance, xlab="Distance (m)")
 ```
 
 Recap
