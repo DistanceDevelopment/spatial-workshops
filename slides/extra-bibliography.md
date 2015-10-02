@@ -57,7 +57,10 @@ Estimation of sperm whale abundance in the North Atlantic by NOAA:
 * Obtaining uncertainty estimates from functions of MLEs
   * Borchers, D. L., Buckland, S. T., & Zucchini, W. (2002). Estimating Animal Abundance: Closed populations. Springer. (Appendix C)
 
+## Group size
 
+* Group size uncertainty
+* Something about the ETP dolphins?
 
 
 
