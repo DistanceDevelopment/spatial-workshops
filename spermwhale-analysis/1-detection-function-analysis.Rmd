@@ -184,15 +184,6 @@ ddf.gof(models$hr.survey.ss$ddf, main="hr.survey.ss")
 ddf.gof(models$hn.ss$ddf, main="hn.ss")
 ```
 
-## Save the "best" models
-
-Let's save `hr` and `hr.ss` for now...
-
-```{r save-models}
-df_hr_ss <- models$hr.ss
-df_hr <- models$hr
-save(df_hr_ss, df_hr, distdata, file="df-models.RData")
-```
 
 ## Estimating abundance
 
@@ -239,12 +230,12 @@ obs.table$Region.Label <- "StudyArea"
 ```
 
 ```{r ht}
-Nhat_hr <- dht(df_hr$ddf, region.table, sample.table, obs.table)
+Nhat_hr <- dht(models$hr$ddf, region.table, sample.table, obs.table)
 ```
 
 Now replacing `p` with the values from the `df_hr_ss` model we can make an estimate for that model too:
 ```{r ht-cov}
-Nhat_hr_ss <- dht(df_hr_ss$ddf, region.table, sample.table, obs.table)
+Nhat_hr_ss <- dht(models$hr.ss$ddf, region.table, sample.table, obs.table)
 ```
 
 
@@ -261,6 +252,15 @@ Nhat_hr_ss$individuals$N$Estimate/0.46
 ```
 
 
+## Save the "best" models
+
+Let's save `hr` and `hr.ss` for now...
+
+```{r save-models}
+df_hr_ss <- models$hr.ss
+df_hr <- models$hr
+save(df_hr_ss, df_hr, distdata, region.table, sample.table, obs.table, file="df-models.RData")
+```
 
 ## References
 
