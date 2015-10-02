@@ -1,0 +1,550 @@
+Distance sampling: Advanced topics
+====================================
+author: David L Miller 
+date: 
+transition: rotate
+css: custom.css
+
+
+Recap
+========
+type:section
+
+```{r setup, include=FALSE}
+library(knitr)
+opts_chunk$set(cache=TRUE, echo=FALSE)
+# load the sperm whale data
+load("../spermwhale-analysis/df-models.RData")
+# remove the fitted models to avoid confusion
+#rm(df_hr, df_hr_ss)
+```
+
+Line transects - general idea
+========================================================
+
+- Calculate *average detection probability*
+  - using detection function ($g(x)$)
+- $\hat{p} = \int_0^w \frac{1}{w} g(x; \hat{\theta}) dx$
+- $\frac{1}{w}$ tells us about assumed density wrt line
+  - *uniform* from the line
+
+```{r pi-y, fig.width=20, echo=FALSE}
+par(mfrow=c(1,3))
+curve(exp(-x^2/(2*0.01^2)), from=0, to=0.025, xlab="Distance", ylab="Probability of detection")
+plot(seq(0,0.025, len=2), rep(1/0.25,2), type="l", xlab="Distance", ylab="Density wrt line", ylim=c(0, 1/0.25))
+curve(exp(-x^2/(2*0.01^2))/0.025, from=0, to=0.025, xlab="Distance", ylab="Probability of detection")
+```
+
+Line transects - distances
+========================================================
+
+- Model drop-off using a *detection function*
+- Use extra information estimate $\hat{N}$
+- How should we adjust $n$? (inflate by $n/\hat{p})$)
+
+
+Fitting detection functions
+============================
+
+- Using the package `Distance`
+- Need to have data setup a certain way
+  - At least columns called `object`, `distance`
+
+```{r simpledf, echo=TRUE}
+library(Distance)
+df_hn <- ds(distdata, truncation=6000, adjustment = NULL)
+```
+
+Model summary
+================
+
+```{r echo=TRUE}
+summary(df_hn)
+```
+
+Plotting models
+================
+
+```{r}
+plot(df_hn)
+```
+***
+```
+plot(df_hn)
+```
+
+New stuff
+==========
+type:section
+
+
+Overview
+====================
+
+Here we'll look at:
+
+- Model checking and selection
+- What else affects detection?
+- Estimating abundance and uncertainty
+- More R!
+
+Why check models?
+==================
+
+- We made some assumptions
+- Were we right to do so?
+- AIC best model can still be a terrible model
+
+What to check?
+===============
+
+- Convergence
+  - Fitting ended, but our model is not good
+- Monotonicity
+  - Our model is "lumpy"
+- "Goodness of fit"
+  - Our model sucks statistically
+  
+Convergence
+============
+
+`Distance` will warn you about this:
+
+```
+** Warning: Problems with fitting model. Did not converge**
+Error in detfct.fit.opt(ddfobj, optim.options, bounds, misc.options) :
+  No convergence.
+```
+
+This can be **hard** see `?"mrds-opt"` for info.
+
+
+Monotonicity
+=============
+
+- Only a problem with adjustments
+- `check.mono` can help
+
+```{r checkmono, echo=TRUE}
+check.mono(df_hr$ddf)
+```
+
+
+Monotonicity (when it goes wrong)
+===================================
+
+```{r checkmonobad, results="hide"}
+df_hn_bad <- ds(distdata, truncation=6000, monotonicity = FALSE)
+check.mono(df_hn_bad$ddf, plot=TRUE)
+```
+
+
+Goodness of fit
+=================
+
+```{r results="hide"}
+ddf.gof(df_hn$ddf)
+```
+***
+```
+ddf.gof(df_hn$ddf)
+```
+
+Goodness of fit
+=================
+
+- As well as quantile-quantile plot, tests
+- Kolmogorov-Smirnov: largest distance on Q-Q plot
+- Cramer-von Mises: tests sum of distances
+
+
+Goodness of fit
+=================
+left:60%
+```{r qq-expl}
+par(mar=c(5, 4, 0, 0) + 0.1)
+# adapted from my RDistanceBook
+qq <- ddf.gof(df_hn$ddf)
+gof_tests_statplot <- function(model){
+  cdf_values <- ddf.gof(model, qq=FALSE)$dsgof$cdf
+
+  # calculate EDF values
+  edf_values <- ddf.gof(model, qq=FALSE)$dsgof$edf[,2]
+
+  # plot Cramer-von Mises distances
+  Map(function(edf, cdf){
+        lines(x=rep(edf,2), y=c(edf, cdf), lwd=1.5, col="red")
+      },
+      edf_values, cdf_values)
+
+  # find & plot which line-point distance is the test statistic for K-S test
+  ks.ind <- which.max(abs(cdf_values-edf_values))
+  lines(x=rep(edf_values[ks.ind],2),
+        y=c(edf_values[ks.ind], cdf_values[ks.ind]), lwd=2, col="blue")
+
+  invisible()
+}
+gof_tests_statplot(df_hn$ddf)
+```
+***
+- blue: Kolmogorov-Smirnov
+- red: Cramer-von Mises
+
+
+
+Detection function model selection
+===================================
+
+- Fit models
+- Look at `summary` and `plot` (fitting issues?)
+- Look at goodness of fit results, `ddf.gof`
+- AIC to select between models
+  - Parsimonous: "robust" and "efficient" models
+
+Example: fitting detection functions
+========================================
+
+```{r some-dfs, echo=TRUE}
+df_hn <- ds(distdata, truncation=6000, adjustment = NULL)
+df_hn_cos <- ds(distdata, truncation=6000)
+df_hr <- ds(distdata, truncation=6000, key="hr", adjustment = NULL)
+df_hr_cos <- ds(distdata, key="hr",  truncation=6000)
+```
+
+Plotting those models
+=========================
+
+```{r df-plots}
+par(mfrow=c(2,2))
+plot(df_hn, main="df_hn")
+plot(df_hr, main="df_hr")
+plot(df_hn_cos, main="df_hn_cos")
+plot(df_hr_cos, main="df_hr_cos")
+```
+
+Q-Q plots
+=========================
+
+```{r df-qqplots, messages=FALSE, results="hide"}
+par(mfrow=c(2,2))
+ddf.gof(df_hn$ddf, main="df_hn")
+ddf.gof(df_hr$ddf, main="df_hr")
+ddf.gof(df_hn_cos$ddf, main="df_hn_cos")
+ddf.gof(df_hr_cos$ddf, main="df_hr_cos")
+```
+
+AIC
+=====
+
+```{r dfs-aic, echo=TRUE, messages=FALSE}
+df_hn$ddf$criterion
+df_hn_cos$ddf$criterion
+## same model!
+df_hr$ddf$criterion
+df_hr_cos$ddf$criterion
+```
+
+Selection
+==========
+
+- Not much between these models!
+- You'll get to investigate these and more in the lab
+
+
+
+What else affects detectability?
+==================================
+type: section
+
+
+
+Covariates
+==================================
+
+- Observer characteristics
+  - observer name
+  - platform
+- Animal characteristics
+  - sex
+  - size
+  - group size
+  
+***
+
+- Weather conditions
+  - sea state
+  - glare
+  - fog
+
+
+How do we include covariates?
+==================================
+
+- Affects scale, not shape
+
+```{r dfcovs, fig.width=15}
+par(mfrow=c(1,2))
+plot(df_hr_ss)
+df_hr_size <- ds(distdata, truncation=6000, key="hr", formula=~size, adjustment=NULL)
+plot(df_hr_size)
+```
+
+Covariates in the scale
+========================
+
+<div class="medq">
+$$
+\exp \left( \frac{-x^2}{2\sigma^2}\right) \text{ or } 1-\exp \left[ \left( \frac{-x}{\sigma}\right)^{-b}\right]
+$$
+</div>
+
+</br>
+</br>
+Decompose $\sigma=\exp \left( \beta_0 + \beta_1 z_1 + \ldots\right)$
+
+What does detectability mean?
+===============================
+
+- $\hat{p}$ is now $\hat{p_i}$ (or $\hat{p}(\mathbf{z}_i)$)
+- Average probability of detection (average over *distances*)
+- Also calculate an average $\hat{p}$ as a summary
+
+
+Covariates in R
+================
+
+```{r dfcovex, echo=TRUE}
+df_hr_ss <- ds(distdata, truncation=6000, key="hr", formula=~SeaState, adjustment=NULL)
+df_hr_ss_size <- ds(distdata, truncation=6000, key="hr", formula=~SeaState+size, adjustment=NULL)
+```
+
+Summaries of covariate models
+================================
+
+```{r dfcovsum, echo=TRUE}
+summary(df_hr_ss)
+```
+
+"Average p"
+==============
+
+```{r dfcovavgp, echo=TRUE}
+unique(predict(df_hr_ss$ddf)$fitted)
+```
+
+
+Group size
+=============
+type: section
+
+
+What are groups?
+==================
+
+- Animals occur in groups or clusters
+- What does that mean?
+- *Functional* definition (NO ecology!)
+- This probably affects detectability
+
+
+Detection and groups
+=======================
+
+```{r groupcovs}
+gcov <- data.frame(p    = predict(df_hr_ss$ddf)$fitted,
+                   size = df_hr_ss$ddf$data$size)
+#plot(gcov$size, gcov$p, xlab="Group size", ylab="Detectability")
+library(ggplot2)
+p <- ggplot(gcov, aes(x=size, y=p), alpha=0.7)+
+      geom_point() +
+      geom_smooth(method="lm") +
+      xlab("Group size") + ylab("Detectability") + ylim(0,1)
+print(p)
+```
+
+
+Estimating abundance
+===========================================
+type: section
+
+
+Estimating abundance
+=======================
+
+- As before, assume density same in sampled/unsampled area
+- Horvitz-Thompson estimator
+
+<div class="bigq">
+$$
+\hat{N} = \frac{A}{a} \sum_{i=1}^n \frac{s_i}{\hat{p_i}}
+$$
+</div>
+
+where $s_i$ is group size
+
+Estimating uncertainty
+===========================================
+type: section
+
+
+Sources of uncertainty
+=======================
+
+<div class="bigq">
+$$
+\hat{N} = \frac{A}{a} \sum_{i=1}^\color{blue}{n} \frac{s_i}{\color{red}{\hat{p_i}}}
+$$
+</div>
+
+- Uncertainty in $n$ is from <span style="color:blue">sampling</span>
+- Uncertainty in $\hat{p}$ is from the <span style="color:red">model</span>
+
+
+Uncertainty from sampling
+============================
+
+- Usually calculate *encounter rate* variance
+- Encounter rate is $n/L$
+- (Effectively an average, so there is uncertainty)
+- "Objects per unit length of transect surveyed"
+- Fewster et al. (2009) is the definitive reference
+
+Uncertainty from the model
+============================
+
+- Model uncertainty from estimating parameters
+- Maximum likelihood theory gives uncertainty in model pars
+
+
+Putting those parts together
+================================
+
+Obtain overall CV by adding squared CVs:
+
+<div style="font-size:150%">
+$$
+\text{CV}^2\left( \hat{D} \right) = \text{CV}^2\left( \frac{n}{L} \right) + \text{CV}^2\left( \hat{p}\right)
+$$
+</div>
+
+</br>
+</br>
+(Running through this quickly, see bibliography for more details)
+
+(One other thing...)
+=====================
+
+- Assume that group size is recorded correctly
+- This is almost never true
+- There are ways to deal with this
+- See bibliography for more details
+
+
+Variance and abundance in R...
+================================
+type:section
+
+
+Data required
+========================
+
+- Need three tables
+  - region: whole area
+  - sample: the samples (transects)
+  - observation: relate samples to observations
+
+Schematic
+=============
+left: 60%
+
+```{r plottables, messages=FALSE, results="hide"}
+library(rgdal)
+library(ggplot2)
+region <- readOGR("../spermwhale-analysis/Analysis.gdb", "Study_Area")
+region <- fortify(region)
+sample <- readOGR("../spermwhale-analysis/Analysis.gdb", "Tracklines2")
+sample <- fortify(sample)
+obs <- readOGR("../spermwhale-analysis/Analysis.gdb", "Sightings")
+obs <- as.data.frame(obs)
+segs <- readOGR("../spermwhale-analysis/Analysis.gdb", "Segment_Centroids")
+obs <- plyr::join(obs, as.data.frame(segs), by="SegmentID")
+p <- ggplot(region) +
+     geom_polygon(aes(x=long,y=lat), fill="#43a2ca") +
+     geom_path(aes(x=long, y=lat, group=group), colour="#d95f02", data=sample)+
+     geom_point(aes(x=POINT_X, y=POINT_Y), data=obs) +
+     coord_equal() + xlab("x") + ylab("y")
+
+print(p)
+```
+***
+- <span style="color:#43a2ca">region</span>
+- <span style="color:#d95f02">sample</span>
+- observations
+
+Region table
+=============
+
+```{r region, echo=TRUE}
+head(region.table)
+```
+
+Sample table
+=============
+
+```{r sample, echo=TRUE}
+head(sample.table)
+```
+
+Observation table
+===================
+
+```{r obs, echo=TRUE}
+head(obs.table)
+```
+
+Abundance and variance
+=======================
+
+This generates a **lot** of output (here is a snippit):
+
+```{r dht, results="hide", echo=TRUE}
+dht(df_hr$ddf, region.table, sample.table, obs.table)
+```
+
+```
+Summary for individuals
+
+Summary statistics:
+     Region      Area  CoveredArea  Effort     n           ER        se.ER     cv.ER mean.size
+1 StudyArea 5.285e+11 113981689066 9498474 238.7 2.513035e-05 5.667492e-06 0.2255238  1.808333
+    se.mean
+1 0.1020928
+
+Abundance:
+  Label Estimate       se        cv      lcl      ucl       df
+1 Total 3053.558 943.7425 0.3090632 1682.187 5542.912 170.9157
+```
+
+More investigation in the practical exercises...
+
+What about making the region smaller?
+=======================================
+
+```{r plottablesagain, messages=FALSE, results="hide"}
+print(p)
+```
+
+Recap
+======
+type:section
+
+
+Summary
+========
+
+- How to check detection function models
+- Covariates can affect detectability
+- Group size
+- Sources of uncertainty
+- Estimation of abundance and variance 
+
