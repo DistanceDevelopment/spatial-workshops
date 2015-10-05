@@ -104,3 +104,8 @@ p <- p + scale_fill_viridis()
 print(p)
 ```
 
+# Save the prediction grid
+
+```{r savegrid}
+save(predgrid, file="predgrid.RData")
+```
