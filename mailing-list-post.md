@@ -11,7 +11,7 @@ The workshop will cover: the basics of organizing survey data in ArcGIS using th
 
 The course is intended for graduate students/postdocs/faculty in applied ecology, government/industry scientists and wildlife managers interested in developing spatially explicit models of abundance. Prior knowledge of R and ArcGIS will be highly advantageous, as is a quantitative background.
 
-The course will be taught by David L Miller (St Andrews), Jason J Roberts (Duke) and Eric Rexstad (St Andrews), at the Duke campus in Durham, NC.
+The course will be taught by David L Miller (St Andrews) and Jason J Roberts (Duke), at the Duke campus in Durham, NC.
 
 The deadline for registration is 12 October 2015.
 
