@@ -1,0 +1,312 @@
+What is a density surface model?
+========================================================
+author: David L Miller
+transition: rotate
+css: custom.css
+
+Why model abundance spatially?
+========================================================
+
+```{r setup, include=FALSE}
+library(knitr)
+library(magrittr)
+library(viridis)
+opts_chunk$set(cache=TRUE, echo=FALSE)
+# load the sperm whale data
+#load("../spermwhale-analysis/df-models.RData")
+# remove the fitted models to avoid confusion
+#rm(df_hr, df_hr_ss)
+```
+- Use more information
+- Greater explanatory power
+- Spatially explicit estimates (of abundance and uncertainty)
+- (Often) variance reduction
+
+Extra information
+========================================================
+
+```{r loadtracks, results="hide"}
+library(rgdal)
+tracksEN <- readOGR("../spermwhale-analysis/Analysis.gdb", "EN_Trackline1")
+tracksGU <- readOGR("../spermwhale-analysis/Analysis.gdb", "GU_Trackline")
+```
+```{r plottracks, cache=FALSE}
+library(ggplot2)
+tracksEN <- fortify(tracksEN)
+tracksGU <- fortify(tracksGU)
+mapdata <- map_data("world2","usa")
+p_maptr <- ggplot()+
+      geom_path(aes(x=long,y=lat, group=group), colour="red", data=tracksEN) + 
+      geom_path(aes(x=long,y=lat, group=group), colour="blue", data=tracksGU)+
+      geom_polygon(aes(x=long,y=lat, group=group), data=mapdata)+
+      coord_map(xlim=range(tracksEN$long, tracksGU$long)+c(-1,1),
+                ylim=range(tracksEN$lat, tracksGU$lat)+c(-1,1))
+print(p_maptr)
+```
+
+Extra information - depth
+==========================
+
+```{r loadcovars, results="hide"}
+library(raster)
+predictorStack <- stack(c("../spermwhale-analysis/Covariates_for_Study_Area/Depth.img", "../spermwhale-analysis/Covariates_for_Study_Area/GLOB/CMC/CMC0.2deg/analysed_sst/2004/20040601-CMC-L4SSTfnd-GLOB-v02-fv02.0-CMC0.2deg-analysed_sst.img","../spermwhale-analysis/Covariates_for_Study_Area/VGPM/Rasters/vgpm.2004153.hdf.gz.img"))
+names(predictorStack) <- c("Depth","SST","NPP")
+```
+```{r plotdepth}
+load("../spermwhale-analysis/sperm-data.RData")
+depthdat <- as.data.frame(predictorStack[[1]],xy=TRUE)
+depthdat <- depthdat[!is.na(depthdat$Depth),]
+library(plyr)
+plotobs <- join(obs, segs, by="Sample.Label")
+p <- ggplot() +
+      geom_tile(aes(x=x, y=y, fill=Depth), data=depthdat) + 
+      geom_point(aes(x=x, y=y, size=size), alpha=0.6, data=plotobs) +
+      coord_equal() + scale_fill_viridis()
+print(p)
+```
+
+Extra information - depth
+==========================
+
+```{r plotdepth-notspat}
+p <- ggplot(plotobs)+
+       geom_histogram(aes(Depth, weight=size)) +
+       xlab("Depth") + ylab("Aggregated counts")
+print(p)
+```
+
+Extra information - SST
+============================================
+
+```{r plotsst}
+sstdat <- as.data.frame(predictorStack[[2]], xy=TRUE)
+sstdat <- sstdat[!is.na(sstdat$SST),]
+p <- ggplot() +
+      geom_tile(aes(x=x, y=y, fill=SST), data=sstdat) + 
+      geom_point(aes(x=x, y=y, size=size), alpha=0.6, data=plotobs) +
+      coord_equal() + scale_fill_viridis()
+print(p)
+```
+
+
+Extra information - SST
+============================================
+
+```{r plotsst-notspat}
+p <- ggplot(plotobs)+
+       geom_histogram(aes(SST, weight=size), binwidth=1) +
+       xlab("SST") + ylab("Aggregated counts")
+print(p)
+```
+
+
+blah
+==================
+title: false
+
+<div class="bigq">
+What is going on here?
+</div>
+
+
+"You should model that"
+=======================
+type: section
+
+
+Modelling outputs
+===================
+
+- Abundance and uncertainty
+  - Arbitrary areas
+  - Extrapolation
+  - Numeric values
+  - Maps
+- Covariate effects
+  - count/sample as function of covars
+
+
+
+Modelling requirements
+========================
+
+- Account for effort
+- Flexible
+- Explicit spatial terms
+- Interpretable effects
+- Predictions over an arbitrary area
+- Fast to fit
+- Theoretical basis for model validation
+- Include our detectability information
+
+
+Accounting for effort
+======================
+type:section
+
+Effort
+==========
+
+```{r tracks2}
+print(p_maptr)
+```
+***
+- Have transects
+- Clearly there will be variation along them
+- Want a sample unit w/ minimal variation
+- "Segments" -- approx. square chunks of transect
+
+
+Chopping up transects
+======================
+
+<img src="images/dsmproc.png" alt="Physeter catodon by Noah Schlottman" width=80%>
+
+[Physeter catodon by Noah Schlottman](http://phylopic.org/image/dc76cbdb-dba5-4d8f-8cf3-809515c30dbd/)
+
+
+Flexible, interpretable effects
+================================
+type:section
+
+
+Smooth response
+================
+
+```{r plotsmooths, messages=FALSE}
+load("../spermwhale-analysis/count-models.RData")
+library(dsm)
+plot(dsm.nb.xy, select=2)
+```
+
+Explicit spatial effects
+============================
+
+```{r plot-spat-smooths, messages=FALSE}
+vis.gam(dsm.qp.xy, type="response", view=c("x","y"), plot.type="contour", main="")
+```
+
+Predictions
+================================
+type:section
+
+Predictions over an arbitrary area
+===================================
+
+```{r predplot}
+load("../spermwhale-analysis/predgrid.RData")
+p <- ggplot(predgrid)
+p <- p + geom_tile(aes(x=x, y=y, fill=Nhat, width=10*1000, height=10*1000))
+p <- p + coord_equal()
+p <- p + scale_fill_viridis()
+print(p)
+```
+***
+- Don't want to be restricted to design points
+- Extrapolate (with caution)
+- Include new data and inference tasks easily
+
+Detection information
+================================
+type:section
+
+Including detection information
+=================================
+
+- Two options:
+  - adjust areas to account for **effective effort**
+  - use Horvitz-Thompson estimates as response
+
+Adjusting areas
+================
+
+- Area of each segment $A_j$ and use $A_j\hat{p}_j$
+- Equivalent to *effective strip width*
+  - $\hat{\mu} = w\hat{p}$
+- Response is counts per segment
+- "Adjusting for effort"
+- "Count model"
+
+Horvitz-Thompson estimates
+===========================
+
+- Estimate H-T abundance per segment
+- Effort (area) is segment length
+- "Estimated abundance"
+
+Detectability and covariates
+=============================
+
+- 2 covariate "levels" in detection function
+  - "Observer"/"observation" -- change **within** transect
+  - "Segment" -- change **between** segments
+- "Estimated abundance" lets us to use observer-level covariates in detection function
+- "Count model" only lets us use segment-level covariates
+
+When to use each approach?
+============================
+
+- Generally "nicer" to adjust effort
+- Keep response (counts) close to what was observed
+- **Unless** you want observation-level covariates
+
+Availability/perception/etc
+=============================
+
+- Availability & perception bias is dealt with here
+- $\hat{p} = \hat{p}_\text{availability}\hat{p}_\text{perception}\hat{p}_\text{detection}$
+- Not going to cover this much here
+
+
+
+DSM flow diagram
+==================
+
+<img src="images/dsm-flow.png" alt="DSM process flow diagram" width=100%>
+
+
+Spatial models
+===============
+type: section
+
+
+Abundance as a function of covariates
+=======================================
+
+- Two approaches to model abundance
+- Explicit spatial models
+  - Good coverage, fixed area
+- "Habitat" models
+  - Poorer coverage, extrapolation
+- We'll cover both approaches here
+
+
+What do we need to begin modelling?
+=====================================
+type:section
+
+What do we need?
+===================
+
+- As with H-T estimation, need to link data
+- Distance data/detection function
+- Segment data
+- Observation data to link segments to detections
+
+Jason demo of segmenting etc
+=====================================
+type:section
+
+- Show each table
+- Their relations
+- Spatial representation
+
+
+Recap
+======
+
+- Model counts or estimated abundace
+- The effort is accounted for differently
+- Flexible models are good
+- Incorporate detectability
+- 2 tables + detection function needed
