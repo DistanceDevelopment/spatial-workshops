@@ -63,8 +63,32 @@ Estimation of sperm whale abundance in the North Atlantic by NOAA:
 * Something about the ETP dolphins?
 
 
+# 4. What is a DSM?
+
+- Paper that proposes DSM methodology
+  - Hedley, S. L., & Buckland, S. T. (2004). Spatial models for line transect sampling. Journal of Agricultural, Biological, and Environmental Statistics, 9(2), 181–199. http://doi.org/10.1198/1085711043578
+- Update to that paper ~10 years on (open access)
+  - Miller, D. L., Burt, M. L., Rexstad, E. A., & Thomas, L. (2013). Spatial models for distance sampling data: recent developments and future directions. Methods in Ecology and Evolution, 4(11), 1001–1010. http://doi.org/10.1111/2041-210X.12105
+
+# 5. Generalized additive models
+
+- Cannonical reference is:
+  - Wood, S. N. Generalized Additive Models: An Introduction with R. (2006).Chapman & Hall/CRC, Boca Raton, FL, USA.
 
 
+## Response distributions
+
+- Papers about using the Tweedie distribution
+  * Shono, H. (2008). Application of the Tweedie distribution to zero-catch data in CPUE analysis. Fisheries Research, 93(1-2), 154–162. http://doi.org/10.1016/j.fishres.2008.03.006
+  * Foster, S. D., & Bravington, M. V. (2012). A Poisson–Gamma model for analysis of ecological non-negative continuous data. Environmental and Ecological Statistics, 20(4), 533–552. http://doi.org/10.1007/s10651-012-0233-0
+* Comparison of negative binomial and quasi-Poisson
+  * Ver Hoef, J. M., & Boveng, P. L. (2007). Quasi-Poisson vs. negative binomial regression: how should we model overdispersed count data? Ecology, 88(11), 2766–2772. http://doi.org/10.2307/25590942?ref=no-x-route:d86e373bdecc7806949603494b3d220a
+
+
+## Smoothing
+
+* Section 4.1 of Wood (2006)
+* Within `mgcv` the `?smooth.terms` manual page lists all splines available in `mgcv` (and therefore `dsm`)
 
 
 
