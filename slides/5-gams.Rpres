@@ -1,0 +1,497 @@
+Generalized Additive Models
+============================
+author: David L Miller
+transition: rotate
+css: custom.css
+
+Overview
+=========
+
+- What is a GAM?
+- What is smoothing?
+- How do GAMs work?
+- Fitting GAMs using `dsm`
+
+```{r setup, include=FALSE}
+library(knitr)
+library(magrittr)
+library(viridis)
+library(ggplot2)
+library(reshape2)
+library(dsm)
+library(animation)
+opts_chunk$set(cache=TRUE, echo=FALSE)
+load("../spermwhale-analysis/count-models.RData")
+```
+
+What is a GAM?
+===============
+type:section
+
+
+Generalized Additive Models
+=========
+
+- Generalized: many response distributions
+- Additive: terms **add** together
+- Models: well, it's a model...
+
+What does a model look like?
+=============================
+
+- Count $n_j$ distributed according to some count distribution
+- Model as sum of terms
+
+```{r sumterms, fig.width=15}
+plot(dsm.nb,pages=1)
+```
+
+Mathematically...
+==================
+
+Taking the previous example...
+
+$$
+n_j = A_j\hat{p}_j \exp\left[ \beta_0 + s(\text{y}_j) + s(\text{Depth}_j) \right] + \epsilon_j
+$$
+
+where $\epsilon_j \sim N(0, \sigma)$, $\quad n_j\sim$ count distribution
+
+
+Mathematically...
+==================
+
+Taking the previous example...
+
+$$
+n_j = \color{red}{A_j}\color{blue}{\hat{p}_j} \color{green}{\exp}\left[\color{grey}{ \beta_0 + s(\text{y}_j) + s(\text{Depth}_j)} \right] + \epsilon_j
+$$
+
+where $\epsilon_j \sim N(0, \sigma)$, $\quad n_j\sim$ count distribution
+
+- $\color{red}{\text{area of segment - offset}}$
+- $\color{blue}{\text{probability of detection in segment}}$
+- $\color{green}{\text{link function}}$
+- $\color{grey}{\text{model terms}}$
+
+
+Response
+==================
+
+$$
+\color{red}{n_j} = A_j\hat{p}_j \exp\left[ \beta_0 + s(\text{y}_j) + s(\text{Depth}_j) \right] + \epsilon_j
+$$
+<br/>
+where $\epsilon_j \sim N(0, \sigma)$, $\quad \color{red}{n_j\sim \text{count distribution}}$
+
+
+Count distributions
+=====================
+
+```{r countshist}
+hist(dsm.nb.xy$data$count, xlab="Count", main="")
+```
+***
+- Response is a count (not not always integer)
+- Often, it's mostly zero (that's complicated)
+- Want response distribution that deals with that
+- Flexible mean-variance relationship
+
+Tweedie distribution
+=====================
+
+```{r tweedie}
+library(tweedie)
+library(RColorBrewer)
+
+# tweedie
+y<-seq(0.01,5,by=0.01)
+pows <- seq(1.2, 1.9, by=0.1)
+
+fymat <- matrix(NA, length(y), length(pows))
+
+i <- 1
+for(pow in pows){
+  fymat[,i] <- dtweedie( y=y, power=pow, mu=2, phi=1)
+  i <- i+1
+}
+
+plot(range(y), range(fymat), type="n", ylab="Density", xlab="x", cex.lab=1.5,
+     main="")
+
+rr <- brewer.pal(8,"Dark2")
+
+for(i in 1:ncol(fymat)){
+  lines(y, fymat[,i], type="l", col=rr[i], lwd=2)
+}
+```
+***
+-  $\text{Var}\left(\text{count}\right) = \phi\mathbb{E}(\text{count})^q$
+- Common distributions are sub-cases:
+  - $q=1 \Rightarrow$ Poisson
+  - $q=2 \Rightarrow$ Gamma
+  - $q=3 \Rightarrow$ Normal
+- We are interested in $1 < q < 2$ 
+- (here $q = 1.2, 1.3, \ldots, 1.9$)
+
+Negative binomial
+==================
+
+```{r negbin}
+y<-seq(1,12,by=1)
+disps <- seq(0.001, 1, len=10)
+
+fymat <- matrix(NA, length(y), length(disps))
+
+i <- 1
+for(disp in disps){
+  fymat[,i] <- dnbinom(y, size=disp, mu=5)
+  i <- i+1
+}
+
+plot(range(y), range(fymat), type="n", ylab="Density", xlab="x", cex.lab=1.5,
+     main="")
+
+rr <- brewer.pal(8,"Dark2")
+
+for(i in 1:ncol(fymat)){
+  lines(y, fymat[,i], type="l", col=rr[i], lwd=2)
+}
+```
+***
+- $\text{Var}\left(\text{count}\right) =$ $\mathbb{E}(\text{count}) + \kappa \mathbb{E}(\text{count})^2$
+- Estimate $\kappa$
+- Is quadratic relationship a "strong" assumption?
+- Similar to Poisson: $\text{Var}\left(\text{count}\right) =\mathbb{E}(\text{count})$ 
+
+
+Smooth terms
+==================
+
+<div class="medq">
+$$
+n_j = A_j\hat{p}_j \exp\left[ \beta_0 + \color{red}{s(\text{y}_j) + s(\text{Depth}_j}) \right] + \epsilon_j
+$$
+</div>
+<br/>
+where $\epsilon_j \sim N(0, \sigma)$, $\quad n_j\sim$ count distribution
+
+
+Okay, but what about these "s" things?
+====================================
+
+```{r n-covar}
+spdat <- dsm.nb.xy$data
+spdat <- melt(spdat, id.vars = c("Sample.Label","count"), measure.vars = c("x","y"))
+p <- ggplot(spdat) +
+      geom_point(aes(y=count,x=value)) +
+      facet_wrap(~variable, ncol=1)
+print(p)
+```
+***
+- Think $s$=**smooth**
+- Want to model the covariates flexibly
+- Relation between covariates and response not linear!
+- Want some wiggles
+
+
+What is smoothing?
+===============
+type:section
+
+
+Straight lines vs. interpolation
+=================================
+
+```{r wiggles}
+library(mgcv)
+# hacked from the example in ?gam
+set.seed(2) ## simulate some data... 
+dat <- gamSim(1,n=50,dist="normal",scale=0.5, verbose=FALSE)
+dat$y <- dat$f2 + rnorm(length(dat$f2), sd = sqrt(0.5))
+f2 <- function(x) 0.2*x^11*(10*(1-x))^6+10*(10*x)^3*(1-x)^10-mean(dat$y)
+ylim <- c(-4,6)
+
+# fit some models
+b.justright <- gam(y~s(x2),data=dat)
+b.sp0 <- gam(y~s(x2, sp=0, k=50),data=dat)
+b.spinf <- gam(y~s(x2),data=dat, sp=1e10)
+
+curve(f2,0,1, col="blue", ylim=ylim)
+points(dat$x2, dat$y-mean(dat$y))
+
+```
+***
+- Want a line that is "close" to all the data
+- Don't want interpolation -- we know there is "error"
+- Balance between interpolation and "fit"
+
+Splines
+========
+
+- Smooths we use here are **splines**
+- Functions made of other, simpler functions
+- **Basis functions** $b_k$, estimate $\beta_k$ 
+- $s(x) = \sum_{k=1}^K \beta_k b_k(x)$
+- Makes the math(s) much easier
+
+<img src="images/addbasis.png">
+
+Measuring wigglyness
+======================
+
+- Visually:
+  - Lots of wiggles == NOT SMOOTH
+  - Straight line == VERY SMOOTH
+- How do we do this mathematically?
+  - Derivatives!
+  - (Calculus *was* a useful class afterall)
+
+
+
+Wigglyness by derivatives
+==========================
+
+```{r wigglyanim, results="hide"}
+library(numDeriv)
+f2 <- function(x) 0.2*x^11*(10*(1-x))^6+10*(10*x)^3*(1-x)^10
+
+xvals <- seq(0,1,len=100)
+
+plot_wiggly <- function(f2, xvals){
+
+  # pre-calculate
+  f2v <- f2(xvals)
+  f2vg <- grad(f2,xvals)
+  f2vg2 <- unlist(lapply(xvals, hessian, func=f2))
+  f2vg2min <- min(f2vg2) -2
+  
+  # now plot
+  for(i in 1:length(xvals)){
+    par(mfrow=c(1,3))
+    plot(xvals, f2v, type="l", main="function", ylab="f")
+    points(xvals[i], f2v[i], pch=19, col="red")
+    
+    plot(xvals, f2vg, type="l", main="derivative", ylab="df/dx")
+    points(xvals[i], f2vg[i], pch=19, col="red")
+    
+    plot(xvals, f2vg2, type="l", main="2nd derivative", ylab="d2f/dx2")
+    points(xvals[i], f2vg2[i], pch=19, col="red")
+    polygon(x=c(0,xvals[1:i], xvals[i],f2vg2min),
+            y=c(f2vg2min,f2vg2[1:i],f2vg2min,f2vg2min), col = "grey")
+    
+    ani.pause()
+  }
+}
+
+saveGIF(plot_wiggly(f2, xvals), "wiggly.gif", interval = 0.2, ani.width = 800, ani.height = 400)
+```
+
+![Animation of derivatives](wiggly.gif)
+
+Making wigglyness matter
+=========================
+
+- Integration of derivative gives wigglyness
+- Fit needs to be **penalised**
+- **Penalty matrix** gives the wigglyness 
+- Estimate the $\beta_k$ terms but penalise objective
+- "closeness to data" + penalty
+
+Penalty matrix
+===============
+
+- For each $b_k$ calculate the penalty
+- Penalty a function of $\beta$
+- Scale by a smoothing parameter to penalise
+- $\lambda \beta^\text{T}S\beta$
+
+Smoothing parameter
+=======================
+
+
+```{r wiggles-plot, fig.width=15}
+# make three plots, w. estimated smooth, truth and data on each
+par(mfrow=c(1,3), cex.main=3.5)
+
+plot(b.justright, se=FALSE, ylim=ylim, main="sp=\"just right\"")
+points(dat$x2, dat$y-mean(dat$y))
+curve(f2,0,1, col="blue", add=TRUE)
+
+plot(b.sp0, se=FALSE, ylim=ylim, main="sp=0") 
+points(dat$x2, dat$y-mean(dat$y))
+curve(f2,0,1, col="blue", add=TRUE)
+
+plot(b.spinf, se=FALSE, ylim=ylim, main="sp=Inf") 
+points(dat$x2, dat$y-mean(dat$y))
+curve(f2,0,1, col="blue", add=TRUE)
+```
+
+How wiggly are things?
+========================
+
+- We can set **basis complexity** or "size" ($k$)
+- Maximum wigglyness
+- After fitting, term has an **effective degrees of freedom** (EDF)
+- EDF < $k$
+- Set $k$ large enough and let the penalty deal with this
+
+Okay, that was a lot of theory...
+==================================
+type:section
+
+
+
+Fitting GAMs using dsm
+=========================
+type:section
+
+
+
+Translating maths into R
+==========================
+
+$$
+n_j = A_j\hat{p}_j \exp\left[ \beta_0 + s(\text{y}_j) \right] + \epsilon_j
+$$
+<br/>
+where $\epsilon_j \sim N(0, \sigma)$, $\quad n_j\sim$ count distribution
+<br/>
+- inside the link: `formula=count ~ s(y)`
+- response distribution: `family=nb()` or `family=tw()`
+- detectability: `ddf.obj=df_hr`
+- offset, data: `segment.data=segs, observation.data=obs` 
+
+
+Your first DSM
+===============
+
+```{r loaddat}
+load("../spermwhale-analysis/df-models.RData")
+load("../spermwhale-analysis/sperm-data.RData")
+```
+```{r firstdsm, echo=TRUE}
+library(dsm)
+dsm_x_tw <- dsm(count~s(x), ddf.obj=df_hr,
+                segment.data=segs, observation.data=obs,
+                family=tw(), method="REML")
+```
+
+(`method="REML"` uses REML to select the smoothing parameter)
+
+`dsm` is based on `mgcv` by Simon Wood
+
+What did that do?
+===================
+
+```{r echo=TRUE}
+summary(dsm_x_tw)
+```
+
+Plotting
+================
+
+```{r plotsmooth}
+plot(dsm_x_tw)
+```
+***
+- `plot(dsm_x_tw)`
+- Dashed lines indicate +/- 2 standard errors
+- Rug plot
+- On the link scale
+- EDF on $y$ axis
+
+
+Adding a term
+===============
+
+- Just use `+`
+```{r xydsm, echo=TRUE}
+dsm_xy_tw <- dsm(count ~ s(x) + s(y),
+                 ddf.obj=df_hr,
+                 segment.data=segs, observation.data=obs,
+                 family=tw(), method="REML")
+```
+
+Summary
+===================
+
+```{r echo=TRUE}
+summary(dsm_xy_tw)
+```
+
+Plotting
+================
+
+```{r plotsmooth-xy}
+plot(dsm_xy_tw, scale=0, pages=1)
+```
+***
+- `plot(dsm_xy_tw, scale=0, pages=1)`
+- `scale=0`: each plot on different scale
+- `pages=1`: plot together
+
+
+Bivariate terms
+================
+
+- Assumed an additive structure
+- No interaction
+- We can specify `s(x,y)`
+
+Thin plate regression splines
+================================
+
+- Basis functions we're using
+- One basis function per data point
+- Reduced (eigendecomposition)
+- Fitting on reduced problem
+- Multidimensional
+
+Thin plate splines
+====================
+
+<img src="images/tprs.png" alt="Thin plate regression spline basis functions">
+
+
+Bivariate term
+===============
+
+- Just use `+`
+```{r xy-biv-dsm, echo=TRUE}
+dsm_xyb_tw <- dsm(count ~ s(x, y),
+                 ddf.obj=df_hr,
+                 segment.data=segs, observation.data=obs,
+                 family=tw(), method="REML")
+```
+
+Summary
+===================
+
+```{r echo=TRUE}
+summary(dsm_xyb_tw)
+```
+
+Plotting... erm...
+================
+
+```{r plotsmooth-xy-biv}
+plot(dsm_xyb_tw)
+```
+
+Let's try something different
+===============================
+
+```{r visgam}
+vis.gam(dsm_xyb_tw, view=c("x","y"), plot.type="contour")
+```
+***
+- `vis.gam(dsm_xyb_tw, view=c("x","y"), plot.type="contour")`
+- Still on link scale
+- Much easier to understand
+
+
+Let's have a go ourselves...
+==============================
+type:section
+
