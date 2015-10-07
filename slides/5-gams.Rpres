@@ -11,6 +11,7 @@ Overview
 - What is smoothing?
 - How do GAMs work?
 - Fitting GAMs using `dsm`
+- Model checking
 
 ```{r setup, include=FALSE}
 library(knitr)
@@ -254,7 +255,7 @@ Wigglyness by derivatives
 
 ```{r wigglyanim, results="hide"}
 library(numDeriv)
-f2 <- function(x) 0.2*x^11*(10*(1-x))^6+10*(10*x)^3*(1-x)^10
+f2 <- function(x) 0.2*x^11*(10*(1-x))^6+10*(10*x)^3*(1-x)^10 - mean(dat$y)
 
 xvals <- seq(0,1,len=100)
 
@@ -297,14 +298,16 @@ Making wigglyness matter
 - **Penalty matrix** gives the wigglyness 
 - Estimate the $\beta_k$ terms but penalise objective
 - "closeness to data" + penalty
+- Use REstricted Maximum Likelihood (REML)
 
 Penalty matrix
 ===============
 
 - For each $b_k$ calculate the penalty
-- Penalty a function of $\beta$
-- Scale by a smoothing parameter to penalise
-- $\lambda \beta^\text{T}S\beta$
+- Penalty is a function of $\beta$
+  - $\lambda \beta^\text{T}S\beta$
+- $S$ calculated once
+- smoothing parameter ($\lambda$) dictates influence
 
 Smoothing parameter
 =======================
@@ -325,6 +328,7 @@ curve(f2,0,1, col="blue", add=TRUE)
 plot(b.spinf, se=FALSE, ylim=ylim, main="sp=Inf") 
 points(dat$x2, dat$y-mean(dat$y))
 curve(f2,0,1, col="blue", add=TRUE)
+
 ```
 
 How wiggly are things?
@@ -334,7 +338,7 @@ How wiggly are things?
 - Maximum wigglyness
 - After fitting, term has an **effective degrees of freedom** (EDF)
 - EDF < $k$
-- Set $k$ large enough and let the penalty deal with this
+- Set $k$ "large enough"
 
 Okay, that was a lot of theory...
 ==================================
@@ -437,14 +441,14 @@ Bivariate terms
 
 - Assumed an additive structure
 - No interaction
-- We can specify `s(x,y)`
+- We can specify `s(x,y)` (and `s(x,y,z,...)`)
 
 Thin plate regression splines
 ================================
 
-- Basis functions we're using
+- Default basis
 - One basis function per data point
-- Reduced (eigendecomposition)
+- Reduce # basis functions (eigendecomposition)
 - Fitting on reduced problem
 - Multidimensional
 
@@ -491,7 +495,121 @@ vis.gam(dsm_xyb_tw, view=c("x","y"), plot.type="contour")
 - Much easier to understand
 
 
-Let's have a go ourselves...
+
+
+Model checking
+===============
+type:section
+
+<br/>
+<br/>
+*"perhaps the most important part of applied statistical modelling"*
+
+Simon Wood
+
+Model checking
+===============
+
+- As with detection function, checking is important
+- Want to know the model conforms to assumptions
+- What assumptions should we check?
+
+What to check
+===============
+
+- Convergence (not usually an issue)
+- Basis size is big enough
+- Residuals
+
+
+Basis size
+===========
+type:section
+
+Basis size (k)
+===========
+
+- Should be able to make `k` as big as we need
+- e.g. `s(x, k=10)` or `s(x, y, k=100)`
+- Penalty removes "extra" wigglyness
+- (But computation is slower with bigger `k`)
+
+Checking basis size
+====================
+
+```{r gamcheck-text, fig.keep="none", echo=TRUE}
+gam.check(dsm_x_tw)
+```
+
+
+Increasing basis size
+====================
+
+```{r gamcheck-kplus-text, fig.keep="none", echo=TRUE}
+dsm_x_tw_k <- dsm(count~s(x, k=20), ddf.obj=df_hr,
+                  segment.data=segs, observation.data=obs,
+                  family=tw(), method="REML")
+gam.check(dsm_x_tw_k)
+```
+
+Sometimes basis size isn't the issue...
+========================================
+
+- Generally, double `k` and see what happens
+- Didn't increase the EDF much here
+- Other things can cause low "`p-value`" and "`k-index`"
+- Increasing `k` indefinitely causes problems (nullspace)
+
+
+Don't throw away your residuals!
+==================================
+type:section
+
+
+What are residuals?
+====================
+
+- Generally residuals = observed value - fitted value
+- BUT hard to see patterns in these "raw" residuals
+- Need to standardise -- **deviance residuals**
+- Residual sum of squares:linear model :: deviance:GAM
+- Expect these residuals $\sim N(0,1)$
+
+Residual checking
+===================
+
+```{r gamcheck, results="hide"}
+gam.check(dsm_x_tw)
+```
+
+Randomised quantile residuals
+==============================
+
+
+```{r rqgamcheck, results="hide"}
+rqgam.check(dsm_x_tw)
+```
+
+Residuals vs. covariates
+=========================
+
+```{r covar-resids, fig.width=12}
+library(statmod)
+par(mfrow=c(1,2))
+plot(dsm_x_tw$data$x, residuals(dsm_x_tw), ylab="Deviance residuals", xlab="x")
+environment(dsm_x_tw$family$variance)$p <- dsm_x_tw$family$getTheta(TRUE)
+plot(dsm_x_tw$data$x, qres.tweedie(dsm_x_tw), ylab="Randomised quantile residuals", xlab="x")
+```
+
+Residual checks
+================
+
+- Looking for patterns (not artifacts)
+- This can be tricky
+- Need to use a mixture of techniques
+
+
+Let's have a go...
 ==============================
 type:section
 
