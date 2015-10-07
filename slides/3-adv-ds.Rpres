@@ -104,6 +104,7 @@ What to check?
   - Our model is "lumpy"
 - "Goodness of fit"
   - Our model sucks statistically
+- (Other sampling assumptions are also important!)
   
 Convergence
 ============
@@ -116,7 +117,7 @@ Error in detfct.fit.opt(ddfobj, optim.options, bounds, misc.options) :
   No convergence.
 ```
 
-This can be **hard** see `?"mrds-opt"` for info.
+This can be **hard**, see `?"mrds-opt"` for info.
 
 
 Monotonicity
@@ -204,10 +205,16 @@ Detection function model selection
 Example: fitting detection functions
 ========================================
 
-```{r some-dfs, echo=TRUE}
+```{r some-dfs1, echo=TRUE}
 df_hn <- ds(distdata, truncation=6000, adjustment = NULL)
+```
+```{r some-dfs2, echo=TRUE}
 df_hn_cos <- ds(distdata, truncation=6000)
+```
+```{r some-dfs3, echo=TRUE}
 df_hr <- ds(distdata, truncation=6000, key="hr", adjustment = NULL)
+```
+```{r some-dfs4, echo=TRUE}
 df_hr_cos <- ds(distdata, key="hr",  truncation=6000)
 ```
 
@@ -313,9 +320,15 @@ What does detectability mean?
 Covariates in R
 ================
 
-```{r dfcovex, echo=TRUE}
-df_hr_ss <- ds(distdata, truncation=6000, key="hr", formula=~SeaState, adjustment=NULL)
-df_hr_ss_size <- ds(distdata, truncation=6000, key="hr", formula=~SeaState+size, adjustment=NULL)
+- Add `formula=...` to our `ds()` call:
+
+```{r dfcovex1, echo=TRUE}
+df_hr_ss <- ds(distdata, truncation=6000,
+               key="hr", formula=~SeaState)
+```
+```{r dfcovex2, echo=TRUE}
+df_hr_ss_size <- ds(distdata, truncation=6000,
+                    key="hr", formula=~SeaState+size)
 ```
 
 Summaries of covariate models
@@ -341,10 +354,13 @@ type: section
 What are groups?
 ==================
 
-- Animals occur in groups or clusters
-- What does that mean?
 - *Functional* definition (NO ecology!)
+  - If animals are near each other, they are in a group
 - This probably affects detectability
+  - Bigger groups $\Rightarrow$ easier to detect
+- Two inferential targets
+  - abundance of groups
+  - abundance of individuals
 
 
 Detection and groups
