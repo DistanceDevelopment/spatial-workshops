@@ -19,9 +19,7 @@ load("../spermwhale-analysis/df-models.RData")
 rm(df_hr, df_hr_ss)
 ```
 
-Here we'll look at:
-
-- Quadrats to line transects
+- Line transects
 - Simple estimates of abundance
 - Why is detectability important?
 - What is a detection function?
@@ -419,7 +417,7 @@ for(i in 1:5){
 ```
 ***
 - Animals can be attracted or repelled
-- Either leads to problems with distribution wrt line and measurement error
+- Problems with distribution wrt line and/or measurement error
 
 
 Detection functions
@@ -494,19 +492,29 @@ type: section
 Modelling strategy
 =============================
 
-- Pick some formulations, fit models
-- Evaluate if they violate the assumptions
-- Check models
-- Select models
-- Estimate $\hat{N}$
+1. Pick some formulations, fit models
+2. Check assumptions are violated
+3. Goodness of fit
+4. Select models
+5. Estimate $\hat{N}$ (and uncertainty!)
 
+
+Distance sampling data
+========================
+
+- Need to have data setup a certain way
+  - a `data.frame` with one row per observation
+  - at least 2 columns, named "`object`" and "`distance`"
+
+```{r}
+head(distdata[,c("distance","object","size", "SeaState")])
+```
 
 Fitting detection functions (in R!)
 ============================
 
 - Using the package `Distance`
-- Need to have data setup a certain way
-  - At least columns called `object`, `distance`
+- Function `ds()` does most of the work
 
 ```{r echo=TRUE}
 library(Distance)
@@ -533,14 +541,17 @@ plot(df_hr)
 Truncation
 ============
 
+```{r trunc}
+hist(distdata$distance, xlab="Distance (m)", main="")
+```
+***
 - We set `truncation=6000`, why?
 - Remove observations in the tail of the distribution
-- Such observation lead to bad model fit
-***
-```{r trunc}
-par(mfrow=c(1,2))
-hist(distdata$distance, xlab="Distance (m)")
-```
+- Such observations lead to bad model fit
+- Care about $g$ near 0!
+- Trade-off! (Here we use ~96% of the data)
+- Len Thomas suggests $g(w)\approx 0.15$
+
 
 Recap
 ========
