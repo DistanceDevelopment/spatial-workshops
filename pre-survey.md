@@ -5,6 +5,20 @@ author: David L Miller
 ---
 
 
+# Equipment
+
+* Will you bring your own laptop?
+* What kind of laptop?
+  * Mac
+  * Windows
+  * Linux
+* Will it have the following installed?
+  * R
+  * RStudio
+  * Packages
+  * ArcGIS
+  * MGET
+
 # Statistical experience
 
 * Have you performed a distance sampling survey before
@@ -54,4 +68,12 @@ author: David L Miller
   * Once a month
   * A few times a year
   * Once
+
+# Other
+
+- Where did you hear about the course?
+  - 
+
+
+
 
