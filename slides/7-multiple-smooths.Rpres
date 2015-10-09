@@ -223,8 +223,11 @@ type: section
 Nested vs. non-nested models
 ==============================
 
-- Selecting smooths in a model -- nested
-- Want to compare `s(x) + s(y)` and `s(x, y)`
+- Compare `~s(x)+s(depth)` with `~s(x)`
+  - nested models
+- What about `s(x) + s(y)` vs. `s(x, y)`
+  - don't want to have all these terms in the model
+  - not nested models
 
 Measures of "fit"
 ===================
@@ -266,6 +269,10 @@ qq.gam(dsm_all_tw, asp=1, main="Tweedie")
 qq.gam(dsm_x_nb, asp=1, main="Negative binomial")
 ```
 
+Recap
+=========
+type:section
+
 
 General strategy
 =================
@@ -277,6 +284,9 @@ For each response distribution and non-nested model structure:
 3. Remove terms that have been shrunk
 4. Remove non-significant terms
 
+Going back to concurvity
+==========================
+type:section
 
 Concurvity (model-term)
 =========================
@@ -321,6 +331,10 @@ vis.concurvity <- function(b, type="estimate"){
 vis.concurvity(dsm_all_tw)
 ```
 
+Path dependence
+==================
+type:section
+
 Sensitivity
 ============
 
@@ -359,8 +373,8 @@ Comparison of spatial effects
 
 ```{r sensitivity-vis, fig.width=12}
 par(mfrow=c(1,2))
-vis.gam(dsm_all_tw_rm, view=c("x","y"), plot.type="contour", main="Depth included", asp=1)
-vis.gam(dsm_no_depth, view=c("x","y"), plot.type="contour", main="No depth term", asp=1)
+vis.gam(dsm_all_tw_rm, view=c("x","y"), plot.type="contour", main="Depth included", asp=1, too.far=0.1, zlim=c(-6, 2))
+vis.gam(dsm_no_depth, view=c("x","y"), plot.type="contour", main="No depth term", asp=1, too.far=0.1, zlim=c(-6, 2))
 ```
 
 Sensitivity example
@@ -380,10 +394,10 @@ dsm_no_xy <- dsm(count~
                       family=tw(), method="REML")
 ```
 ```{r sensitivity-anova-noxy, fig.width=12}
-cat("# with xy")
-summary(dsm_all_tw_rm)$s.table
 cat("# without xy")
 summary(dsm_no_xy)$s.table
+cat("# with xy")
+summary(dsm_all_tw_rm)$s.table
 ```
 
 Comparison of depth terms
