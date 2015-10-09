@@ -89,16 +89,27 @@ Estimation of sperm whale abundance in the North Atlantic by NOAA:
   * Foster, S. D., & Bravington, M. V. (2012). A Poisson–Gamma model for analysis of ecological non-negative continuous data. Environmental and Ecological Statistics, 20(4), 533–552. http://doi.org/10.1007/s10651-012-0233-0
 * Comparison of negative binomial and quasi-Poisson
   * Ver Hoef, J. M., & Boveng, P. L. (2007). Quasi-Poisson vs. negative binomial regression: how should we model overdispersed count data? Ecology, 88(11), 2766–2772. http://doi.org/10.2307/25590942
+* Regarding negative binomial and the "quadratic assumption" in the variance. This is from "Zero-inflated models and generalized linear mixed models with R" by Zuur et al p. 78-79:
+  * *"We applied a Poisson GLM and GAM on the data and discovered overdispersion; therefore we applied NB GLM and GAM models. These were better, and the NB GAM seems satisfactory but the estimated value of k in the NB variance term is relatively small, meaning that the model is allowing for variance. In other words, the large overdispersion in the Poisson GLM (and GAM) is being captured by the quadratic variance term in the NB distribution. That is like shooting a mosquito with a cannon. It does the job if it kills the mosquito, but do we really need it? Perhaps there is a reason for the overdispersion, and hiding it behind a quadratic variance component may mean that we miss some important information. In the simulation study of chapter 2, we saw that if the data are zero-inflated, which can cause overdispersion, an NB GLM will give biased parameters."*
 
 
 ## Smooths
 
 * Section 4.1 of Wood (2006)
 * Within `mgcv` the `?smooth.terms` manual page lists all spline bases available in `mgcv` (and therefore `dsm`)
+* Figure of the thin plate spline basis functions adapted from Figure 4.6 of Wood (2006).
 
 ## Selecting basis size
 
 * Practical advice in `mgcv` `?choose.k` manual page
+
+
+## Checking
+
+- Paper on randomised quantile residuals
+  - Dunn, P. K., & Smyth, G. K. (1996). Randomized Quantile Residuals. Journal of Computational and Graphical Statistics, 5(3), 236–244. http://doi.org/10.1080/10618600.1996.10474708
+- Spatial model checking plots using deviance residuals ([preprint](http://converged.yt/papers/SPMMZ.pdf))
+  * Marra, G., Miller, D. L., & Zanin, L. (2011). Modelling the spatiotemporal distribution of the incidence of resident foreign population. Statistica Neerlandica, 66(2), 133–160. http://doi.org/10.1111/j.1467-9574.2011.00500.x
 
 
 

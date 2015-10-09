@@ -192,7 +192,7 @@ print(p)
 ***
 - Think $s$=**smooth**
 - Want to model the covariates flexibly
-- Relation between covariates and response not linear!
+- Covariates and response not necessarily linearly related!
 - Want some wiggles
 
 
@@ -230,7 +230,6 @@ points(dat$x2, dat$y-mean(dat$y))
 Splines
 ========
 
-- Smooths we use here are **splines**
 - Functions made of other, simpler functions
 - **Basis functions** $b_k$, estimate $\beta_k$ 
 - $s(x) = \sum_{k=1}^K \beta_k b_k(x)$
@@ -293,12 +292,11 @@ saveGIF(plot_wiggly(f2, xvals), "wiggly.gif", interval = 0.2, ani.width = 800, a
 Making wigglyness matter
 =========================
 
-- Integration of derivative gives wigglyness
+- Integration of derivative (squared) gives wigglyness
 - Fit needs to be **penalised**
 - **Penalty matrix** gives the wigglyness 
 - Estimate the $\beta_k$ terms but penalise objective
-- "closeness to data" + penalty
-- Use REstricted Maximum Likelihood (REML)
+  - "closeness to data" + penalty
 
 Penalty matrix
 ===============
@@ -335,8 +333,8 @@ How wiggly are things?
 ========================
 
 - We can set **basis complexity** or "size" ($k$)
-- Maximum wigglyness
-- After fitting, term has an **effective degrees of freedom** (EDF)
+  - Maximum wigglyness
+- Smooths have **effective degrees of freedom** (EDF)
 - EDF < $k$
 - Set $k$ "large enough"
 
@@ -344,13 +342,9 @@ Okay, that was a lot of theory...
 ==================================
 type:section
 
-
-
 Fitting GAMs using dsm
 =========================
 type:section
-
-
 
 Translating maths into R
 ==========================
@@ -427,11 +421,9 @@ summary(dsm_xy_tw)
 Plotting
 ================
 
-```{r plotsmooth-xy}
+```{r plotsmooth-xy, fig.width=12, echo=TRUE}
 plot(dsm_xy_tw, scale=0, pages=1)
 ```
-***
-- `plot(dsm_xy_tw, scale=0, pages=1)`
 - `scale=0`: each plot on different scale
 - `pages=1`: plot together
 
@@ -452,16 +444,15 @@ Thin plate regression splines
 - Fitting on reduced problem
 - Multidimensional
 
-Thin plate splines
+Thin plate splines (2-D)
 ====================
 
-<img src="images/tprs.png" alt="Thin plate regression spline basis functions">
+<img src="images/tprs.png" alt="Thin plate regression spline basis functions. Taken from Wood 2006.">
 
 
-Bivariate term
-===============
+Bivariate spatial term
+=======================
 
-- Just use `+`
 ```{r xy-biv-dsm, echo=TRUE}
 dsm_xyb_tw <- dsm(count ~ s(x, y),
                  ddf.obj=df_hr,
@@ -486,17 +477,14 @@ plot(dsm_xyb_tw)
 Let's try something different
 ===============================
 
-```{r visgam}
-vis.gam(dsm_xyb_tw, view=c("x","y"), plot.type="contour")
+```{r visgam, echo=TRUE}
+vis.gam(dsm_xyb_tw, view=c("x","y"), plot.type="contour", too.far=0.1, asp=1)
 ```
-***
-- `vis.gam(dsm_xyb_tw, view=c("x","y"), plot.type="contour")`
 - Still on link scale
-- Much easier to understand
+- `too.far` excludes points far from data
 
-
-Comparing bivariate and additive
-=================================
+Comparing bivariate and additive models
+========================================
 
 ```{r xy-x-y, fig.width=15}
 dsm_xy_nb <- dsm(count~s(x,y),
@@ -508,12 +496,9 @@ dsm_x_y_nb <- dsm(count~s(x) +s(y),
                   segment.data=segs, observation.data=obs,
                   family=nb(), method="REML")
 par(mfrow=c(1,2))
-vis.gam(dsm_xy_nb, plot.type = "contour", view=c("x","y"),zlim = c(-11,1))
-vis.gam(dsm_x_y_nb, plot.type = "contour", view=c("x","y"),zlim = c(-11,1))
+vis.gam(dsm_xy_nb, plot.type = "contour", view=c("x","y"), zlim = c(-11,1), too.far=0.1, asp=1)
+vis.gam(dsm_x_y_nb, plot.type = "contour", view=c("x","y"), zlim = c(-11,1), too.far=0.1, asp=1)
 ```
-
-
-
 
 Model checking
 ===============
@@ -547,7 +532,7 @@ type:section
 Basis size (k)
 ===========
 
-- Should be able to make `k` as big as we need
+- Set `k` per term
 - e.g. `s(x, k=10)` or `s(x, y, k=100)`
 - Penalty removes "extra" wigglyness
 - (But computation is slower with bigger `k`)
@@ -576,7 +561,7 @@ Sometimes basis size isn't the issue...
 - Generally, double `k` and see what happens
 - Didn't increase the EDF much here
 - Other things can cause low "`p-value`" and "`k-index`"
-- Increasing `k` indefinitely causes problems (nullspace)
+- Increasing `k` can cause problems (nullspace)
 
 
 Don't throw away your residuals!
@@ -600,11 +585,23 @@ Residual checking
 gam.check(dsm_x_tw)
 ```
 
+Shortcomings
+=============
+
+- `gam.check` left side can be helpful
+- Right side is victim of artifacts
+- Need an alternative
+- "Randomised quanitle residuals" (*experimental*)
+  - `rqgam.check`
+  - Exactly normal residuals (left side useless)
+
+
+
 Randomised quantile residuals
 ==============================
 
 
-```{r rqgamcheck, results="hide"}
+```{r rqgamcheck}
 rqgam.check(dsm_x_tw)
 ```
 
@@ -617,6 +614,25 @@ par(mfrow=c(1,2))
 plot(dsm_x_tw$data$x, residuals(dsm_x_tw), ylab="Deviance residuals", xlab="x")
 environment(dsm_x_tw$family$variance)$p <- dsm_x_tw$family$getTheta(TRUE)
 plot(dsm_x_tw$data$x, qres.tweedie(dsm_x_tw), ylab="Randomised quantile residuals", xlab="x")
+```
+
+Residuals vs. covariates (boxplots)
+=========================
+
+```{r covar-resids-boxplot, fig.width=12}
+library(statmod)
+par(mfrow=c(1,2))
+
+resid_dat <- data.frame(x     = dsm_x_tw$data$x,
+                        x_cut = cut(dsm_x_tw$data$x,
+                                    seq(min(dsm_x_tw$data$x),
+                                        max(dsm_x_tw$data$x),
+                                        len=20)),
+                        dres  = residuals(dsm_x_tw),
+                        qres  = qres.tweedie(dsm_x_tw))
+
+plot(dres~x_cut, data=resid_dat, ylab="Deviance residuals", xlab="x")
+plot(qres~x_cut, data=resid_dat, ylab="Randomised quantile residuals", xlab="x")
 ```
 
 Residual checks
