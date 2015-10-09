@@ -82,13 +82,35 @@ Estimation of sperm whale abundance in the North Atlantic by NOAA:
   * Shono, H. (2008). Application of the Tweedie distribution to zero-catch data in CPUE analysis. Fisheries Research, 93(1-2), 154–162. http://doi.org/10.1016/j.fishres.2008.03.006
   * Foster, S. D., & Bravington, M. V. (2012). A Poisson–Gamma model for analysis of ecological non-negative continuous data. Environmental and Ecological Statistics, 20(4), 533–552. http://doi.org/10.1007/s10651-012-0233-0
 * Comparison of negative binomial and quasi-Poisson
-  * Ver Hoef, J. M., & Boveng, P. L. (2007). Quasi-Poisson vs. negative binomial regression: how should we model overdispersed count data? Ecology, 88(11), 2766–2772. http://doi.org/10.2307/25590942?ref=no-x-route:d86e373bdecc7806949603494b3d220a
+  * Ver Hoef, J. M., & Boveng, P. L. (2007). Quasi-Poisson vs. negative binomial regression: how should we model overdispersed count data? Ecology, 88(11), 2766–2772. http://doi.org/10.2307/25590942
 
 
-## Smoothing
+## Smooths
 
 * Section 4.1 of Wood (2006)
 * Within `mgcv` the `?smooth.terms` manual page lists all splines available in `mgcv` (and therefore `dsm`)
+
+## Selecting basis size
+
+* Practical advice in `mgcv` `?choose.k` manual page
+
+
+
+# Multiple smooths and model selection
+
+- That great quote from Tobler is from:
+  * Tobler, W. (1970). A computer movie simulating urban growth in the Detroit region. Economic Geography, 46(2), 234-240.
+- Paper about shrinkage selection in GAMs
+  - Marra, G., & Wood, S. N. (2011). Practical variable selection for generalized additive models. Computational Statistics and Data Analysis, 55(7), 2372–2387. http://doi.org/10.1016/j.csda.2011.02.004
+- Approximate $p$-values:
+  - Marra, G., & Wood, S. N. (2012). Coverage Properties of Confidence Intervals for Generalized Additive Model Components. Scandinavian Journal of Statistics, 39(1), 53–74. http://doi.org/10.1111/j.1467-9469.2011.00760.x
+* Explanation of deviance for GLMs
+  * Wood (2006) p. 70
+* REML for smoothness selection
+  - Wood, S. N. (2011). Fast stable restricted maximum likelihood and marginal likelihood estimation of semiparametric generalized linear models. Journal of the Royal Statistical Society: Series B (Statistical Methodology), 73(1), 3–36. http://doi.org/10.1111/j.1467-9868.2010.00749.x
+  - Reiss, P. T., & Ogden, R. T. (2009). Smoothing parameter selection for a class of semiparametric linear models. Journal of the Royal Statistical Society: Series B (Statistical Methodology), 71(2), 505–523.
+* Example sensitivity analysis for DSMs, appendix of this paper ([preprint available on DLM's website](http://converged.yt/papers/auk_winiarskietal_051013.pdf)
+  * Winiarski, K. J., Burt, M. L., Rexstad, E., Miller, D. L., Trocki, C. L., Paton, P. W. C., & McWilliams, S. R. (2014). Integrating aerial and ship surveys of marine birds into a combined density surface model: A case study of wintering Common Loons. The Condor, 116(2), 149–161. http://doi.org/10.1650/CONDOR-13-085.1
 
 
 

@@ -7,14 +7,21 @@
   -moz-hyphens: none;
 }
 
+.reveal pre{
+  width: 100%;
+  font-size: 0.51em;
+}
+
 .reveal pre code {
   font-size: 1.2em;
 }
 
 div.bigq {
  font-size: 200%;
+ line-height: normal;
 }
 
 div.medq {
  font-size: 150%;
+ line-height: normal;
 }

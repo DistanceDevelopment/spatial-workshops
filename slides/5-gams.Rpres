@@ -495,6 +495,24 @@ vis.gam(dsm_xyb_tw, view=c("x","y"), plot.type="contour")
 - Much easier to understand
 
 
+Comparing bivariate and additive
+=================================
+
+```{r xy-x-y, fig.width=15}
+dsm_xy_nb <- dsm(count~s(x,y),
+                 ddf.obj=df_hr,
+                 segment.data=segs, observation.data=obs,
+                 family=nb(), method="REML")
+dsm_x_y_nb <- dsm(count~s(x) +s(y),
+                  ddf.obj=df_hr,
+                  segment.data=segs, observation.data=obs,
+                  family=nb(), method="REML")
+par(mfrow=c(1,2))
+vis.gam(dsm_xy_nb, plot.type = "contour", view=c("x","y"),zlim = c(-11,1))
+vis.gam(dsm_x_y_nb, plot.type = "contour", view=c("x","y"),zlim = c(-11,1))
+```
+
+
 
 
 Model checking

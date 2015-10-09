@@ -19,7 +19,8 @@ In case I forget about these things:
 # R/RStudio cheatsheet
 
 * [R for cats](http://rforcats.net/) is a good introduction to R
-* RStudio cheatsheets
+* [RStudio cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
+* [Intro to `ggplot2`](http://www.noamross.net/blog/2012/10/5/ggplot-introduction.html)
 * RStudio project files
   - Make a "project" per project
   * Keep all files in that folder
