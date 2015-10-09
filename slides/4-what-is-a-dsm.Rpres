@@ -234,6 +234,10 @@ Horvitz-Thompson estimates
 - Effort (area) is segment length
 - "Estimated abundance"
 
+$$
+\hat{n}_j = \sum_{i \text{ in segment } j } \frac{s_i}{p_j}
+$$
+
 Detectability and covariates
 =============================
 
@@ -253,10 +257,10 @@ When to use each approach?
 Availability/perception/etc
 =============================
 
-- Availability & perception bias is dealt with here
+- Availability & perception bias via $\hat{p}$
 - $\hat{p} = \hat{p}_\text{availability}\hat{p}_\text{perception}\hat{p}_\text{detection}$
 - Not going to cover this much here
-
+- See bibliography for more info
 
 
 DSM flow diagram
@@ -288,7 +292,7 @@ type:section
 What do we need?
 ===================
 
-- As with H-T estimation, need to link data
+- Need to "link" data
 - Distance data/detection function
 - Segment data
 - Observation data to link segments to detections
