@@ -69,6 +69,12 @@ Estimation of sperm whale abundance in the North Atlantic by NOAA:
   - Hedley, S. L., & Buckland, S. T. (2004). Spatial models for line transect sampling. Journal of Agricultural, Biological, and Environmental Statistics, 9(2), 181–199. http://doi.org/10.1198/1085711043578
 - Update to that paper ~10 years on (open access)
   - Miller, D. L., Burt, M. L., Rexstad, E. A., & Thomas, L. (2013). Spatial models for distance sampling data: recent developments and future directions. Methods in Ecology and Evolution, 4(11), 1001–1010. http://doi.org/10.1111/2041-210X.12105
+* Perception bias modelling (mark-recapture distance sampling)
+  * Burt, M. L., Borchers, D. L., Jenkins, K. J., & Marques, T. A. (2014). Using mark-recapture distance sampling methods on line transect surveys. Methods in Ecology and Evolution, 5(11), 1180–1191. http://doi.org/10.1111/2041-210X.12294
+* Availability by simple correction
+  * Winiarski, K. J., Burt, M. L., Rexstad, E., Miller, D. L., Trocki, C. L., Paton, P. W. C., & McWilliams, S. R. (2014). Integrating aerial and ship surveys of marine birds into a combined density surface model: A case study of wintering Common Loons. The Condor, 116(2), 149–161. http://doi.org/10.1650/CONDOR-13-085.1
+
+
 
 # 5. Generalized additive models
 
@@ -88,7 +94,7 @@ Estimation of sperm whale abundance in the North Atlantic by NOAA:
 ## Smooths
 
 * Section 4.1 of Wood (2006)
-* Within `mgcv` the `?smooth.terms` manual page lists all splines available in `mgcv` (and therefore `dsm`)
+* Within `mgcv` the `?smooth.terms` manual page lists all spline bases available in `mgcv` (and therefore `dsm`)
 
 ## Selecting basis size
 
@@ -96,7 +102,7 @@ Estimation of sperm whale abundance in the North Atlantic by NOAA:
 
 
 
-# Multiple smooths and model selection
+# 7. Multiple smooths and model selection
 
 - That great quote from Tobler is from:
   * Tobler, W. (1970). A computer movie simulating urban growth in the Detroit region. Economic Geography, 46(2), 234-240.
