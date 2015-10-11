@@ -60,7 +60,7 @@ General strategy (What did we assume?)
 - Find density/abundance in *covered area*
   - *Estimator is "good"*
 - Multiply up to get abundance
-  - *Uniform distribution outside covered area*
+  - *Sample is representative*
   
 Plot sampling
 ========================================================
@@ -161,7 +161,7 @@ Detectability matters!
 
 - We've assumed certain detection so far
 - This rarely happens IRL
-- Distance to the line is important
+- Distance to the **line** is important
   - (Other things too, more on that later)
   - Detectability should decrease with increasing distance
 
@@ -228,6 +228,7 @@ hist(detected_distances, main="", xlab="Distance",breaks=seq(0,max(detected_dist
 ```
 ***
 - Now we recorded distances, what do they look like?
+- "Fold" distribution over, left/right doesn't matter
 - Drop-off in # observations w. increasing distance
 
 
@@ -283,6 +284,7 @@ Summary: line transects
 
 - Efficient survey design
 - Relax the assumption of perfect detection
+- Exchange assumptions for data
 - More information = better inference
 
 Assumptions
@@ -534,8 +536,8 @@ Plotting models
 
 ```{r fig.width=13}
 par(mfrow=c(1,2))
-plot(df_hn)
-plot(df_hr)
+plot(df_hn, showpoints=FALSE)
+plot(df_hr, showpoints=FALSE)
 ```
 
 Truncation
@@ -547,8 +549,7 @@ hist(distdata$distance, xlab="Distance (m)", main="")
 ***
 - We set `truncation=6000`, why?
 - Remove observations in the tail of the distribution
-- Such observations lead to bad model fit
-- Care about $g$ near 0!
+- **Care about $g$ near 0!**
 - Trade-off! (Here we use ~96% of the data)
 - Len Thomas suggests $g(w)\approx 0.15$
 
@@ -562,8 +563,10 @@ type: section
 Distance sampling
 ======================
 
-- More efficient sampling
+- More efficient sampling 
+  - No census
 - Collect additional information
+  - Distances
 - Estimate detection
 - Use $\mathbb{P}(\text{detection})$ to correct counts
 
