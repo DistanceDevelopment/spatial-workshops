@@ -26,7 +26,7 @@ Line transects - general idea
   - using detection function ($g(x)$)
 - $\hat{p} = \int_0^w \frac{1}{w} g(x; \hat{\theta}) dx$
 - $\frac{1}{w}$ tells us about assumed density wrt line
-  - *uniform* from the line
+  - *uniform* from the line (out to $w$)
 
 ```{r pi-y, fig.width=20, echo=FALSE}
 par(mfrow=c(1,3))
@@ -91,9 +91,9 @@ Here we'll look at:
 Why check models?
 ==================
 
-- We made some assumptions
-- Were we right to do so?
 - AIC best model can still be a terrible model
+- AIC only measures **relative** fit
+- Don't know if the model gives "sensible" answers
 
 What to check?
 ===============
@@ -117,7 +117,7 @@ Error in detfct.fit.opt(ddfobj, optim.options, bounds, misc.options) :
   No convergence.
 ```
 
-This can be **hard**, see `?"mrds-opt"` for info.
+This can be complicated, see `?"mrds-opt"` for info.
 
 
 Monotonicity
@@ -150,11 +150,14 @@ ddf.gof(df_hn$ddf)
 ```
 ddf.gof(df_hn$ddf)
 ```
+* Check fitted distribution of distances matches empirical
+* # distances below distance vs. # observations below given cumulative probability
 
 Goodness of fit
 =================
 
 - As well as quantile-quantile plot, tests
+- Absolute measure of fit (vs. AIC)
 - Kolmogorov-Smirnov: largest distance on Q-Q plot
 - Cramer-von Mises: tests sum of distances
 
@@ -209,13 +212,13 @@ Example: fitting detection functions
 df_hn <- ds(distdata, truncation=6000, adjustment = NULL)
 ```
 ```{r some-dfs2, echo=TRUE}
-df_hn_cos <- ds(distdata, truncation=6000)
+df_hn_cos <- ds(distdata, truncation=6000, adjustment = "cos")
 ```
 ```{r some-dfs3, echo=TRUE}
 df_hr <- ds(distdata, truncation=6000, key="hr", adjustment = NULL)
 ```
 ```{r some-dfs4, echo=TRUE}
-df_hr_cos <- ds(distdata, key="hr",  truncation=6000)
+df_hr_cos <- ds(distdata, key="hr",  truncation=6000, adjustment = "cos")
 ```
 
 Plotting those models
@@ -291,9 +294,9 @@ How do we include covariates?
 
 ```{r dfcovs, fig.width=15}
 par(mfrow=c(1,2))
-plot(df_hr_ss)
+plot(df_hr_ss, main="Sea state")
 df_hr_size <- ds(distdata, truncation=6000, key="hr", formula=~size, adjustment=NULL)
-plot(df_hr_size)
+plot(df_hr_size, main="Size")
 ```
 
 Covariates in the scale
@@ -341,6 +344,10 @@ summary(df_hr_ss)
 "Average p"
 ==============
 
+$$
+p(\mathbf{z}_i) = \int_0^w g(x; \boldsymbol{\theta}, \mathbf{z}_i) dx \quad \text{for } i=1, \ldots, n
+$$
+
 ```{r dfcovavgp, echo=TRUE}
 unique(predict(df_hr_ss$ddf)$fitted)
 ```
@@ -363,8 +370,8 @@ What are groups?
   - abundance of individuals
 
 
-Detection and groups
-=======================
+Detection and group size
+=========================
 
 ```{r groupcovs}
 gcov <- data.frame(p    = predict(df_hr_ss$ddf)$fitted,
@@ -377,6 +384,11 @@ p <- ggplot(gcov, aes(x=size, y=p), alpha=0.7)+
       xlab("Group size") + ylab("Detectability") + ylim(0,1)
 print(p)
 ```
+***
+- Not a huge change here
+- Bigger effect for animals that occur in large groups
+  - Seabirds
+  - Dolphins
 
 
 Estimating abundance
@@ -396,7 +408,7 @@ $$
 $$
 </div>
 
-where $s_i$ is group size
+where $s_i$ is group size, $n$ is number of *observations* (groups)
 
 Estimating uncertainty
 ===========================================
@@ -421,7 +433,7 @@ Uncertainty from sampling
 
 - Usually calculate *encounter rate* variance
 - Encounter rate is $n/L$
-- (Effectively an average, so there is uncertainty)
+- (Measure of spatial variability $\Rightarrow$ uncertainty)
 - "Objects per unit length of transect surveyed"
 - Fewster et al. (2009) is the definitive reference
 
@@ -439,7 +451,7 @@ Obtain overall CV by adding squared CVs:
 
 <div style="font-size:150%">
 $$
-\text{CV}^2\left( \hat{D} \right) = \text{CV}^2\left( \frac{n}{L} \right) + \text{CV}^2\left( \hat{p}\right)
+\text{CV}^2\left( \hat{D} \right) \approx \text{CV}^2\left( \frac{n}{L} \right) + \text{CV}^2\left( \hat{p}\right)
 $$
 </div>
 
@@ -543,12 +555,20 @@ Abundance:
 
 More investigation in the practical exercises...
 
-What about making the region smaller?
-=======================================
+From that summary...
+======================
 
-```{r plottablesagain, messages=FALSE, results="hide"}
-print(p)
-```
+- Individuals observed: $n = 238.7$
+- Covered area: $a = 113,981,689,066m^2$
+- Study area: $A = 5.285\times 10^{11}m^2$
+- Detectability: $\hat{p}=0.3625$
+
+So
+
+$$
+\hat{N}= \frac{n}{\hat{p}} \frac{A}{a} = 3053.558 
+$$
+
 
 Recap
 ======

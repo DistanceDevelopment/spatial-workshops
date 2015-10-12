@@ -39,6 +39,8 @@ Estimation of sperm whale abundance in the North Atlantic by NOAA:
 
 # 3. Advanced distance sampling
 
+- Goodness of fit testing for detection functions
+  - Chapter 11, section 11 of Buckland, S. T., Anderson, D. R., Burnham, K. P., Laake, J. L., Borchers, D. L., & Thomas, L. (2004). Advanced Distance Sampling. Oxford University Press, Oxford, UK.
 
 ## Abundance estimation
 
@@ -59,8 +61,8 @@ Estimation of sperm whale abundance in the North Atlantic by NOAA:
 
 ## Group size
 
-* Group size uncertainty
-* Something about the ETP dolphins?
+* **Group size uncertainty**
+* **Something about the ETP dolphins?**
 
 
 # 4. What is a DSM?
