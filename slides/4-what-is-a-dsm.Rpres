@@ -20,7 +20,7 @@ opts_chunk$set(cache=TRUE, echo=FALSE)
 - Use more information
 - Greater explanatory power
 - Spatially explicit estimates (of abundance and uncertainty)
-- (Often) variance reduction
+- Variance reduction
 
 Extra information
 ========================================================
@@ -74,6 +74,8 @@ p <- ggplot(plotobs)+
        xlab("Depth") + ylab("Aggregated counts")
 print(p)
 ```
+***
+- NB this only shows segments where counts > 0
 
 Extra information - SST
 ============================================
@@ -98,6 +100,8 @@ p <- ggplot(plotobs)+
        xlab("SST") + ylab("Aggregated counts")
 print(p)
 ```
+***
+- NB this only shows segments where counts > 0
 
 
 blah
@@ -119,9 +123,9 @@ Modelling outputs
 
 - Abundance and uncertainty
   - Arbitrary areas
-  - Extrapolation
   - Numeric values
   - Maps
+  - Extrapolation (with caution!)
 - Covariate effects
   - count/sample as function of covars
 
@@ -135,7 +139,6 @@ Modelling requirements
 - Explicit spatial terms
 - Interpretable effects
 - Predictions over an arbitrary area
-- Fast to fit
 - Theoretical basis for model validation
 - Include our detectability information
 
@@ -152,9 +155,9 @@ print(p_maptr)
 ```
 ***
 - Have transects
-- Clearly there will be variation along them
+- Variation in counts and covars along them
 - Want a sample unit w/ minimal variation
-- "Segments" -- approx. square chunks of transect
+- "Segments" -- approx. square chunks of effort
 
 
 Chopping up transects
@@ -195,10 +198,11 @@ Predictions over an arbitrary area
 
 ```{r predplot}
 load("../spermwhale-analysis/predgrid.RData")
-p <- ggplot(predgrid)
-p <- p + geom_tile(aes(x=x, y=y, fill=Nhat, width=10*1000, height=10*1000))
-p <- p + coord_equal()
-p <- p + scale_fill_viridis()
+p <- ggplot(predgrid) + 
+      geom_tile(aes(x=x, y=y, fill=Nhat, width=10*1000, height=10*1000)) +
+      coord_equal() +
+      labs(fill="Density")+
+      scale_fill_viridis()
 print(p)
 ```
 ***
@@ -231,8 +235,8 @@ Horvitz-Thompson estimates
 ===========================
 
 - Estimate H-T abundance per segment
-- Effort (area) is segment length
-- "Estimated abundance"
+- Effort is area of each segment
+- "Estimated abundance" per segment
 
 $$
 \hat{n}_j = \sum_{i \text{ in segment } j } \frac{s_i}{p_j}
@@ -244,7 +248,7 @@ Detectability and covariates
 - 2 covariate "levels" in detection function
   - "Observer"/"observation" -- change **within** transect
   - "Segment" -- change **between** segments
-- "Estimated abundance" lets us to use observer-level covariates in detection function
+- "Estimated abundance" lets us use observer-level covariates in detection function
 - "Count model" only lets us use segment-level covariates
 
 When to use each approach?
@@ -279,13 +283,13 @@ Abundance as a function of covariates
 
 - Two approaches to model abundance
 - Explicit spatial models
-  - Good coverage, fixed area
-- "Habitat" models
-  - Poorer coverage, extrapolation
+  - When: Good coverage, fixed area
+- "Habitat" models (no explicit spatial terms)
+  - When: Poorer coverage, extrapolation
 - We'll cover both approaches here
 
 
-What do we need to begin modelling?
+Data requirements
 =====================================
 type:section
 

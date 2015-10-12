@@ -169,11 +169,9 @@ for(i in 1:ncol(fymat)){
 Smooth terms
 ==================
 
-<div class="medq">
 $$
 n_j = A_j\hat{p}_j \exp\left[ \beta_0 + \color{red}{s(\text{y}_j) + s(\text{Depth}_j}) \right] + \epsilon_j
 $$
-</div>
 <br/>
 where $\epsilon_j \sim N(0, \sigma)$, $\quad n_j\sim$ count distribution
 
@@ -315,15 +313,15 @@ Smoothing parameter
 # make three plots, w. estimated smooth, truth and data on each
 par(mfrow=c(1,3), cex.main=3.5)
 
-plot(b.justright, se=FALSE, ylim=ylim, main="sp=\"just right\"")
+plot(b.justright, se=FALSE, ylim=ylim, main=expression(lambda*plain("= just right")))
 points(dat$x2, dat$y-mean(dat$y))
 curve(f2,0,1, col="blue", add=TRUE)
 
-plot(b.sp0, se=FALSE, ylim=ylim, main="sp=0") 
+plot(b.sp0, se=FALSE, ylim=ylim, main=expression(lambda*plain("=")*0))
 points(dat$x2, dat$y-mean(dat$y))
 curve(f2,0,1, col="blue", add=TRUE)
 
-plot(b.spinf, se=FALSE, ylim=ylim, main="sp=Inf") 
+plot(b.spinf, se=FALSE, ylim=ylim, main=expression(lambda*plain("=")*infinity)) 
 points(dat$x2, dat$y-mean(dat$y))
 curve(f2,0,1, col="blue", add=TRUE)
 
@@ -496,8 +494,8 @@ dsm_x_y_nb <- dsm(count~s(x) +s(y),
                   segment.data=segs, observation.data=obs,
                   family=nb(), method="REML")
 par(mfrow=c(1,2))
-vis.gam(dsm_xy_nb, plot.type = "contour", view=c("x","y"), zlim = c(-11,1), too.far=0.1, asp=1)
-vis.gam(dsm_x_y_nb, plot.type = "contour", view=c("x","y"), zlim = c(-11,1), too.far=0.1, asp=1)
+vis.gam(dsm_xy_nb, plot.type = "contour", view=c("x","y"), zlim = c(-11,1), too.far=0.1, asp=1, main="Bivariate")
+vis.gam(dsm_x_y_nb, plot.type = "contour", view=c("x","y"), zlim = c(-11,1), too.far=0.1, asp=1, main="Additive")
 ```
 
 Model checking
@@ -535,6 +533,7 @@ Basis size (k)
 - Set `k` per term
 - e.g. `s(x, k=10)` or `s(x, y, k=100)`
 - Penalty removes "extra" wigglyness
+  - *up to a point!*
 - (But computation is slower with bigger `k`)
 
 Checking basis size
@@ -575,7 +574,8 @@ What are residuals?
 - Generally residuals = observed value - fitted value
 - BUT hard to see patterns in these "raw" residuals
 - Need to standardise -- **deviance residuals**
-- Residual sum of squares:linear model :: deviance:GAM
+- Residual sum of squares $\Rightarrow$ linear model
+  - deviance $\Rightarrow$ GAM
 - Expect these residuals $\sim N(0,1)$
 
 Residual checking
@@ -634,6 +634,16 @@ resid_dat <- data.frame(x     = dsm_x_tw$data$x,
 plot(dres~x_cut, data=resid_dat, ylab="Deviance residuals", xlab="x")
 plot(qres~x_cut, data=resid_dat, ylab="Randomised quantile residuals", xlab="x")
 ```
+
+Example of "bad" plots
+=======================
+
+![Bad residual check plot from Wood 2006](images/badgam.png)
+
+Example of "bad" plots
+=======================
+
+![Bad residual check plot from Wood 2006](images/badgam-annotate.png)
 
 Residual checks
 ================
