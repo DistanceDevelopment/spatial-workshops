@@ -39,7 +39,7 @@ Ecology is not univariate
 - Many variables affect distribution
 - Want to model the **right** ones
 - Select between possible models
-  - Term selection
+  - Smooth term selection
   - Response distribution
 - Large literature on model selection
 
@@ -71,21 +71,20 @@ Covariates are not only correlated (linearly) but also "concurve"
 What can we do about this?
 ===========================
 
-- Careful inclusion of terms
+- Careful inclusion of smooths
 - Fit models using robust criteria (REML)
 - Test for concurvity
 - Test for sensitivity
 
-Models with multiple terms
+Models with multiple smooths
 ===========================
 type:section
 
-
-Adding terms
-=============
+Adding smooths
+===============
 
 - Already know that `+` is our friend
-- Add everything then remove terms?
+- Add everything then remove smooth terms?
 
 ```{r add-term, echo=TRUE}
 dsm_all_tw <- dsm(count~s(x, y, bs="ts") +
@@ -103,7 +102,7 @@ Now we have a huge model, what do we do?
 =========================================
 type: section
 
-Term selection
+Smooth term selection
 ================
 
 - Classically two main approaches:
@@ -114,7 +113,7 @@ Term selection
 Removing terms by shrinkage
 =============================
 
-- Remove terms using a penalty (shrink the EDF)
+- Remove smooths using a penalty (shrink the EDF)
 - Basis `"ts"` - thin plate splines with shrinkage
 - "Automatic"
 
@@ -131,8 +130,8 @@ Let's employ a mixture of these techniques
 ===========================================
 type: section
 
-How do we select terms?
-========================
+How do we select smooth terms?
+===============================
 
 1. Look at EDF
   - Terms with EDF<1 may not be useful
@@ -140,12 +139,12 @@ How do we select terms?
 2. Remove non-significant terms by $p$-value
   - Decide on a significance level and use that as a rule
 
-Example term selection
-=========================
+Example of selection
+======================
 type: section
 
-Selecting terms
-================
+Selecting smooth terms
+========================
 
 ```{r add-term-summary}
 summary(dsm_all_tw)
@@ -178,8 +177,8 @@ plot(dsm_all_tw_nots, pages=1, scale=0)
 ```
 
 
-Let's remove some terms & refit
-=================================
+Let's remove some smooth terms & refit
+=======================================
 
 ```{r add-term-rm-terms, echo=TRUE}
 dsm_all_tw_rm <- dsm(count~s(x, y, bs="ts") +
@@ -216,6 +215,17 @@ dsm_all_tw_rm <- dsm(count~s(x, y, bs="ts") +
 summary(dsm_all_tw_rm)
 ```
 
+General strategy
+=================
+
+For each response distribution and non-nested model structure:
+
+1. Build a model with the smooths you want
+2. Make sure that smooths are flexible enough (`k=...`)
+3. Remove smooths that have been shrunk
+4. Remove non-significant smooths
+
+
 Comparing models
 =================
 type: section
@@ -226,7 +236,7 @@ Nested vs. non-nested models
 - Compare `~s(x)+s(depth)` with `~s(x)`
   - nested models
 - What about `s(x) + s(y)` vs. `s(x, y)`
-  - don't want to have all these terms in the model
+  - don't want to have all these in the model
   - not nested models
 
 Measures of "fit"
@@ -246,7 +256,8 @@ A quick note about REML scores
 - Use REML to select the smoothness
 - Can also use the score to do model selection
 - **BUT** only compare models with the same fixed effects
-- **All terms** must be `bs="ts"`
+  - (i.e. same "linear terms" in the model)
+- $\Rightarrow$ **All terms** must be penalised (e.g. `bs="ts"`)
 - Alternatively set `select=TRUE` in `gam()`
 
 
@@ -269,26 +280,13 @@ qq.gam(dsm_all_tw, asp=1, main="Tweedie")
 qq.gam(dsm_x_nb, asp=1, main="Negative binomial")
 ```
 
-Recap
-=========
-type:section
-
-
-General strategy
-=================
-
-For each response distribution and non-nested model structure:
-
-1. Build a model with the smooths you want
-2. Make sure that smooths are flexible enough (`k=...`)
-3. Remove terms that have been shrunk
-4. Remove non-significant terms
-
 Going back to concurvity
 ==========================
 type:section
 
-Concurvity (model-term)
+"How much can one smooth be approximated by one or more other smooths?"
+
+Concurvity (model/smooth)
 =========================
 
 ```{r concurvity, echo=TRUE}
@@ -296,8 +294,8 @@ concurvity(dsm_all_tw)
 ```
 
 
-Concurvity between terms
-==========================
+Concurvity between smooths
+===========================
 
 ```{r concurvity-all, echo=TRUE}
 concurvity(dsm_all_tw, full=FALSE)$estimate
@@ -330,6 +328,10 @@ vis.concurvity <- function(b, type="estimate"){
 
 vis.concurvity(dsm_all_tw)
 ```
+***
+- Previous matrix output visualised
+- Diagonal/lower triangle left out for clarity
+- High values (yellow) = BAD
 
 Path dependence
 ==================
@@ -338,11 +340,17 @@ type:section
 Sensitivity
 ============
 
-- What if there are highly concurve terms?
+- General path dependency?
+- What if there are highly concurve smooths?
 - Is the model is sensitive to them?
-- Fit variations excluding terms that are concurve
+
+
+What can we do?
+=================
+
+- Fit variations excluding smooths
+  - Concurve terms that are excluded early on
 - Appendix of Winiarski et al (2014) has an example
-- (Often there's not much difference)
 
 
 Sensitivity example
@@ -373,8 +381,8 @@ Comparison of spatial effects
 
 ```{r sensitivity-vis, fig.width=12}
 par(mfrow=c(1,2))
-vis.gam(dsm_all_tw_rm, view=c("x","y"), plot.type="contour", main="Depth included", asp=1, too.far=0.1, zlim=c(-6, 2))
-vis.gam(dsm_no_depth, view=c("x","y"), plot.type="contour", main="No depth term", asp=1, too.far=0.1, zlim=c(-6, 2))
+vis.gam(dsm_all_tw_rm, view=c("x","y"), plot.type="contour", main="s(x,y) + s(Depth)", asp=1, too.far=0.1, zlim=c(-6, 2))
+vis.gam(dsm_no_depth, view=c("x","y"), plot.type="contour", main="s(x,y)+s(EKE)+s(NPP)", asp=1, too.far=0.1, zlim=c(-6, 2))
 ```
 
 Sensitivity example
@@ -400,8 +408,8 @@ cat("# with xy")
 summary(dsm_all_tw_rm)$s.table
 ```
 
-Comparison of depth terms
-===========================
+Comparison of depth smooths
+============================
 
 ```{r sensitivity-depth, fig.width=12}
 par(mfrow=c(1,2))
@@ -411,10 +419,11 @@ plot(dsm_no_xy, select=2, ylim=c(-5,5))
 
 Comparing those three models...
 ================================
-left:40%
 
 ```{r sensitivity-table, results="asis"}
-sens <- data.frame(Name     = c("full", "no depth", "no xy"),
+sens <- data.frame(Name     = c("`s(x,y) + s(Depth)`",
+                                "`s(x,y)+s(EKE)+s(NPP)`",
+                                "`s(SST)+s(Depth)`"),
                    Rsq      = c(summary(dsm_all_tw_rm)$r.sq,
                                 summary(dsm_no_depth)$r.sq,
                                 summary(dsm_no_xy)$r.sq),
@@ -422,13 +431,13 @@ sens <- data.frame(Name     = c("full", "no depth", "no xy"),
                                 summary(dsm_no_depth)$dev.expl,
                                 summary(dsm_no_xy)$dev.expl))
 sens$Deviance <- sens$Deviance*100
-sens[,2:3] <- round(sens[,2:3],4)
+sens[,2] <- round(sens[,2],4)
+sens[,3] <- round(sens[,3],2)
 
 kable(sens)
 ```
-***
 - "Full" model still explains most deviance
-- No depth model requires spatial term to "mop up" extra variation
+- No depth model requires spatial smooth to "mop up" extra variation
 - We'll come back to this when we do prediction
 
 
@@ -441,8 +450,8 @@ type: section
 Recap
 =======
 
-- Adding terms
-- Removing terms
+- Adding smooths
+- Removing smooths
   - $p$-values
   - shrinkage
 - Comparing models
