@@ -115,6 +115,12 @@ Estimation of sperm whale abundance in the North Atlantic by NOAA:
 
 
 
+# 6. Covariates
+
+* Can we trust GIS
+  * Foster, S. D., Shimadzu, H., & Darnell, R. (2012). Uncertainty in spatially predicted covariates: is it ignorable? Journal of the Royal Statistical Society: Series C (Applied Statistics), 61(4), 637–652. http://doi.org/10.1111/j.1467-9876.2011.01030.x
+
+
 # 7. Multiple smooths and model selection
 
 - That great quote from Tobler is from:
