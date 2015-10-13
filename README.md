@@ -13,3 +13,9 @@ Files related to new workshops for spatial modelling of distance data (and maybe
 - `spermwhale_analysis` contains DLM's quick analysis of the sperm whale data, all related data files
 
 
+# Tools
+
+* Slides are built using `reveal.js` in RStudio with default templates and settings.
+- PDF version of the HTML slides were created using [`decktape`](https://github.com/astefanutti/decktape) using the command `~/sources/decktape/bin/phantomjs ~/sources/decktape/decktape.js automatic -s 1024x768 file.html file.pdf` if `~/sources/decktape` is where you cloned the `decktape` repo from.
+
+
