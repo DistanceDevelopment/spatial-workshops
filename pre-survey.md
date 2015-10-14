@@ -69,10 +69,31 @@ author: David L Miller
   * A few times a year
   * Once
 
+
+# Intentions
+
+* Do you intend to conduct a distance sampling survey in the future?
+* Do you intend to analyse previously collected data?
+* What is the source of the previously collected data (tick all that apply)?
+  * University collection
+  * Private company
+  - State government
+  * Federal government
+  * Other
+
+
 # Other
 
 - Where did you hear about the course?
-  - 
+  - ECOLOG
+  - MARMAM
+  - Distance sampling mailing list
+  - DEL website
+  - DEL mailing
+  - Hierarchical modelling mailing list
+  - unmarked mailing list
+
+
 
 
 
