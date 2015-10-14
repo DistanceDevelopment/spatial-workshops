@@ -1,0 +1,246 @@
+Estimating variance
+========================================
+author: David L Miller
+css: custom.css
+
+
+Now we can make predictions
+=============================
+type:section
+
+Now we are dangerous.
+
+
+```{r setup, include=FALSE}
+library(knitr)
+library(magrittr)
+library(viridis)
+library(ggplot2)
+library(reshape2)
+library(dsm)
+library(animation)
+opts_chunk$set(cache=TRUE, echo=FALSE)
+load("../spermwhale-analysis/count-models.RData")
+load("../spermwhale-analysis/sperm-data.RData")
+load("../spermwhale-analysis/df-models.RData")
+load("../spermwhale-analysis/predgrid.RData")
+# fit a quick model from previous exericises
+dsm_all_tw_rm <- dsm(count~s(x, y, bs="ts") +
+                           s(Depth, bs="ts"),
+                     ddf.obj=df_hr,
+                     segment.data=segs, observation.data=obs,
+                     family=tw(), method="REML")
+```
+
+
+Predictions are useless without uncertainty
+============================================
+
+- We are doing statistics
+- We want to know about **uncertainty**
+- This is the most useful part of the analysis
+
+What do we want the uncertainty for?
+======================================
+
+- Variance of total abundance
+- Map of uncertainty (coefficient of variation)
+
+
+Where does uncertainty come from?
+==================================
+type:section
+
+Sources of uncertainty
+=======================
+
+- Detection function
+- GAM parameters
+
+
+Let's think about smooths first
+================================
+type:section
+
+Uncertainty in smooths
+========================
+
+- Dashed lines are +/- 2 standard errors
+- How do we translate to $\hat{N}$?
+
+```{r twmod-unc-smooth, fig.width=15}
+plot(dsm.tw, pages=1, scale=0)
+```
+
+
+Back to bases
+===============
+
+- Before we expressed smooths as:
+  - $s(x) = \sum_{k=1}^K \beta_k b_k(x)$
+- Theory tells us that:
+  - $\boldsymbol{\beta} \sim N(\boldsymbol{\hat{\beta}}, \mathbf{V}_\boldsymbol{\beta})$
+  - where $\mathbf{V}_\boldsymbol{\beta}$ is a bit complicated
+- Apply parameter variance to $\hat{N}$
+
+Predictions to prediction variance (roughly)
+================================================
+
+- "map" data onto fitted values $\mathbf{X}\boldsymbol{\beta}$
+- "map" prediction matrix to predictions $\mathbf{X}_p \boldsymbol{\beta}$
+- Here $\mathbf{X}_p$ need to take smooths into account
+- pre-/post-multiply by $\mathbf{X}_p$ to "transform variance"
+  - $\Rightarrow \mathbf{X}_p^\text{T}\mathbf{V}_\boldsymbol{\beta} \mathbf{X}_p$
+  - link scale, need to do another transform for response
+
+
+Adding in detection functions
+===============================
+type:section
+
+GAM + detection function uncertainty
+=====================================
+
+(Getting a little fast-and-loose with the mathematics)
+
+From previous lectures we know:
+
+<div style="font-size:150%">
+$$
+\text{CV}^2\left( \hat{N} \right) \approx \text{CV}^2\left( \text{GAM} \right) +\\
+\text{CV}^2\left( \text{detection function}\right)
+$$
+</div>
+
+Not that simple...
+====================
+
+- Assumes detection function and GAM are **independent**
+- Maybe this is okay?
+
+A better way (for some models)
+===============================
+
+- Include the detectability as a "fixed" term in GAM
+- Mean effect is zero
+- Variance effect included
+- Uncertainty "propagated" through the model
+- Details in bibliography (too much to detail here)
+
+That seemed complicated...
+===========================
+type:section
+
+R to the rescue
+=================
+type:section
+
+In R...
+=========
+
+- Functions in `dsm` to do this
+- `dsm.var.gam`
+  - assumes spatial model and detection function are independent
+- `dsm.var.prop`
+  - propagates uncertainty from detection function to spatial model
+  - only works for `count` models (more or less)
+  
+Variance of abundance
+======================
+
+Using `dsm.var.prop`
+
+```{r, var-tot-abund, echo=TRUE}
+dsm_tw_var <- dsm.var.prop(dsm_all_tw_rm, predgrid, off.set=predgrid$off.set)
+summary(dsm_tw_var)
+```
+
+Variance of abundance
+======================
+
+Now using `dsm.var.gam`
+
+```{r, var-tot-abund-gam, echo=TRUE}
+dsm_tw_var_ind <- dsm.var.gam(dsm_all_tw_rm, predgrid, off.set=predgrid$off.set)
+summary(dsm_tw_var_ind)
+```
+
+Plotting
+=========
+
+- Calculate uncertainty per-cell
+- Need to split data
+- Need `width` and `height` for plotting
+
+Plotting (code)
+=================
+
+```{r var-map-split, echo=TRUE}
+predgrid$width <- predgrid$height <- 10*1000
+predgrid_split <- split(predgrid, 1:nrow(predgrid))
+head(predgrid_split,3)
+dsm_tw_var_map <- dsm.var.prop(dsm_all_tw_rm, predgrid_split, 
+                               off.set=predgrid$off.set)
+```
+
+CV plot
+========
+
+```{r plotit}
+p <- plot(dsm_tw_var_map, observations=FALSE, plot=FALSE) + 
+      coord_equal() +
+      scale_fill_viridis()
+print(p)
+```
+***
+```
+p <- plot(dsm_tw_var_map, observations=FALSE, plot=FALSE) + 
+      coord_equal() +
+      scale_fill_viridis()
+print(p)
+```
+
+Interpreting CV plots
+======================
+
+- Plotting coefficient of variation
+- Standardise standard deviation by mean
+- $\text{CV} = \text{se}(\hat{N})/\hat{N}$ (per cell)
+- Can be useful to overplot survey effort
+
+Effort overplotted
+=====================
+
+```{r loadtracks, results="hide"}
+library(rgdal)
+tracksEN <- readOGR("../spermwhale-analysis/Analysis.gdb", "EN_Trackline1")
+tracksGU <- readOGR("../spermwhale-analysis/Analysis.gdb", "GU_Trackline")
+study_proj4 <- CRS("+proj=aea +lat_1=38 +lat_2=30 +lat_0=34 +lon_0=-73 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 ")
+tracksEN <- spTransform(tracksEN, study_proj4)
+tracksGU <- spTransform(tracksGU, study_proj4)
+tracksEN <- fortify(tracksEN)
+tracksGU <- fortify(tracksGU)
+```
+```{r plottracks, cache=FALSE}
+library(ggplot2)
+p <- plot(dsm_tw_var_map, observations=FALSE, plot=FALSE) + 
+      coord_equal() +
+      scale_fill_viridis() +
+      geom_path(aes(x=long,y=lat, group=group), colour="orange", data=tracksEN) + 
+      geom_path(aes(x=long,y=lat, group=group), colour="red", data=tracksGU)
+print(p)
+```
+
+
+
+Recap
+======
+
+- How does uncertainty arise in a DSM?
+- Estimate variance of abundance estimate
+- Map coefficient of variation
+
+
+Let's try that!
+=================
+type:section
