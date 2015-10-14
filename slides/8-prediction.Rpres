@@ -1,7 +1,6 @@
 Making predictions
 ========================================
 author: David L Miller
-transition: rotate
 css: custom.css
 
 
@@ -26,7 +25,6 @@ load("../spermwhale-analysis/count-models.RData")
 load("../spermwhale-analysis/sperm-data.RData")
 load("../spermwhale-analysis/df-models.RData")
 load("../spermwhale-analysis/predgrid.RData")
-library(dsm)
 # fit a quick model from previous exericises
 dsm_all_tw_rm <- dsm(count~s(x, y, bs="ts") +
                            s(Depth, bs="ts"),
