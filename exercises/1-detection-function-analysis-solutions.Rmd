@@ -1,0 +1,334 @@
+---
+title: 'Exercise 1 solutions: Detection function analysis'
+author: David L Miller
+
+---
+
+# Aims
+
+By the end of this exercise you should feel confident doing the following:
+
+- Loading data from ArcGIS `.gdb` files
+- Working on a `data.frame` in R to get it into the correct format for `Distance`
+- Fitting a detection function using `ds()`
+- Checking detection functions
+- Making at goodness of fit plots
+- Selecting models using AIC
+- Estimating abundance using `dht()`
+
+
+# Preamble
+
+First need to load the requisite R libraries
+
+```{r load-libraries, messages=FALSE}
+library(rgdal)
+library(ggplot2)
+library(Distance)
+library(knitr)
+```
+
+# Load the data
+
+The observations are located in a "geodatabase" we created in Arc. We want to pull out the "Sightings" table (called a "layer") and make it into a `data.frame` (so that it's easier for R to manipulate).
+
+```{r load-data}
+distdata <- readOGR("Analysis.gdb", layer="Sightings")
+distdata <- as.data.frame(distdata)
+```
+
+
+We can check it has the correct format using `head`:
+```{r disthead}
+head(distdata)
+```
+
+The `Distance` package expects certain column names to be used. Renaming is much easier to do in R than ArcGIS, so we do it here.
+```{r rename-cols}
+distdata$distance <- distdata$Distance
+distdata$object <- distdata$SightingID
+distdata$Sample.Label <- distdata$SegmentID
+distdata$size <- distdata$GroupSize
+```
+Let's see what we did:
+```{r disthead2}
+head(distdata)
+```
+We now have four "extra" columns.
+
+# Exploratory analysis
+
+Before setting off fitting detection functions, let's look at the relationship of various variables in the data.
+
+*Don't worry too much about understanding the code that generates these plots at the moment.*
+
+## Distances
+
+Obviously, the most important covariate in a distance sampling analysis is distance itself. We can plot a histogram of the distances to check that (1) we imported the data correctly and (2) it conforms to the usual shape for line transect data.
+
+```{r eda-dist}
+hist(distdata$distance, xlab="Distance (m)", main="Distance to sperm whale observations")
+```
+
+
+## Size and distance
+
+We might expect that there will be a relationship between the distance at whcih we see animals and the size of the groups observed (larger groups are easier to see at larger distances), so let's plot that to help us visualise the relationship.
+
+
+```{r eda-covars}
+# plot of size versus distance and sea state vs distance, linear model and LOESS smoother overlay
+
+# put the data into a simple format, only selecting what we need
+distplot <- distdata[,c("distance","size","SeaState")]
+names(distplot) <- c("Distance", "Size", "Beaufort")
+library(reshape2)
+# "melt" the data to have only three columns (try head(distplot))
+distplot <- melt(distplot, id.vars="Distance", value.name="covariate")
+
+# make the plot
+p <- ggplot(distplot, aes(x=covariate, y=Distance)) +
+      geom_point() +
+      facet_wrap(~variable, scale="free") +
+      geom_smooth(method="loess", se=FALSE) +
+      geom_smooth(method="lm", se=FALSE) +
+      labs(x="Covariate value", y="Distance (m)")
+print(p)
+```
+
+## Distance and sea state
+
+We might also expect that increaing sea state would result in a drop in observations. We can plot histograms of distance for each sea state level (making the sea state take only values 0,1,2,4,5 for this).
+
+```{r eda-dist-facet-seastate}
+distdata$SeaStateCut <- cut(distdata$SeaState,seq(0,5,by=1), include.lowest=TRUE)
+p <- ggplot(distdata) +
+      geom_histogram(aes(distance)) +
+      facet_wrap(~SeaStateCut) +
+      labs(x="Distance (m)", y="Count")
+print(p)
+```
+
+## Survey effect
+
+Given we are including data from two different surveys we can also investigate the relationship between survey and distances observed.
+
+```{r eda-dist-facet-survey}
+p <- ggplot(distdata) +
+      geom_histogram(aes(distance)) +
+      facet_wrap(~Survey) +
+      labs(x="Distance (m)", y="Count")
+print(p)
+```
+
+# Fitting detection functions
+
+Here we fit all possible detection function models with half-normal and hazard-rate functions using each combination of covariates. This is somewhat brute force.
+
+We'll store all the models in a list that we can then iterate over later.
+
+```{r df-models}
+models <- list()
+
+# half-normal models
+models$hn <- ds(distdata, truncation=6000, adjustment=NULL)
+models$hn.ss <- ds(distdata, truncation=6000, adjustment=NULL, formula=~SeaState)
+models$hn.size <- ds(distdata, truncation=6000, adjustment=NULL, formula=~size)
+models$hn.ss.size <- ds(distdata, truncation=6000, adjustment=NULL, formula=~size+SeaState)
+models$hn.survey <- ds(distdata, truncation=6000, adjustment=NULL, formula=~as.factor(Survey))
+models$hn.survey.ss <- ds(distdata, truncation=6000, adjustment=NULL, formula=~as.factor(Survey)+SeaState)
+models$hn.survey.size <- ds(distdata, truncation=6000, adjustment=NULL, formula=~as.factor(Survey)+size)
+models$hn.survey.size.ss <- ds(distdata, truncation=6000, adjustment=NULL, formula=~as.factor(Survey)+size+SeaState)
+
+# hazard-rate models
+models$hr <- ds(distdata, truncation=6000, adjustment=NULL, key="hr")
+models$hr.ss <- ds(distdata, truncation=6000, adjustment=NULL, formula=~SeaState, key="hr")
+models$hr.size <- ds(distdata, truncation=6000, adjustment=NULL, formula=~size, key="hr")
+models$hr.ss.size <- ds(distdata, truncation=6000, adjustment=NULL, formula=~size+SeaState, key="hr")
+models$hr.survey <- ds(distdata, truncation=6000, adjustment=NULL, formula=~as.factor(Survey), key="hr")
+models$hr.survey.ss <- ds(distdata, truncation=6000, adjustment=NULL, formula=~as.factor(Survey)+SeaState, key="hr")
+models$hr.survey.size <- ds(distdata, truncation=6000, adjustment=NULL, formula=~as.factor(Survey)+size, key="hr")
+models$hr.survey.size.ss <- ds(distdata, truncation=6000, adjustment=NULL, formula=~as.factor(Survey)+size+SeaState, key="hr")
+```
+
+
+# Model selection
+
+This code will make a results table with relevant statistics for model selection in it.
+
+```{r support-make-table}
+make_table <- function(models){
+
+  # this function extracts the model data for a single model (row)
+  extract_model_data <- function(model){
+    c(summary(model)$ds$key,
+      model$ddf$ds$aux$ddfobj$scale$formula,
+      model$ddf$criterion,
+      ddf.gof(model$ddf, qq=FALSE)$dsgof$CvM$p,
+      summary(model)$ds$average.p,
+      summary(model)$ds$average.p.se
+    )
+  }
+
+  # applying that to all the models then putting it into a data.frame
+  res <- as.data.frame(t(as.data.frame(lapply(models, extract_model_data))),
+                        stringsAsFactors=FALSE)
+
+  # making sure the correct columns are numeric
+  res[,3] <- as.numeric(res[,3])
+  res[,4] <- as.numeric(res[,4])
+  res[,5] <- as.numeric(res[,5])
+  res[,6] <- as.numeric(res[,6])
+
+  # giving the columns names
+  colnames(res) <- c("Key function", "Formula", "AIC", "Cramer-von Mises $p$-value",
+                     "$\\hat{P_a}$", "se($\\hat{P_a}$)")
+
+  # creating a new column for the AIC difference to the best model
+  res[["$\\Delta$AIC"]] <- res$AIC - min(res$AIC, na.rm=TRUE)
+  # ordering the model by AIC score
+  res <- res[order(res$AIC),]
+
+  # returning the data.frame
+  return(res)
+}
+```
+
+Here is the resulting table from the code above, made using the `kable` function from `knitr`:
+
+```{r df-results, results="asis"}
+model_table <- make_table(models)
+kable(model_table, digits=3)
+```
+
+The four best models are `r rownames(model_table)[1:4]`
+
+We can plot the best 4 models:
+
+```{r plot-top-models, fig.width=6, fig.height=6}
+par(mfrow=c(2,2))
+plot(models$hr.ss, main="hr.ss")
+plot(models$hr, main="hr")
+plot(models$hr.survey.ss, main="hr.survey.ss")
+plot(models$hn.ss, main="hn.ss")
+```
+
+and produce the corresponding quantile-quantile plots and goodness of fit test results
+
+```{r qqplot-top-models, fig.width=6, fig.height=6}
+par(mfrow=c(2,2))
+ddf.gof(models$hr.ss$ddf, main="hr.ss")
+ddf.gof(models$hr$ddf, main="hr")
+ddf.gof(models$hr.survey.ss$ddf, main="hr.survey.ss")
+ddf.gof(models$hn.ss$ddf, main="hn.ss")
+```
+
+(that was a lot of output, we can get rid of that by setting `results="hide"` in the chunk above).
+
+From that it looks like the "best" mode by AIC and by goodness of fit is a hazard-rate model with Beaufort sea state as a covariate. But note that there is a considerable spike in the distance data. This may be down to observers guarding the trackline (spending too much time searching near zero distance). It's therefore possible that the hazard-rate model is overfitting to this peak. So we can investigate results from the half-normal model too.
+
+
+## Estimating abundance
+
+Just for fun, let's estimate abundance from these models using a Horvtiz-Thompson-type estimator.
+
+We know the Horvitz-Thompson estimator has the following form:
+$$
+\hat{N} = \frac{A}{a} \sum_{i=1}^n \frac{s_i}{p_i}
+$$
+we can calculate each part of this equation in R:
+
+First we need to load the effort data from the geodatabase, this is in the "Segments" table. We can then use this to build the "`sample.table`"
+
+*Don't worry too much about understanding this code!*
+
+```{r get-sample-table}
+# load the segment data
+segs <- readOGR("Analysis.gdb", "Segments")
+# convert to data.frame
+segs <- as.data.frame(segs)
+
+# remove unused columns
+segs$Shape_Length <- NULL
+segs$BeginTime <- NULL
+segs$CenterTime <- NULL
+segs$EndTime <- NULL
+segs$FIRST_Survey <- NULL
+
+library(plyr)
+
+# make a copy of the segs data.frame, remove segment ID
+segs2 <- segs
+segs2$SegmentID <- NULL
+
+# sum the length per transect
+sample.table <- ddply(segs2, .(EffortDayID), summarize, Transect.Length=sum(Length))
+# give the columns the right names
+names(sample.table) <- c("Sample.Label", "Effort")
+sample.table$Region.Label <- "StudyArea"
+```
+
+The total area of the study area is $A=5.285e+11 m^2$, we can use that to construct the region table, with one region in it:
+```{r get-region-table}
+region.table <- data.frame(Region.Label = "StudyArea",
+                           Area         = 5.285e+11)
+```
+
+Finally we can construct the observation table to link the samples to the detection function. This involves taking each distance data entry and finding the corresponding observation segment entry.
+```{r get-obs-table}
+# set the segment labels
+segs$Sample.Label <- segs$SegmentID
+
+# join the segment data onto the distance data
+obs.table <- join(distdata, segs, by="Sample.Label")
+distdata$Sample.Label <- NULL
+obs.table$Sample.Label <- obs.table$EffortDayID
+obs.table <- obs.table[,c("object","Sample.Label")]
+obs.table$Region.Label <- "StudyArea"
+```
+
+Now we can call teh `dht` function that will estimate the abundance for us, given the tables we've constructed:
+```{r ht}
+Nhat_hr.ss <- dht(models$hr.ss$ddf, region.table, sample.table, obs.table)
+Nhat_hr.ss
+```
+
+We can also use the `hn.ss` model to get an abundance estimate for that model too:
+```{r ht-cov}
+Nhat_hn.ss <- dht(models$hn.ss$ddf, region.table, sample.table, obs.table)
+Nhat_hn.ss
+```
+
+As we can see, there is a definite difference between the abundance estimates for these two models.
+
+### Accounting for perception bias
+
+From Palka (2006), we think that observations on the track line were such that $g(0)=0.46$, we can apply that correction to our abundance estimate (in a very primitive way):
+
+```{r ht-perception}
+Nhat_hr.ss$individuals$N$Estimate/0.46
+```
+
+```{r ht-cov-perception}
+Nhat_hn.ss$individuals$N$Estimate/0.46
+```
+
+This kind of correction works fine when we have a single number to adjust by, in general we'd like to model the perception bias using "mark-recapture distance sampling" techniques.
+
+## Save model objects
+
+Let's save our top four models (`hr.ss`, `hr`, `hr.survey.ss` and `hn.ss`) in the RData format, so we can load them up later on.
+
+```{r save-models}
+df_hr_ss <- models$hr.ss
+df_hr_survey_ss <- models$hr.survey.ss
+df_hr <- models$hr
+df_hn_ss <- models$hn.ss
+save(df_hr_ss, df_hr_survey_ss, df_hr, df_hn_ss,
+     distdata, region.table, sample.table, obs.table,
+     file="df-models.RData")
+```
+
+## References
+
+Palka, D. (2006). Summer Abundance Estimates of Cetaceans in US North Atlantic Navy Operating Areas. Northeast Fisheries Science Center Reference Document 06-03. [Available online here](http://www.nefsc.noaa.gov/nefsc/publications/crd/crd1229/crd1229.pdf)
