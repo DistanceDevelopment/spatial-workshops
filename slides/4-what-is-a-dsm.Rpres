@@ -238,7 +238,7 @@ Horvitz-Thompson estimates
 - "Estimated abundance" per segment
 
 $$
-\hat{n}_j = \sum_{i \text{ in segment } j } \frac{s_i}{p_j}
+\hat{n}_j = \sum_{i \text{ in segment } j } \frac{s_i}{\hat{p}_i}
 $$
 
 Detectability and covariates
