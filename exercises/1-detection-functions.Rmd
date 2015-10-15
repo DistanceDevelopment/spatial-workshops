@@ -274,6 +274,7 @@ Try out estimating abundance using the formula below using both `df_hn` and your
 
 ```
 
+Note that in the solutions to this exercise (posted on the course website) I show how to use the function `dht()` to estimate abundance (and uncertainty) for a detection function analysis. This involves some more complex data manipulation steps, so we've left it out here in favour of getting to grips with the mathematics.
 
 ### Accounting for perception bias
 
