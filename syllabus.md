@@ -21,12 +21,12 @@ This document defines the syllabus for the *"Spatial modelling of distance sampl
 
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------
-Day/Time     Objective                   0900-1030                  1045-1215                  1315-1445                  1500-1630                
+Day/Time     Objective                   0900-1030                  1045-1215                  1315-1445                  1500-1630
 -----------  --------------------------  -------------------------  -------------------------  -------------------------  -------------------------
 Tuesday      Fit detection function,     **Classroom:**             **Lab:**                   **Classroom:**             **Lab:**
              estimate abundance with     Welcome, intro to          Introduce example data,    DS covariates, variance,   DS practicals
              Horvitz-Thompson            distance sampling (DS)     get sightings into ArcGIS  model checking and
-                                                                    and R                      selection, 
+                                                                    and R                      selection,
                                                                                                Horvitz-Thompson
 
 Wednesday    Fit and check a density     **Classroom:**             **Lab:**                   **Classroom:**             **Lab:**
@@ -45,20 +45,23 @@ Friday       Produce maps of predicted   **Lab:**                   **Lab:**    
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-**NB when scheduling:** (from Laura)
+NB when scheduling: (from Laura)
 
   * The ICL has a class in it on Tuesday/Thursday, from 1:20-2:40 pm,that cannot be moved. Could you please schedule a topic for these times that would not require computing?
   * Due to another Tuesday/Thursday class that begins at 4:40 pm, we’re being requested to end by 4:30 pm on those days (in computer room).
 
 
-To fit in:
+--------------------------------------------------------------------------------------------------------
+Day/Time         0900-1030              1045-1215              1315-1445              1500-1630
+-----------  ---------------------  ---------------------  ---------------------  ----------------------
+Tuesday      <img src="both.png">    <img src="jjr.png">    <img src="dlm.png">    <img src="both.png">
 
-  * getting covariate data (Arc)
-  * fit more models (R prac)
-  * variance in dsm (dlm lect)
-  * advanced topics
+Wednesday    <img src="both.png">    <img src="jjr.png">    <img src="dlm.png">    <img src="both.png">
 
+Thursday     <img src="jjr.png">     <img src="jjr.png">    <img src="dlm.png">    <img src="both.png">
 
+Friday       <img src="dlm.png">     <img src="dlm.png">    <img src="both.png">   <img src="both.png">
+--------------------------------------------------------------------------------------------------------
 
 # Distance sampling topics
 
