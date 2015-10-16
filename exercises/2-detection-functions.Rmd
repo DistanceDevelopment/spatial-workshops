@@ -292,7 +292,7 @@ This kind of correction works fine when we have a single number to adjust by, in
 Save your top few models in an `RData` file, so we can load them up later on. We'll also save the distance data we used to fit out models.
 
 ```{r save-models}
-save(df_hn, # add you models here, followed by commas!
+save(df_hn, df_hr_ss_size, # add you models here, followed by commas!
      distdata,
      file="df-models.RData")
 ```

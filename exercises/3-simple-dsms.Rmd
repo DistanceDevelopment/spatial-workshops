@@ -9,13 +9,13 @@ author: David L Miller
 By the end of this practical, you should feel comfortable:
 
 - Fitting a density surface model using `dsm()`
-  - Knowing what the objects that go into a `dsm()` call
-  - Understand the role of the response in the `formula=` argument
+- Understanding what the objects that go into a `dsm()` call
+- Understanding the role of the response in the `formula=` argument
 - Understanding the output of `summary()` when called on a `dsm` object
 - Increasing the `k` parameter of smooth terms to increase their flexibility
 - Interpreting `gam.check` and `rqgam.check` plots and diagnostic output
 
-The example code below uses the `df_hr` detection function in the density surface models. You can substitute this for your own best model as you go, or copy and paste the code at the end and see what results you get using your model for the detection function.
+The example code below uses the `df_hn` detection function in the density surface models. You can substitute this for your own best model as you go, or copy and paste the code at the end and see what results you get using your model for the detection function.
 
 # Load the packages and data
 
@@ -39,7 +39,7 @@ load("df-models.RData")
 Before we fit a model using `dsm()` we must first remove the observations from the spatial data that we excluded when we fitted the detection function -- those observations at distances greater than the truncation.
 
 ```{r truncate-obs}
-obs <- obs[obs$distance <= df_hr$ddf$meta.data$width,]
+obs <- obs[obs$distance <= df_hn$ddf$meta.data$width,]
 ```
 
 Here we've used the value of the truncation stored in the detection function object, but we could also use the numeric value (which we can also find by checking the model's `summary()`).
@@ -54,7 +54,7 @@ Let's start with a very simple model -- a bivariate smooth of `x` and `y`:
 
 ```{r nb-xy}
 dsm_nb_xy <- dsm(count~s(x,y),
-                 ddf.obj=df_hr, segment.data = segs, observation.data=obs,
+                 ddf.obj=df_hn, segment.data = segs, observation.data=obs,
                  family=nb(), method="REML")
 ```
 
@@ -68,7 +68,7 @@ summary(dsm_nb_xy)
 ## Visualising output
 
 As discussed in the lectures, the `plot` output is not terribly useful for bivariate smooths like these. We'll use `vis.gam()` to visualise the smooth instead:
-```{r nb-xy-visgam}
+```{r nb-xy-visgam, fig.width=5, fig.height=5}
 vis.gam(dsm_nb_xy, view=c("x","y"), plot.type="contour", too.far=0.1, main="s(x,y) (link scale)", asp=1)
 ```
 
@@ -85,11 +85,11 @@ Notes:
 ## Checking the model
 
 We can use the `gam.check()` and `rqgam.check` functions to check the model. 
-```{r nb-xy-check}
+```{r nb-xy-check, fig.width=6, fig.height=6}
 gam.check(dsm_nb_xy)
 ```
 
-```{r nb-xy-rqcheck}
+```{r nb-xy-rqcheck, fig.width=6, fig.height=6}
 rqgam.check(dsm_nb_xy)
 ```
 
@@ -104,7 +104,7 @@ We can set the basis complexity via the `k` argument to the `s()` term in the fo
 
 ```{r nb-xy-smallk}
 dsm_nb_xy_smallk <- dsm(count~s(x, y, k=10),
-                        ddf.obj=df_hr, segment.data = segs, observation.data=obs,
+                        ddf.obj=df_hn, segment.data = segs, observation.data=obs,
                         family=nb(), method="REML")
 ```
 
@@ -117,7 +117,7 @@ So far we've just used `count` as the response. That is, we adjusted the offset 
 
 Instead of using `count` we could use `abundance.est`, which will leave the segment areas as they are and calculate the Horvitz-Thompson estimates of the abundance per segment and use that as the response in the model. This is most useful when we have covariates in the detection function (though we can use it any time).
 
-Try copying the code that fits the model `dsm_nb_xy` and make a model `dsm_nb_xy_ae` that replaces `count` for `abundance.est` in the model formula. Compare the results of summaries, plots and checks between this and the count model.
+Try copying the code that fits the model `dsm_nb_xy` and make a model `dsm_nb_xy_ae` that replaces `count` for `abundance.est` in the model formula and uses the `df_hr_ss_size` detection function. Compare the results of summaries, plots and checks between this and the count model.
 
 # Univariate models
 
@@ -125,7 +125,7 @@ Instead of fitting a bivariate smooth of `x` and `y` using `s(x, y)`, we could i
 
 ```{r additive-xy-nb}
 dsm_nb_x_y <- dsm(count~s(x)+ s(y),
-                 ddf.obj=df_hr, segment.data = segs, observation.data=obs,
+                 ddf.obj=df_hn, segment.data = segs, observation.data=obs,
                  family=nb(), method="REML")
 ```
 
