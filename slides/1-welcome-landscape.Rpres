@@ -15,9 +15,9 @@ David L Miller (Dave)
 ==============
 type: section
   * Research fellow, CREEM, University of St Andrews
-  * Worked on R distance sampling software since 2005
+  * Worked on R distance sampling (software) since 2005
   * Author/maintainer of `Distance`, `mrds`, `dsm`, `readst`, `mmds`
-  
+
 Jason Roberts
 ==============
 type: section
@@ -77,7 +77,7 @@ Other info
 * MozPad session at [URL], we can answer questions there
 * Extra code and links to be posted at MozPad, which will be archived for later
 
- Software
+Software
 ===================
 
 * Using Arc and RStudio
@@ -85,7 +85,16 @@ Other info
   * instructions on course site
 * Computer classroom is already setup
 
- Data
+Other stuff
+============
+
+* Plenty of time for questions!
+* Please ask questions!
+* Special session on Friday for long queries
+  * *We're making a list!*
+
+
+Data
 ===================
 
 * Sperm whale data from NOAA
@@ -93,7 +102,8 @@ Other info
 * ...
 * Data can be downloaded at [URL]
 
- Let's get started...
-=====================
 
+Let's get started...
+=====================
+type:section
 
