@@ -20,9 +20,7 @@ Load some useful packages:
 ```{r load-packages, message=FALSE}
 library(rgdal)
 library(ggplot2)
-library(Distance)
 library(knitr)
-library(dsm)
 library(reshape2)
 library(plyr)
 ```
@@ -93,18 +91,6 @@ obs$object <- obs$SightingID
 obs$Sample.Label <- obs$SegmentID
 obs$size <- obs$GroupSize
 ```
-
-## Detection functions
-
-We can load the fitted detection function objects that we saved previously.
-```{r load-df}
-load("df-models.RData")
-```
-We need to remove the observations at distances greater than the truncation:
-```{r rm-obs-truncation}
-obs <- obs[obs$distance<=df_hn$ddf$meta.data$width,]
-```
-
 
 # Exploratory analysis
 
