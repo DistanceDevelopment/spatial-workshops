@@ -1,5 +1,5 @@
 ---
-title: 'Exercise 1 solutions: Detection function analysis'
+title: 'Practical 2 solutions: Detection function analysis'
 author: David L Miller
 
 ---
