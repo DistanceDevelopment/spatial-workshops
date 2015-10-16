@@ -1,13 +1,14 @@
 ---
 title: Extra bibliography items
-author: David L Miller & Jason J Roberts
+author: 'David L Miller & Jason J Roberts'
 
 ---
 
-  * Cannonical books:
-    * Buckland, S. T., Anderson, D. R., Burnham, K. P., Borchers, D. L., & Thomas, L. (2001). Introduction to Distance Sampling. Oxford University Press, Oxford, UK.
-    * Buckland, S. T., Rexstad, E. A., Marques, T. A., & Oedekoven, C. S. (2015). Distance Sampling: Methods and Applications. Springer International Publishing.
-      - *Available for $<\$20$ if your library has Springer Link access, look for "MyCopy".*
+
+* Cannonical books:
+  * Buckland, S. T., Anderson, D. R., Burnham, K. P., Borchers, D. L., & Thomas, L. (2001). Introduction to Distance Sampling. Oxford University Press, Oxford, UK.
+  * Buckland, S. T., Rexstad, E. A., Marques, T. A., & Oedekoven, C. S. (2015). Distance Sampling: Methods and Applications. Springer International Publishing.
+    - *Available for $<\$20$ if your library has Springer Link access, look for "MyCopy".*
 
 # 1. Landscape
 
@@ -15,8 +16,8 @@ author: David L Miller & Jason J Roberts
 
 Estimation of sperm whale abundance in the North Atlantic by NOAA:
 
-  * [Analysis of 2004 surveys, plus a 1998 survey](http://www.nmfs.noaa.gov/pr/pdfs/sars/ao2005whsp-n.pdf).
-  * [Results from the most recent (2011) survey](http://www.nmfs.noaa.gov/pr/sars/2013/ao2013_spermwhale-natl.pdf) (currently used for management purposes to set things like PBR, the number of sperm whales that can be killed) and [details of that methodology](http://www.nefsc.noaa.gov/nefsc/publications/crd/crd1229/).
+* [Analysis of 2004 surveys, plus a 1998 survey](http://www.nmfs.noaa.gov/pr/pdfs/sars/ao2005whsp-n.pdf).
+* [Results from the most recent (2011) survey](http://www.nmfs.noaa.gov/pr/sars/2013/ao2013_spermwhale-natl.pdf) (currently used for management purposes to set things like PBR, the number of sperm whales that can be killed) and [details of that methodology](http://www.nefsc.noaa.gov/nefsc/publications/crd/crd1229/crd1229.pdf).
 
 (*Would be nice to include a preprint of the EEZ/AFTT papers*)
 
@@ -27,14 +28,14 @@ Estimation of sperm whale abundance in the North Atlantic by NOAA:
 
 ## Field methods, survey design etc
 
-  * Buckland et al (2015) chapters 2 & 4
-  * Strindberg, S., & Buckland, S. T. (2004). Zigzag survey designs in line transect sampling. Journal of Agricultural, Biological, and Environmental Statistics, 9(4), 443–461. http://doi.org/10.1198/108571104X15601
-  * Thomas, L., & Williams, R. (2007). Designing line transect surveys for complex survey regions. Journal of Cetacean Research and Management 9(1):1–13.
+* Buckland et al (2015) chapters 2 & 4
+* Strindberg, S., & Buckland, S. T. (2004). Zigzag survey designs in line transect sampling. Journal of Agricultural, Biological, and Environmental Statistics, 9(4), 443–461. http://doi.org/10.1198/108571104X15601
+* Thomas, L., & Williams, R. (2007). Designing line transect surveys for complex survey regions. Journal of Cetacean Research and Management 9(1):1–13.
 
 ## Detection function formulations
 
-  * Buckland, S. T. (1992). Fitting Density Functions with Polynomials. Applied Statistics, 41(1), 63. http://doi.org/10.2307/2347618
-  * Miller, D. L., & Thomas, L. (2015). Mixture models for distance sampling detection functions. PLoS ONE. http://doi.org/10.6084/m9.figshare.1293041
+* Buckland, S. T. (1992). Fitting Density Functions with Polynomials. Applied Statistics, 41(1), 63. http://doi.org/10.2307/2347618
+* Miller, D. L., & Thomas, L. (2015). Mixture models for distance sampling detection functions. PLoS ONE. http://doi.org/10.6084/m9.figshare.1293041
 
 
 # 3. Advanced distance sampling
@@ -156,6 +157,15 @@ Estimation of sperm whale abundance in the North Atlantic by NOAA:
   * Goodman, L. A. (1960). On the Exact Variance of Products. Journal of the American Statistical Association, 55(292), 708. http://doi.org/10.2307/2281592
   * Seber, G. A. F. (1982). The Estimation of Animal Abundance and Related Parameters. Macmillan.
 
+
+
+
+
+
+# Other approaches
+
+* Comparison of different techniques
+  * Oppel, S., Meirinho, A., Ramírez, I., Gardner, B., O’Connell, A. F., Miller, P. I., & Louzao, M. (2012). Comparison of five modelling techniques to predict the spatial distribution and abundance of seabirds. Biological Conservation, 156, 94–104. http://doi.org/10.1016/j.biocon.2011.11.013
 
 
 

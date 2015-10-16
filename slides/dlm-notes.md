@@ -20,7 +20,6 @@ In case I forget about these things:
 
 * [R for cats](http://rforcats.net/) is a good introduction to R
 * [RStudio cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
-* [Intro to `ggplot2`](http://www.noamross.net/blog/2012/10/5/ggplot-introduction.html)
 * RStudio project files
   - Make a "project" per project
   * Keep all files in that folder
@@ -34,5 +33,8 @@ In case I forget about these things:
 * Executing chunks from Rmd files
 * Tab/auto-completion/help
 
+# More R stuff
 
+* [Intro to `ggplot2`](http://www.noamross.net/blog/2012/10/5/ggplot-introduction.html)
+* Wickham, H. (2011). The split-apply-combine strategy for data analysis. Journal of Statistical Software. [paper](http://www.jstatsoft.org/article/view/v040i01)
 
