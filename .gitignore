@@ -1,3 +1,7 @@
 .Rproj.user
 .Rhistory
 .RData
+slides/*.html
+slides/*.md
+exercises/*.html
+spermwhale-analysis/*.html
