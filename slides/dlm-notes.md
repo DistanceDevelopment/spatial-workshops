@@ -36,5 +36,8 @@ In case I forget about these things:
 # More R stuff
 
 * [Intro to `ggplot2`](http://www.noamross.net/blog/2012/10/5/ggplot-introduction.html)
-* Wickham, H. (2011). The split-apply-combine strategy for data analysis. Journal of Statistical Software. [paper](http://www.jstatsoft.org/article/view/v040i01)
+* Data analysis using a simple strategy: Wickham, H. (2011). The split-apply-combine strategy for data analysis. Journal of Statistical Software. [paper](http://www.jstatsoft.org/article/view/v040i01)
+* More technical guide to R: [Advanced R](http://adv-r.had.co.nz/)
+
+
 
