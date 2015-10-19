@@ -5,28 +5,14 @@ author: David L Miller
 ---
 
 
-# Equipment
-
-* Will you bring your own laptop? (radio buttons, yes/no)
-* What kind of laptop? (radio buttons)
-  * Mac
-  * Windows
-  * Linux
-* Will it have the following installed? (check box)
-  * R
-  * RStudio
-  * Packages
-  * ArcGIS
-  * MGET
-
-
 # Statistical experience
 
 * Have you performed a distance sampling survey before? (check box)
-  - Line
-  - Point
+  - Line transect
+  - Point transect
   - Terrestrial
-  - Marine
+  - Aquatic (freshwater)
+  - Marine (saltwater)
   - Aerial
   - On foot
   - Boat
@@ -39,7 +25,8 @@ author: David L Miller
   - Fitted a detection function
   - Fitted a spatial model to distance sampling data
 * Have you used GAMs before? (check box)
-  - mgcv
+  - R with mgcv
+  - R with another package
   - SAS
   - SPSS
   - BayesX
@@ -47,8 +34,44 @@ author: David L Miller
 
 
 
-# Arc experience
+# GIS experience
 
+* Which GIS do you have the most experience with? (radio)
+  * ArcGIS
+  * ENVI
+  * ERDAS
+  * GMT
+  * GRASS
+  * gvSIG
+  * MapInfo
+  * MapWindow
+  * QGIS
+  * SAGA
+  * Other
+  * Never use GIS
+* How often do you use that GIS? (radio)
+  * Every day
+  * Once a week
+  * Once a month
+  * A few times a year
+  * Once
+  * Never
+- How long have you used that GIS? (radio)
+  * Never
+  * Less than 6 months
+  * Less than a year
+  * Less than 2 years
+  * More than 2 years
+- Have you ever: (checkbox)
+  * Made a map
+  * Downloaded and used a DEM or bathymetry in a GIS
+  * Downloaded and used remote sensing data in a GIS
+  * Run a geoprocessing tool
+  * Run a geoprocessing tool from a processing diagram (e.g. ArcGIS ModelBuilder)
+  * Run a geoprocessing tool from a script or the command line
+  * Applied geoprocessing tools to vector data (intersect, overlay, etc.)
+  * Applied geoprocessing tools to raster data (e.g. raster algebra, focal statistics)
+  * Used the MGET toolbox with ArcGIS
 
 # R experience
 
@@ -72,6 +95,13 @@ author: David L Miller
   * A few times a year
   * Once
   * Never
+- Have you ever: (checkbox)
+- * Used mgcv to fit GAMs
+- * Used other packages to fit other models
+- * Used the mrds, dsm, or Distance packages 
+  * Used the ggplot package
+  * Used packages such as sp rgdal to manipulate vector GIS data 
+  * Used the raster package to manipulate raster data
 
 
 # Intentions
@@ -86,6 +116,23 @@ author: David L Miller
   * Other
 
 
+# Equipment
+
+It is not necessary to bring your own computer. We will conduct the practical sections of the workshop in a computer lab that will have all necessary software installed. But if you bring your own computer, are interested and sufficiently skilled, and have the necessary software installed, we welcome you to run the practical exercises on your computer instead, or use it to experiment with your own data. Portions of the workshop will use ArcGIS Desktop, which is not free and only runs on Microsoft Windows. All statistical analysis will be done in R, which is free and runs on may platforms.
+
+* Do you want to run the practical exercises on your own laptop? (Answering yes does not mean you will not have a computer lab machine. Everyone will have a lab machine, regardless of whether they're also using a laptop.) (radio buttons, yes/no)
+* What operating system does it have? (radio buttons)
+  * Mac
+  * Windows
+  * Linux
+* Will it have the following installed? (check box)
+  * R
+  * RStudio
+  * Packages
+  * ArcGIS
+  * MGET
+
+
 # Other
 
 - Where did you hear about the course? (check box)
@@ -94,9 +141,10 @@ author: David L Miller
   - DEL website
   - DEL mailing
   - ECOLOG
-  - MARMAM
+  - MARMAM mailing list
   - Hierarchical modelling mailing list
   - unmarked mailing list
+  - MGET mailing list or website
   * Twitter (specify account)
   * Other (specify)
 
