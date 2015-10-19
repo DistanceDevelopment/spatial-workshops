@@ -1,7 +1,7 @@
 spatial-workshops
 =================
 
-Files related to new workshops for spatial modelling of distance data (and maybe other things too).
+Files for the workshop "Spatial modelling of distance sampling data".
 
 
 [Link to timeline and marketing log](https://docs.google.com/spreadsheets/d/1NqVQZTwqRkyuZNz6CJgJWmVNRvT27rhLjhEL_szLecU/edit#gid=468231088).
@@ -9,7 +9,8 @@ Files related to new workshops for spatial modelling of distance data (and maybe
 
 # Directory structure
 
-- `slides` contains the `.Rpres` slides
+- `slides` contains lecture slides in `.Rpres` and PDF formats
+* `exercises` contains the practical exercises used in the computer lab sessions
 - `spermwhale_analysis` contains DLM's quick analysis of the sperm whale data, all related data files
 
 
