@@ -11,8 +11,8 @@ author: David L Miller
   - Line transect
   - Point transect
   - Terrestrial
-  - Aquatic (freshwater)
-  - Marine (saltwater)
+  - Aquatic/freshwater
+  - Marine/estuarine
   - Aerial
   - On foot
   - Boat
@@ -101,8 +101,12 @@ author: David L Miller
   * Used the raster package to manipulate raster data
 
 
-# Intentions
+# Interests
 
+* Which ecological realm to you mainly work on? (radio)
+  * Terrestrial
+  * Aquatic/freshwater
+  * Marine/estuarine
 * Do you intend to conduct a distance sampling survey in the future? (radio, y/n)
 * Do you intend to analyse previously collected data? (radio, y/n)
 * What is the source of the previously collected data? (check box)
