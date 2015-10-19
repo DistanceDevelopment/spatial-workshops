@@ -11,8 +11,8 @@ author: David L Miller
   - Line transect
   - Point transect
   - Terrestrial
-  - Aquatic (freshwater)
-  - Marine (saltwater)
+  - Aquatic/freshwater
+  - Marine/estuarine
   - Aerial
   - On foot
   - Boat
@@ -95,17 +95,18 @@ author: David L Miller
   * A few times a year
   * Once
   * Never
-- Have you ever: (checkbox)
-- * Used mgcv to fit GAMs
-- * Used other packages to fit other models
-- * Used the mrds, dsm, or Distance packages 
+* Have you ever: (checkbox)
   * Used the ggplot package
-  * Used packages such as sp rgdal to manipulate vector GIS data 
+  * Used packages such as sp and rgdal to manipulate vector GIS data 
   * Used the raster package to manipulate raster data
 
 
-# Intentions
+# Interests
 
+* Which ecological realm to you mainly work on? (radio)
+  * Terrestrial
+  * Aquatic/freshwater
+  * Marine/estuarine
 * Do you intend to conduct a distance sampling survey in the future? (radio, y/n)
 * Do you intend to analyse previously collected data? (radio, y/n)
 * What is the source of the previously collected data? (check box)
@@ -118,7 +119,7 @@ author: David L Miller
 
 # Equipment
 
-It is not necessary to bring your own computer. We will conduct the practical sections of the workshop in a computer lab that will have all necessary software installed. But if you bring your own computer, are interested and sufficiently skilled, and have the necessary software installed, we welcome you to run the practical exercises on your computer instead, or use it to experiment with your own data. Portions of the workshop will use ArcGIS Desktop, which is not free and only runs on Microsoft Windows. All statistical analysis will be done in R, which is free and runs on may platforms.
+It is not necessary to bring your own computer. We will conduct the practical sections of the workshop in a computer lab that will have all necessary software installed. But if you bring your own computer, are interested and sufficiently skilled, and have the necessary software installed, we welcome you to run the practical exercises on your computer instead, or use it to experiment with your own data. Portions of the workshop will use ArcGIS Desktop, which is not free and only runs on Microsoft Windows. All statistical analysis will be done in R, which is free and runs on many platforms.
 
 * Do you want to run the practical exercises on your own laptop? (Answering yes does not mean you will not have a computer lab machine. Everyone will have a lab machine, regardless of whether they're also using a laptop.) (radio buttons, yes/no)
 * What operating system does it have? (radio buttons)
