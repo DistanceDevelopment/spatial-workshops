@@ -96,11 +96,8 @@ author: David L Miller
   * Once
   * Never
 * Have you ever: (checkbox)
-  * Used mgcv to fit GAMs
-  * Used other packages to fit other models
-  * Used the mrds, dsm, or Distance packages 
   * Used the ggplot package
-  * Used packages such as sp rgdal to manipulate vector GIS data 
+  * Used packages such as sp and rgdal to manipulate vector GIS data 
   * Used the raster package to manipulate raster data
 
 
