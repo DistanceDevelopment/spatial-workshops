@@ -112,18 +112,6 @@ print(p)
 
 Note that here we overplot the segments where sperm whales were observed (and scale the size of the point according to the number observed), using `geom_point()`.
 
-Actually this is more useful when we overplot the effort, to better see where we sampled:
-
-```{r varest-map-effort}
-#p <- ggplot(predgrid_var_map) +
-#       geom_tile(aes(x=x, y=y, fill=CV, width=10*1000, height=10*1000)) +
-#       scale_fill_viridis() +
-#       coord_equal() +
-#       geom_path(aes(x=x, y=y,))
-#print(p)
-```
-
-
 Try this with the other models you fitted and see what the differences are between the maps of coefficient of variation.
 
 

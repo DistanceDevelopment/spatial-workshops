@@ -113,7 +113,7 @@ You can check that the raster was written correctly by using the `stack()` funct
 We'll need to use the prediction grid again when we calculate uncertainty in the next practical, so let's save that object now to save time later.
 
 ```{r save-rdata}
-save(predgrid, file="predgrid.RData")
+save(predgrid, predictorStack, file="predgrid.RData")
 ```
 
 # Extra credit
