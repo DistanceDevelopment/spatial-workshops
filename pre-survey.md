@@ -112,7 +112,7 @@ author: David L Miller
 * What is the source of the previously collected data? (check box)
   * University collection
   * Private company
-  - State government
+  * State government
   * Federal government
   * Other
 
@@ -138,14 +138,14 @@ It is not necessary to bring your own computer. We will conduct the practical se
 
 - Where did you hear about the course? (check box)
   * distancesamping.org
-  - Distance sampling mailing list
-  - DEL website
-  - DEL mailing
-  - ECOLOG
-  - MARMAM mailing list
-  - Hierarchical modelling mailing list
-  - unmarked mailing list
-  - MGET mailing list or website
+  * Distance sampling mailing list
+  * DEL website
+  * DEL mailing
+  * ECOLOG
+  * MARMAM mailing list
+  * Hierarchical modelling mailing list
+  * unmarked mailing list
+  * MGET mailing list or website
   * Twitter (specify account)
   * Other (specify)
 
