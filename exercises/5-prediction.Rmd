@@ -85,7 +85,7 @@ print(p)
 Copy the chunk above and make predictions for the other models you saved in the previous exercises. In particular, compare the models with only spatial terms to those with environmental covariates included.
 
 
-# Save the prediction data
+# Save the prediction to a raster
 
 To be able to load our predictions into ArcGIS, we need to save them as a raster file. First we need to make our predictions into a raster object and save them to the stack we already have:
 ```{r savepred-raster}
@@ -107,6 +107,14 @@ writeRaster(save_raster, "abundance_raster.img", datatype="FLT4S")
 Here we just saved one raster layer: the predictions from model `Nhat_nb_xy`. Try saving another set of predictions from another model by copying the above chunk.
 
 You can check that the raster was written correctly by using the `stack()` function, as we did before to load the data and then the `plot()` function to see what was saved in the raster file.
+
+# Save prediction grid to `RData`
+
+We'll need to use the prediction grid again when we calculate uncertainty in the next practical, so let's save that object now to save time later.
+
+```{r save-rdata}
+save(predgrid, file="predgrid.RData")
+```
 
 # Extra credit
 
