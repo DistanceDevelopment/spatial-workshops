@@ -138,6 +138,18 @@ So far, we've used `nb()` as the response -- the negative binomial distribution.
 
 Try this out and compare the resulting check plots.
 
+
+# Save models
+
+It'll be interesting to see how these models compare to the more complex models we'll see later on. Let's save the fitted models at this stage.
+
+```{r save-models}
+# add your models here
+save(dsm_nb_x_y, dsm_nb_xy,
+     file="dsms-xy.RData")
+```
+
+
 # Extra credit
 
 If you have time, try the following:

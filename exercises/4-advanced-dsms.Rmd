@@ -40,7 +40,7 @@ head(segs)
 
 We can then fit a model with the available covariates in it, each as an `s()` term.
 ```{r nb-xy}
-dsm_nb_xy <- dsm(count~s(x,y, bs="ts") +
+dsm_nb_xy_ms <- dsm(count~s(x,y, bs="ts") +
                        s(Depth, bs="ts") +
                        s(DistToCAS, bs="ts") +
                        s(SST, bs="ts") +
@@ -48,7 +48,7 @@ dsm_nb_xy <- dsm(count~s(x,y, bs="ts") +
                        s(NPP, bs="ts"),
                  df_hn, segs, obs,
                  family=nb(), method="REML")
-summary(dsm_nb_xy)
+summary(dsm_nb_xy_ms)
 ```
 
 Notes:
@@ -61,7 +61,7 @@ Notes:
 Let's plot the smooths from this model:
 
 ```{r plot-nb-xy}
-plot(dsm_nb_xy, pages=1, scale=0)
+plot(dsm_nb_xy_ms, pages=1, scale=0)
 ```
 
 Notes:
@@ -73,7 +73,7 @@ Notes:
 
 We can also plot the bivariate smooth of `x` and `y` as we did before, using `vis.gam()`:
 ```{r nb-xy-visgam, fig.width=5, fig.height=5}
-vis.gam(dsm_nb_xy, view=c("x","y"), plot.type="contour", too.far=0.1, main="s(x,y) (link scale)", asp=1)
+vis.gam(dsm_nb_xy_ms, view=c("x","y"), plot.type="contour", too.far=0.1, main="s(x,y) (link scale)", asp=1)
 ```
 
 Compare this plot to the one that was generated in the previous practical when only `x` and `y` were included in the model.
@@ -124,7 +124,7 @@ Again, we've only looked at models with `count` as the response. Try using a det
 Checking concurvity of terms in the model can be accomplished using the `concurvity()` function.
 
 ```{r concurvity-checks}
-concurvity(dsm_nb_xy)
+concurvity(dsm_nb_xy_ms)
 ```
 
 By default the function returns a matrix of a measure of concurvity between one of the terms and the rest of the model.
@@ -169,7 +169,7 @@ Again compare the results of plotting for models with different terms.
 If we replace the bivariate smooth of location (`s(x, y)`) with an additive terms (`s(x)+s(y)`), we may see a difference in the final model (different covariates selected).
 
 ```{r nb-x-y}
-dsm_nb_x_y <- dsm(count~s(x, bs="ts") +
+dsm_nb_x_y_ms <- dsm(count~s(x, bs="ts") +
                         s(y, bs="ts") +
                         s(Depth, bs="ts") +
                         s(DistToCAS, bs="ts") +
@@ -178,7 +178,7 @@ dsm_nb_x_y <- dsm(count~s(x, bs="ts") +
                         s(NPP, bs="ts"),
                   df_hn, segs, obs,
                   family=nb(), method="REML")
-summary(dsm_nb_x_y)
+summary(dsm_nb_x_y_ms)
 ```
 
 Try performing model selection as before from this base model and compare the resulting models.
@@ -187,8 +187,8 @@ Compare the resulting smooths from like terms in the model. For example, if dept
 
 ```{r compare-depth}
 par(mfrow=c(1,2))
-plot(dsm_nb_xy, select=2)
-plot(dsm_nb_x_y, select=3)
+plot(dsm_nb_xy_ms, select=2)
+plot(dsm_nb_x_y_ms, select=3)
 ```
 
 Note that there `select=` picks just one term to plot. These are in the order in which the terms occur in the `summary()` output (so you may well need to adjust the above code).
@@ -217,10 +217,10 @@ We can, again, make a list of the models and give that to the above function
 
 ```{r apply-summary}
 # add your models to this list!
-model_list <- list(dsm_nb_x_y, dsm_nb_xy)
+model_list <- list(dsm_nb_x_y_ms, dsm_nb_xy_ms)
 library(plyr)
 summary_table <- ldply(model_list, summarize_dsm)
-row.names(summary_table) <- c("dsm_nb_x_y", "dsm_nb_xy")
+row.names(summary_table) <- c("dsm_nb_x_y_ms", "dsm_nb_xy_ms")
 ```
 
 ```{r print-table, results="asis"}
@@ -234,6 +234,6 @@ Now save the models that you'd like to use to predict with later. I recommend sa
 
 ```{r save-models}
 # add your models here
-save(dsm_nb_xy, dsm_nb_x_y,
+save(dsm_nb_xy_ms, dsm_nb_x_y_ms,
      file="dsms.RData")
 ```
