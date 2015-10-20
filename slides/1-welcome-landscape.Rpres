@@ -1,7 +1,9 @@
 Welcome & landscape
 =====================
-author: David L Miller, Jason Roberts, Eric Rexstad
+author: David L Miller, Jason Roberts
 css: custom.css
+transition: none
+
 
 Welcome
 =====================

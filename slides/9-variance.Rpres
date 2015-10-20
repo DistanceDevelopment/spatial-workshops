@@ -2,6 +2,7 @@ Estimating variance
 ========================================
 author: David L Miller
 css: custom.css
+transition: none
 
 
 Now we can make predictions
