@@ -1,0 +1,91 @@
+---
+title: Analyse results of the pre-workshop survey
+author: David L Miller
+
+---
+
+
+# Preamble
+
+```{r load-packages}
+library(googlesheets)
+library(magrittr)
+library(ggplot2)
+library(plyr)
+library(lubridate)
+library(magrittr)
+
+# sanity
+options(stringsAsFactors=FALSE)
+```
+
+
+## get the sheets that we can access
+
+```{r get-sheets}
+gs_ls()
+```
+
+
+## download all the data
+
+```{r get-data}
+responses <- gs_title("Pre-workshop survey (Responses)") %>%
+              gs_read("Form Responses 1")
+```
+
+We got `r nrow(responses)` responses!
+
+## Process
+
+```{r process}
+# the last question is qualitative, the rest are easier to deal with
+last_q <- responses[,ncol(responses)]
+responses <- responses[,-ncol(responses)]
+# also remove the timestamp column
+responses <- responses[,-1]
+```
+
+## Last question answers
+
+```{r last-q, results="asis"}
+last_q <- last_q[!is.na(last_q),]
+cat(paste(sapply(last_q, function(x) paste("- ",x)), collapse="\n"))
+```
+
+## Plot data
+
+```{r plot-data, fig.width=9, fig.height=6}
+# code to do get the plot data
+# apply to each column of the data
+plot_data <- function(this_col){
+
+  # what's this question?
+  col_name <- this_col
+  col_name <- gsub("\\.", " ", col_name)
+  this_col <- responses[,this_col]
+
+  # extract the data
+  this_col <- unlist(lapply(this_col, strsplit, ", "))
+  this_col <- this_col[!is.na(this_col)]
+  this_col <- cbind.data.frame(this_col, rep("blah", length(this_col)))
+  colnames(this_col) <- c("response", "question")
+  rownames(this_col) <- NULL
+
+  p <- ggplot(this_col) +
+        geom_histogram(aes(response))+
+        theme(axis.text.x = element_text(angle=45)) +
+        labs(title=col_name)
+  print(p)
+
+  return(1)
+}
+```
+
+All the plots...
+```{r apply}
+# apply that over the columns
+pdat <- sapply(colnames(responses), plot_data)
+```
+
+
