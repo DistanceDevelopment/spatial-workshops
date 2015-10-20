@@ -1,19 +1,8 @@
 ---
-title: DSM lecture notes
+title: Extras
 author: David L Miller
 
 ---
-
-
-In case I forget about these things:
-
-* `plot.gam`
-  * `scale=` is IMPORTANT, also the aspect of the picture can influence your inference.
-* `vis.gam`
-  * misleading due to median of other covariate values being taken to produce the plot
-* truncation
-  * get folks to play with this a bit, but don't let them get distracted
-  * NB can't select using AIC!
 
 
 # R/RStudio cheatsheet
@@ -38,6 +27,7 @@ In case I forget about these things:
 * [Intro to `ggplot2`](http://www.noamross.net/blog/2012/10/5/ggplot-introduction.html)
 * Data analysis using a simple strategy: Wickham, H. (2011). The split-apply-combine strategy for data analysis. Journal of Statistical Software. [paper](http://www.jstatsoft.org/article/view/v040i01)
 * More technical guide to R: [Advanced R](http://adv-r.had.co.nz/)
+* [Using RMarkdown to generate `docx` Word documents](http://rmarkdown.rstudio.com/articles_docx.html)
 
 
 
