@@ -1,8 +1,8 @@
 Introduction to distance sampling
 ========================================================
-author: David L Miller 
+author: David L Miller
 css: custom.css
-
+transition: none
 
 
 Overview
@@ -95,7 +95,7 @@ for(i in 1:10){
 - Saw $n=$ `r n` animals
 - Estimated density $\hat{D}=n/a=$ `r n/(10*0.1^2)`
 - Total area $A=1$
-- Estimated abundance $\hat{N}=$ `r  n/(10*0.1^2)`
+- Estimated abundance $\hat{N}=\hat{D}A=$ `r  n/(10*0.1^2)`
 
 
 
@@ -146,7 +146,7 @@ Nhat <- D*A
 - Saw $n=$ `r n` animals
 - Estimated density $\hat{D}=n/a=$ `r D`
 - Total area $A=1$
-- Estimated abundance $\hat{N}=$ `r  Nhat`
+- Estimated abundance $\hat{N}=\hat{D}A=$ `r  Nhat`
 
 
 Detectability
@@ -158,10 +158,17 @@ Detectability matters!
 ====================================
 
 - We've assumed certain detection so far
-- This rarely happens IRL
-- Distance to the **line** is important
+- This rarely happens in the field
+- Distance to the **object** is important
   - (Other things too, more on that later)
   - Detectability should decrease with increasing distance
+
+Distance and detectability
+=============================
+
+<img src="images/dolphins.jpg" alt="Dolphins near and far from the bow of a ship. Credit Scott and Mary Flanders">
+
+<small>Credit <a href="http://www.nordhavn.com/egret/captains_log_sept11.php">Scott and Mary Flanders</a></small>
 
 Recording distances is more efficient
 ======================================
@@ -169,7 +176,7 @@ Recording distances is more efficient
 - Plots: what if an animal is *just* outside the box?
 - Strips: what if an animal is *just* outside the strip?
 
-- Line transects: record **everything**, then discard later
+- Line transects: record **everything** (within reason), then discard later
   - Decide strip width (*truncation distance*) later
 
 Detection as a function of distance
@@ -225,10 +232,15 @@ Line transects - distances
 hist(detected_distances, main="", xlab="Distance",breaks=seq(0,max(detected_distances),len=7))
 ```
 ***
+- Distances from the **line** (sampler) to animal
 - Now we recorded distances, what do they look like?
 - "Fold" distribution over, left/right doesn't matter
 - Drop-off in # observations w. increasing distance
 
+Distance sampling animation
+============================
+
+![Animation of line transect survey](images/distanim.gif)
 
 "You should model that"
 ====================================
@@ -253,6 +265,41 @@ Using distance information
 - Integrate out the conditioning $\Rightarrow \mathbb{P}(\text{ detection }) = \hat{p}$
 - "Inflate" $n$ by $\hat{p}$ to estimate abundance
 
+Integrating out distance
+==========================
+
+```{r integrate-dist, results="hide"}
+library(animation)
+
+plot_int_dist <- function(){
+
+  g <- function(x) exp(-x^2/(2*0.45^2))
+  xvals <- seq(0,1,len=100)
+  
+  # pre-calculate
+  gvals <- g(xvals)
+  
+  # now plot
+  for(i in 1:length(xvals)){
+    plot(xvals, gvals, type="n", main="",
+         ylab="Probability of detection", xlab="Distance")
+    points(xvals[i], gvals[i], pch=19, col="red")
+    polygon(x=c(0,xvals[1:i], xvals[i],0),
+            y=c(0,gvals[1:i],0,0), col = "grey", border=NA)
+    lines(xvals, gvals)
+    text(x=0.3, y=0.25, label=expression(integral(g(x)*dx, 0, w)), cex=3)
+    
+    ani.pause()
+  }
+}
+
+saveGIF(plot_int_dist(), "integrate-distance.gif", interval = 0.2, ani.width = 500, ani.height = 500)
+```
+
+![Integrating out distance](integrate-distance.gif)
+
+
+
 Distance sampling estimate
 ========================================================
 
@@ -272,10 +319,10 @@ Nhat.lt <- A*n/(covered*p)
   - Total covered area $a=5*1*0.02 =$ `r covered`
 - Probability of detection $\hat{p} = \int_0^w \frac{g(x)}{w}dx=$ `r round(p,4)`
 - Saw $n=$ `r n` animals
-- Inflate to $n/\hat{p}$
+- Inflate to $n/\hat{p}=$ `r round(n/p, 3)`
 - Estimated density $\hat{D}=\frac{n/\hat{p}}{a}=$ `r round(n/(covered*p), 0)`
 - Total area $A=1$
-- Estimated abundance $\hat{N}=$ `r  round(Nhat.lt, 0)`
+- Estimated abundance $\hat{N}=\hat{D}A=$ `r  round(Nhat.lt, 0)`
 
 Summary: line transects
 ========================
@@ -358,6 +405,20 @@ axis(2, at=c(0, g0/2, g0), labels=c(0,"???","???"))
 - Availability bias
 - Don't know $y$ axis scale
 
+Perception bias
+=================
+
+![Seal peeping out](images/seal-peep.jpg)
+<br/>
+<br/>
+<small>Credit [MAKY_OREL](https://pixabay.com/en/seal-head-water-surface-eye-591292/)</small>
+***
+![Orca porpoising](images/Orca_porpoising.jpg)
+<br/>
+<br/>
+<small>Credit [Minette Layne](https://commons.wikimedia.org/wiki/File:Orca_porpoising.jpg)</small>
+
+
 Distances are recorded correctly
 ====================================
 
@@ -418,6 +479,14 @@ for(i in 1:5){
 ***
 - Animals can be attracted or repelled
 - Problems with distribution wrt line and/or measurement error
+
+Attraction to the line
+========================
+
+<img src="images/dolphins-bowriding.jpg" alt="Dolphins bowriding. Credit Cork Whale Watch.">
+
+
+<small>Credit [Cork Whale Watch](http://www.corkwhalewatch.com/whale-watching-in-west-cork/)</small>
 
 
 Detection functions
@@ -483,6 +552,19 @@ Adjustment terms
   - Polynomials
   - Hermite polynomials
 - Add extra flexibility
+
+Half-normal (with cosine adjustments)
+=====================================
+
+
+```{r df-hn-cos, fig.width=12}
+par(mfrow=c(1,2))
+curve(exp(-x^2/(2*0.01^2)), from=0, to=0.025, xlab="Distance", ylab="Probability of detection", main="Half-normal")
+g <- function(x) exp(-x^2/(2*0.01^2))*(1+0.5*cos((2*pi*x)/0.025))
+f <- function(x) g(x)/g(0)
+curve(f, from=0, to=0.025, xlab="Distance", ylab="Probability of detection", main="Half-normal with 1 cosine adjustment")
+```
+
 
 
 Okay, but how can we actually do this?
