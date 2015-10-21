@@ -199,6 +199,7 @@ Predictions over an arbitrary area
 
 ```{r predplot}
 load("../spermwhale-analysis/predgrid.RData")
+predgrid$Nhat <- predict(dsm.tw.xy, predgrid)
 p <- ggplot(predgrid) + 
       geom_tile(aes(x=x, y=y, fill=Nhat, width=10*1000, height=10*1000)) +
       coord_equal() +
@@ -207,9 +208,10 @@ p <- ggplot(predgrid) +
 print(p)
 ```
 ***
-- Don't want to be restricted to design points
-- Extrapolate (with caution)
-- Include new data and inference tasks easily
+- Don't want to be restricted to predict on segments
+- Predict within survey area
+- Extrapolate outside (with caution)
+- Working on a grid of cells
 
 Detection information
 ================================
