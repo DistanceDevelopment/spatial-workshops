@@ -166,12 +166,14 @@ dsm_tw_var_ind <- dsm.var.gam(dsm_all_tw_rm, predgrid, off.set=predgrid$off.set)
 summary(dsm_tw_var_ind)
 ```
 
-Plotting
-=========
+Plotting - data processing
+============================
 
 - Calculate uncertainty per-cell
-- Need to split data
-- Need `width` and `height` for plotting
+- `dsm.var.*` thinks `predgrid` is one "region"
+- Need to split data into cells (using `split()`)
+- (Could be arbitrary sets of cells, see exercises)
+- Need `width` and `height` of cells for plotting
 
 Plotting (code)
 =================

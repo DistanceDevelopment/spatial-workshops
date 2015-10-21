@@ -49,6 +49,7 @@ type:section
 What does a map mean?
 ======================
 
+- Grids!
 - Each cell is an abundance estimate
 - Whole map is a "snapshot"
 - Sum all the cells to get the overall abundance
@@ -95,10 +96,10 @@ head(predgrid)
 ```
 
 
-Prediction data plotted
+Predictors
 ========================
 
-```{r preddata-plot, fig.width=15}
+```{r preddata-plot, fig.width=15, fig.height=7}
 library(gridExtra)
 p1 <- ggplot(predgrid[,c("x","y","Depth")]) +
       geom_tile(aes(x=x,y=y,fill=Depth)) +
