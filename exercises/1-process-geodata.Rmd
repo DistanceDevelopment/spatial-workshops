@@ -47,10 +47,17 @@ For our analysis the segment data is located in in the "Segment_Centroids" table
 segs <- readOGR("Analysis.gdb", layer="Segment_Centroids")
 ```
 
-To verify we have the right data by plotting. This will give the locations of each segment:
+To verify we have the right data we can plot it. This will give the locations of each segment:
 ```{r segs-data-plot, fig.width=5, fig.height=5}
 plot(segs)
 ```
+
+A further check would be to use `head()` to check that the structure of the data is correct. In particular it's worth checking that the column names are correct and that the number of rows in the data set are correct (`dim()` will give the number of rows and columns).
+
+It can also be useful to check that the columns are the correct data types. Calling `str(segs@data)` (or any object loaded using `readOGR` appended with `@data`) will reveal the data types of each column. In this case we can see that the `CenterTime` column has been interpreted as a `factor` variable rather than as a date/time. We're not going to use it in our analysis, so we don't need to worry for now but `str()` can reveal potential problems with loaded data.
+
+For a deeper look at the values in the data, `summary()` will give summary statistics for each of the covariates as well as the projection and range of location values (lat/long or in our case `x` and `y`). We can compare these with values in ArcGIS.
+
 
 We can turn the object into a `data.frame` (so R can better understand it) and then check that it looks like it's in the right format using `head()`:
 ```{r segs-data-df}
