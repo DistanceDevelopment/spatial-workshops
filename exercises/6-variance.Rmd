@@ -10,6 +10,12 @@ Now we've fitted some models and estimated abundance, we can estimate the varian
 
 By the end of this practical, you should feel comfortable:
 
+- Knowing when to use `dsm.var.prop` and when to use `dsm.var.gam`
+- Estimating variance for a given prediction area
+- Estimating variance per-cell for a prediction grid
+- Interpreting the `summary()` output for uncertainty estimates
+- Making maps of the coefficient of variation in R
+- Saving uncertainty information to a raster file to be read by ArcGIS
 
 # Load packages and data
 
@@ -44,7 +50,7 @@ To summarise the results of this variance estimate:
 summary(var_nb_xy_ms)
 ```
 
-Try this out for some of the other models you've saved.
+Try this out for some of the other models you've saved. Remember to use `dsm.var.gam` when there are covariates in the detection function and `dsm.var.prop` when there aren't.
 
 # Summarise multiple models
 
@@ -140,5 +146,8 @@ writeRaster(save_raster, "cv_raster.img", datatype="FLT4S")
 ```
 
 
+# Extra credit
+
+- `dsm.var.prop` and `dsm.var.gam` can accept arbitrary splits in the data, not just whole areas or cells. Make a `list` with two elements: one a `data.frame` of all the cells with $y>0$ and one with $y\leq 0$. Estimate the variance for these regions. Note that you'll need to sum the offsets for each area to get the correct value to supply to `off.set=...`.
 
 
