@@ -80,6 +80,7 @@ plot_data <- function(this_col){
   p <- ggplot(this_col) +
         geom_histogram(aes(response))+
         theme(axis.text.x = element_text(angle=45)) +
+        theme_minimal() +
         labs(title=col_name, x="", y="Count")+
         ylim(0, 25)
   print(p)
