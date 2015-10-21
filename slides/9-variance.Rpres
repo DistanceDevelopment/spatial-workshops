@@ -216,21 +216,15 @@ Effort overplotted
 
 ```{r loadtracks, results="hide"}
 library(rgdal)
-tracksEN <- readOGR("../spermwhale-analysis/Analysis.gdb", "EN_Trackline1")
-tracksGU <- readOGR("../spermwhale-analysis/Analysis.gdb", "GU_Trackline")
-study_proj4 <- CRS("+proj=aea +lat_1=38 +lat_2=30 +lat_0=34 +lon_0=-73 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 ")
-tracksEN <- spTransform(tracksEN, study_proj4)
-tracksGU <- spTransform(tracksGU, study_proj4)
-tracksEN <- fortify(tracksEN)
-tracksGU <- fortify(tracksGU)
+tracks <- readOGR("../spermwhale-analysis/Analysis.gdb", "Segments")
+tracks <- fortify(tracks)
 ```
 ```{r plottracks, cache=FALSE}
 library(ggplot2)
 p <- plot(dsm_tw_var_map, observations=FALSE, plot=FALSE) + 
       coord_equal() +
       scale_fill_viridis() +
-      geom_path(aes(x=long,y=lat, group=group), colour="orange", data=tracksEN) + 
-      geom_path(aes(x=long,y=lat, group=group), colour="red", data=tracksGU)
+      geom_path(aes(x=long,y=lat, group=group), colour="white", data=tracks) 
 print(p)
 ```
 
