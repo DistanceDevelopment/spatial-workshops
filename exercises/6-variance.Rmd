@@ -26,6 +26,7 @@ library(ggplot2)
 library(viridis)
 library(plyr)
 library(knitr)
+library(rgdal)
 ```
 
 Load the models and prediction grid:
@@ -118,6 +119,23 @@ print(p)
 
 Note that here we overplot the segments where sperm whales were observed (and scale the size of the point according to the number observed), using `geom_point()`.
 
+We can also overplot the effort, which can be a useful way to see what the cause of uncertainty is. Though it may not only be caused by lack of effort but also covariate coverage, this can be useful to see.
+
+First we need to load the segment data from the `gdb`
+```{r load-effort}
+tracks <- readOGR("Analysis.gdb", "Segments")
+tracks <- fortify(tracks)
+```
+We can then just add this to the plot object we have built so far (with `+`), but this looks a bit messy with the observations, so let's start from scratch:
+```{r varest-map-obs-effort}
+p <- ggplot(predgrid_var_map) +
+       geom_tile(aes(x=x, y=y, fill=CV, width=10*1000, height=10*1000)) +
+       scale_fill_viridis() +
+       coord_equal() +
+       geom_path(aes(x=long,y=lat, group=group), data=tracks)
+print(p)
+```
+
 Try this with the other models you fitted and see what the differences are between the maps of coefficient of variation.
 
 
@@ -127,22 +145,19 @@ As with the predictions, we'd like to save our uncertainty estimates to a raster
 
 ```{r savecv-raster}
 # setup the storage for the cvs
-cv_raster <- raster(nrow=nrow(predictorStack), ncol=ncol(predictorStack),
-                    ext = predictorStack@extent, crs=predictorStack@crs)
+cv_raster <- raster(predictorStack)
 # we removed the NA values to make the predictions and the raster needs them
 # so make a vector of NAs, and insert the CV values...
 cv_na <- rep(NA, nrow(predgrid))
 cv_na[!is.na(predgrid$Depth)] <- cv
 # put the values in, making sure they are numeric first
 cv_raster <- setValues(cv_raster, cv_na)
-# add that to the stack
-save_raster <- stack(c(predictorStack, cv_raster))
 # name the new, last, layer in the stack
-names(save_raster)[length(names(save_raster))] <- "CV_nb_xy"
+names(cv_raster) <- "CV_nb_xy"
 ```
 We can then save that object to disk as a raster file:
 ```{r write-raster}
-writeRaster(save_raster, "cv_raster.img", datatype="FLT4S")
+writeRaster(cv_raster, "cv_raster.img", datatype="FLT4S")
 ```
 
 

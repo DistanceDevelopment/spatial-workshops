@@ -90,18 +90,15 @@ Copy the chunk above and make predictions for the other models you saved in the 
 To be able to load our predictions into ArcGIS, we need to save them as a raster file. First we need to make our predictions into a raster object and save them to the stack we already have:
 ```{r savepred-raster}
 # setup the storage for the predictions
-pp_raster <- raster(nrow=nrow(predictorStack), ncol=ncol(predictorStack),
-                    ext = predictorStack@extent, crs=predictorStack@crs)
+pp_raster <- raster(predictorStack)
 # put the values in, making sure they are numeric first
 pp_raster <- setValues(pp_raster, as.numeric(pp))
-# add that to the stack
-save_raster <- stack(c(predictorStack, pp_raster))
 # name the new, last, layer in the stack
-names(save_raster)[length(names(save_raster))] <- "Nhat_nb_xy"
+names(pp_raster) <- "Nhat_nb_xy"
 ```
 We can then save that object to disk as a raster file:
 ```{r write-raster}
-writeRaster(save_raster, "abundance_raster.img", datatype="FLT4S")
+writeRaster(pp_raster, "abundance_raster.img", datatype="FLT4S")
 ```
 
 Here we just saved one raster layer: the predictions from model `Nhat_nb_xy`. Try saving another set of predictions from another model by copying the above chunk.
@@ -110,7 +107,7 @@ You can check that the raster was written correctly by using the `stack()` funct
 
 # Save prediction grid to `RData`
 
-We'll need to use the prediction grid again when we calculate uncertainty in the next practical, so let's save that object now to save time later.
+We'll need to use the prediction grid and predictor stack again when we calculate uncertainty in the next practical, so let's save those objects now to save time later.
 
 ```{r save-rdata}
 save(predgrid, predictorStack, file="predgrid.RData")
