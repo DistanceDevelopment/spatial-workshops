@@ -1,16 +1,33 @@
 ---
-title: Extra bibliography items
+title: Bibliography
 author: 'David L Miller & Jason J Roberts'
 
 ---
 
+Here is a list of extra reading that may be interesting and provide further insight into particular topics. This is by no means a complete bibliography and we welcome any additions!
 
-* Cannonical books:
+Also potentially useful is the [distance sampling bibliography](http://distancesampling.org/dbib.html) maintained by Tiago Marques, Eric Rexstad and David L Miller.
+
+The below is organised by lecture/practical session. There is some duplication so that one can dip in and out without missing things.
+
+# Overall
+
+Cannonical books and papers:
+
+* Distance sampling:
   * Buckland, S. T., Anderson, D. R., Burnham, K. P., Borchers, D. L., & Thomas, L. (2001). Introduction to Distance Sampling. Oxford University Press, Oxford, UK.
   * Buckland, S. T., Rexstad, E. A., Marques, T. A., & Oedekoven, C. S. (2015). Distance Sampling: Methods and Applications. Springer International Publishing.
     - *Available for $<\$20$ if your library has Springer Link access, look for "MyCopy".*
+* Density surface models
+  * Hedley, S. L., & Buckland, S. T. (2004). Spatial models for line transect sampling. Journal of Agricultural, Biological, and Environmental Statistics, 9(2), 181–199. http://doi.org/10.1198/1085711043578
+  * Miller, D. L., Burt, M. L., Rexstad, E. A., & Thomas, L. (2013). Spatial models for distance sampling data: recent developments and future directions. Methods in Ecology and Evolution, 4(11), 1001–1010. http://doi.org/10.1111/2041-210X.12105
+* Generalized additive models
+  * Wood, S. (2006). Generalized Additive Models. CRC Press.
+  * Ruppert, D., Wand, M. P., & Carroll, R. J. (2003). Semiparametric Regression. Cambridge University Press.
 
-# 1. Landscape
+
+
+# Landscape
 
 ## Data
 
@@ -22,9 +39,7 @@ Estimation of sperm whale abundance in the North Atlantic by NOAA:
 (*Would be nice to include a preprint of the EEZ/AFTT papers*)
 
 
-# 2. Introduction to distance sampling
-
-
+# Introduction to distance sampling
 
 ## Field methods, survey design etc
 
@@ -38,8 +53,10 @@ Estimation of sperm whale abundance in the North Atlantic by NOAA:
 * Miller, D. L., & Thomas, L. (2015). Mixture models for distance sampling detection functions. PLoS ONE. http://doi.org/10.6084/m9.figshare.1293041
 
 
-# 3. Advanced distance sampling
+# Advanced distance sampling
 
+* Covariates in the detection function
+  * Marques, T. A., Thomas, L., Fancy, S. G., & Buckland, S. T. (2007). Improving estimates of bird density using multiple-covariate distance sampling. The Auk, 124(4), 1229. http://doi.org/http://dx.doi.org/10.1642/0004-8038(2007)124[1229:IEOBDU]2.0.CO;2
 - Goodness of fit testing for detection functions
   - Chapter 11, section 11 of Buckland, S. T., Anderson, D. R., Burnham, K. P., Laake, J. L., Borchers, D. L., & Thomas, L. (2004). Advanced Distance Sampling. Oxford University Press, Oxford, UK.
 
@@ -60,11 +77,6 @@ Estimation of sperm whale abundance in the North Atlantic by NOAA:
 * Obtaining uncertainty estimates from functions of MLEs
   * Borchers, D. L., Buckland, S. T., & Zucchini, W. (2002). Estimating Animal Abundance: Closed populations. Springer. (Appendix C)
 
-## Group size
-
-* **Group size uncertainty**
-* **Something about the ETP dolphins?**
-
 
 # 4. What is a DSM?
 
@@ -79,10 +91,9 @@ Estimation of sperm whale abundance in the North Atlantic by NOAA:
 
 
 
-# 5. Generalized additive models
+# Generalized additive models
 
-- Cannonical reference is:
-  - Wood, S. N. Generalized Additive Models: An Introduction with R. (2006).Chapman & Hall/CRC, Boca Raton, FL, USA.
+Cannonical reference is Wood (2006)
 
 
 ## Response distributions
@@ -116,13 +127,13 @@ Estimation of sperm whale abundance in the North Atlantic by NOAA:
 
 
 
-# 6. Covariates
+# Covariates
 
-* Can we trust GIS
+* Can we trust covariates from GIS?
   * Foster, S. D., Shimadzu, H., & Darnell, R. (2012). Uncertainty in spatially predicted covariates: is it ignorable? Journal of the Royal Statistical Society: Series C (Applied Statistics), 61(4), 637–652. http://doi.org/10.1111/j.1467-9876.2011.01030.x
 
 
-# 7. Multiple smooths and model selection
+# Multiple smooths and model selection
 
 - That great quote from Tobler is from:
   * Tobler, W. (1970). A computer movie simulating urban growth in the Detroit region. Economic Geography, 46(2), 234-240.
@@ -139,14 +150,14 @@ Estimation of sperm whale abundance in the North Atlantic by NOAA:
   * Winiarski, K. J., Burt, M. L., Rexstad, E., Miller, D. L., Trocki, C. L., Paton, P. W. C., & McWilliams, S. R. (2014). Integrating aerial and ship surveys of marine birds into a combined density surface model: A case study of wintering Common Loons. The Condor, 116(2), 149–161. http://doi.org/10.1650/CONDOR-13-085.1
 
 
-# 8. Prediction
+# Prediction
 
-* Laura Mannocci and co's thesis work on extrapolation
+* Laura Mannocci's thesis work on extrapolation
   * Mannocci, L., Monestiez, P., Spitz, J., & Ridoux, V. (2015). Extrapolating cetacean densities beyond surveyed regions: habitat-based predictions in the circumtropical belt. Journal of Biogeography, n/a–n/a. http://doi.org/10.1111/jbi.12530
 * Paul Conn and co's work on using a generalised Cook's Distance to find places where you shouldn't extrapolate
-  * ???
+  * [Preprint on github]() (accepted at PLOSONE)
 
-# 9. Variance
+# Variance
 
 - How do we calculate $\mathbf{V}_\boldsymbol{\beta})$ (variance of the GAM parameters)?
   - Section 4.8 ("Distributional results") of Wood (2006)
@@ -160,11 +171,9 @@ Estimation of sperm whale abundance in the North Atlantic by NOAA:
 
 
 
-
-
 # Other approaches
 
-* Comparison of different techniques
+* Comparison of different techniques for spatial modelling
   * Oppel, S., Meirinho, A., Ramírez, I., Gardner, B., O’Connell, A. F., Miller, P. I., & Louzao, M. (2012). Comparison of five modelling techniques to predict the spatial distribution and abundance of seabirds. Biological Conservation, 156, 94–104. http://doi.org/10.1016/j.biocon.2011.11.013
 
 
