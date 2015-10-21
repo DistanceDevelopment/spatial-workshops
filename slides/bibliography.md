@@ -173,6 +173,36 @@ Cannonical reference is Wood (2006)
 
 
 
+# R and RStudio
+
+## Introductory
+
+* [R for cats](http://rforcats.net/) is a good introduction to R
+* [RStudio cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
+
+## Packages
+
+* [Intro to `ggplot2`](http://www.noamross.net/blog/2012/10/5/ggplot-introduction.html)
+* [`lubridate`](http://www.jstatsoft.org/article/view/v040i03) a package to make date/time handling easier in R -- very useful!
+
+## Using GIS/spatial data in R
+
+* [Applied Spatial Data Analysis with R](https://www.springer.com/us/book/9781461476177) the definitive book on spatial data in R, written by the authors of the most popular R spatial packages
+* [Barry Rowlingson's R spatial cheatsheet](http://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html)
+
+
+## Reproducable research
+
+* [Using RMarkdown to generate `docx` Word documents](http://rmarkdown.rstudio.com/articles_docx.html)
+
+## Advanced topics
+
+* Data analysis using a simple strategy: Wickham, H. (2011). The split-apply-combine strategy for data analysis. Journal of Statistical Software. [paper](http://www.jstatsoft.org/article/view/v040i01)
+* More technical guide to R: [Advanced R](http://adv-r.had.co.nz/)
+
+
+
+
 # Other approaches
 
 * Comparison of different techniques for spatial modelling
