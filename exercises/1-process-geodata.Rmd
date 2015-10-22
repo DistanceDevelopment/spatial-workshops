@@ -8,10 +8,9 @@ author: David L Miller
 
 By the end of this practical, you should feel comfortable:
 
-- Loading data from a geodatabase file into R.
-- Removing and renaming columns in a `data.frame`.
-
-
+- Loading data from a geodatabase file into R
+- Removing and renaming columns in a `data.frame`
+- Saving data to an `RData` file
 
 # Preamble
 
@@ -19,10 +18,7 @@ Load some useful packages:
 
 ```{r load-packages, message=FALSE}
 library(rgdal)
-library(ggplot2)
 library(knitr)
-library(reshape2)
-library(plyr)
 ```
 
 # Load and arrange data
@@ -99,65 +95,6 @@ obs$Sample.Label <- obs$SegmentID
 obs$size <- obs$GroupSize
 ```
 
-# Exploratory analysis
-
-We can do some exploratory analysis by aggregating the counts to each cell and plotting what's going on.
-
-*Don't worry about understanding what this code is doing at the moment.*
-
-```{r make-data}
-# join the observations onto the segments
-join_dat <- join(segs, obs, by="Sample.Label", type="full")
-# sum up the observations per segment
-n <- ddply(join_dat, .(Sample.Label), summarise, n=sum(size), .drop = FALSE) 
-# sort the segments by their labsl
-segs_eda <- segs[sort(segs$Sample.Label),]
-# make a new column for the counts
-segs_eda$n <- n$n
-
-# remove the columns we don't need,
-segs_eda$CentreTime <- NULL
-segs_eda$POINT_X <- NULL
-segs_eda$POINT_Y <- NULL
-segs_eda$segment.area <- NULL
-segs_eda$off.set <- NULL
-segs_eda$CenterTime <- NULL
-segs_eda$Effort <- NULL
-segs_eda$Length <- NULL
-segs_eda$SegmentID <- NULL
-segs_eda$coords.x1 <- NULL
-segs_eda$coords.x2 <- NULL
-
-# "melt" the data so we have four columns:
-#   Sample.Label, n (number of observations),
-#   variable (which variable), value (its value)
-segs_eda <- melt(segs_eda, id.vars=c("Sample.Label", "n"))
-# try head(segs_eda)
-```
-
-
-Finally, we can plot histograms of counts for different values of the covariates:
-```{r}
-p <- ggplot(segs_eda) +
-       geom_histogram(aes(value, weight=n)) +
-       facet_wrap(~variable, scale="free") +
-       xlab("Covariate value") +
-       ylab("Aggregated counts")
-print(p)
-```
-
-We can also just plot the counts against the covariates, note the high number of zeros (but still some interesting patterns): 
-```{r}
-p <- ggplot(segs_eda) +
-       geom_point(aes(value, n)) +
-       facet_wrap(~variable, scale="free") +
-       xlab("Covariate value") +
-       ylab("Aggregated counts")
-print(p)
-```
-
-
-These plots give a very rough idea of the relationships we can expect in the model. Notably these plots don't take into account interactions between the variables and potential correlations between the terms, as well as detectability.
 
 
 # Save the data
