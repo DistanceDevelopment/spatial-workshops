@@ -177,7 +177,7 @@ Cannonical reference is Wood (2006)
 
 ## Practical advice
 
-* Paper looking at segment size and covariate resoluation
+* Paper looking at segment size and covariate resolution (also paper with a separate group size model)
   * Redfern, J. V., Barlow, J., Ballance, L. T., Gerrodette, T., & Becker, E. A. (2008). Absence of scale dependence in dolphin–habitat models for the eastern tropical Pacific Ocean. Marine Ecology Progress Series, 363, 1–14. http://doi.org/10.3354/meps07495
 * Good text book on prediction-based modelling, lots of information on cross validation (also [availble free online](http://statweb.stanford.edu/~tibs/ElemStatLearn/))
   * Hastie, T., Tibshirani, R., & Friedman, J. (2013). The Elements of Statistical Learning: Data Mining, Inference, and Prediction. Springer New York.
