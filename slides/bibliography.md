@@ -1,6 +1,7 @@
 ---
 title: Bibliography
 author: 'David L Miller & Jason J Roberts'
+layout: index
 
 ---
 
@@ -161,7 +162,7 @@ Cannonical reference is Wood (2006)
 
 # Variance
 
-- How do we calculate $\mathbf{V}_\boldsymbol{\beta})$ (variance of the GAM parameters)?
+- How do we calculate $\mathbf{V}_\boldsymbol{\beta}$ (variance of the GAM parameters)?
   - Section 4.8 ("Distributional results") of Wood (2006)
 * Propagating variance from the detection function
   * Williams, R., Hedley, S. L., Branch, T. A., Bravington, M. V., Zerbini, A. N., & Findlay, K. P. (2011). Chilean Blue Whales as a Case Study to Illustrate Methods to Estimate Abundance and Evaluate Conservation Status of Rare Species. Conservation Biology, 25(3), 526–535. http://doi.org/10.1111/j.1523-1739.2011.01656.x
