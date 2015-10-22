@@ -1,5 +1,5 @@
 ---
-title: 'Practical 1: Load and process geographical data in R'
+title: 'Load and process geographical data in R'
 author: David L Miller
 
 ---
@@ -12,6 +12,8 @@ By the end of this practical, you should feel comfortable:
 - Removing and renaming columns in a `data.frame`
 - Saving data to an `RData` file
 
+Note we can (and should) re-run this file when we update the `Analysis.gdb` file to ensure that the data R uses has all of the covariates we want to use in our analysis.
+
 # Preamble
 
 Load some useful packages:
@@ -23,7 +25,7 @@ library(knitr)
 
 # Load and arrange data
 
-To fit our models we require three objects.
+To fit our spatial models we require three objects:
 
   1. The detection function we fitted previously.
   2. The segment data (sometimes called effort data). This tells us how much effort was expended per segment (in this case how far the boat went) and includes the covariates that we want to use to fit our model.
