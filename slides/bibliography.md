@@ -5,13 +5,16 @@ layout: index
 
 ---
 
+# Bibliography
+
+
 Here is a list of extra reading that may be interesting and provide further insight into particular topics. This is by no means a complete bibliography and we welcome any additions!
 
 Also potentially useful is the [distance sampling bibliography](http://distancesampling.org/dbib.html) maintained by Tiago Marques, Eric Rexstad and David L Miller.
 
 The below is organised by lecture/practical session. There is some duplication so that one can dip in and out without missing things.
 
-# Overall
+## Overall
 
 Cannonical books and papers:
 
@@ -28,9 +31,9 @@ Cannonical books and papers:
 
 
 
-# Landscape
+## Landscape
 
-## Data
+### Data
 
 Estimation of sperm whale abundance in the North Atlantic by NOAA:
 
@@ -40,35 +43,35 @@ Estimation of sperm whale abundance in the North Atlantic by NOAA:
 (*Would be nice to include a preprint of the EEZ/AFTT papers*)
 
 
-# Introduction to distance sampling
+## Introduction to distance sampling
 
-## Field methods, survey design etc
+### Field methods, survey design etc
 
 * Buckland et al (2015) chapters 2 & 4
 * Strindberg, S., & Buckland, S. T. (2004). Zigzag survey designs in line transect sampling. Journal of Agricultural, Biological, and Environmental Statistics, 9(4), 443–461. http://doi.org/10.1198/108571104X15601
 * Thomas, L., & Williams, R. (2007). Designing line transect surveys for complex survey regions. Journal of Cetacean Research and Management 9(1):1–13.
 
-## Detection function formulations
+### Detection function formulations
 
 * Buckland, S. T. (1992). Fitting Density Functions with Polynomials. Applied Statistics, 41(1), 63. http://doi.org/10.2307/2347618
 * Miller, D. L., & Thomas, L. (2015). Mixture models for distance sampling detection functions. PLoS ONE. http://doi.org/10.6084/m9.figshare.1293041
 
 
-# Advanced distance sampling
+## Advanced distance sampling
 
 * Covariates in the detection function
   * Marques, T. A., Thomas, L., Fancy, S. G., & Buckland, S. T. (2007). Improving estimates of bird density using multiple-covariate distance sampling. The Auk, 124(4), 1229. http://doi.org/http://dx.doi.org/10.1642/0004-8038(2007)124[1229:IEOBDU]2.0.CO;2
 - Goodness of fit testing for detection functions
   - Chapter 11, section 11 of Buckland, S. T., Anderson, D. R., Burnham, K. P., Laake, J. L., Borchers, D. L., & Thomas, L. (2004). Advanced Distance Sampling. Oxford University Press, Oxford, UK.
 
-## Abundance estimation
+### Abundance estimation
 
 * Classic text on sampling theory, Horvitz-Thompson estimators
   * Thompson, S. K. (2002). Sampling (2nd ed.). Wiley.
 * Other example analyses
   * [Example analysis of minke whales](http://distancesampling.org/R/vignettes/minke.html) with a stratified survey area by Eric Rexstad
 
-## Uncertainty estimation
+### Uncertainty estimation
 
 - Definitive reference on calculating encounter rate variance
   * Fewster, R. M., Buckland, S. T., Burnham, K. P., Borchers, D. L., Jupp, P. E., Laake, J. L., & Thomas, L. (2009). Estimating the Encounter Rate Variance in Distance Sampling. Biometrics, 65(1), 225–236. http://doi.org/10.1111/j.1541-0420.2008.01018.x
@@ -79,7 +82,7 @@ Estimation of sperm whale abundance in the North Atlantic by NOAA:
   * Borchers, D. L., Buckland, S. T., & Zucchini, W. (2002). Estimating Animal Abundance: Closed populations. Springer. (Appendix C)
 
 
-# 4. What is a DSM?
+## What is a DSM?
 
 - Paper that proposes DSM methodology
   - Hedley, S. L., & Buckland, S. T. (2004). Spatial models for line transect sampling. Journal of Agricultural, Biological, and Environmental Statistics, 9(2), 181–199. http://doi.org/10.1198/1085711043578
@@ -92,12 +95,12 @@ Estimation of sperm whale abundance in the North Atlantic by NOAA:
 
 
 
-# Generalized additive models
+## Generalized additive models
 
 Cannonical reference is Wood (2006)
 
 
-## Response distributions
+### Response distributions
 
 - Papers about using the Tweedie distribution
   * Shono, H. (2008). Application of the Tweedie distribution to zero-catch data in CPUE analysis. Fisheries Research, 93(1-2), 154–162. http://doi.org/10.1016/j.fishres.2008.03.006
@@ -108,18 +111,18 @@ Cannonical reference is Wood (2006)
   * *"We applied a Poisson GLM and GAM on the data and discovered overdispersion; therefore we applied NB GLM and GAM models. These were better, and the NB GAM seems satisfactory but the estimated value of k in the NB variance term is relatively small, meaning that the model is allowing for variance. In other words, the large overdispersion in the Poisson GLM (and GAM) is being captured by the quadratic variance term in the NB distribution. That is like shooting a mosquito with a cannon. It does the job if it kills the mosquito, but do we really need it? Perhaps there is a reason for the overdispersion, and hiding it behind a quadratic variance component may mean that we miss some important information. In the simulation study of chapter 2, we saw that if the data are zero-inflated, which can cause overdispersion, an NB GLM will give biased parameters."*
 
 
-## Smooths
+### Smooths
 
 * Section 4.1 of Wood (2006)
 * Within `mgcv` the `?smooth.terms` manual page lists all spline bases available in `mgcv` (and therefore `dsm`)
 * Figure of the thin plate spline basis functions adapted from Figure 4.6 of Wood (2006).
 
-## Selecting basis size
+### Selecting basis size
 
 * Practical advice in `mgcv` `?choose.k` manual page
 
 
-## Checking
+### Checking
 
 - Paper on randomised quantile residuals
   - Dunn, P. K., & Smyth, G. K. (1996). Randomized Quantile Residuals. Journal of Computational and Graphical Statistics, 5(3), 236–244. http://doi.org/10.1080/10618600.1996.10474708
@@ -128,7 +131,7 @@ Cannonical reference is Wood (2006)
 
 
 
-# Covariates
+## Covariates
 
 * Using *in situ* vs. remotely sensed covariates
   * Becker, E. A., Forney, K. A., Ferguson, M. C., Foley, D. G., Smith, R. C., Barlow, J., & Redfern, J. V. (2010). Comparing California Current cetacean–habitat models developed using in situ and remotely sensed sea surface temperature data. Marine Ecology Progress Series, 413, 163–183. http://doi.org/10.3354/meps08696
@@ -136,7 +139,7 @@ Cannonical reference is Wood (2006)
   * Foster, S. D., Shimadzu, H., & Darnell, R. (2012). Uncertainty in spatially predicted covariates: is it ignorable? Journal of the Royal Statistical Society: Series C (Applied Statistics), 61(4), 637–652. http://doi.org/10.1111/j.1467-9876.2011.01030.x
 
 
-# Multiple smooths and model selection
+## Multiple smooths and model selection
 
 - That great quote from Tobler is from:
   * Tobler, W. (1970). A computer movie simulating urban growth in the Detroit region. Economic Geography, 46(2), 234-240.
@@ -153,14 +156,14 @@ Cannonical reference is Wood (2006)
   * Winiarski, K. J., Burt, M. L., Rexstad, E., Miller, D. L., Trocki, C. L., Paton, P. W. C., & McWilliams, S. R. (2014). Integrating aerial and ship surveys of marine birds into a combined density surface model: A case study of wintering Common Loons. The Condor, 116(2), 149–161. http://doi.org/10.1650/CONDOR-13-085.1
 
 
-# Prediction
+## Prediction
 
 * Laura Mannocci's thesis work on extrapolation
   * Mannocci, L., Monestiez, P., Spitz, J., & Ridoux, V. (2015). Extrapolating cetacean densities beyond surveyed regions: habitat-based predictions in the circumtropical belt. Journal of Biogeography, n/a–n/a. http://doi.org/10.1111/jbi.12530
 * Paul Conn and co's work on using a generalised Cook's Distance to find places where you shouldn't extrapolate
   * [Preprint on github]() (accepted at PLOSONE)
 
-# Variance
+## Variance
 
 - How do we calculate $\mathbf{V}_\boldsymbol{\beta}$ (variance of the GAM parameters)?
   - Section 4.8 ("Distributional results") of Wood (2006)
@@ -174,9 +177,9 @@ Cannonical reference is Wood (2006)
 
 
 
-# R and RStudio
+## R and RStudio
 
-## Introductory
+### Introductory
 
 * [R for cats](http://rforcats.net/) is a good introduction to R
 * [RStudio cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
@@ -186,17 +189,17 @@ Cannonical reference is Wood (2006)
 * [Intro to `ggplot2`](http://www.noamross.net/blog/2012/10/5/ggplot-introduction.html)
 * [`lubridate`](http://www.jstatsoft.org/article/view/v040i03) a package to make date/time handling easier in R -- very useful!
 
-## Using GIS/spatial data in R
+### Using GIS/spatial data in R
 
 * [Applied Spatial Data Analysis with R](https://www.springer.com/us/book/9781461476177) the definitive book on spatial data in R, written by the authors of the most popular R spatial packages
 * [Barry Rowlingson's R spatial cheatsheet](http://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html)
 
 
-## Reproducable research
+### Reproducable research
 
 * [Using RMarkdown to generate `docx` Word documents](http://rmarkdown.rstudio.com/articles_docx.html)
 
-## Advanced topics
+### Advanced topics
 
 * Data analysis using a simple strategy: Wickham, H. (2011). The split-apply-combine strategy for data analysis. Journal of Statistical Software. [paper](http://www.jstatsoft.org/article/view/v040i01)
 * More technical guide to R: [Advanced R](http://adv-r.had.co.nz/)
@@ -204,10 +207,20 @@ Cannonical reference is Wood (2006)
 
 
 
-# Other approaches
+## Other approaches
 
 * Comparison of different techniques for spatial modelling
   * Oppel, S., Meirinho, A., Ramírez, I., Gardner, B., O’Connell, A. F., Miller, P. I., & Louzao, M. (2012). Comparison of five modelling techniques to predict the spatial distribution and abundance of seabirds. Biological Conservation, 156, 94–104. http://doi.org/10.1016/j.biocon.2011.11.013
+* Bayesian approaches
+  * Niemi, A., & Fernández, C. (2010). Bayesian Spatial Point Process Modeling of Line Transect Data. Journal of Agricultural, Biological, and Environmental Statistics, 15(3), 327–345. http://doi.org/10.1007/s13253-010-0024-8
+  * Schmidt, J. H., Rattenbury, K. L., Lawler, J. P., & Maccluskie, M. C. (2011). Using distance sampling and hierarchical models to improve estimates of Dall's sheep abundance. The Journal of Wildlife Management, 76(2), 317–327. http://doi.org/10.1002/jwmg.216
+  * Conn, P. B., Laake, J. L., & Johnson, D. S. (2012). A hierarchical modeling framework for multiple observer transect surveys. PLoS ONE. http://doi.org/10.1371/journal.pone.0042294.g001
+  * Moore, J. E., & Barlow, J. (2011). Bayesian state-space model of fin whale abundance trends from a 1991-2008 time series of line-transect surveys in the California Current. Journal of Applied Ecology, 48(5), 1195–1205. http://doi.org/10.1111/j.1365-2664.2011.02018.x
+  * Schmidt, J. H., Rattenbury, K. L., Lawler, J. P., & Maccluskie, M. C. (2011). Using distance sampling and hierarchical models to improve estimates of Dall's sheep abundance. The Journal of Wildlife Management, 76(2), 317–327. http://doi.org/10.1002/jwmg.216
+* Other frequentist approaches
+  * Johnson, D. S., Laake, J. L., & Ver Hoef, J. M. (2009). A Model-Based Approach for Making Ecological Inference from Distance Sampling Data. Biometrics, 66(1), 310–318. http://doi.org/10.1111/j.1541-0420.2009.01265.x
+  * Ver Hoef, J. M., Cameron, M. F., Boveng, P. L., London, J. M., & Moreland, E. E. (2013). A spatial hierarchical model for abundance of three ice-associated seal species in the eastern Bering Sea. Statistical Methodology, 1–44. http://doi.org/10.1016/j.stamet.2013.03.001
+
 
 
 
