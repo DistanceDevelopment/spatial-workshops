@@ -47,7 +47,6 @@ The `Distance` package expects certain column names to be used. Renaming is much
 ```{r rename-cols}
 distdata$distance <- distdata$Distance
 distdata$object <- distdata$SightingID
-distdata$Sample.Label <- distdata$SegmentID
 distdata$size <- distdata$GroupSize
 ```
 Let's see what we did:
