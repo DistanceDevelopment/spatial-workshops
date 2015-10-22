@@ -1,11 +1,11 @@
 Welcome & landscape
 =====================
-author: David L Miller, Jason Roberts
+author: David L Miller & Jason J Roberts
 css: custom.css
 transition: none
 
 
-Welcome
+Welcome!
 =====================
 type: section
 
@@ -63,21 +63,22 @@ Daily schedule
 
 * Can be found at:
   - [distancesampling.org/workshops/duke-spatial-2015/](http://distancesampling.org/workshops/duke-spatial-2015/)
-* In rooms BLAH and BLAH
-* Starting at 9am, finish at 4:30pm.
+* Locations:
+  - Classroom sessions: LSRC A158
+  - Lab sessions: LSRC A153
+* Starting 9am, finish 4:30pm.
 * Wed and Fri we have the room longer, we will be around
 * Lunch 12:15pm to 1:15pm
-  - nearest lunch venue is ...
 
 
 Other info
 ===========
 
-* Additional notes and bibliography online
+* Slides/exercises/bibliography online
   - [distancesampling.org/workshops/duke-spatial-2015/](http://distancesampling.org/workshops/duke-spatial-2015/)
-* Slides/practicals/code also there
-* MozPad session at [URL], we can answer questions there
-* Extra code and links to be posted at MozPad, which will be archived for later
+* MozPad session at [URL]
+  - Ask questions anonymously
+  - Extra code and links to be posted, archived
 
 Software
 ===================
