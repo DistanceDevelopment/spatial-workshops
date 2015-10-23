@@ -14,12 +14,9 @@ Now we are dangerous.
 
 ```{r setup, include=FALSE}
 library(knitr)
-library(magrittr)
 library(viridis)
 library(ggplot2)
-library(reshape2)
 library(dsm)
-library(animation)
 opts_chunk$set(cache=TRUE, echo=FALSE)
 load("../spermwhale-analysis/count-models.RData")
 load("../spermwhale-analysis/sperm-data.RData")
@@ -146,6 +143,17 @@ In R...
   - propagates uncertainty from detection function to spatial model
   - only works for `count` models (more or less)
   
+
+Variance of abundance
+======================
+
+Using `dsm.var.gam`
+
+```{r, var-tot-abund-gam, echo=TRUE}
+dsm_tw_var_ind <- dsm.var.gam(dsm_all_tw_rm, predgrid, off.set=predgrid$off.set)
+summary(dsm_tw_var_ind)
+```
+
 Variance of abundance
 ======================
 
@@ -154,16 +162,6 @@ Using `dsm.var.prop`
 ```{r, var-tot-abund, echo=TRUE}
 dsm_tw_var <- dsm.var.prop(dsm_all_tw_rm, predgrid, off.set=predgrid$off.set)
 summary(dsm_tw_var)
-```
-
-Variance of abundance
-======================
-
-Now using `dsm.var.gam`
-
-```{r, var-tot-abund-gam, echo=TRUE}
-dsm_tw_var_ind <- dsm.var.gam(dsm_all_tw_rm, predgrid, off.set=predgrid$off.set)
-summary(dsm_tw_var_ind)
 ```
 
 Plotting - data processing
