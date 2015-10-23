@@ -17,6 +17,7 @@ David L Miller (Dave)
 ==============
 type: section
   * Research fellow, CREEM, University of St Andrews
+  * PhD with Simon Wood (author of `mgcv`)
   * Worked on R distance sampling (software) since 2005
   * Author/maintainer of `Distance`, `mrds`, `dsm`, `readst`, `mmds`
 
@@ -26,6 +27,12 @@ type: section
   * Research fellow (?), MGEL, Duke University
   * [more bio info !]
   * Author of MGET toolbox for ArcGIS
+
+
+Who are you?
+==============
+type: section
+
 
 What is this course about?
 ===================
@@ -68,42 +75,61 @@ Daily schedule
   - Lab sessions: LSRC A153
 * Starting 9am, finish 4:30pm.
 * Wed and Fri we have the room longer, we will be around
-* Lunch 12:15pm to 1:15pm
+* **Lunch** 12:15pm to 1:15pm
 
 
-Other info
-===========
+Course materials
+==================
 
 * Slides/exercises/bibliography online
   - [distancesampling.org/workshops/duke-spatial-2015/](http://distancesampling.org/workshops/duke-spatial-2015/)
-* MozPad session at [URL]
-  - Ask questions anonymously
-  - Extra code and links to be posted, archived
+  - updated during the week
+  - everything will remain available
+  
+
+Asking questions
+==================
+type:section
+
+In real life
+==============
+
+* Ask questions!
+* Throw up you hand or yell :)
+
+
+Online
+=======
+
+* `etherpad` session at [public.etherpad-mozilla.org/p/distance-duke-2015](https://public.etherpad-mozilla.org/p/distance-duke-2015)
+  - wiki-ish document everyone can edit
+  - anonymous or user-based  
+* Ask questions/give feedback anonymously
+* Request material to be covered in "special topics"
+* We'll archive useful material for others after the course
+
+Sticky notes
+=============
+
+* At the end of each session
+  - **<span style="color:green">Green</span>**: one thing that went well
+  - **<span style="color:red">Red</span>**: one thing that went poorly
+* Anonymous!
+* Want to check how our teaching is going
+
+Computers
+==========
+type:section
 
 Software
 ===================
 
-* Using Arc and RStudio
+* We'll use ArcGIS and RStudio
 * If you have your own copies make correct software is installed:
-  * instructions on course site
+  - Instructions on course site
+  - We can help (but want to prioritise teaching)
 * Computer classroom is already setup
 
-Other stuff
-============
-
-* Plenty of time for questions!
-* Please ask questions!
-* Special session on Friday for long queries
-  * *We're making a list!*
-
-
-Data
-===================
-
-* Sperm whale data from NOAA
-* East coast surveys
-* ...
-* Data can be downloaded at [URL]
 
 
 Let's get started...
