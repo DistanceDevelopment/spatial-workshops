@@ -66,8 +66,10 @@ pp <- predict(dsm_nb_xy_ms, predgrid)
 ```
 This is just a list of numbers -- the predicted abundance per cell. We can sum these to get the estimated abundance for the study area:
 ```{r predsum}
-sum(pp)
+sum(pp, na.rm=TRUE)
 ```
+Because we predicted over the whole raster grid (including those cells without covariate values -- e.g. land), some of the values in `pp` will be `NA`, so we can ignore them when we sum by setting `na.rm=TRUE`. We need to do this again when we plot the data too.
+
 We can also plot this to get a spatial representation of the predictions:
 ```{r predsp}
 # assign the predictions to the prediction grid data.frame
