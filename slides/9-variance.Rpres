@@ -226,6 +226,15 @@ p <- plot(dsm_tw_var_map, observations=FALSE, plot=FALSE) +
 print(p)
 ```
 
+Big CVs
+========
+
+- Here CVs are "well behaved"
+- Not always the case (huge CVs possible)
+- These can be a pain to plot
+- Use `cut()` in R to make categorical variable
+  - e.g. `c(seq(0,1, len=100), 2:4, Inf)` or somesuch
+
 
 
 Recap
