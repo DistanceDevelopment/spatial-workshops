@@ -169,7 +169,7 @@ Cannonical reference is Wood (2006)
   - Section 4.8 ("Distributional results") of Wood (2006)
 * Propagating variance from the detection function
   * Williams, R., Hedley, S. L., Branch, T. A., Bravington, M. V., Zerbini, A. N., & Findlay, K. P. (2011). Chilean Blue Whales as a Case Study to Illustrate Methods to Estimate Abundance and Evaluate Conservation Status of Rare Species. Conservation Biology, 25(3), 526–535. http://doi.org/10.1111/j.1523-1739.2011.01656.x
-  * Appendix B of Miller et al (2013) [available on DLM's website](http://converged.yt/papers/dsm-paper-AppendixB.pdf)
+  * Appendix B of Miller et al (2013) [available on DLM's website](http://converged.yt/papers/dsm-paper-AppendixB.pdf) (more technical)
 * (Re-iterating from above) How can we just add the squared CVs?
   * Goodman, L. A. (1960). On the Exact Variance of Products. Journal of the American Statistical Association, 55(292), 708. http://doi.org/10.2307/2281592
   * Seber, G. A. F. (1982). The Estimation of Animal Abundance and Related Parameters. Macmillan.
