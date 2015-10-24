@@ -5,7 +5,7 @@ css: custom.css
 
 ---
 
-Here is a "solution" for practical 4. As with any data analysis, there is no correct answer, but this shows how I would approach this analysis. The analysis here is conditional on selecting a detection function and DSM in the previous exercises; I've chosen `df_hn` and `dsm_nb_xy` (see previous exercise for why).
+Here is a "solution" for practical 4. As with any data analysis, there is no correct answer, but this shows how I would approach this analysis. The analysis here is conditional on selecting a detection function and DSM in the previous exercises; I've shown a variety of models selected in the previous solutions to show the differences between models.
 
 Much of the text below is as in the exercise itself, so it should be relatively easy to navigate.
 
