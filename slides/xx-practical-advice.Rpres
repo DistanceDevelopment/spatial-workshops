@@ -87,7 +87,7 @@ Avoiding rules of thumb
 - Think about design
   - Spatial coverage
   - Covariate coverage
-  
+
 Disappointment
 ===============
 
@@ -132,9 +132,9 @@ Model validation
 - Some variety of cross-validation
 - Temporal replication
   - Leave out 1 year, fit to others, predict, assess
-- Spatial jackknife
+- Spatial "pseudo-jackknife"
   - Leave out every $n^{th}$ segment, refit, ...
-  - Leave out 2, 3 etc...
+  - (Maybe leave out 2, 3 etc...)
 
 
 Getting help

@@ -1,0 +1,35 @@
+Advanced topics
+===============
+author: David L Miller & Jason J Roberts
+transition: none
+css: custom.css
+
+This is a whirlwind tour
+=========================
+type: section
+
+Some of this is experimental
+=============================
+type: section
+
+
+Spatial autocorrelation
+========================
+
+
+Temporal effects
+=================
+
+
+Interactions in GAMs
+=====================
+
+
+Cyclic smooths
+===============
+
+Duchon splines
+===============
+
+
+
