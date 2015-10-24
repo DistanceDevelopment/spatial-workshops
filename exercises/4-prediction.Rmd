@@ -119,6 +119,5 @@ save(predgrid, predictorStack, file="predgrid.RData")
 # Extra credit
 
 - Try refitting your models with `family=quasipoisson()` as the response distribution. What do you notice about the predicted abundance?
-- Can you work out a way to get `melt` from the `reshape2` package to reformat the prediction `data.frame` so that you can use `facet_wrap` in `ggplot2` to plot predictions for multiple models in a grid layout?
-
+- Can you work out a way to use `ldply()` from the `plyr` package so that you can use `facet_wrap` in `ggplot2` to plot predictions for multiple models in a grid layout?
 
