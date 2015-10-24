@@ -1,21 +1,17 @@
 ---
-title: 'Practical 2 solutions: Detection function analysis'
+title: 'Practical 1: Detection function analysis'
 author: David L Miller
+css: custom.css
 
 ---
 
-# Aims
+Here is a "solution" for practical 1. As with any data analysis, there is no correct answer, but this shows how I would approach this analysis.
 
-By the end of this exercise you should feel confident doing the following:
+Much of the text below is as in the exercise itself, so it should be relatively easy to navigate.
 
-- Loading data from ArcGIS `.gdb` files
-- Working on a `data.frame` in R to get it into the correct format for `Distance`
-- Fitting a detection function using `ds()`
-- Checking detection functions
-- Making at goodness of fit plots
-- Selecting models using AIC
-- Estimating abundance using `dht()`
-
+<div class="boxout">
+Additional text and code is highlighted using boxes like this.
+</div>
 
 # Preamble
 
@@ -47,7 +43,6 @@ The `Distance` package expects certain column names to be used. Renaming is much
 ```{r rename-cols}
 distdata$distance <- distdata$Distance
 distdata$object <- distdata$SightingID
-distdata$Sample.Label <- distdata$SegmentID
 distdata$size <- distdata$GroupSize
 ```
 Let's see what we did:
@@ -76,7 +71,7 @@ hist(distdata$distance, xlab="Distance (m)", main="Distance to sperm whale obser
 We might expect that there will be a relationship between the distance at whcih we see animals and the size of the groups observed (larger groups are easier to see at larger distances), so let's plot that to help us visualise the relationship.
 
 
-```{r eda-covars}
+```{r eda-covars, fig.width=12}
 # plot of size versus distance and sea state vs distance, linear model and LOESS smoother overlay
 
 # put the data into a simple format, only selecting what we need
@@ -123,7 +118,72 @@ print(p)
 
 # Fitting detection functions
 
-Here we fit all possible detection function models with half-normal and hazard-rate functions using each combination of covariates. This is somewhat brute force.
+It's now time to fit some detection function models. We'll use the `ds()` function from the `Distance` package to fit the detection function. You can access the help file for the `ds()` function by typing `?ds` -- this will give you information about what the different arguments to the function are and what they do.
+
+We can fit a very simple model with the following code:
+```{r simple-df}
+df_hn <- ds(data=distdata, truncation=6000, key="hn", adjustment=NULL)
+```
+
+Let's dissect the call and see what each argument means: 
+
+- `data=distdata`: the data to use to fit the model, as we prepared above.
+- `truncation=6000`: set the truncation distance. Here, observations at distances greater than 6000m will be discarded before fitting the detection function.
+- `key="hn"`: the key function to use for the detection function, in this case half-normal (`?ds` lists the other options).
+- `adjustment=NULL`: adjustment term series to fit. `NULL` here means that no adjustments should be fitted (again `?ds` lists all options).
+
+Other useful arguments for this practical are:
+
+- `formula=`: gives the formula to use for the scale parameter. By default it takes the value `~1`, meaning the scale parameter is constant and not a function of covariates.
+- `order=`: specifies the "order" of the adjustments to be used. This is a number (or vector of numbers) specifying the order of the terms. For example `order=2` fits order 2 adjustments, `order=c(2,3)` will fit a model with order 2 and 3 adjustments (mathematically, it only makes sense to include order 3 with order 2). By default the value is `NULL` which has `ds()` select the number of adjustments by AIC.
+
+
+## Summaries
+
+We can look at the summary of the fitted detection function using the `summary()` function:
+```{r simple-summary}
+summary(df_hn)
+```
+
+## Goodness of fit
+
+Goodness of fit quantile-quantile plot and test results can be accessed using the `ddf.gof()` function:
+```{r simple-gof, fig.width=5, fig.height=5}
+ddf.gof(df_hn$ddf, asp=1)
+```
+
+Note three things here:
+1. We use the `$ddf` element of the detection function object
+2. We're ignoring the $\Chi^2$ test results, as they rely on binning the distances to calculate test statistics where as Cramer-von Mises and Kolmogorov-Smirnov tests do not.
+3. Using `asp=1` to set the aspect ratio to 1, so the plot is not distorted.
+
+## Plotting
+
+We can plot the models simply using the `plot()` function:
+```{r simple-plot}
+plot(df_hn)
+```
+
+The dots on the plot indicate the distances where observations are. We can remove them (particularly useful for a model without covariates) using the additional argument `showpoints=FALSE` (try this out!).
+
+# Now you try...
+
+Now try fitting a few models and comparing them using AIC. Don't try to fit all possible models, just try a selection (say, a hazard-rate, a model with adjustments and a couple with different covariates). You can also try out changing the truncation distance.
+
+Here's an example to work from. Some tips before you start:
+
+* You can include as many lines as you like in a given chunk (though you may find it more managable to separate them up, remembering each time to give the chunk a unique name).
+* You can run the current line of code in RStudio by hitting `Control+Enter` (on Windows/Linux; `Command+Enter` on Mac).
+* Giving your models informative names will help later on! Here I'm using `df_` to indicate that this is a detection function, then shortened forms of the model form and covariates, separated by underscores, but use what makes sense to you (and future you!).
+
+```{r trying-models}
+df_hr_ss_size <- ds(distdata, truncation=6000, adjustment=NULL, key="hr", formula=~SeaState+size)
+```
+
+Once you've got the hang of writing models and looking at the differences between them, you should move onto the next section.
+
+<div class="boxout">
+Since I wasn't constrained for time, here we can fit all possible detection function models with half-normal and hazard-rate functions using each combination of covariates. This is somewhat brute force.
 
 We'll store all the models in a list that we can then iterate over later.
 
@@ -151,10 +211,14 @@ models$hr.survey.size <- ds(distdata, truncation=6000, adjustment=NULL, formula=
 models$hr.survey.size.ss <- ds(distdata, truncation=6000, adjustment=NULL, formula=~as.factor(Survey)+size+SeaState, key="hr")
 ```
 
+Phew!
+</div>
 
 # Model selection
 
-This code will make a results table with relevant statistics for model selection in it.
+Looking at the models individually can be a bit unwieldy -- it's nicer to put that data into a table and sort the table by the relevant statistic.
+
+The code below will make a results table with relevant statistics for model selection in it. Don't worry about how this code exactly works at the moment.
 
 ```{r support-make-table}
 make_table <- function(models){
@@ -194,6 +258,19 @@ make_table <- function(models){
 }
 ```
 
+The `make_table()` function expects a `list` of models as it's input. We can do that with the two models that I fitted like so:
+```{r model-list}
+#models <- list()
+#models$df_hn <- df_hn
+#models$df_hr_ss_size <- df_hr_ss_size
+```
+(You can add the models you fitted above into this list.)
+
+<div class="boxout">
+We already have everything in a list from the above, so we comment out the above.
+</div>
+
+
 Here is the resulting table from the code above, made using the `kable` function from `knitr`:
 
 ```{r df-results, results="asis"}
@@ -201,6 +278,7 @@ model_table <- make_table(models)
 kable(model_table, digits=3)
 ```
 
+<div class="boxout">
 The four best models are `r rownames(model_table)[1:4]`
 
 We can plot the best 4 models:
@@ -215,7 +293,7 @@ plot(models$hn.ss, main="hn.ss")
 
 and produce the corresponding quantile-quantile plots and goodness of fit test results
 
-```{r qqplot-top-models, fig.width=6, fig.height=6}
+```{r qqplot-top-models, fig.width=6, fig.height=6, results="hide"}
 par(mfrow=c(2,2))
 ddf.gof(models$hr.ss$ddf, main="hr.ss")
 ddf.gof(models$hr$ddf, main="hr")
@@ -225,7 +303,14 @@ ddf.gof(models$hn.ss$ddf, main="hn.ss")
 
 (that was a lot of output, we can get rid of that by setting `results="hide"` in the chunk above).
 
-From that it looks like the "best" mode by AIC and by goodness of fit is a hazard-rate model with Beaufort sea state as a covariate. But note that there is a considerable spike in the distance data. This may be down to observers guarding the trackline (spending too much time searching near zero distance). It's therefore possible that the hazard-rate model is overfitting to this peak. So we can investigate results from the half-normal model too.
+From that it looks like the "best" mode by AIC and by goodness of fit is a hazard-rate model with Beaufort sea state as a covariate. But note that there is a considerable spike in the distance data (see next comment).
+</div>
+
+
+
+### A further note about model selection for the sperm whale data
+
+Note that there is a considerable spike in our distance data. This may be down to observers guarding the trackline (spending too much time searching near zero distance). It's therefore possible that the hazard-rate model is overfitting to this peak. So we'd like to investigate results from the half-normal model too and see what the effects are on the final spatial models.
 
 
 ## Estimating abundance
@@ -237,6 +322,29 @@ $$
 \hat{N} = \frac{A}{a} \sum_{i=1}^n \frac{s_i}{p_i}
 $$
 we can calculate each part of this equation in R:
+
+- `A` is the total area of the region we want to estimate abundance for. This was $A=5.285e+11 m^2$.
+- `a` is the total area we surveyed. We know that the total transect length was 9,498,474m and the truncation distance. Knowing that then $a=2wL$ we can calculate $a$.
+- $s_i$ are the group sizes, they are stored in `df_hn$ddf$data$size`.
+- $p_i$ are the probabilities of detection, we can obtain them using `predict(df_hn$ddf)$fitted`.
+
+We know that in general operations are vectorised in R, so calculating `c(1, 2, 3)/c(4, 5, 6)` will give `c(1/4, 2/5, 3/6)` so we can just divide the results of getting the $s_i$ and $p_i$ values and then use the `sum()` function to sum them up.
+
+Try out estimating abundance using the formula below using both `df_hn` and your favourite model from above:
+
+<div class="boxout">
+Just trying that out for `df_hn`:
+```{r ht-estimate}
+N_hn <- (5.285e+11/(2*df_hn$ddf$meta.data$width*9498474)) * 
+         sum(df_hn$ddf$data$size/predict(df_hn$ddf)$fitted)
+N_hn
+```
+</div>
+
+Note that in the solutions to this exercise (posted on the course website) I show how to use the function `dht()` to estimate abundance (and uncertainty) for a detection function analysis. This involves some more complex data manipulation steps, so we've left it out here in favour of getting to grips with the mathematics.
+
+<div class="boxout">
+As promised, here is an example using the data from GIS and the `dht()` function. Note that this code may not run until you've got the data as in practical 2.
 
 First we need to load the effort data from the geodatabase, this is in the "Segments" table. We can then use this to build the "`sample.table`"
 
@@ -278,6 +386,7 @@ Finally we can construct the observation table to link the samples to the detect
 ```{r get-obs-table}
 # set the segment labels
 segs$Sample.Label <- segs$SegmentID
+distdata$Sample.Label <- distdata$SegmentID
 
 # join the segment data onto the distance data
 obs.table <- join(distdata, segs, by="Sample.Label")
@@ -287,7 +396,7 @@ obs.table <- obs.table[,c("object","Sample.Label")]
 obs.table$Region.Label <- "StudyArea"
 ```
 
-Now we can call teh `dht` function that will estimate the abundance for us, given the tables we've constructed:
+Now we can call the `dht` function that will estimate the abundance for us, given the tables we've constructed:
 ```{r ht}
 Nhat_hr.ss <- dht(models$hr.ss$ddf, region.table, sample.table, obs.table)
 Nhat_hr.ss
@@ -299,35 +408,39 @@ Nhat_hn.ss <- dht(models$hn.ss$ddf, region.table, sample.table, obs.table)
 Nhat_hn.ss
 ```
 
+Now that was a lot of output! But looking at the `Summary for individuals` section and the `Abundance` table we can see the differences between the two models' abundance estimates.
+
 As we can see, there is a definite difference between the abundance estimates for these two models.
+</div>
+
 
 ### Accounting for perception bias
 
+It's common, especially in marine surveys, for animals at zero distance to be missed by observers. There are several ways to deal with this issue. For now, we are just going to use a very simply constant correction factor to inflate the abundance.
+
 From Palka (2006), we think that observations on the track line were such that $g(0)=0.46$, we can apply that correction to our abundance estimate (in a very primitive way):
 
+<div class="boxout">
 ```{r ht-perception}
-Nhat_hr.ss$individuals$N$Estimate/0.46
+N_hn_percep <- N_hn/0.46
+N_hn_percep
 ```
-
-```{r ht-cov-perception}
-Nhat_hn.ss$individuals$N$Estimate/0.46
-```
+</div>
 
 This kind of correction works fine when we have a single number to adjust by, in general we'd like to model the perception bias using "mark-recapture distance sampling" techniques.
 
 ## Save model objects
 
-Let's save our top four models (`hr.ss`, `hr`, `hr.survey.ss` and `hn.ss`) in the RData format, so we can load them up later on.
+Save your top few models in an `RData` file, so we can load them up later on. We'll also save the distance data we used to fit out models.
 
 ```{r save-models}
-df_hr_ss <- models$hr.ss
-df_hr_survey_ss <- models$hr.survey.ss
-df_hr <- models$hr
-df_hn_ss <- models$hn.ss
-save(df_hr_ss, df_hr_survey_ss, df_hr, df_hn_ss,
-     distdata, region.table, sample.table, obs.table,
+save(df_hn, df_hr_ss_size, # add you models here, followed by commas!
+     distdata,
      file="df-models.RData")
 ```
+
+You can check it worked by using the `load()` function to recover the models.
+
 
 ## References
 
