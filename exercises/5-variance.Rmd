@@ -1,5 +1,5 @@
 ---
-title: `Practical 5: Estimating variance'
+title: 'Practical 5: Estimating variance'
 author: David L Miller
 
 ---
