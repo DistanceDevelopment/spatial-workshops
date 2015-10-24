@@ -156,5 +156,4 @@ If you have time, try the following:
 
 - What happens when we set `family=quasipoisson()`? Compare results of `gam.check` and `rqgam.check` for this and the other models.
 - Make the `k` value very big (~100 or so), what do you notice?
-- We used the `nb()` and `tw()` response distributions above for negative binomial and Tweedie distributions respectively. These distributions can also be specified using `negbin()` and `Tweedie()`. Use the manual pages in R to find out what the difference between the alternative specifications are.
 
