@@ -1,5 +1,5 @@
 ---
-title: 'Practical 5: Making predictions'
+title: 'Practical 4: Making predictions'
 author: David L Miller
 
 ---
@@ -20,6 +20,7 @@ By the end of this practical, you should feel comfortable:
 # Loading the packages and data
 
 ```{r load-packages}
+library(knitr)
 library(dsm)
 library(ggplot2)
 # colourblind-friendly colourschemes
