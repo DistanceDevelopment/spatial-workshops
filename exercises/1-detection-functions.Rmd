@@ -1,5 +1,5 @@
 ---
-title: 'Practical 2: Detection function analysis'
+title: 'Practical 1: Detection function analysis'
 author: David L Miller
 
 ---
