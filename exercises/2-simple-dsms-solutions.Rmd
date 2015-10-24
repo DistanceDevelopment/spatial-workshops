@@ -6,7 +6,7 @@ output:
     css: custom.css
 ---
 
-Here is a "solution" for practical 3. As with any data analysis, there is no correct answer, but this shows how I would approach this analysis. The analysis here is conditional on selecting a detection function in the previous exercises; I've arbitrarily chosen `df_hn` and `df_hr_ss_size` that we saved previously.
+Here is a "solution" for practical 3. As with any data analysis, there is no correct answer, but this shows how I would approach this analysis. The analysis here is conditional on selecting a detection function in the previous exercises; I've chosen `df_hn` and `df_hr_ss_size` that we saved previously (see detection function solutions).
 
 Much of the text below is as in the exercise itself, so it should be relatively easy to navigate.
 
@@ -210,7 +210,7 @@ Try this out and compare the resulting check plots.
 
 <div class="boxout">
 First looking at the model with count as the response and changing the response to Tweedie by specifying `family=tw()`:
-```{r}
+```{r tw-xy}
 dsm_tw_xy <- dsm(count~s(x,y),
                  ddf.obj=df_hn, segment.data = segs, observation.data=obs,
                  family=tw(), method="REML")
@@ -227,6 +227,16 @@ qq.gam(dsm_tw_xy, main="Tweedie")
 ```
 
 The result here is far from clear-cut but (to my eye) it seems like the Tweedie model is better (in Q-Q plot terms at least).
+
+We can also repeat our model with additive terms but using a Tweedie response, for the sake of completeness:
+```{r tw-x-y}
+dsm_tw_x_y <- dsm(count~s(x) + s(y),
+                  ddf.obj=df_hn, segment.data = segs, observation.data=obs,
+                  family=tw(), method="REML")
+summary(dsm_tw_x_y)
+```
+
+
 
 Moving on to the estimated abundance response, we saw a pretty badly behaved Q-Q plot when we looked at the estimated abundance model with negative binomial response above. We can instead try using the Tweedie distribution, by specifying `family=tw()`:
 ```{r tw-xy-ae}
@@ -254,7 +264,7 @@ It'll be interesting to see how these models compare to the more complex models 
 
 ```{r save-models}
 # add your models here
-save(dsm_nb_x_y, dsm_nb_xy,
+save(dsm_nb_x_y, dsm_nb_xy, dsm_tw_x_y, dsm_tw_xy,
      file="dsms-xy.RData")
 ```
 
