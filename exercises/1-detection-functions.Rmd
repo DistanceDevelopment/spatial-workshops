@@ -263,7 +263,7 @@ we can calculate each part of this equation in R:
 - `A` is the total area of the region we want to estimate abundance for. This was $A=5.285e+11 m^2$.
 - `a` is the total area we surveyed. We know that the total transect length was 9,498,474m and the truncation distance. Knowing that then $a=2wL$ we can calculate $a$.
 - $s_i$ are the group sizes, they are stored in `df_hn$ddf$data$size`.
-- $p_i$ are the probabilities of detection, we can obtain them using `predict(df_hn$ddf)`.
+- $p_i$ are the probabilities of detection, we can obtain them using `predict(df_hn$ddf)$fitted`.
 
 We know that in general operations are vectorised in R, so calculating `c(1, 2, 3)/c(4, 5, 6)` will give `c(1/4, 2/5, 3/6)` so we can just divide the results of getting the $s_i$ and $p_i$ values and then use the `sum()` function to sum them up.
 
