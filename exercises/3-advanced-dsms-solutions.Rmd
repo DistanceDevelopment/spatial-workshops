@@ -1,11 +1,11 @@
 ---
-title: 'Practical 4: Density surface models with multiple smooths, model selection'
+title: 'Practical 3: Density surface models with multiple smooths, model selection'
 author: David L Miller
 css: custom.css
 
 ---
 
-Here is a "solution" for practical 4. As with any data analysis, there is no correct answer, but this shows how I would approach this analysis. The analysis here is conditional on selecting a detection function in the previous exercises; I've arbitrarily chosen `df_hn` and `df_hr_ss_size` that we saved previously.
+Here is a "solution" for practical 3. As with any data analysis, there is no correct answer, but this shows how I would approach this analysis. The analysis here is conditional on selecting a detection function in the previous exercises; I've arbitrarily chosen `df_hn` and `df_hr_ss_size` that we saved previously.
 
 Much of the text below is as in the exercise itself, so it should be relatively easy to navigate.
 

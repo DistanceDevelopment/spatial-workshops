@@ -1,5 +1,5 @@
 ---
-title: 'Practical 4: Density surface models with multiple smooths, model selection'
+title: 'Practical 3: Density surface models with multiple smooths, model selection'
 author: David L Miller
 
 ---
