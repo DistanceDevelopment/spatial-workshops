@@ -46,19 +46,41 @@ What do we mean by "sample size"?
 - Number of segments with observations
   - *spatial model*
 
-Let's talk about a different issue
-====================================
+Re-frame
+=========
 type: section
 
 How would we know when we have enough samples?
 ===============================================
 
 - We don't
-- DLM has seen:
-  - ~20 observations give a good detection function
-  - ~10,000 observations be useless
 - Heavily context-dependent
 - Go back to assumptions
+
+"How much data?"
+==================
+
+```{r df-obs, echo=FALSE, fig.width=15, fig.height=9}
+library(Distance)
+#set.seed(21)
+set.seed(321)
+dist1 <- abs(rnorm(30,sd=0.2))
+mod1 <- ds(data.frame(distance=dist1, object=1:length(dist1)), adjustment=NULL)
+
+dist2 <- c(abs(rnorm(250,sd=0.02)),
+           abs(rnorm(750,sd=0.5)))
+mod2_full <- ds(data.frame(distance=dist2, object=1:length(dist2)), adjustment=NULL)
+mod2_05 <- ds(data.frame(distance=dist2, object=1:length(dist2)), adjustment=NULL, truncation=0.5)
+mod2_004 <- ds(data.frame(distance=dist2, object=1:length(dist2)), adjustment=NULL, truncation=0.04)
+
+par(mfrow=c(2,3), cex=1, cex.main=4)
+plot(mod1, main="n=30", showpoints=FALSE, pl.den=0)
+plot(1:10, axes=FALSE, type="n", ylab="", xlab="", showpoints=FALSE, pl.den=0)
+plot(1:10, axes=FALSE, type="n", ylab="", xlab="", showpoints=FALSE, pl.den=0)
+plot(mod2_full, main="n=1000", showpoints=FALSE, pl.den=0)
+plot(mod2_05, main="n=747", showpoints=FALSE, pl.den=0)
+plot(mod2_004, main="n=273", showpoints=FALSE, pl.den=0)
+```
 
 
 Pilot studies and "you get what you pay for"
@@ -71,13 +93,6 @@ Pilot studies and "you get what you pay for"
 - Get information early, get it cheap
   - Inform design from a pilot study
 
-blah
-=====
-title: none
-type: section
-
-<div class="bigq">"Rules of thumb are effectively lazy proxies for really understanding what's going on in the data -- we'd rather know what's going on"</div>
-
 Avoiding rules of thumb
 ========================
 
@@ -87,6 +102,36 @@ Avoiding rules of thumb
 - Think about design
   - Spatial coverage
   - Covariate coverage
+  
+Coverage
+=========
+
+```{r coverage, fig.width=12, echo=FALSE}
+library(dsm)
+load("../spermwhale-analysis/sperm-data.RData")
+load("../spermwhale-analysis/df-models.RData")
+# fit a quick model from previous exericises
+dsm_all_tw_rm <- dsm(count~s(x, y, bs="ts") +
+                           s(Depth, bs="ts"),
+                     ddf.obj=df_hr,
+                     segment.data=segs, observation.data=obs,
+                     family=tw(), method="REML")
+exclude_fn <- function(top, bottom){
+  segs2 <- segs[(segs$Depth >0 & segs$Depth<bottom) | (segs$Depth<5200 & segs$Depth>top),]
+  dsm_a <- dsm(count~s(Depth, bs="ts"),
+               ddf.obj=df_hr,
+               segment.data=segs2, observation.data=obs,
+               family=tw(), method="REML")
+  plot(dsm_a, scale=0, main=paste0(">",top," and <", bottom), xlim=c(0,5200))
+}
+
+par(mfrow=c(1,3))
+exclude_fn(0, Inf)  
+exclude_fn(3000, 1000)  
+exclude_fn(5000, 3000)  
+```
+
+
 
 Disappointment
 ===============
@@ -94,8 +139,10 @@ Disappointment
 - Sometimes you don't have enough data
 - Or, enough coverage
 - Or, the right covariates
-
-<div class="medq">Sometimes, you can't build a spatial model</div>
+<br/>
+<br/>
+<br/>
+<div class="medq", align="center">Sometimes, you can't build a spatial model</div>
 
 
 "Which of X, Y, Z is correct?"
@@ -118,9 +165,9 @@ Segment size
 ============
 
 - If you think it's an issue test it
-- Keeping segments square-ish seems sensible
 - Resolution of covariates also important
-- Maybe species-dependent?
+- Maybe species-/domain-dependent?
+
 
 "Is our model right?"
 =======================
@@ -139,7 +186,12 @@ Model validation
 
 Getting help
 =============
+type:section
 
+Resources
+=============
+
+- Bibliography has pointers to these topics
 - Distance sampling Google Group
   - Friendly, helpful, low traffic
   - see [distancesampling.org/distancelist.html](http://distancesampling.org/distancelist.html)
