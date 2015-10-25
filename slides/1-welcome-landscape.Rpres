@@ -15,27 +15,30 @@ type: section
 
 David L Miller (Dave)
 ==============
-type: section
-  * Research fellow, CREEM, University of St Andrews
-  * PhD with Simon Wood (author of `mgcv`)
-  * Worked on R distance sampling (software) since 2005
-  * Author/maintainer of `Distance`, `mrds`, `dsm`, `readst`, `mmds`
+
+* Research fellow, CREEM, University of St Andrews
+* PhD with Simon Wood (author of `mgcv`)
+* Worked on R distance sampling (software) since 2005
+* Author/maintainer of `Distance`, `mrds`, `dsm`, `readst`, `mmds`
 
 Jason Roberts
 ==============
-type: section
-  * Research fellow (?), MGEL, Duke University
-  * [more bio info !]
-  * Author of MGET toolbox for ArcGIS
+
+* Research associate, MGEL, Duke University
+* Author of MGET toolbox for ArcGIS
+* Taught numerous workshops on GIS
 
 
 Who are you?
 ==============
 type: section
 
+What is this course about?
+===========================
+type: section
 
 What is this course about?
-===================
+===========================
 
 * Building practical spatial models using R and ArcGIS
 * Getting data out of ArcGIS and into R
@@ -45,16 +48,20 @@ What is this course about?
 * Predictions and visualisation
 
 
-
 What is this course not about?
-===================
+===============================
 
-* Survey design
-* "Advanced" techniques
 * Basic statistics
 * Basic R
 * Basic ArcGIS
+* Survey design
+* "Advanced" techniques
 
+Aim
+====
+type: section
+
+Get you to be able to build, check and use DSMs
 
 Schedule & landscape
 ===================
@@ -74,7 +81,8 @@ Daily schedule
   - Classroom sessions: LSRC A158
   - Lab sessions: LSRC A153
 * Starting 9am, finish 4:30pm.
-* Wed and Fri we have the room longer, we will be around
+* Wed and Fri we have the room longer
+  - We will be around
 * **Lunch** 12:15pm to 1:15pm
 
 
@@ -103,10 +111,10 @@ Online
 
 * `etherpad` session at [public.etherpad-mozilla.org/p/distance-duke-2015](https://public.etherpad-mozilla.org/p/distance-duke-2015)
   - wiki-ish document everyone can edit
-  - anonymous or user-based  
-* Ask questions/give feedback anonymously
-* Request material to be covered in "special topics"
-* We'll archive useful material for others after the course
+  - (optionally) anonymous
+* Ask questions/give feedback
+* Request material for "special topics" (Friday)
+* Useful material archived
 
 Sticky notes
 =============
@@ -114,8 +122,8 @@ Sticky notes
 * At the end of each session
   - **<span style="color:green">Green</span>**: one thing that went well
   - **<span style="color:red">Red</span>**: one thing that went poorly
-* Anonymous!
 * Want to check how our teaching is going
+* Need to expand on a topic?
 
 Computers
 ==========
@@ -128,7 +136,7 @@ Software
 * If you have your own copies make correct software is installed:
   - Instructions on course site
   - We can help (but want to prioritise teaching)
-* Computer classroom is already setup
+* Computer classroom already set up
 
 
 
