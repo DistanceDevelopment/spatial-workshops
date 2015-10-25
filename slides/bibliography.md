@@ -184,6 +184,35 @@ Cannonical reference is Wood (2006)
 * Paper on a mixture model formulation for the detection function, highlighting how sample size is not the only thing that matters
   * Miller, D. L., & Thomas, L. (2015). Mixture models for distance sampling detection functions. PLoS ONE. http://doi.org/10.6084/m9.figshare.1293041
 
+## Advanced topics
+
+### Smoothers
+
+* Cyclic smooths
+  * Section 4.1.3 of Wood (2006)
+* Duchon splines are covered in
+  * Miller, D. L., & Wood, S. N. (2014). Finite area smoothing with generalized distance splines. Environmental and Ecological Statistics, 21(4), 715–731. http://doi.org/10.1007/s10651-014-0277-4
+* Soap film smoothing:
+  * Wood, S. N., Bravington, M. V., & Hedley, S. L. (2008). Soap film smoothing. Journal of the Royal Statistical Society: Series B (Statistical Methodology), 70(5), 931–955. http://doi.org/10.1111/j.1467-9868.2008.00665.x
+  * Marra, G., Miller, D. L., & Zanin, L. (2011). Modelling the spatiotemporal distribution of the incidence of resident foreign population. Statistica Neerlandica, 66(2), 133–160. http://doi.org/10.1111/j.1467-9574.2011.00500.x
+  * Manual page `?smooth.construct.so.smooth.spec`
+  * Check that your soap film boundary and knots work [with this code](https://github.com/dill/soap_checker)
+* Tensor products
+  * Section 4.1.8 of Wood (2006)
+  * Marra, Miller and Zanin (2011) also cover using a tensor product of space and time, as do:
+  * Augustin, N. H., Trenkel, V. M., Wood, S. N., & Lorance, P. (2013). Space-time modelling of blue ling for fisheries stock management. Environmetrics, 24(2), 109–119. http://doi.org/10.1002/env.2196
+* Spatial autocorrelation
+  * Manual page is `gamm()`
+  * Understanding the possible correlation structures:
+    - Pinheiro, J., & Bates, D. (2010). Mixed-Effects Models in S and S-PLUS. Springer.
+  * Complex spatio-temporal modelling with tensors and autocorrelation:
+    * Augustin, N. H., Musio, M., Wilpert, von, K., Kublin, E., Wood, S. N., & Schumacher, M. (2009). Modeling Spatiotemporal Forest Health Monitoring Data. Journal of the American Statistical Association, 104(487), 899–911. http://doi.org/10.1198/jasa.2009.ap07058
+* Temporal trends
+  * Marra, Miller and Zannin (2011)
+  * Augustin et al (2013)
+* Parallel processing for GAMs
+  * Manual `?bam`
+  * Wood, S. N., Goude, Y., & Shaw, S. (2015). Generalized additive models for large data sets. Journal of the Royal Statistical Society: Series C (Applied Statistics), 64(1), 139–155. http://doi.org/10.1111/rssc.12068
 
 ## R and RStudio
 

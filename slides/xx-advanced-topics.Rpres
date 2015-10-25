@@ -4,39 +4,128 @@ author: David L Miller & Jason J Roberts
 transition: none
 css: custom.css
 
-This is a whirlwind tour
+This is a whirlwind tour...
 =========================
 type: section
 
-Some of this is experimental
+...and some of this is experimental
 =============================
 type: section
 
-Habitat models
-==============
-
-Dynamic vs static variables
-
-
-
-
-Spatial autocorrelation
-========================
-
-
-Temporal effects
-=================
-
-
-Interactions in GAMs
-=====================
+Smoother zoo
+=============
+type:section
 
 
 Cyclic smooths
 ===============
 
+- What if things "wrap around"? (Time, angles, ...)
+- Match value and derivative
+- Use `bs="cc"`
+- See `?smooth.construct.cs.smooth.spec`
+
+![A cyclic spline](images/cyclic.png)
+
 Duchon splines
 ===============
 
+- Thin plate splines do weird things far from data
+- Local bits are fine, but unpenalised planes are bad
+- Remove the badly behaved bits?
+- (Miller and Kelly, in prep)
+- `?smooth.construct.ds.smooth.spec`
+
+![Duchon example](images/duchonexample.png)
+
+Smoothing in complex regions
+=============================
+
+- Edges are important
+- Whales don't live on land
+- Bad things happen when we don't account for this
+
+![Example of leakage](images/ramsay-leak.png)
+
+"Finite area" smoothing
+=========================
+
+- Soap film smoothing is one solution
+- Include boundary info in smoother
+- Basis functions are "correct" by construction
+- `?smooth.construct.so.smooth.spec`
+
+![Example of smoothers versus the Ramsay horseshoe](images/soap.png)
+
+Multivariate smooths
+=====================
+
+- Thin plate splines are *isotropic*
+- 1 unit in any direction is equal
+- Fine for space, not for other things
+
+Tensor products
+================
+
+- Take smooths of each covariate
+- $s_{x,z}(x,z) = \sum_{k_1}\sum_{k_2} \beta_k s_x(x)s_z(z)$
+- As many covariates as you like! (But takes time)
+- `te()` can be used like `s()` in `mgcv`
+
+![Tensor product example](images/tensor.png)
+
+Example of tensors being used
+==============================
+
+![Slope-aspect interaction for black bears](images/slope-aspect.png)
+
+Space and time
+===============
+type: section
+
+Spatial autocorrelation
+========================
+
+- $\text{AR}(p)$ process ("obvious" structure)
+- In general this is unstable
+  - Random effects are sparse but splines are "dense"
+  - $\Rightarrow$ bad for optimisation
+- `engine="gamm"` & `correlation=...`
+
+![Segmented transects](images/seg-tr.png)
+
+
+Temporal effects
+=================
+
+- Could do tensor product space-time?
+- Can marginalise other terms - time trends
+- Does anyone have such long term data?
+
+
+Modelling philosophy
+======================
+type: section
+
+
+Which covariates should we include?
+===================================
+
+- Dynamic vs static variables
+- Spatial terms? Habitat models?
+
+
+Making things faster
+======================
+type: section
+
+Parallel processing
+====================
+
+- Some models are very big/slow
+- Run on multiple cores
+- Use `engine="bam"`!
+- Some constraints in what you can do
+- Experimental, but potentially useful
 
 
