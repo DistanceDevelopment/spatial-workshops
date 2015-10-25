@@ -181,6 +181,8 @@ Cannonical reference is Wood (2006)
   * Redfern, J. V., Barlow, J., Ballance, L. T., Gerrodette, T., & Becker, E. A. (2008). Absence of scale dependence in dolphin–habitat models for the eastern tropical Pacific Ocean. Marine Ecology Progress Series, 363, 1–14. http://doi.org/10.3354/meps07495
 * Good text book on prediction-based modelling, lots of information on cross validation (also [availble free online](http://statweb.stanford.edu/~tibs/ElemStatLearn/))
   * Hastie, T., Tibshirani, R., & Friedman, J. (2013). The Elements of Statistical Learning: Data Mining, Inference, and Prediction. Springer New York.
+* Paper on a mixture model formulation for the detection function, highlighting how sample size is not the only thing that matters
+  * Miller, D. L., & Thomas, L. (2015). Mixture models for distance sampling detection functions. PLoS ONE. http://doi.org/10.6084/m9.figshare.1293041
 
 
 ## R and RStudio
