@@ -15,6 +15,7 @@ If you find a bug in the code, practicals and slides in this repository, please 
 * `exercises` contains the practical exercises used in the computer lab sessions
 - `spermwhale_analysis` contains @dill's quick analysis of the sperm whale data, all related data files
 * `pre_workshop_survey` contains the pre-workshop survey questions and response analysis
+* `site_md` contains the markdown files that are on `distancesampling.org`
 
 
 # Tools
