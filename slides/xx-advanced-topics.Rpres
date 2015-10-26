@@ -102,19 +102,6 @@ Temporal effects
 - Can marginalise other terms - time trends
 - Does anyone have such long term data?
 
-
-Modelling philosophy
-======================
-type: section
-
-
-Which covariates should we include?
-===================================
-
-- Dynamic vs static variables
-- Spatial terms? Habitat models?
-
-
 Making things faster
 ======================
 type: section
@@ -129,3 +116,18 @@ Parallel processing
 - Experimental, but potentially useful
 
 
+
+Modelling philosophy
+======================
+type: section
+
+
+Which covariates should we include?
+===================================
+
+- Dynamic vs static variables
+- Spatial terms? Habitat models?
+
+Over to Jason and Laura...
+===========================
+type: section

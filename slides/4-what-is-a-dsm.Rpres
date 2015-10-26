@@ -228,7 +228,7 @@ Adjusting areas
 ================
 
 - Area of each segment $A_j$ and use $A_j\hat{p}_j$
-- Equivalent to *effective strip width*
+- (2-D) Equivalent to *effective strip width*
   - $\hat{\mu} = w\hat{p}$
 - Response is counts per segment
 - "Adjusting for effort"
@@ -260,6 +260,8 @@ When to use each approach?
 - Generally "nicer" to adjust effort
 - Keep response (counts) close to what was observed
 - **Unless** you want observation-level covariates
+  - These *can* make a big difference!
+
 
 Availability/perception/etc
 =============================

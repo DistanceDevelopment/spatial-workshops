@@ -345,7 +345,7 @@ summary(df_hr_ss)
 ==============
 
 $$
-p(\mathbf{z}_i) = \int_0^w g(x; \boldsymbol{\theta}, \mathbf{z}_i) dx \quad \text{for } i=1, \ldots, n
+\hat{p}(\mathbf{z}_i) = \int_0^w g(x; \boldsymbol{\hat{\theta}}, \mathbf{z}_i) dx \quad \text{for } i=1, \ldots, n
 $$
 
 ```{r dfcovavgp, echo=TRUE}
