@@ -161,7 +161,7 @@ Cannonical reference is Wood (2006)
 * Laura Mannocci's thesis work on extrapolation
   * Mannocci, L., Monestiez, P., Spitz, J., & Ridoux, V. (2015). Extrapolating cetacean densities beyond surveyed regions: habitat-based predictions in the circumtropical belt. Journal of Biogeography, n/a–n/a. http://doi.org/10.1111/jbi.12530
 * Paul Conn and co's work on using a generalised Cook's Distance to find places where you shouldn't extrapolate
-  * [Preprint on github]() (accepted at PLOSONE)
+  * Conn, P. B., Johnson, D. S., & Boveng, P. L. (2015). On Extrapolating Past the Range of Observed Data When Making Statistical Predictions in Ecology. PLoS ONE, 10(10), e0141416–16. http://doi.org/10.1371/journal.pone.0141416
 
 ## Variance
 
