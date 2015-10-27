@@ -93,6 +93,13 @@ Estimation of sperm whale abundance in the North Atlantic by NOAA:
 * Availability by simple correction
   * Winiarski, K. J., Burt, M. L., Rexstad, E., Miller, D. L., Trocki, C. L., Paton, P. W. C., & McWilliams, S. R. (2014). Integrating aerial and ship surveys of marine birds into a combined density surface model: A case study of wintering Common Loons. The Condor, 116(2), 149–161. http://doi.org/10.1650/CONDOR-13-085.1
 
+## DSM applications
+
+* Harihar, A., Pandav, B., & MacMillan, D. C. (2014). Identifying realistic recovery targets and conservation actions for tigers in a human-dominated landscape using spatially explicit densities of wild prey and their determinants. Diversity and Distributions, 20(5), 567–578. http://doi.org/10.1111/ddi.12174
+* Winiarski, K. J., Miller, D. L., Paton, P. W. C., & McWilliams, S. R. (2014). A spatial conservation prioritization approach for protecting marine birds given proposed offshore wind energy development. Biological Conservation, 169(C), 79–88. http://doi.org/10.1016/j.biocon.2013.11.004
+* Winiarski, K. J., Burt, M. L., Rexstad, E., Miller, D. L., Trocki, C. L., Paton, P. W. C., & McWilliams, S. R. (2014). Integrating aerial and ship surveys of marine birds into a combined density surface model: A case study of wintering Common Loons. The Condor, 116(2), 149–161. http://doi.org/10.1650/CONDOR-13-085.1
+* Winiarski, K. J., Miller, D. L., Paton, P., & McWilliams, S. R. (2013). Spatially explicit model of wintering common loons: conservation implications. Marine Ecology Progress Series, 492, 273–283. http://doi.org/10.3354/meps10492
+
 
 
 ## Generalized additive models
