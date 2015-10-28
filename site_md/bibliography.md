@@ -40,8 +40,6 @@ Estimation of sperm whale abundance in the North Atlantic by NOAA:
 * [Analysis of 2004 surveys, plus a 1998 survey](http://www.nmfs.noaa.gov/pr/pdfs/sars/ao2005whsp-n.pdf).
 * [Results from the most recent (2011) survey](http://www.nmfs.noaa.gov/pr/sars/2013/ao2013_spermwhale-natl.pdf) (currently used for management purposes to set things like PBR, the number of sperm whales that can be killed) and [details of that methodology](http://www.nefsc.noaa.gov/nefsc/publications/crd/crd1229/crd1229.pdf).
 
-(*Would be nice to include a preprint of the EEZ/AFTT papers*)
-
 
 ## Introduction to distance sampling
 
@@ -53,14 +51,27 @@ Estimation of sperm whale abundance in the North Atlantic by NOAA:
 
 ### Detection function formulations
 
-* Buckland, S. T. (1992). Fitting Density Functions with Polynomials. Applied Statistics, 41(1), 63. http://doi.org/10.2307/2347618
-* Miller, D. L., & Thomas, L. (2015). Mixture models for distance sampling detection functions. PLoS ONE. http://doi.org/10.6084/m9.figshare.1293041
+* "Classic" paper on adjustment terms:
+  * Buckland, S. T. (1992). Fitting Density Functions with Polynomials. Applied Statistics, 41(1), 63. http://doi.org/10.2307/2347618
+* Dealing with monotonicity by constructing the right model:
+  * Miller, D. L., & Thomas, L. (2015). Mixture models for distance sampling detection functions. PLoS ONE. http://doi.org/10.6084/m9.figshare.1293041
+* Two papers on detection functions for when the detection function's apex is away from zero:
+  * Becker, E. F., & Quang, P. X. (2009). A gamma-shaped detection function for line-transect surveys with mark-recapture and covariate data. Journal of Agricultural, Biological, and Environmental Statistics, 14(2), 207–223. http://doi.org/10.1198/jabes.2009.0013
+  * Becker, E. F., & Christ, A. M. (2015). A Unimodal Model for Double Observer Distance Sampling Surveys. PLoS ONE, 10(8), e0136403–18. http://doi.org/10.1371/journal.pone.0136403
 
+### Other stuff
+
+* Dealing with measurement error:
+  * Marques, T. A. (2004). Predicting and correcting bias caused by measurement error in line transect sampling using multiplicative error models. Biometrics, 60(3), 757–763. http://doi.org/10.1111/j.0006-341X.2004.00226.x
+* Movement in distance sampling:
+  * Glennie, R., Buckland, S. T., & Thomas, L. (2015). The Effect of Animal Movement on Line Transect Estimates of Abundance. PLoS ONE, 10(3), e0121333–15. http://doi.org/10.1371/journal.pone.0121333
 
 ## Advanced distance sampling
 
 * Covariates in the detection function
   * Marques, T. A., Thomas, L., Fancy, S. G., & Buckland, S. T. (2007). Improving estimates of bird density using multiple-covariate distance sampling. The Auk, 124(4), 1229. http://doi.org/http://dx.doi.org/10.1642/0004-8038(2007)124[1229:IEOBDU]2.0.CO;2
+* Covariates with indirect surveys (ants):
+  * Borkin, K. M., Summers, R. W., & Thomas, L. (2012). Surveying abundance and stand type associations of Formica aquilonia and F. lugubris(Hymenoptera: Formicidae) nest mounds over an extensive area: trialing a novel method. European Journal of …, 109(1), 47–53. http://doi.org/10.14411/eje.2012.007
 - Goodness of fit testing for detection functions
   - Chapter 11, section 11 of Buckland, S. T., Anderson, D. R., Burnham, K. P., Laake, J. L., Borchers, D. L., & Thomas, L. (2004). Advanced Distance Sampling. Oxford University Press, Oxford, UK.
 
