@@ -12,4 +12,7 @@ for i in $( ls *.html); do
   FN=${i/.html/}_files\\/
   sed "s/$FN//" "$i" > tmp.html
   mv tmp.html $i
+  PDFFN=${i/.html/}.pdf
+  ~/sources/decktape/bin/phantomjs ~/sources/decktape/decktape.js automatic -s 1024x768 $i $PDFFN
+#  mv $i ~/current/webwebweb/distancesampling.com/workshops/duke-spatial-2015/slides/
 done
