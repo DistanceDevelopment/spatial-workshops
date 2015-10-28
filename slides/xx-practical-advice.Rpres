@@ -73,13 +73,17 @@ mod2_full <- ds(data.frame(distance=dist2, object=1:length(dist2)), adjustment=N
 mod2_05 <- ds(data.frame(distance=dist2, object=1:length(dist2)), adjustment=NULL, truncation=0.5)
 mod2_004 <- ds(data.frame(distance=dist2, object=1:length(dist2)), adjustment=NULL, truncation=0.04)
 
-par(mfrow=c(2,3), cex=1, cex.main=4)
-plot(mod1, main="n=30", showpoints=FALSE, pl.den=0)
+par(mfrow=c(2,3))
+plot(mod1, mainshowpoints=FALSE, pl.den=0)
+title(main="n=30", cex.main=5) 
 plot(1:10, axes=FALSE, type="n", ylab="", xlab="", showpoints=FALSE, pl.den=0)
 plot(1:10, axes=FALSE, type="n", ylab="", xlab="", showpoints=FALSE, pl.den=0)
-plot(mod2_full, main="n=1000", showpoints=FALSE, pl.den=0)
-plot(mod2_05, main="n=747", showpoints=FALSE, pl.den=0)
-plot(mod2_004, main="n=273", showpoints=FALSE, pl.den=0)
+plot(mod2_full, showpoints=FALSE, pl.den=0)
+title(main="n=1000", cex.main=5) 
+plot(mod2_05, showpoints=FALSE, pl.den=0)
+title(main="n=747", cex.main=5) 
+plot(mod2_004, showpoints=FALSE, pl.den=0)
+title(main="n=273", cex.main=5) 
 ```
 
 
