@@ -26,3 +26,8 @@ div.medq {
  font-size: 150%;
  line-height: normal;
 }
+
+.section .reveal .state-background {
+  background: #000 none repeat scroll 0% 0%;
+  background-color: #000;
+}
