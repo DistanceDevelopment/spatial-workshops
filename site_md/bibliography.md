@@ -48,6 +48,7 @@ Estimation of sperm whale abundance in the North Atlantic by NOAA:
 * Buckland et al (2015) chapters 2 & 4
 * Strindberg, S., & Buckland, S. T. (2004). Zigzag survey designs in line transect sampling. Journal of Agricultural, Biological, and Environmental Statistics, 9(4), 443–461. http://doi.org/10.1198/108571104X15601
 * Thomas, L., & Williams, R. (2007). Designing line transect surveys for complex survey regions. Journal of Cetacean Research and Management 9(1):1–13.
+* Camphuysen, C.J., Fox, A.D., Leopold, M., Petersen, I.K., 2004. Towards standardized seabirds at sea census techniques in connection with environmental impact assessments for offshore wind farms. In: UK COWRIE 1 Report. Royal Netherlands Institute for Sea Research, Texel, Netherlands.
 
 ### Detection function formulations
 
@@ -110,7 +111,13 @@ Estimation of sperm whale abundance in the North Atlantic by NOAA:
 * Winiarski, K. J., Miller, D. L., Paton, P. W. C., & McWilliams, S. R. (2014). A spatial conservation prioritization approach for protecting marine birds given proposed offshore wind energy development. Biological Conservation, 169(C), 79–88. http://doi.org/10.1016/j.biocon.2013.11.004
 * Winiarski, K. J., Burt, M. L., Rexstad, E., Miller, D. L., Trocki, C. L., Paton, P. W. C., & McWilliams, S. R. (2014). Integrating aerial and ship surveys of marine birds into a combined density surface model: A case study of wintering Common Loons. The Condor, 116(2), 149–161. http://doi.org/10.1650/CONDOR-13-085.1
 * Winiarski, K. J., Miller, D. L., Paton, P., & McWilliams, S. R. (2013). Spatially explicit model of wintering common loons: conservation implications. Marine Ecology Progress Series, 492, 273–283. http://doi.org/10.3354/meps10492
-
+* Paxton, C. G., Burt, M. L., Hedley, S. L., Víkingsson, G. A., Gunnlaugsson, T., & Desportes, G. (2013). Density surface fitting to estimate the abundance of humpback whales based on the NASS-95 and NASS- 2001 aerial and shipboard surveys. NAMMCO Scientific Publications, 7(0), 143. http://doi.org/10.7557/3.2711
+* Hedley, S. L., & Bravington, M. V. (2010). Antarctic minke whale abundance from the SPLINTR model: some 'reference' dataset results and “preferred” estimates from the second and third circumpolar IDCR … (No. SC/61/IA14). International Whaling Commission.
+* Bravington, M. V., & Hedley, S. L. (2009). Antarctic minke whale abundance estimates from the second and third circumpolar IDCR/SOWER surveys using the SPLINTR model (No. SC/61/IA14) (pp. 1–25). International Whaling Commission.
+* Katsanevakis, S. (2007). Density surface modeling with line transect sampling as a tool for abundance estimation of marine benthic species: The Pinna nobilis example in a marine lake. Marine Biology 152:77–85.
+* Becker, E. A., Forney, K. A., Ferguson, M. C., Foley, D. G., Smith, R. C., Barlow, J., & Redfern, J. V. (2010). Comparing California Current cetacean–habitat models developed using in situ and remotely sensed sea surface temperature data. Marine Ecology Progress Series, 413, 163–183. http://doi.org/10.3354/meps08696
+* Williams, R., Hedley, S. L., Branch, T. A., Bravington, M. V., Zerbini, A. N., & Findlay, K. P. (2011). Chilean Blue Whales as a Case Study to Illustrate Methods to Estimate Abundance and Evaluate Conservation Status of Rare Species. Conservation Biology, 25(3), 526–535. http://doi.org/10.1111/j.1523-1739.2011.01656.x
+* Redfern, J. V., Barlow, J., Ballance, L. T., Gerrodette, T., & Becker, E. A. (2008). Absence of scale dependence in dolphin–habitat models for the eastern tropical Pacific Ocean. Marine Ecology Progress Series, 363, 1–14. http://doi.org/10.3354/meps07495
 
 
 ## Generalized additive models
@@ -275,6 +282,13 @@ Cannonical reference is Wood (2006)
 * Other frequentist approaches
   * Johnson, D. S., Laake, J. L., & Ver Hoef, J. M. (2009). A Model-Based Approach for Making Ecological Inference from Distance Sampling Data. Biometrics, 66(1), 310–318. http://doi.org/10.1111/j.1541-0420.2009.01265.x
   * Ver Hoef, J. M., Cameron, M. F., Boveng, P. L., London, J. M., & Moreland, E. E. (2013). A spatial hierarchical model for abundance of three ice-associated seal species in the eastern Bering Sea. Statistical Methodology, 1–44. http://doi.org/10.1016/j.stamet.2013.03.001
+
+### Misc other approaches
+
+* O'Brien, S. H., Webb, A., Brewer, M. J., & Reid, J. B. (2012). Use of kernel density estimation and maximum curvature to set Marine Protected Area boundaries: Identifying a Special Protection Area for wintering red-throated divers in the UK. Biological Conservation, 156(C), 15–21. http://doi.org/10.1016/j.biocon.2011.12.033
+* Melville, G. J., & Welsh, A. H. (2014). Model-based Prediction In Ecological Surveys Including Those with Incomplete Detection. Australian & New Zealand Journal of Statistics, 56(3), 257–281. http://doi.org/10.1111/anzs.12084
+* Beale, C. M., Brewer, M. J., & Lennon, J. J. (2014). A new statistical framework for the quantification of covariate associations with species distributions. Methods in Ecology and Evolution, 5(5), 421–432. http://doi.org/10.1111/2041-210X.12174
+* Kinlan, B.P., Menza, C., Huettmann, F., 2012. Predictive modeling of seabird distribution patterns in the New York Bight. In: Menza, C., Kinlan, B.P., Dorfman, D.S., Poti, M, Caldow, C. (Eds.), A Biogeographic Assessment of Seabirds, Deep Sea Corals and Ocean Habitats of the New York Bight: Science to Support Offshore Spatial Planning. NOAA Technical Memorandum NOS NCCOS 141. Silver Spring, Maryland (Chapter 6).
 
 
 
