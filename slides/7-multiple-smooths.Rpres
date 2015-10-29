@@ -64,9 +64,12 @@ blah
 type:section
 title:none
 
-<div class="bigq">
-Covariates are not only correlated (linearly) but also "concurve"
-</div>
+Covariates are not only correlated (linearly)...
+<br/>
+<br/>
+<br/>
+<br/>
+...they are also "concurve"
 
 
 What can we do about this?
