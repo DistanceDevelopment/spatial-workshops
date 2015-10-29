@@ -162,6 +162,7 @@ Cannonical reference is Wood (2006)
   * Becker, E. A., Forney, K. A., Ferguson, M. C., Foley, D. G., Smith, R. C., Barlow, J., & Redfern, J. V. (2010). Comparing California Current cetacean–habitat models developed using in situ and remotely sensed sea surface temperature data. Marine Ecology Progress Series, 413, 163–183. http://doi.org/10.3354/meps08696
 * Can we trust covariates from GIS?
   * Foster, S. D., Shimadzu, H., & Darnell, R. (2012). Uncertainty in spatially predicted covariates: is it ignorable? Journal of the Royal Statistical Society: Series C (Applied Statistics), 61(4), 637–652. http://doi.org/10.1111/j.1467-9876.2011.01030.x
+* Information on the weird [Pathfinder "false islands"](http://www.nodc.noaa.gov/sog/pathfinder4km/userguide.html) problem (scroll down to false islands image)
 
 
 ## Multiple smooths and model selection
