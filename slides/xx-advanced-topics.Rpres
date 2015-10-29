@@ -79,6 +79,16 @@ Example of tensors being used
 
 ![Slope-aspect interaction for black bears](images/slope-aspect.png)
 
+
+Random effects
+===============
+
+- (independent) normal random effects
+- exploits equivalence of random effects and splines `?gam.vcomp`
+- useful when you just have a “few” random effects
+- `?smooth.construct.re.smooth.spec`
+
+
 Space and time
 ===============
 type: section
