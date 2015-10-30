@@ -256,6 +256,7 @@ Cannonical reference is Wood (2006)
 
 * [Applied Spatial Data Analysis with R](https://www.springer.com/us/book/9781461476177) the definitive book on spatial data in R, written by the authors of the most popular R spatial packages
 * [Barry Rowlingson's R spatial cheatsheet](http://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html)
+* [James Cheshire's links on using R as a GIS](http://spatial.ly/r/)
 
 
 ### Reproducable research
