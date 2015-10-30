@@ -247,7 +247,7 @@ Cannonical reference is Wood (2006)
 * [R for cats](http://rforcats.net/) is a good introduction to R
 * [RStudio cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
 
-## Packages
+### Packages
 
 * [Intro to `ggplot2`](http://www.noamross.net/blog/2012/10/5/ggplot-introduction.html)
 * [`lubridate`](http://www.jstatsoft.org/article/view/v040i03) a package to make date/time handling easier in R -- very useful!
