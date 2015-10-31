@@ -116,7 +116,7 @@ Estimation of sperm whale abundance in the North Atlantic by NOAA:
 * Bravington, M. V., & Hedley, S. L. (2009). Antarctic minke whale abundance estimates from the second and third circumpolar IDCR/SOWER surveys using the SPLINTR model (No. SC/61/IA14) (pp. 1–25). International Whaling Commission.
 * Katsanevakis, S. (2007). Density surface modeling with line transect sampling as a tool for abundance estimation of marine benthic species: The Pinna nobilis example in a marine lake. Marine Biology 152:77–85.
 * Becker, E. A., Forney, K. A., Ferguson, M. C., Foley, D. G., Smith, R. C., Barlow, J., & Redfern, J. V. (2010). Comparing California Current cetacean–habitat models developed using in situ and remotely sensed sea surface temperature data. Marine Ecology Progress Series, 413, 163–183. http://doi.org/10.3354/meps08696
-* Williams, R., Hedley, S. L., Branch, T. A., Bravington, M. V., Zerbini, A. N., & Findlay, K. P. (2011). Chilean Blue Whales as a Case Study to Illustrate Methods to Estimate Abundance and Evaluate Conservation Status of Rare Species. Conservation Biology, 25(3), 526–535. http://doi.org/10.1111/j.1523-1739.2011.01656.x
+* Williams, R., Hedley, S. L., Branch, T. A., Bravington, M. V., Zerbini, A. N., & Findlay, K. P. (2011). Chilean blue whales as a case study to illustrate methods to estimate abundance and evaluate conservation status of rare species. Conservation Biology, 25(3), 526–535. http://doi.org/10.1111/j.1523-1739.2011.01656.x
 * Redfern, J. V., Barlow, J., Ballance, L. T., Gerrodette, T., & Becker, E. A. (2008). Absence of scale dependence in dolphin–habitat models for the eastern tropical Pacific Ocean. Marine Ecology Progress Series, 363, 1–14. http://doi.org/10.3354/meps07495
 
 
@@ -150,7 +150,7 @@ Cannonical reference is Wood (2006)
 ### Checking
 
 - Paper on randomised quantile residuals
-  - Dunn, P. K., & Smyth, G. K. (1996). Randomized Quantile Residuals. Journal of Computational and Graphical Statistics, 5(3), 236–244. http://doi.org/10.1080/10618600.1996.10474708
+  - Dunn, P. K., & Smyth, G. K. (1996). Randomized quantile residuals. Journal of Computational and Graphical Statistics, 5(3), 236–244. http://doi.org/10.1080/10618600.1996.10474708
 - Spatial model checking plots using deviance residuals ([preprint](http://converged.yt/papers/SPMMZ.pdf))
   * Marra, G., Miller, D. L., & Zanin, L. (2011). Modelling the spatiotemporal distribution of the incidence of resident foreign population. Statistica Neerlandica, 66(2), 133–160. http://doi.org/10.1111/j.1467-9574.2011.00500.x
 
@@ -172,7 +172,7 @@ Cannonical reference is Wood (2006)
 - Paper about shrinkage selection in GAMs
   - Marra, G., & Wood, S. N. (2011). Practical variable selection for generalized additive models. Computational Statistics and Data Analysis, 55(7), 2372–2387. http://doi.org/10.1016/j.csda.2011.02.004
 - Approximate $p$-values:
-  - Marra, G., & Wood, S. N. (2012). Coverage Properties of Confidence Intervals for Generalized Additive Model Components. Scandinavian Journal of Statistics, 39(1), 53–74. http://doi.org/10.1111/j.1467-9469.2011.00760.x
+  - Marra, G., & Wood, S. N. (2012). Coverage properties of confidence intervals for generalized additive model components. Scandinavian Journal of Statistics, 39(1), 53–74. http://doi.org/10.1111/j.1467-9469.2011.00760.x
 * Explanation of deviance for GLMs
   * Wood (2006) p. 70
 * REML for smoothness selection
@@ -187,17 +187,17 @@ Cannonical reference is Wood (2006)
 * Laura Mannocci's thesis work on extrapolation
   * Mannocci, L., Monestiez, P., Spitz, J., & Ridoux, V. (2015). Extrapolating cetacean densities beyond surveyed regions: habitat-based predictions in the circumtropical belt. Journal of Biogeography, n/a–n/a. http://doi.org/10.1111/jbi.12530
 * Paul Conn and co's work on using a generalised Cook's Distance to find places where you shouldn't extrapolate
-  * Conn, P. B., Johnson, D. S., & Boveng, P. L. (2015). On Extrapolating Past the Range of Observed Data When Making Statistical Predictions in Ecology. PLoS ONE, 10(10), e0141416–16. http://doi.org/10.1371/journal.pone.0141416
+  * Conn, P. B., Johnson, D. S., & Boveng, P. L. (2015). On extrapolating past the range of observed data when making statistical predictions in ecology. PLoS ONE, 10(10), e0141416–16. http://doi.org/10.1371/journal.pone.0141416
 
 ## Variance
 
 - How do we calculate $\mathbf{V}_\boldsymbol{\beta}$ (variance of the GAM parameters)?
   - Section 4.8 ("Distributional results") of Wood (2006)
 * Propagating variance from the detection function
-  * Williams, R., Hedley, S. L., Branch, T. A., Bravington, M. V., Zerbini, A. N., & Findlay, K. P. (2011). Chilean Blue Whales as a Case Study to Illustrate Methods to Estimate Abundance and Evaluate Conservation Status of Rare Species. Conservation Biology, 25(3), 526–535. http://doi.org/10.1111/j.1523-1739.2011.01656.x
+  * Williams, R., Hedley, S. L., Branch, T. A., Bravington, M. V., Zerbini, A. N., & Findlay, K. P. (2011). Chilean blue whales as a case study to illustrate methods to estimate abundance and evaluate conservation status of rare species. Conservation Biology, 25(3), 526–535. http://doi.org/10.1111/j.1523-1739.2011.01656.x
   * Appendix B of Miller et al (2013) [available on DLM's website](http://converged.yt/papers/dsm-paper-AppendixB.pdf) (more technical)
 * (Re-iterating from above) How can we just add the squared CVs?
-  * Goodman, L. A. (1960). On the Exact Variance of Products. Journal of the American Statistical Association, 55(292), 708. http://doi.org/10.2307/2281592
+  * Goodman, L. A. (1960). On the exact variance of products. Journal of the American Statistical Association, 55(292), 708. http://doi.org/10.2307/2281592
   * Seber, G. A. F. (1982). The Estimation of Animal Abundance and Related Parameters. Macmillan.
 
 
@@ -232,7 +232,7 @@ Cannonical reference is Wood (2006)
   * Understanding the possible correlation structures:
     - Pinheiro, J., & Bates, D. (2010). Mixed-Effects Models in S and S-PLUS. Springer.
   * Complex spatio-temporal modelling with tensors and autocorrelation:
-    * Augustin, N. H., Musio, M., Wilpert, von, K., Kublin, E., Wood, S. N., & Schumacher, M. (2009). Modeling Spatiotemporal Forest Health Monitoring Data. Journal of the American Statistical Association, 104(487), 899–911. http://doi.org/10.1198/jasa.2009.ap07058
+    * Augustin, N. H., Musio, M., Wilpert, von, K., Kublin, E., Wood, S. N., & Schumacher, M. (2009). Modeling spatiotemporal forest health monitoring data. Journal of the American Statistical Association, 104(487), 899–911. http://doi.org/10.1198/jasa.2009.ap07058
 * Temporal trends
   * Marra, Miller and Zannin (2011)
   * Augustin et al (2013)
@@ -276,19 +276,18 @@ Cannonical reference is Wood (2006)
 * Comparison of different techniques for spatial modelling
   * Oppel, S., Meirinho, A., Ramírez, I., Gardner, B., O’Connell, A. F., Miller, P. I., & Louzao, M. (2012). Comparison of five modelling techniques to predict the spatial distribution and abundance of seabirds. Biological Conservation, 156, 94–104. http://doi.org/10.1016/j.biocon.2011.11.013
 * Bayesian approaches
-  * Niemi, A., & Fernández, C. (2010). Bayesian Spatial Point Process Modeling of Line Transect Data. Journal of Agricultural, Biological, and Environmental Statistics, 15(3), 327–345. http://doi.org/10.1007/s13253-010-0024-8
+  * Niemi, A., & Fernández, C. (2010). Bayesian spatial point process modeling of line transect data. Journal of Agricultural, Biological, and Environmental Statistics, 15(3), 327–345. http://doi.org/10.1007/s13253-010-0024-8
   * Schmidt, J. H., Rattenbury, K. L., Lawler, J. P., & Maccluskie, M. C. (2011). Using distance sampling and hierarchical models to improve estimates of Dall's sheep abundance. The Journal of Wildlife Management, 76(2), 317–327. http://doi.org/10.1002/jwmg.216
   * Conn, P. B., Laake, J. L., & Johnson, D. S. (2012). A hierarchical modeling framework for multiple observer transect surveys. PLoS ONE. http://doi.org/10.1371/journal.pone.0042294.g001
   * Moore, J. E., & Barlow, J. (2011). Bayesian state-space model of fin whale abundance trends from a 1991-2008 time series of line-transect surveys in the California Current. Journal of Applied Ecology, 48(5), 1195–1205. http://doi.org/10.1111/j.1365-2664.2011.02018.x
-  * Schmidt, J. H., Rattenbury, K. L., Lawler, J. P., & Maccluskie, M. C. (2011). Using distance sampling and hierarchical models to improve estimates of Dall's sheep abundance. The Journal of Wildlife Management, 76(2), 317–327. http://doi.org/10.1002/jwmg.216
 * Other frequentist approaches
-  * Johnson, D. S., Laake, J. L., & Ver Hoef, J. M. (2009). A Model-Based Approach for Making Ecological Inference from Distance Sampling Data. Biometrics, 66(1), 310–318. http://doi.org/10.1111/j.1541-0420.2009.01265.x
+  * Johnson, D. S., Laake, J. L., & Ver Hoef, J. M. (2009). A Model-based approach for making ecological inference from distance sampling data. Biometrics, 66(1), 310–318. http://doi.org/10.1111/j.1541-0420.2009.01265.x
   * Ver Hoef, J. M., Cameron, M. F., Boveng, P. L., London, J. M., & Moreland, E. E. (2013). A spatial hierarchical model for abundance of three ice-associated seal species in the eastern Bering Sea. Statistical Methodology, 1–44. http://doi.org/10.1016/j.stamet.2013.03.001
 
 ### Misc other approaches
 
 * O'Brien, S. H., Webb, A., Brewer, M. J., & Reid, J. B. (2012). Use of kernel density estimation and maximum curvature to set Marine Protected Area boundaries: Identifying a Special Protection Area for wintering red-throated divers in the UK. Biological Conservation, 156(C), 15–21. http://doi.org/10.1016/j.biocon.2011.12.033
-* Melville, G. J., & Welsh, A. H. (2014). Model-based Prediction In Ecological Surveys Including Those with Incomplete Detection. Australian & New Zealand Journal of Statistics, 56(3), 257–281. http://doi.org/10.1111/anzs.12084
+* Melville, G. J., & Welsh, A. H. (2014). Model-based prediction in ecological surveys including those with incomplete detection. Australian & New Zealand Journal of Statistics, 56(3), 257–281. http://doi.org/10.1111/anzs.12084
 * Beale, C. M., Brewer, M. J., & Lennon, J. J. (2014). A new statistical framework for the quantification of covariate associations with species distributions. Methods in Ecology and Evolution, 5(5), 421–432. http://doi.org/10.1111/2041-210X.12174
 * Kinlan, B.P., Menza, C., Huettmann, F., 2012. Predictive modeling of seabird distribution patterns in the New York Bight. In: Menza, C., Kinlan, B.P., Dorfman, D.S., Poti, M, Caldow, C. (Eds.), A Biogeographic Assessment of Seabirds, Deep Sea Corals and Ocean Habitats of the New York Bight: Science to Support Offshore Spatial Planning. NOAA Technical Memorandum NOS NCCOS 141. Silver Spring, Maryland (Chapter 6).
 
