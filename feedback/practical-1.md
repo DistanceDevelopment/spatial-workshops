@@ -1,5 +1,5 @@
 ---
-title: Practical 1: getting started in ArcGIS
+title: Responses for practical 1 getting started in ArcGIS
 author: David L Miller
 
 ---

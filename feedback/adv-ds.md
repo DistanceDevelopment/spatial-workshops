@@ -1,5 +1,5 @@
 ---
-title: Advanced distance sampling
+title: Responses for Advanced distance sampling
 author: David L Miller
 
 ---
