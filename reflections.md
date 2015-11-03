@@ -73,7 +73,7 @@ By the end of the course everyone knew each other better. So as I was getting re
 
 ## Flow diagrams let people know how things connect
 
-I sued a couple of flow diagrams to illustrate the links between the different models we were discussing. They seemed to go down well, but it seemed like there was interest in having more as a kind of "roadmap" to each lecture and between lectures. I'm going to see if I can start doing this more.
+I used a couple of flow diagrams to illustrate the links between the different models we were discussing. They seemed to go down well, but it seemed like there was interest in having more as a kind of "roadmap" to each lecture and between lectures. I'm going to see if I can start doing this more.
 
 
 ## The ordering of the material won't be right for everyone
