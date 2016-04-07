@@ -13,7 +13,7 @@ By the end of this practical, you should feel comfortable:
 - Loading raster data into R
 - Building a `data.frame` of prediction covariates
 - Making a prediction using the `predict()` function
-- Summing the prediction cells to obtain a total abudnance for a given area
+- Summing the prediction cells to obtain a total abundance for a given area
 - Plotting a map of predictions
 - Saving predictions to a raster to be used in ArcGIS
 
