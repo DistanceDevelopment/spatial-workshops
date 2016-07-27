@@ -146,7 +146,7 @@ Instead of using `count` we could use `abundance.est`, which will leave the segm
 Try copying the code that fits the model `dsm_nb_xy` and make a model `dsm_nb_xy_ae` that replaces `count` for `abundance.est` in the model formula and uses the `df_hr_ss_size` detection function. Compare the results of summaries, plots and checks between this and the count model.
 
 <div class="boxout">
-Suggested, chaning the response to `abundance.est` and the detection function to `df_hr_ss_size` we can fit:
+Suggested, changing the response to `abundance.est` and the detection function to `df_hr_ss_size` we can fit:
 ```{r nb-xy-ae}
 dsm_nb_xy_ae <- dsm(abundance.est~s(x,y),
                     ddf.obj=df_hr_ss_size, segment.data = segs, observation.data=obs,
