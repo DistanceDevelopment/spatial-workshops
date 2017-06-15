@@ -1,6 +1,6 @@
 ---
 title: 'Syllabus for "Spatial modelling of distance sampling data"'
-author: David L Miller
+author: David L Miller and Eric Rexstad
 
 ---
 
@@ -20,48 +20,34 @@ This document defines the syllabus for the *"Spatial modelling of distance sampl
 # Timetable
 
 
+----------------------------------------------------------------------------------------------------------------------------------------------------
+Day/Time     Objective                   0900-1030                  1045-1215                   1345-1515                  1530-1700
+-----------  --------------------------  -------------------------  --------------------------  -------------------------  -------------------------
+Sunday       Learn R                     Panic                      Panic                       R workshop                 R workshop
+
+Monday       Fit detection function,     DS covariates, variance,   Intro to DS via current     Simulation engine          Simulation engine
+             estimate abundance with     model checking/selection   vignettes. Covars,
+             Horvitz-Thompson.           variance.                  model selection, variance
+             Simulation engine.
+
+Tuesday      Fit and check a density
+             surface model (DSM)         What is a DSM?             Intro to generalized        *Practical* GAM/DSM        Adding covariates: why,
+                                                                    additive models (GAMs)                                 how, what? Intro to
+                                                                                                                           environmental data
+
+Wednesday    Add environmental                                      *Practical*
+             covariates to the model     Multiple smooths, model    Fit and check multismooth   Predictions & variance     Catch-up period
+             Produce maps of predicted   selection                  DSMs                        theory and in practice
+             abundance
+
+Thursday     Advanced topics/`mrds`      `mrds`                     *Practical*                 Advanced DSM topics
+                                                                    `mrds`
+
+Friday       Research talks?
+             Consultancy?
 ---------------------------------------------------------------------------------------------------------------------------------------------------
-Day/Time     Objective                   0900-1030                  1045-1215                  1315-1445                  1500-1630
------------  --------------------------  -------------------------  -------------------------  -------------------------  -------------------------
-Tuesday      Fit detection function,     **Classroom:**             **Lab:**                   **Classroom:**             **Lab:**
-             estimate abundance with     Welcome, intro to          Introduce example data,    DS covariates, variance,   DS practicals
-             Horvitz-Thompson            distance sampling (DS)     get sightings into ArcGIS  model checking and
-                                                                    and R                      selection,
-                                                                                               Horvitz-Thompson
-
-Wednesday    Fit and check a density     **Classroom:**             **Lab:**                   **Classroom:**             **Lab:**
-             surface model (DSM)         What is a DSM?             Get segments into ArcGIS   Intro to generalized       GAM practicals, fit
-                                                                    and R, produce prediction  additive models (GAMs)     first DSM
-                                                                    grid
-
-Thursday     Add environmental           **Classroom:**             **Lab:**                   **Classroom:**             **Lab:**
-             covariates to the model     Adding covariates: why,    Download and process       Multiple smooths, model    Fit and check multivariate
-                                         how, what? Intro to        environmental data         selection                  DSMs
-                                         environmental data
-
-Friday       Produce maps of predicted   **Lab:**                   **Lab:**                   **Classroom:**             **Classroom:**
-             abundance                   Predictions: theory and    Variance: theory and in    Advanced topics            Special topics and
-                                         in practice                practice                                              follow-up
----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-NB when scheduling: (from Laura)
-
-  * The ICL has a class in it on Tuesday/Thursday, from 1:20-2:40 pm,that cannot be moved. Could you please schedule a topic for these times that would not require computing?
-  * Due to another Tuesday/Thursday class that begins at 4:40 pm, we’re being requested to end by 4:30 pm on those days (in computer room).
-
-
---------------------------------------------------------------------------------------------------------
-Day/Time         0900-1030              1045-1215              1315-1445              1500-1630
------------  ---------------------  ---------------------  ---------------------  ----------------------
-Tuesday      <img src="both.png">    <img src="jjr.png">    <img src="dlm.png">    <img src="both.png">
-
-Wednesday    <img src="both.png">    <img src="jjr.png">    <img src="dlm.png">    <img src="both.png">
-
-Thursday     <img src="jjr.png">     <img src="jjr.png">    <img src="dlm.png">    <img src="both.png">
-
-Friday       <img src="dlm.png">     <img src="dlm.png">    <img src="both.png">   <img src="both.png">
---------------------------------------------------------------------------------------------------------
 
 # Distance sampling topics
 
@@ -226,8 +212,6 @@ Friday       <img src="dlm.png">     <img src="dlm.png">    <img src="both.png">
     * Strategies for accounting for it
   * Strange shaped study areas
     * soap film smoothing
-  * Variance estimation via parametric bootstrap
-    * Bayesian interpretation of the GAM
   * $g(0)$ problems
     * "Perception bias" -- double observer methods, mark-recapture distance sampling
     * "Availability bias" -- fixed correction, hidden Markov models etc
@@ -236,8 +220,6 @@ Friday       <img src="dlm.png">     <img src="dlm.png">    <img src="both.png">
     * Geographical/temporal "patching" (Jason)
   * Temporal trends
     * Movement/displacement
-  * Zero-inflated models
-    * New `mgcv`, usable only with count models
 
 
 
