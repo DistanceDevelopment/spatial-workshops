@@ -1,12 +1,12 @@
 ---
-title: 'Practical 3 solutions: Simple density surface models'
+title: 'Practical 2 solutions: Simple density surface models'
 author: David L Miller
 output:
   html_document:
     css: custom.css
 ---
 
-Here is a "solution" for practical 3. As with any data analysis, there is no correct answer, but this shows how I would approach this analysis. The analysis here is conditional on selecting a detection function in the previous exercises; I've chosen `df_hn` and `df_hr_ss_size` that we saved previously (see detection function solutions).
+Here is a "solution" for practical 2. As with any data analysis, there is no correct answer, but this shows how I would approach this analysis. The analysis here is conditional on selecting a detection function in the previous exercises; I've chosen `df_hn` and `df_hr_ss_size` that we saved previously (see detection function solutions).
 
 Much of the text below is as in the exercise itself, so it should be relatively easy to navigate.
 
@@ -146,7 +146,7 @@ Instead of using `count` we could use `abundance.est`, which will leave the segm
 Try copying the code that fits the model `dsm_nb_xy` and make a model `dsm_nb_xy_ae` that replaces `count` for `abundance.est` in the model formula and uses the `df_hr_ss_size` detection function. Compare the results of summaries, plots and checks between this and the count model.
 
 <div class="boxout">
-Suggested, chaning the response to `abundance.est` and the detection function to `df_hr_ss_size` we can fit:
+Suggested, changing the response to `abundance.est` and the detection function to `df_hr_ss_size` we can fit:
 ```{r nb-xy-ae}
 dsm_nb_xy_ae <- dsm(abundance.est~s(x,y),
                     ddf.obj=df_hr_ss_size, segment.data = segs, observation.data=obs,
