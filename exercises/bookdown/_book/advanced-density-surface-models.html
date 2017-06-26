@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Intermediate distance sampling workshop - St Andrews 2017</title>
+  <meta name="description" content="Intermediate distance sampling workshop - St Andrews 2017">
+  <meta name="generator" content="bookdown 0.4 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Intermediate distance sampling workshop - St Andrews 2017" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Intermediate distance sampling workshop - St Andrews 2017" />
+  
+  
+  
+
+<meta name="author" content="Laura Marshall, David L. Miller and Len Thomas">
+
+
+<meta name="date" content="2017-06-26">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="simple-density-surface-models.html">
+<link rel="next" href="prediction-using-fitted-density-surface-models.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="details.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html"><i class="fa fa-check"></i><b>1</b> A hands on introduction to R tutorial</a><ul>
+<li class="chapter" data-level="1.1" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#introduction"><i class="fa fa-check"></i><b>1.1</b> Introduction</a></li>
+<li class="chapter" data-level="1.2" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#introduction-to-rstudio"><i class="fa fa-check"></i><b>1.2</b> Introduction to RStudio</a></li>
+<li class="chapter" data-level="1.3" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#a-first-session-in-rstudio"><i class="fa fa-check"></i><b>1.3</b> A first session in RStudio</a></li>
+<li class="chapter" data-level="1.4" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#Types-classes"><i class="fa fa-check"></i><b>1.4</b> Types and classes of objects</a></li>
+<li class="chapter" data-level="1.5" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#subsetting-data"><i class="fa fa-check"></i><b>1.5</b> Subsetting data</a></li>
+<li class="chapter" data-level="1.6" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#mathematical-functions-and-simple-data-calculations"><i class="fa fa-check"></i><b>1.6</b> Mathematical functions and simple data calculations</a></li>
+<li class="chapter" data-level="1.7" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#importing-and-exporting-data"><i class="fa fa-check"></i><b>1.7</b> Importing and exporting data</a></li>
+<li class="chapter" data-level="1.8" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#graphics"><i class="fa fa-check"></i><b>1.8</b> Graphics</a></li>
+<li class="chapter" data-level="1.9" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#extending-basic-capabilities-via-packages"><i class="fa fa-check"></i><b>1.9</b> Extending basic capabilities via packages</a></li>
+<li class="chapter" data-level="1.10" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#linear-regression"><i class="fa fa-check"></i><b>1.10</b> Linear regression</a></li>
+<li class="chapter" data-level="1.11" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#some-advanced-capabilities-of-r"><i class="fa fa-check"></i><b>1.11</b> Some advanced capabilities of R</a><ul>
+<li class="chapter" data-level="1.11.1" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#simulation-and-random-number-generation"><i class="fa fa-check"></i><b>1.11.1</b> Simulation and random number generation</a></li>
+<li class="chapter" data-level="1.11.2" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#writing-your-own-functions"><i class="fa fa-check"></i><b>1.11.2</b> Writing your own functions</a></li>
+</ul></li>
+<li class="chapter" data-level="1.12" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#wrap-up"><i class="fa fa-check"></i><b>1.12</b> Wrap up</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="analyse-simulated-data-set.html"><a href="analyse-simulated-data-set.html"><i class="fa fa-check"></i><b>2</b> analyse simulated data set</a><ul>
+<li class="chapter" data-level="2.1" data-path="analyse-simulated-data-set.html"><a href="analyse-simulated-data-set.html#laura-to-prepare"><i class="fa fa-check"></i><b>2.1</b> Laura to prepare</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="problem-datasets.html"><a href="problem-datasets.html"><i class="fa fa-check"></i><b>3</b> Problem datasets</a><ul>
+<li class="chapter" data-level="3.1" data-path="problem-datasets.html"><a href="problem-datasets.html#len-to-prepare"><i class="fa fa-check"></i><b>3.1</b> Len to prepare</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="simulation-of-distance-sampling-data.html"><a href="simulation-of-distance-sampling-data.html"><i class="fa fa-check"></i><b>4</b> Simulation of distance sampling data</a><ul>
+<li class="chapter" data-level="4.1" data-path="simulation-of-distance-sampling-data.html"><a href="simulation-of-distance-sampling-data.html#laura-to-prepare-1"><i class="fa fa-check"></i><b>4.1</b> Laura to prepare</a></li>
+<li class="chapter" data-level="4.2" data-path="simulation-of-distance-sampling-data.html"><a href="simulation-of-distance-sampling-data.html#bit-of-exposure-to-survey-design-engine"><i class="fa fa-check"></i><b>4.2</b> Bit of exposure to survey design engine</a></li>
+<li class="chapter" data-level="4.3" data-path="simulation-of-distance-sampling-data.html"><a href="simulation-of-distance-sampling-data.html#trailsno-trails-exercise-from-previous-years"><i class="fa fa-check"></i><b>4.3</b> Trails/no trails exercise from previous years</a></li>
+<li class="chapter" data-level="4.4" data-path="simulation-of-distance-sampling-data.html"><a href="simulation-of-distance-sampling-data.html#perhaps-some-exposure-to-dssim-vignette"><i class="fa fa-check"></i><b>4.4</b> Perhaps some exposure to DSsim vignette</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html"><i class="fa fa-check"></i><b>5</b> Detection function fitting</a><ul>
+<li class="chapter" data-level="5.1" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#aims"><i class="fa fa-check"></i><b>5.1</b> Aims</a></li>
+<li class="chapter" data-level="5.2" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#preamble"><i class="fa fa-check"></i><b>5.2</b> Preamble</a></li>
+<li class="chapter" data-level="5.3" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#load-the-data"><i class="fa fa-check"></i><b>5.3</b> Load the data</a></li>
+<li class="chapter" data-level="5.4" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#exploratory-analysis"><i class="fa fa-check"></i><b>5.4</b> Exploratory analysis</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#distances"><i class="fa fa-check"></i><b>5.4.1</b> Distances</a></li>
+<li class="chapter" data-level="5.4.2" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#size-and-distance"><i class="fa fa-check"></i><b>5.4.2</b> Size and distance</a></li>
+<li class="chapter" data-level="5.4.3" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#distance-and-sea-state"><i class="fa fa-check"></i><b>5.4.3</b> Distance and sea state</a></li>
+<li class="chapter" data-level="5.4.4" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#survey-effect"><i class="fa fa-check"></i><b>5.4.4</b> Survey effect</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#fitting-detection-functions"><i class="fa fa-check"></i><b>5.5</b> Fitting detection functions</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#summaries"><i class="fa fa-check"></i><b>5.5.1</b> Summaries</a></li>
+<li class="chapter" data-level="5.5.2" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#goodness-of-fit"><i class="fa fa-check"></i><b>5.5.2</b> Goodness of fit</a></li>
+<li class="chapter" data-level="5.5.3" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#plotting"><i class="fa fa-check"></i><b>5.5.3</b> Plotting</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#now-you-try"><i class="fa fa-check"></i><b>5.6</b> Now you try…</a></li>
+<li class="chapter" data-level="5.7" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#model-selection"><i class="fa fa-check"></i><b>5.7</b> Model selection</a><ul>
+<li class="chapter" data-level="5.7.1" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#estimating-abundance"><i class="fa fa-check"></i><b>5.7.1</b> Estimating abundance</a></li>
+<li class="chapter" data-level="5.7.2" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#save-model-objects"><i class="fa fa-check"></i><b>5.7.2</b> Save model objects</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html"><i class="fa fa-check"></i><b>6</b> Simple density surface models</a><ul>
+<li class="chapter" data-level="6.1" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#aims-1"><i class="fa fa-check"></i><b>6.1</b> Aims</a></li>
+<li class="chapter" data-level="6.2" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#load-the-packages-and-data"><i class="fa fa-check"></i><b>6.2</b> Load the packages and data</a></li>
+<li class="chapter" data-level="6.3" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#pre-model-fitting"><i class="fa fa-check"></i><b>6.3</b> Pre-model fitting</a></li>
+<li class="chapter" data-level="6.4" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#fitting-dsms"><i class="fa fa-check"></i><b>6.4</b> Fitting DSMs</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#visualising-output"><i class="fa fa-check"></i><b>6.4.1</b> Visualising output</a></li>
+<li class="chapter" data-level="6.4.2" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#checking-the-model"><i class="fa fa-check"></i><b>6.4.2</b> Checking the model</a></li>
+<li class="chapter" data-level="6.4.3" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#setting-basis-complexity"><i class="fa fa-check"></i><b>6.4.3</b> Setting basis complexity</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#estimated-abundance-as-response"><i class="fa fa-check"></i><b>6.5</b> Estimated abundance as response</a></li>
+<li class="chapter" data-level="6.6" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#univariate-models"><i class="fa fa-check"></i><b>6.6</b> Univariate models</a></li>
+<li class="chapter" data-level="6.7" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#tweedie-response-distribution"><i class="fa fa-check"></i><b>6.7</b> Tweedie response distribution</a></li>
+<li class="chapter" data-level="6.8" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#save-models"><i class="fa fa-check"></i><b>6.8</b> Save models</a></li>
+<li class="chapter" data-level="6.9" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#extra-credit"><i class="fa fa-check"></i><b>6.9</b> Extra credit</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html"><i class="fa fa-check"></i><b>7</b> Advanced density surface models</a><ul>
+<li class="chapter" data-level="7.1" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#aims-2"><i class="fa fa-check"></i><b>7.1</b> Aims</a></li>
+<li class="chapter" data-level="7.2" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#load-data-and-packages"><i class="fa fa-check"></i><b>7.2</b> Load data and packages</a></li>
+<li class="chapter" data-level="7.3" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#exploratory-analysis-1"><i class="fa fa-check"></i><b>7.3</b> Exploratory analysis</a></li>
+<li class="chapter" data-level="7.4" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#pre-model-fitting-1"><i class="fa fa-check"></i><b>7.4</b> Pre-model fitting</a></li>
+<li class="chapter" data-level="7.5" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#our-new-friend"><i class="fa fa-check"></i><b>7.5</b> Our new friend <code>+</code></a><ul>
+<li class="chapter" data-level="7.5.1" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#plot"><i class="fa fa-check"></i><b>7.5.1</b> Plot</a></li>
+<li class="chapter" data-level="7.5.2" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#check"><i class="fa fa-check"></i><b>7.5.2</b> Check</a></li>
+<li class="chapter" data-level="7.5.3" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#select-terms"><i class="fa fa-check"></i><b>7.5.3</b> Select terms</a></li>
+<li class="chapter" data-level="7.5.4" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#compare-response-distributions"><i class="fa fa-check"></i><b>7.5.4</b> Compare response distributions</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#estimated-abundance-as-a-response"><i class="fa fa-check"></i><b>7.6</b> Estimated abundance as a response</a></li>
+<li class="chapter" data-level="7.7" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#concurvity"><i class="fa fa-check"></i><b>7.7</b> Concurvity</a></li>
+<li class="chapter" data-level="7.8" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#sensitivity"><i class="fa fa-check"></i><b>7.8</b> Sensitivity</a><ul>
+<li class="chapter" data-level="7.8.1" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#compare-bivariate-and-additive-spatial-effects"><i class="fa fa-check"></i><b>7.8.1</b> Compare bivariate and additive spatial effects</a></li>
+</ul></li>
+<li class="chapter" data-level="7.9" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#comparing-models"><i class="fa fa-check"></i><b>7.9</b> Comparing models</a></li>
+<li class="chapter" data-level="7.10" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#saving-models"><i class="fa fa-check"></i><b>7.10</b> Saving models</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html"><i class="fa fa-check"></i><b>8</b> Prediction using fitted density surface models</a><ul>
+<li class="chapter" data-level="8.1" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#aims-3"><i class="fa fa-check"></i><b>8.1</b> Aims</a></li>
+<li class="chapter" data-level="8.2" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#loading-the-packages-and-data"><i class="fa fa-check"></i><b>8.2</b> Loading the packages and data</a></li>
+<li class="chapter" data-level="8.3" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#loading-prediction-data"><i class="fa fa-check"></i><b>8.3</b> Loading prediction data</a></li>
+<li class="chapter" data-level="8.4" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#save-the-prediction-to-a-raster"><i class="fa fa-check"></i><b>8.4</b> Save the prediction to a raster</a></li>
+<li class="chapter" data-level="8.5" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#save-prediction-grid-to-rdata"><i class="fa fa-check"></i><b>8.5</b> Save prediction grid to <code>RData</code></a></li>
+<li class="chapter" data-level="8.6" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#extra-credit-1"><i class="fa fa-check"></i><b>8.6</b> Extra credit</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="9" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html"><i class="fa fa-check"></i><b>9</b> Estimating precision of predictions from density surface models</a><ul>
+<li class="chapter" data-level="9.1" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#aims-4"><i class="fa fa-check"></i><b>9.1</b> Aims</a></li>
+<li class="chapter" data-level="9.2" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#load-packages-and-data"><i class="fa fa-check"></i><b>9.2</b> Load packages and data</a></li>
+<li class="chapter" data-level="9.3" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#estimation-of-variance"><i class="fa fa-check"></i><b>9.3</b> Estimation of variance</a></li>
+<li class="chapter" data-level="9.4" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#summarise-multiple-models"><i class="fa fa-check"></i><b>9.4</b> Summarise multiple models</a></li>
+<li class="chapter" data-level="9.5" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#plotting-1"><i class="fa fa-check"></i><b>9.5</b> Plotting</a></li>
+<li class="chapter" data-level="9.6" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#save-the-uncertainty-maps-to-raster-files"><i class="fa fa-check"></i><b>9.6</b> Save the uncertainty maps to raster files</a></li>
+<li class="chapter" data-level="9.7" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#extra-credit-2"><i class="fa fa-check"></i><b>9.7</b> Extra credit</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="mark-recapture-distance-sampling-of-golftees.html"><a href="mark-recapture-distance-sampling-of-golftees.html"><i class="fa fa-check"></i><b>10</b> Mark-recapture distance sampling of golftees</a><ul>
+<li class="chapter" data-level="10.1" data-path="mark-recapture-distance-sampling-of-golftees.html"><a href="mark-recapture-distance-sampling-of-golftees.html#golf-tee-survey"><i class="fa fa-check"></i><b>10.1</b> Golf tee survey</a></li>
+<li class="chapter" data-level="10.2" data-path="mark-recapture-distance-sampling-of-golftees.html"><a href="mark-recapture-distance-sampling-of-golftees.html#crabeater-seal-survey"><i class="fa fa-check"></i><b>10.2</b> Crabeater seal survey</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Intermediate distance sampling workshop - St Andrews 2017</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="advanced-density-surface-models" class="section level1">
+<h1><span class="header-section-number">7</span> Advanced density surface models</h1>
+<div id="aims-2" class="section level2">
+<h2><span class="header-section-number">7.1</span> Aims</h2>
+<p>By the end of this practical, you should feel comfortable:</p>
+<ul>
+<li>Fitting DSMs with multiple smooth terms in them</li>
+<li>Selecting smooth terms by <span class="math inline">\(p\)</span>-values</li>
+<li>Using shrinkage smoothers</li>
+<li>Selecting between models using deviance, REML score</li>
+<li>Investigating concurvity in DSMs with multiple smooths</li>
+<li>Investigating sensitivity sensitivity and path dependence</li>
+</ul>
+</div>
+<div id="load-data-and-packages" class="section level2">
+<h2><span class="header-section-number">7.2</span> Load data and packages</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(Distance)
+<span class="kw">library</span>(dsm)
+<span class="kw">library</span>(ggplot2)
+<span class="kw">library</span>(knitr)
+<span class="kw">library</span>(plyr)</code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;plyr&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:secr&#39;:
+## 
+##     join</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(reshape2)</code></pre></div>
+<p>Loading the data processed from GIS and the fitted detection function objects from the previous exercises:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;sperm-data.RData&quot;</span>)
+<span class="kw">load</span>(<span class="st">&quot;df-models.RData&quot;</span>)</code></pre></div>
+</div>
+<div id="exploratory-analysis-1" class="section level2">
+<h2><span class="header-section-number">7.3</span> Exploratory analysis</h2>
+<p>We can do some exploratory analysis by aggregating the counts to each cell and plotting what’s going on.</p>
+<p><em>Don’t worry about understanding what this code is doing at the moment.</em></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># join the observations onto the segments</span>
+join_dat &lt;-<span class="st"> </span><span class="kw">join</span>(segs, obs, <span class="dt">by=</span><span class="st">&quot;Sample.Label&quot;</span>, <span class="dt">type=</span><span class="st">&quot;full&quot;</span>)
+<span class="co"># sum up the observations per segment</span>
+n &lt;-<span class="st"> </span><span class="kw">ddply</span>(join_dat, .(Sample.Label), summarise, <span class="dt">n=</span><span class="kw">sum</span>(size), <span class="dt">.drop =</span> <span class="ot">FALSE</span>) 
+<span class="co"># sort the segments by their labsl</span>
+segs_eda &lt;-<span class="st"> </span>segs[<span class="kw">sort</span>(segs<span class="op">$</span>Sample.Label),]
+<span class="co"># make a new column for the counts</span>
+segs_eda<span class="op">$</span>n &lt;-<span class="st"> </span>n<span class="op">$</span>n
+
+<span class="co"># remove the columns we don&#39;t need,</span>
+segs_eda<span class="op">$</span>CentreTime &lt;-<span class="st"> </span><span class="ot">NULL</span>
+segs_eda<span class="op">$</span>POINT_X &lt;-<span class="st"> </span><span class="ot">NULL</span>
+segs_eda<span class="op">$</span>POINT_Y &lt;-<span class="st"> </span><span class="ot">NULL</span>
+segs_eda<span class="op">$</span>segment.area &lt;-<span class="st"> </span><span class="ot">NULL</span>
+segs_eda<span class="op">$</span>off.set &lt;-<span class="st"> </span><span class="ot">NULL</span>
+segs_eda<span class="op">$</span>CenterTime &lt;-<span class="st"> </span><span class="ot">NULL</span>
+segs_eda<span class="op">$</span>Effort &lt;-<span class="st"> </span><span class="ot">NULL</span>
+segs_eda<span class="op">$</span>Length &lt;-<span class="st"> </span><span class="ot">NULL</span>
+segs_eda<span class="op">$</span>SegmentID &lt;-<span class="st"> </span><span class="ot">NULL</span>
+segs_eda<span class="op">$</span>coords.x1 &lt;-<span class="st"> </span><span class="ot">NULL</span>
+segs_eda<span class="op">$</span>coords.x2 &lt;-<span class="st"> </span><span class="ot">NULL</span>
+
+<span class="co"># &quot;melt&quot; the data so we have four columns:</span>
+<span class="co">#   Sample.Label, n (number of observations),</span>
+<span class="co">#   variable (which variable), value (its value)</span>
+segs_eda &lt;-<span class="st"> </span><span class="kw">melt</span>(segs_eda, <span class="dt">id.vars=</span><span class="kw">c</span>(<span class="st">&quot;Sample.Label&quot;</span>, <span class="st">&quot;n&quot;</span>))
+<span class="co"># try head(segs_eda)</span></code></pre></div>
+<p>Finally, we can plot histograms of counts for different values of the covariates:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(segs_eda) <span class="op">+</span>
+<span class="st">       </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(value, <span class="dt">weight=</span>n)) <span class="op">+</span>
+<span class="st">       </span><span class="kw">facet_wrap</span>(<span class="op">~</span>variable, <span class="dt">scale=</span><span class="st">&quot;free&quot;</span>) <span class="op">+</span>
+<span class="st">       </span><span class="kw">xlab</span>(<span class="st">&quot;Covariate value&quot;</span>) <span class="op">+</span>
+<span class="st">       </span><span class="kw">ylab</span>(<span class="st">&quot;Aggregated counts&quot;</span>)</code></pre></div>
+<pre><code>## Warning: Ignoring unknown aesthetics: weight</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(p)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="_main_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>We can also just plot the counts against the covariates, note the high number of zeros (but still some interesting patterns):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(segs_eda) <span class="op">+</span>
+<span class="st">       </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(value, n)) <span class="op">+</span>
+<span class="st">       </span><span class="kw">facet_wrap</span>(<span class="op">~</span>variable, <span class="dt">scale=</span><span class="st">&quot;free&quot;</span>) <span class="op">+</span>
+<span class="st">       </span><span class="kw">xlab</span>(<span class="st">&quot;Covariate value&quot;</span>) <span class="op">+</span>
+<span class="st">       </span><span class="kw">ylab</span>(<span class="st">&quot;Aggregated counts&quot;</span>)
+<span class="kw">print</span>(p)</code></pre></div>
+<pre><code>## Warning: Removed 6097 rows containing missing values (geom_point).</code></pre>
+<p><img src="_main_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>These plots give a very rough idea of the relationships we can expect in the model. Notably these plots don’t take into account interactions between the variables and potential correlations between the terms, as well as detectability.</p>
+</div>
+<div id="pre-model-fitting-1" class="section level2">
+<h2><span class="header-section-number">7.4</span> Pre-model fitting</h2>
+<p>As we did in the previous exercise we must remove the observations from the spatial data that we excluded when we fitted the detection function – those observations at distances greater than the truncation.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">obs &lt;-<span class="st"> </span>obs[obs<span class="op">$</span>distance <span class="op">&lt;=</span><span class="st"> </span>df_hn<span class="op">$</span>ddf<span class="op">$</span>meta.data<span class="op">$</span>width,]</code></pre></div>
+<p>Here we’ve used the value of the truncation stored in the detection function object, but we could also use the numeric value (which we can also find by checking the model’s <code>summary()</code>).</p>
+<p>Again note that if you want to fit DSMs using detection functions with different truncation distances, then you’ll need to reload the <code>sperm-data.RData</code> and do the truncation again for that detection function.</p>
+</div>
+<div id="our-new-friend" class="section level2">
+<h2><span class="header-section-number">7.5</span> Our new friend <code>+</code></h2>
+<p>We can build a really big model using <code>+</code> to include all the terms that we want in the model. We can check what’s available to us by using <code>head()</code> to look at the segment table:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(segs)</code></pre></div>
+<pre><code>##            CenterTime SegmentID   Length  POINT_X  POINT_Y     Depth
+## 1 2004/06/24 07:27:04         1 10288.91 214544.0 689074.3  118.5027
+## 2 2004/06/24 08:08:04         2 10288.91 222654.3 682781.0  119.4853
+## 3 2004/06/24 09:03:18         3 10288.91 230279.9 675473.3  177.2779
+## 4 2004/06/24 09:51:27         4 10288.91 239328.9 666646.3  527.9562
+## 5 2004/06/24 10:25:39         5 10288.91 246686.5 659459.2  602.6378
+## 6 2004/06/24 11:00:22         6 10288.91 254307.0 652547.2 1094.4402
+##    DistToCAS      SST          EKE      NPP coords.x1 coords.x2        x
+## 1 14468.1533 15.54390 0.0014442616 1908.129  214544.0  689074.3 214544.0
+## 2 10262.9648 15.88358 0.0014198086 1889.540  222654.3  682781.0 222654.3
+## 3  6900.9829 16.21920 0.0011704842 1842.057  230279.9  675473.3 230279.9
+## 4  1055.4124 16.45468 0.0004101589 1823.942  239328.9  666646.3 239328.9
+## 5  1112.6293 16.62554 0.0002553244 1721.949  246686.5  659459.2 246686.5
+## 6   707.5795 16.83725 0.0006556266 1400.281  254307.0  652547.2 254307.0
+##          y   Effort Sample.Label
+## 1 689074.3 10288.91            1
+## 2 682781.0 10288.91            2
+## 3 675473.3 10288.91            3
+## 4 666646.3 10288.91            4
+## 5 659459.2 10288.91            5
+## 6 652547.2 10288.91            6</code></pre>
+<p>We can then fit a model with the available covariates in it, each as an <code>s()</code> term.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dsm_nb_xy_ms &lt;-<span class="st"> </span><span class="kw">dsm</span>(count<span class="op">~</span><span class="kw">s</span>(x,y, <span class="dt">bs=</span><span class="st">&quot;ts&quot;</span>) <span class="op">+</span>
+<span class="st">                       </span><span class="kw">s</span>(Depth, <span class="dt">bs=</span><span class="st">&quot;ts&quot;</span>) <span class="op">+</span>
+<span class="st">                       </span><span class="kw">s</span>(DistToCAS, <span class="dt">bs=</span><span class="st">&quot;ts&quot;</span>) <span class="op">+</span>
+<span class="st">                       </span><span class="kw">s</span>(SST, <span class="dt">bs=</span><span class="st">&quot;ts&quot;</span>) <span class="op">+</span>
+<span class="st">                       </span><span class="kw">s</span>(EKE, <span class="dt">bs=</span><span class="st">&quot;ts&quot;</span>) <span class="op">+</span>
+<span class="st">                       </span><span class="kw">s</span>(NPP, <span class="dt">bs=</span><span class="st">&quot;ts&quot;</span>),
+                 df_hn, segs, obs,
+                 <span class="dt">family=</span><span class="kw">nb</span>(), <span class="dt">method=</span><span class="st">&quot;REML&quot;</span>)
+<span class="kw">summary</span>(dsm_nb_xy_ms)</code></pre></div>
+<pre><code>## 
+## Family: Negative Binomial(0.114) 
+## Link function: log 
+## 
+## Formula:
+## count ~ s(x, y, bs = &quot;ts&quot;) + s(Depth, bs = &quot;ts&quot;) + s(DistToCAS, 
+##     bs = &quot;ts&quot;) + s(SST, bs = &quot;ts&quot;) + s(EKE, bs = &quot;ts&quot;) + s(NPP, 
+##     bs = &quot;ts&quot;) + offset(off.set)
+## 
+## Parametric coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -20.7732     0.2295   -90.5   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Approximate significance of smooth terms:
+##                    edf Ref.df Chi.sq  p-value    
+## s(x,y)       1.8636924     29 19.141 2.90e-05 ***
+## s(Depth)     3.4176460      9 46.263 1.65e-11 ***
+## s(DistToCAS) 0.0000801      9  0.000   0.9053    
+## s(SST)       0.0002076      9  0.000   0.5402    
+## s(EKE)       0.8563344      9  5.172   0.0134 *  
+## s(NPP)       0.0001018      9  0.000   0.7820    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## R-sq.(adj) =  0.0947   Deviance explained = 39.2%
+## -REML = 382.76  Scale est. = 1         n = 949</code></pre>
+<p>Notes:</p>
+<ol style="list-style-type: decimal">
+<li>We’re using <code>bs=&quot;ts&quot;</code> to use the shrinkage thin plate regression spline. More technical detail on these smooths can be found on their manual page <code>?smooth.construct.ts.smooth.spec</code>.</li>
+<li>We’ve not specified basis complexity (<code>k</code>) at the moment. Note that if you want to specify the same complexity for multiple terms, it’s often easier to make a variable that can then be given as <code>k</code> (for example, setting <code>k1&lt;-15</code> and then setting <code>k=k1</code> in the required <code>s()</code> terms).</li>
+</ol>
+<div id="plot" class="section level3">
+<h3><span class="header-section-number">7.5.1</span> Plot</h3>
+<p>Let’s plot the smooths from this model:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(dsm_nb_xy_ms, <span class="dt">pages=</span><span class="dv">1</span>, <span class="dt">scale=</span><span class="dv">0</span>)</code></pre></div>
+<p><img src="_main_files/figure-html/plot-nb-xy-1.png" width="672" /></p>
+<p>Notes:</p>
+<ol style="list-style-type: decimal">
+<li>Setting <code>shade=TRUE</code> gives prettier confidence bands.</li>
+<li>As with <code>vis.gam()</code> the response is on the link scale.</li>
+<li><code>scale=0</code> puts each plot on a different <span class="math inline">\(y\)</span>-axis scale, making it easier to see the effects. Setting <code>scale=-1</code> will put the plots on a common <span class="math inline">\(y\)</span>-axis scale</li>
+</ol>
+<p>We can also plot the bivariate smooth of <code>x</code> and <code>y</code> as we did before, using <code>vis.gam()</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">vis.gam</span>(dsm_nb_xy_ms, <span class="dt">view=</span><span class="kw">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;y&quot;</span>), <span class="dt">plot.type=</span><span class="st">&quot;contour&quot;</span>, <span class="dt">too.far=</span><span class="fl">0.1</span>, <span class="dt">main=</span><span class="st">&quot;s(x,y) (link scale)&quot;</span>, <span class="dt">asp=</span><span class="dv">1</span>)</code></pre></div>
+<p><img src="_main_files/figure-html/nb-xy-visgam-03-1.png" width="480" /></p>
+<p>Compare this plot to the one that was generated in the previous practical when only <code>x</code> and <code>y</code> were included in the model.</p>
+</div>
+<div id="check" class="section level3">
+<h3><span class="header-section-number">7.5.2</span> Check</h3>
+<p>As before, we can use <code>gam.check()</code> and <code>rqgam.check()</code> to look at the residual check plots for this model. Do this in the below gaps and comment on the resulting plots and diagnostics.</p>
+<p>You might decide from the diagnostics that you need to increase <code>k</code> for some of the terms in the model. Do this and re-run the above code to ensure that the smooths are flexible enough. The <code>?choose.k</code> manual page can offer some guidance. Generally if the EDF is close to the value of <code>k</code> you supplied, it’s worth doubling <code>k</code> and refitting to see what happens. You can always switch back to the smaller <code>k</code> if there is little difference.</p>
+</div>
+<div id="select-terms" class="section level3">
+<h3><span class="header-section-number">7.5.3</span> Select terms</h3>
+<p>As was covered in the lectures, we can select terms by (approximate) <span class="math inline">\(p\)</span>-values and by looking for terms that have EDFs significantly less than 1 (those which have been shrunk).</p>
+<p>Decide on a significance level that you’ll use to discard terms in the model. Remove the terms that are non-significant at this level and re-run the above checks, summaries and plots to see what happens. It’s helpful to make notes to yourself as you go</p>
+<p>It’s easiest to either comment out the terms that are to be removed (using <code>#</code>) or by copying the code chunk above and pasting it below.</p>
+<p>Having removed a smooth and reviewed your model, you may decide you wish to remove another. Follow the process again, removing a term, looking at plots and diagnostics.</p>
+</div>
+<div id="compare-response-distributions" class="section level3">
+<h3><span class="header-section-number">7.5.4</span> Compare response distributions</h3>
+<p>Use the <code>gam.check()</code> to compare quantile-quantile plots between negative binomial and Tweedie distributions for the response.</p>
+</div>
+</div>
+<div id="estimated-abundance-as-a-response" class="section level2">
+<h2><span class="header-section-number">7.6</span> Estimated abundance as a response</h2>
+<p>Again, we’ve only looked at models with <code>count</code> as the response. Try using a detection function with covariates and the <code>abundance.est</code> response in the chunk below:</p>
+</div>
+<div id="concurvity" class="section level2">
+<h2><span class="header-section-number">7.7</span> Concurvity</h2>
+<p>Checking concurvity of terms in the model can be accomplished using the <code>concurvity()</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">concurvity</span>(dsm_nb_xy_ms)</code></pre></div>
+<pre><code>##                  para    s(x,y)  s(Depth) s(DistToCAS)    s(SST)    s(EKE)
+## worst    9.804613e-24 0.9963493 0.9836597    0.9959057 0.9772853 0.7702479
+## observed 9.804613e-24 0.8597372 0.8277050    0.9879372 0.9523512 0.6746585
+## estimate 9.804613e-24 0.7580838 0.9272203    0.9642030 0.8978412 0.4906765
+##             s(NPP)
+## worst    0.9727752
+## observed 0.9525363
+## estimate 0.8694619</code></pre>
+<p>By default the function returns a matrix of a measure of concurvity between one of the terms and the rest of the model.</p>
+<p>Compare the output of the models before and after removing terms.</p>
+<p>Reading these matrices can be a little laborious and not very fun. Here is a little bit of code to visualise the concurvity <em>between terms</em> in a model by colour coding the matrix (and blanking out the redundant information).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vis.concurvity &lt;-<span class="st"> </span><span class="cf">function</span>(b, <span class="dt">type=</span><span class="st">&quot;estimate&quot;</span>){
+  <span class="co"># arguments:</span>
+  <span class="co">#   b     -- a fitted gam</span>
+  <span class="co">#   type  -- concurvity measure to plot, see ?concurvity</span>
+  cc &lt;-<span class="st"> </span><span class="kw">concurvity</span>(b, <span class="dt">full=</span><span class="ot">FALSE</span>)[[type]]
+
+  <span class="kw">diag</span>(cc) &lt;-<span class="st"> </span><span class="ot">NA</span>
+  cc[<span class="kw">lower.tri</span>(cc)]&lt;-<span class="ot">NA</span>
+
+  <span class="kw">layout</span>(<span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dt">ncol=</span><span class="dv">2</span>), <span class="dt">widths=</span><span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">1</span>))
+  opar &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">0</span>) <span class="op">+</span><span class="st"> </span><span class="fl">0.1</span>)
+  <span class="co"># main plot</span>
+  <span class="kw">image</span>(<span class="dt">z=</span>cc, <span class="dt">x=</span><span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(cc), <span class="dt">y=</span><span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(cc), <span class="dt">ylab=</span><span class="st">&quot;&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;&quot;</span>,
+        <span class="dt">axes=</span><span class="ot">FALSE</span>, <span class="dt">asp=</span><span class="dv">1</span>, <span class="dt">zlim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))
+  <span class="kw">axis</span>(<span class="dv">1</span>, <span class="dt">at=</span><span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(cc), <span class="dt">labels =</span> <span class="kw">colnames</span>(cc), <span class="dt">las=</span><span class="dv">2</span>)
+  <span class="kw">axis</span>(<span class="dv">2</span>, <span class="dt">at=</span><span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(cc), <span class="dt">labels =</span> <span class="kw">rownames</span>(cc), <span class="dt">las=</span><span class="dv">2</span>)
+  <span class="co"># legend</span>
+  opar &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">3</span>) <span class="op">+</span><span class="st"> </span><span class="fl">0.1</span>)
+  <span class="kw">image</span>(<span class="kw">t</span>(<span class="kw">matrix</span>(<span class="kw">rep</span>(<span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">len=</span><span class="dv">100</span>), <span class="dv">2</span>), <span class="dt">ncol=</span><span class="dv">2</span>)),
+        <span class="dt">x=</span><span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dt">y=</span><span class="dv">1</span><span class="op">:</span><span class="dv">101</span>, <span class="dt">zlim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="dt">axes=</span><span class="ot">FALSE</span>, <span class="dt">xlab=</span><span class="st">&quot;&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;&quot;</span>)
+  <span class="kw">axis</span>(<span class="dv">4</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">1</span>,<span class="dv">101</span>,<span class="dt">len=</span><span class="dv">5</span>), <span class="dt">labels =</span> <span class="kw">round</span>(<span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dt">len=</span><span class="dv">5</span>),<span class="dv">1</span>), <span class="dt">las=</span><span class="dv">2</span>)
+  <span class="kw">par</span>(opar)
+}</code></pre></div>
+<p>Again compare the results of plotting for models with different terms.</p>
+</div>
+<div id="sensitivity" class="section level2">
+<h2><span class="header-section-number">7.8</span> Sensitivity</h2>
+<div id="compare-bivariate-and-additive-spatial-effects" class="section level3">
+<h3><span class="header-section-number">7.8.1</span> Compare bivariate and additive spatial effects</h3>
+<p>If we replace the bivariate smooth of location (<code>s(x, y)</code>) with an additive terms (<code>s(x)+s(y)</code>), we may see a difference in the final model (different covariates selected).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dsm_nb_x_y_ms &lt;-<span class="st"> </span><span class="kw">dsm</span>(count<span class="op">~</span><span class="kw">s</span>(x, <span class="dt">bs=</span><span class="st">&quot;ts&quot;</span>) <span class="op">+</span>
+<span class="st">                        </span><span class="kw">s</span>(y, <span class="dt">bs=</span><span class="st">&quot;ts&quot;</span>) <span class="op">+</span>
+<span class="st">                        </span><span class="kw">s</span>(Depth, <span class="dt">bs=</span><span class="st">&quot;ts&quot;</span>) <span class="op">+</span>
+<span class="st">                        </span><span class="kw">s</span>(DistToCAS, <span class="dt">bs=</span><span class="st">&quot;ts&quot;</span>) <span class="op">+</span>
+<span class="st">                        </span><span class="kw">s</span>(SST, <span class="dt">bs=</span><span class="st">&quot;ts&quot;</span>) <span class="op">+</span>
+<span class="st">                        </span><span class="kw">s</span>(EKE, <span class="dt">bs=</span><span class="st">&quot;ts&quot;</span>) <span class="op">+</span>
+<span class="st">                        </span><span class="kw">s</span>(NPP, <span class="dt">bs=</span><span class="st">&quot;ts&quot;</span>),
+                  df_hn, segs, obs,
+                  <span class="dt">family=</span><span class="kw">nb</span>(), <span class="dt">method=</span><span class="st">&quot;REML&quot;</span>)
+<span class="kw">summary</span>(dsm_nb_x_y_ms)</code></pre></div>
+<pre><code>## 
+## Family: Negative Binomial(0.116) 
+## Link function: log 
+## 
+## Formula:
+## count ~ s(x, bs = &quot;ts&quot;) + s(y, bs = &quot;ts&quot;) + s(Depth, bs = &quot;ts&quot;) + 
+##     s(DistToCAS, bs = &quot;ts&quot;) + s(SST, bs = &quot;ts&quot;) + s(EKE, bs = &quot;ts&quot;) + 
+##     s(NPP, bs = &quot;ts&quot;) + offset(off.set)
+## 
+## Parametric coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -20.7743     0.2274  -91.37   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Approximate significance of smooth terms:
+##                    edf Ref.df Chi.sq  p-value    
+## s(x)         2.875e-01      9  0.337   0.2698    
+## s(y)         1.709e-05      9  0.000   0.6304    
+## s(Depth)     3.391e+00      9 37.216 9.88e-10 ***
+## s(DistToCAS) 5.393e-04      9  0.000   0.5246    
+## s(SST)       9.814e-05      9  0.000   0.8176    
+## s(EKE)       8.670e-01      9  5.582   0.0103 *  
+## s(NPP)       2.844e+00      9 23.236 9.13e-07 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## R-sq.(adj) =  0.0993   Deviance explained = 40.7%
+## -REML = 383.03  Scale est. = 1         n = 949</code></pre>
+<p>Try performing model selection as before from this base model and compare the resulting models.</p>
+<p>Compare the resulting smooths from like terms in the model. For example, if depth were selected in both models, compare EDFs and plots, e.g.:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
+<span class="kw">plot</span>(dsm_nb_xy_ms, <span class="dt">select=</span><span class="dv">2</span>)
+<span class="kw">plot</span>(dsm_nb_x_y_ms, <span class="dt">select=</span><span class="dv">3</span>)</code></pre></div>
+<p><img src="_main_files/figure-html/compare-depth-1.png" width="672" /></p>
+<p>Note that there <code>select=</code> picks just one term to plot. These are in the order in which the terms occur in the <code>summary()</code> output (so you may well need to adjust the above code).</p>
+</div>
+</div>
+<div id="comparing-models" class="section level2">
+<h2><span class="header-section-number">7.9</span> Comparing models</h2>
+<p>As with the detection functions in the earlier exercises, here is a quick function to generate model results tables with appropriate summary statistics:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">summarize_dsm &lt;-<span class="st"> </span><span class="cf">function</span>(model){
+
+  summ &lt;-<span class="st"> </span><span class="kw">summary</span>(model)
+
+  <span class="kw">data.frame</span>(<span class="dt">response =</span> model<span class="op">$</span>family<span class="op">$</span>family,
+             <span class="dt">terms    =</span> <span class="kw">paste</span>(<span class="kw">rownames</span>(summ<span class="op">$</span>s.table), <span class="dt">collapse=</span><span class="st">&quot;, &quot;</span>),
+             <span class="dt">AIC      =</span> <span class="kw">AIC</span>(model),
+             <span class="dt">REML     =</span> model<span class="op">$</span>gcv.ubre,
+             <span class="st">&quot;Deviance_explained&quot;</span> =<span class="st"> </span><span class="kw">paste0</span>(<span class="kw">round</span>(summ<span class="op">$</span>dev.expl<span class="op">*</span><span class="dv">100</span>,<span class="dv">2</span>),<span class="st">&quot;%&quot;</span>)
+            )
+
+}</code></pre></div>
+<p>We can, again, make a list of the models and give that to the above function</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># add your models to this list!</span>
+model_list &lt;-<span class="st"> </span><span class="kw">list</span>(dsm_nb_x_y_ms, dsm_nb_xy_ms)
+<span class="kw">library</span>(plyr)
+summary_table &lt;-<span class="st"> </span><span class="kw">ldply</span>(model_list, summarize_dsm)
+<span class="kw">row.names</span>(summary_table) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;dsm_nb_x_y_ms&quot;</span>, <span class="st">&quot;dsm_nb_xy_ms&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">summary_table &lt;-<span class="st"> </span>summary_table[<span class="kw">order</span>(summary_table<span class="op">$</span>REML, <span class="dt">decreasing=</span><span class="ot">TRUE</span>),]
+<span class="kw">kable</span>(summary_table)</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">response</th>
+<th align="left">terms</th>
+<th align="right">AIC</th>
+<th align="right">REML</th>
+<th align="left">Deviance_explained</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>dsm_nb_x_y_ms</td>
+<td align="left">Negative Binomial(0.116)</td>
+<td align="left">s(x), s(y), s(Depth), s(DistToCAS), s(SST), s(EKE), s(NPP)</td>
+<td align="right">752.5585</td>
+<td align="right">383.0326</td>
+<td align="left">40.73%</td>
+</tr>
+<tr class="even">
+<td>dsm_nb_xy_ms</td>
+<td align="left">Negative Binomial(0.114)</td>
+<td align="left">s(x,y), s(Depth), s(DistToCAS), s(SST), s(EKE), s(NPP)</td>
+<td align="right">754.0326</td>
+<td align="right">382.7591</td>
+<td align="left">39.2%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="saving-models" class="section level2">
+<h2><span class="header-section-number">7.10</span> Saving models</h2>
+<p>Now save the models that you’d like to use to predict with later. I recommend saving as many models as you can so you can compare their results in the next practical.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># add your models here</span>
+<span class="kw">save</span>(dsm_nb_xy_ms, dsm_nb_x_y_ms,
+     <span class="dt">file=</span><span class="st">&quot;dsms.RData&quot;</span>)</code></pre></div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="simple-density-surface-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="prediction-using-fitted-density-surface-models.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

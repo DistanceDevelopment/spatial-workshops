@@ -1,0 +1,25 @@
+% Encoding: UTF-8
+
+@Article{Borchers_2005,
+  author    = {D. L. Borchers and J. L. Laake and C. Southwell and C. G. M. Paxton},
+  title     = {Accommodating unmodeled heterogeneity in double-observer distance sampling surveys},
+  journal   = {Biometrics},
+  year      = {2005},
+  volume    = {62},
+  number    = {2},
+  pages     = {372--378},
+  month     = {dec},
+  doi       = {10.1111/j.1541-0420.2005.00493.x},
+  publisher = {Wiley-Blackwell},
+  url       = {http://dx.doi.org/10.1111/j.1541-0420.2005.00493.x},
+}
+
+@TechReport{Palka2006,
+  author      = {Debra L. Palka},
+  title       = {Summer abundance estimates of cetaceans in the US North Atlantic operating areas},
+  institution = {US Dept of Commerce, Northeast Fisheries Science Center},
+  year        = {2006},
+  type        = {resreport},
+}
+
+@Comment{jabref-meta: databaseType:bibtex;}

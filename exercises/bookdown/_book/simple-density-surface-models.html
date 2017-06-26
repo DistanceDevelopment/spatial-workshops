@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Intermediate distance sampling workshop - St Andrews 2017</title>
+  <meta name="description" content="Intermediate distance sampling workshop - St Andrews 2017">
+  <meta name="generator" content="bookdown 0.4 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Intermediate distance sampling workshop - St Andrews 2017" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Intermediate distance sampling workshop - St Andrews 2017" />
+  
+  
+  
+
+<meta name="author" content="Laura Marshall, David L. Miller and Len Thomas">
+
+
+<meta name="date" content="2017-06-26">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="detection-function-fitting.html">
+<link rel="next" href="advanced-density-surface-models.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="details.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html"><i class="fa fa-check"></i><b>1</b> A hands on introduction to R tutorial</a><ul>
+<li class="chapter" data-level="1.1" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#introduction"><i class="fa fa-check"></i><b>1.1</b> Introduction</a></li>
+<li class="chapter" data-level="1.2" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#introduction-to-rstudio"><i class="fa fa-check"></i><b>1.2</b> Introduction to RStudio</a></li>
+<li class="chapter" data-level="1.3" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#a-first-session-in-rstudio"><i class="fa fa-check"></i><b>1.3</b> A first session in RStudio</a></li>
+<li class="chapter" data-level="1.4" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#Types-classes"><i class="fa fa-check"></i><b>1.4</b> Types and classes of objects</a></li>
+<li class="chapter" data-level="1.5" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#subsetting-data"><i class="fa fa-check"></i><b>1.5</b> Subsetting data</a></li>
+<li class="chapter" data-level="1.6" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#mathematical-functions-and-simple-data-calculations"><i class="fa fa-check"></i><b>1.6</b> Mathematical functions and simple data calculations</a></li>
+<li class="chapter" data-level="1.7" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#importing-and-exporting-data"><i class="fa fa-check"></i><b>1.7</b> Importing and exporting data</a></li>
+<li class="chapter" data-level="1.8" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#graphics"><i class="fa fa-check"></i><b>1.8</b> Graphics</a></li>
+<li class="chapter" data-level="1.9" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#extending-basic-capabilities-via-packages"><i class="fa fa-check"></i><b>1.9</b> Extending basic capabilities via packages</a></li>
+<li class="chapter" data-level="1.10" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#linear-regression"><i class="fa fa-check"></i><b>1.10</b> Linear regression</a></li>
+<li class="chapter" data-level="1.11" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#some-advanced-capabilities-of-r"><i class="fa fa-check"></i><b>1.11</b> Some advanced capabilities of R</a><ul>
+<li class="chapter" data-level="1.11.1" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#simulation-and-random-number-generation"><i class="fa fa-check"></i><b>1.11.1</b> Simulation and random number generation</a></li>
+<li class="chapter" data-level="1.11.2" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#writing-your-own-functions"><i class="fa fa-check"></i><b>1.11.2</b> Writing your own functions</a></li>
+</ul></li>
+<li class="chapter" data-level="1.12" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#wrap-up"><i class="fa fa-check"></i><b>1.12</b> Wrap up</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="analyse-simulated-data-set.html"><a href="analyse-simulated-data-set.html"><i class="fa fa-check"></i><b>2</b> analyse simulated data set</a><ul>
+<li class="chapter" data-level="2.1" data-path="analyse-simulated-data-set.html"><a href="analyse-simulated-data-set.html#laura-to-prepare"><i class="fa fa-check"></i><b>2.1</b> Laura to prepare</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="problem-datasets.html"><a href="problem-datasets.html"><i class="fa fa-check"></i><b>3</b> Problem datasets</a><ul>
+<li class="chapter" data-level="3.1" data-path="problem-datasets.html"><a href="problem-datasets.html#len-to-prepare"><i class="fa fa-check"></i><b>3.1</b> Len to prepare</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="simulation-of-distance-sampling-data.html"><a href="simulation-of-distance-sampling-data.html"><i class="fa fa-check"></i><b>4</b> Simulation of distance sampling data</a><ul>
+<li class="chapter" data-level="4.1" data-path="simulation-of-distance-sampling-data.html"><a href="simulation-of-distance-sampling-data.html#laura-to-prepare-1"><i class="fa fa-check"></i><b>4.1</b> Laura to prepare</a></li>
+<li class="chapter" data-level="4.2" data-path="simulation-of-distance-sampling-data.html"><a href="simulation-of-distance-sampling-data.html#bit-of-exposure-to-survey-design-engine"><i class="fa fa-check"></i><b>4.2</b> Bit of exposure to survey design engine</a></li>
+<li class="chapter" data-level="4.3" data-path="simulation-of-distance-sampling-data.html"><a href="simulation-of-distance-sampling-data.html#trailsno-trails-exercise-from-previous-years"><i class="fa fa-check"></i><b>4.3</b> Trails/no trails exercise from previous years</a></li>
+<li class="chapter" data-level="4.4" data-path="simulation-of-distance-sampling-data.html"><a href="simulation-of-distance-sampling-data.html#perhaps-some-exposure-to-dssim-vignette"><i class="fa fa-check"></i><b>4.4</b> Perhaps some exposure to DSsim vignette</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html"><i class="fa fa-check"></i><b>5</b> Detection function fitting</a><ul>
+<li class="chapter" data-level="5.1" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#aims"><i class="fa fa-check"></i><b>5.1</b> Aims</a></li>
+<li class="chapter" data-level="5.2" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#preamble"><i class="fa fa-check"></i><b>5.2</b> Preamble</a></li>
+<li class="chapter" data-level="5.3" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#load-the-data"><i class="fa fa-check"></i><b>5.3</b> Load the data</a></li>
+<li class="chapter" data-level="5.4" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#exploratory-analysis"><i class="fa fa-check"></i><b>5.4</b> Exploratory analysis</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#distances"><i class="fa fa-check"></i><b>5.4.1</b> Distances</a></li>
+<li class="chapter" data-level="5.4.2" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#size-and-distance"><i class="fa fa-check"></i><b>5.4.2</b> Size and distance</a></li>
+<li class="chapter" data-level="5.4.3" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#distance-and-sea-state"><i class="fa fa-check"></i><b>5.4.3</b> Distance and sea state</a></li>
+<li class="chapter" data-level="5.4.4" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#survey-effect"><i class="fa fa-check"></i><b>5.4.4</b> Survey effect</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#fitting-detection-functions"><i class="fa fa-check"></i><b>5.5</b> Fitting detection functions</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#summaries"><i class="fa fa-check"></i><b>5.5.1</b> Summaries</a></li>
+<li class="chapter" data-level="5.5.2" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#goodness-of-fit"><i class="fa fa-check"></i><b>5.5.2</b> Goodness of fit</a></li>
+<li class="chapter" data-level="5.5.3" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#plotting"><i class="fa fa-check"></i><b>5.5.3</b> Plotting</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#now-you-try"><i class="fa fa-check"></i><b>5.6</b> Now you try…</a></li>
+<li class="chapter" data-level="5.7" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#model-selection"><i class="fa fa-check"></i><b>5.7</b> Model selection</a><ul>
+<li class="chapter" data-level="5.7.1" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#estimating-abundance"><i class="fa fa-check"></i><b>5.7.1</b> Estimating abundance</a></li>
+<li class="chapter" data-level="5.7.2" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#save-model-objects"><i class="fa fa-check"></i><b>5.7.2</b> Save model objects</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html"><i class="fa fa-check"></i><b>6</b> Simple density surface models</a><ul>
+<li class="chapter" data-level="6.1" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#aims-1"><i class="fa fa-check"></i><b>6.1</b> Aims</a></li>
+<li class="chapter" data-level="6.2" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#load-the-packages-and-data"><i class="fa fa-check"></i><b>6.2</b> Load the packages and data</a></li>
+<li class="chapter" data-level="6.3" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#pre-model-fitting"><i class="fa fa-check"></i><b>6.3</b> Pre-model fitting</a></li>
+<li class="chapter" data-level="6.4" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#fitting-dsms"><i class="fa fa-check"></i><b>6.4</b> Fitting DSMs</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#visualising-output"><i class="fa fa-check"></i><b>6.4.1</b> Visualising output</a></li>
+<li class="chapter" data-level="6.4.2" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#checking-the-model"><i class="fa fa-check"></i><b>6.4.2</b> Checking the model</a></li>
+<li class="chapter" data-level="6.4.3" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#setting-basis-complexity"><i class="fa fa-check"></i><b>6.4.3</b> Setting basis complexity</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#estimated-abundance-as-response"><i class="fa fa-check"></i><b>6.5</b> Estimated abundance as response</a></li>
+<li class="chapter" data-level="6.6" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#univariate-models"><i class="fa fa-check"></i><b>6.6</b> Univariate models</a></li>
+<li class="chapter" data-level="6.7" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#tweedie-response-distribution"><i class="fa fa-check"></i><b>6.7</b> Tweedie response distribution</a></li>
+<li class="chapter" data-level="6.8" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#save-models"><i class="fa fa-check"></i><b>6.8</b> Save models</a></li>
+<li class="chapter" data-level="6.9" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#extra-credit"><i class="fa fa-check"></i><b>6.9</b> Extra credit</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html"><i class="fa fa-check"></i><b>7</b> Advanced density surface models</a><ul>
+<li class="chapter" data-level="7.1" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#aims-2"><i class="fa fa-check"></i><b>7.1</b> Aims</a></li>
+<li class="chapter" data-level="7.2" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#load-data-and-packages"><i class="fa fa-check"></i><b>7.2</b> Load data and packages</a></li>
+<li class="chapter" data-level="7.3" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#exploratory-analysis-1"><i class="fa fa-check"></i><b>7.3</b> Exploratory analysis</a></li>
+<li class="chapter" data-level="7.4" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#pre-model-fitting-1"><i class="fa fa-check"></i><b>7.4</b> Pre-model fitting</a></li>
+<li class="chapter" data-level="7.5" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#our-new-friend"><i class="fa fa-check"></i><b>7.5</b> Our new friend <code>+</code></a><ul>
+<li class="chapter" data-level="7.5.1" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#plot"><i class="fa fa-check"></i><b>7.5.1</b> Plot</a></li>
+<li class="chapter" data-level="7.5.2" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#check"><i class="fa fa-check"></i><b>7.5.2</b> Check</a></li>
+<li class="chapter" data-level="7.5.3" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#select-terms"><i class="fa fa-check"></i><b>7.5.3</b> Select terms</a></li>
+<li class="chapter" data-level="7.5.4" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#compare-response-distributions"><i class="fa fa-check"></i><b>7.5.4</b> Compare response distributions</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#estimated-abundance-as-a-response"><i class="fa fa-check"></i><b>7.6</b> Estimated abundance as a response</a></li>
+<li class="chapter" data-level="7.7" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#concurvity"><i class="fa fa-check"></i><b>7.7</b> Concurvity</a></li>
+<li class="chapter" data-level="7.8" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#sensitivity"><i class="fa fa-check"></i><b>7.8</b> Sensitivity</a><ul>
+<li class="chapter" data-level="7.8.1" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#compare-bivariate-and-additive-spatial-effects"><i class="fa fa-check"></i><b>7.8.1</b> Compare bivariate and additive spatial effects</a></li>
+</ul></li>
+<li class="chapter" data-level="7.9" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#comparing-models"><i class="fa fa-check"></i><b>7.9</b> Comparing models</a></li>
+<li class="chapter" data-level="7.10" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#saving-models"><i class="fa fa-check"></i><b>7.10</b> Saving models</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html"><i class="fa fa-check"></i><b>8</b> Prediction using fitted density surface models</a><ul>
+<li class="chapter" data-level="8.1" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#aims-3"><i class="fa fa-check"></i><b>8.1</b> Aims</a></li>
+<li class="chapter" data-level="8.2" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#loading-the-packages-and-data"><i class="fa fa-check"></i><b>8.2</b> Loading the packages and data</a></li>
+<li class="chapter" data-level="8.3" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#loading-prediction-data"><i class="fa fa-check"></i><b>8.3</b> Loading prediction data</a></li>
+<li class="chapter" data-level="8.4" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#save-the-prediction-to-a-raster"><i class="fa fa-check"></i><b>8.4</b> Save the prediction to a raster</a></li>
+<li class="chapter" data-level="8.5" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#save-prediction-grid-to-rdata"><i class="fa fa-check"></i><b>8.5</b> Save prediction grid to <code>RData</code></a></li>
+<li class="chapter" data-level="8.6" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#extra-credit-1"><i class="fa fa-check"></i><b>8.6</b> Extra credit</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="9" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html"><i class="fa fa-check"></i><b>9</b> Estimating precision of predictions from density surface models</a><ul>
+<li class="chapter" data-level="9.1" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#aims-4"><i class="fa fa-check"></i><b>9.1</b> Aims</a></li>
+<li class="chapter" data-level="9.2" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#load-packages-and-data"><i class="fa fa-check"></i><b>9.2</b> Load packages and data</a></li>
+<li class="chapter" data-level="9.3" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#estimation-of-variance"><i class="fa fa-check"></i><b>9.3</b> Estimation of variance</a></li>
+<li class="chapter" data-level="9.4" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#summarise-multiple-models"><i class="fa fa-check"></i><b>9.4</b> Summarise multiple models</a></li>
+<li class="chapter" data-level="9.5" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#plotting-1"><i class="fa fa-check"></i><b>9.5</b> Plotting</a></li>
+<li class="chapter" data-level="9.6" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#save-the-uncertainty-maps-to-raster-files"><i class="fa fa-check"></i><b>9.6</b> Save the uncertainty maps to raster files</a></li>
+<li class="chapter" data-level="9.7" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#extra-credit-2"><i class="fa fa-check"></i><b>9.7</b> Extra credit</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="mark-recapture-distance-sampling-of-golftees.html"><a href="mark-recapture-distance-sampling-of-golftees.html"><i class="fa fa-check"></i><b>10</b> Mark-recapture distance sampling of golftees</a><ul>
+<li class="chapter" data-level="10.1" data-path="mark-recapture-distance-sampling-of-golftees.html"><a href="mark-recapture-distance-sampling-of-golftees.html#golf-tee-survey"><i class="fa fa-check"></i><b>10.1</b> Golf tee survey</a></li>
+<li class="chapter" data-level="10.2" data-path="mark-recapture-distance-sampling-of-golftees.html"><a href="mark-recapture-distance-sampling-of-golftees.html#crabeater-seal-survey"><i class="fa fa-check"></i><b>10.2</b> Crabeater seal survey</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Intermediate distance sampling workshop - St Andrews 2017</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="simple-density-surface-models" class="section level1">
+<h1><span class="header-section-number">6</span> Simple density surface models</h1>
+<div id="aims-1" class="section level2">
+<h2><span class="header-section-number">6.1</span> Aims</h2>
+<p>By the end of this practical, you should feel comfortable:</p>
+<ul>
+<li>Fitting a density surface model using <code>dsm()</code></li>
+<li>Understanding what the objects that go into a <code>dsm()</code> call</li>
+<li>Understanding the role of the response in the <code>formula=</code> argument</li>
+<li>Understanding the output of <code>summary()</code> when called on a <code>dsm</code> object</li>
+<li>Increasing the <code>k</code> parameter of smooth terms to increase their flexibility</li>
+<li>Interpreting <code>gam.check</code> and <code>rqgam.check</code> plots and diagnostic output</li>
+</ul>
+<p>The example code below uses the <code>df_hn</code> detection function in the density surface models. You can substitute this for your own best model as you go, or copy and paste the code at the end and see what results you get using your model for the detection function.</p>
+</div>
+<div id="load-the-packages-and-data" class="section level2">
+<h2><span class="header-section-number">6.2</span> Load the packages and data</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(Distance)
+<span class="kw">library</span>(dsm)</code></pre></div>
+<pre><code>## Loading required package: numDeriv</code></pre>
+<pre><code>## This is dsm 2.2.15
+## Built: R 3.4.0; ; 2017-05-01 22:53:07 UTC; windows</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+<span class="kw">library</span>(knitr)</code></pre></div>
+<p>Loading the <code>RData</code> files where we saved our results:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;sperm-data.RData&quot;</span>)
+<span class="kw">load</span>(<span class="st">&quot;df-models.RData&quot;</span>)</code></pre></div>
+</div>
+<div id="pre-model-fitting" class="section level2">
+<h2><span class="header-section-number">6.3</span> Pre-model fitting</h2>
+<p>Before we fit a model using <code>dsm()</code> we must first remove the observations from the spatial data that we excluded when we fitted the detection function – those observations at distances greater than the truncation.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">obs &lt;-<span class="st"> </span>obs[obs<span class="op">$</span>distance <span class="op">&lt;=</span><span class="st"> </span>df_hn<span class="op">$</span>ddf<span class="op">$</span>meta.data<span class="op">$</span>width,]</code></pre></div>
+<p>Here we’ve used the value of the truncation stored in the detection function object, but we could also use the numeric value (which we can also find by checking the model’s <code>summary()</code>).</p>
+<p>Also note that if you want to fit DSMs using detection functions with different truncation distances, then you’ll need to reload the <code>sperm-data.RData</code> and do the truncation again for that detection function.</p>
+</div>
+<div id="fitting-dsms" class="section level2">
+<h2><span class="header-section-number">6.4</span> Fitting DSMs</h2>
+<p>Using the data that we’ve saved so far, we can build a call to the <code>dsm()</code> function and fit out first density surface model. Here we’re only going to look at models that include spatial smooths.</p>
+<p>Let’s start with a very simple model – a bivariate smooth of <code>x</code> and <code>y</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dsm_nb_xy &lt;-<span class="st"> </span><span class="kw">dsm</span>(count<span class="op">~</span><span class="kw">s</span>(x,y),
+                 <span class="dt">ddf.obj=</span>df_hn, <span class="dt">segment.data =</span> segs, <span class="dt">observation.data=</span>obs,
+                 <span class="dt">family=</span><span class="kw">nb</span>(), <span class="dt">method=</span><span class="st">&quot;REML&quot;</span>)</code></pre></div>
+<p>Note again that we try to have informative model object names so that we can work out what the main features of the model were from its name alone.</p>
+<p>We can look at a <code>summary()</code> of this model. Look through the summary output and try to pick out the important information based on what we’ve talked about in the lectures so far.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(dsm_nb_xy)</code></pre></div>
+<pre><code>## 
+## Family: Negative Binomial(0.105) 
+## Link function: log 
+## 
+## Formula:
+## count ~ s(x, y) + offset(off.set)
+## 
+## Parametric coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -20.7009     0.2538  -81.56   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Approximate significance of smooth terms:
+##          edf Ref.df Chi.sq  p-value    
+## s(x,y) 17.95  22.23  75.89 6.27e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## R-sq.(adj) =  0.0879   Deviance explained = 40.7%
+## -REML = 392.65  Scale est. = 1         n = 949</code></pre>
+<div id="visualising-output" class="section level3">
+<h3><span class="header-section-number">6.4.1</span> Visualising output</h3>
+<p>As discussed in the lectures, the <code>plot</code> output is not terribly useful for bivariate smooths like these. We’ll use <code>vis.gam()</code> to visualise the smooth instead:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">vis.gam</span>(dsm_nb_xy, <span class="dt">view=</span><span class="kw">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;y&quot;</span>), <span class="dt">plot.type=</span><span class="st">&quot;contour&quot;</span>, <span class="dt">too.far=</span><span class="fl">0.1</span>, <span class="dt">main=</span><span class="st">&quot;s(x,y) (link scale)&quot;</span>, <span class="dt">asp=</span><span class="dv">1</span>)</code></pre></div>
+<p><img src="_main_files/figure-html/nb-xy-visgam-1.png" width="480" /></p>
+<p>Notes:</p>
+<ol style="list-style-type: decimal">
+<li>The plot is on the scale of the link function, the offset is not taken into account – the contour values do not represent abundance, just the “influence” of the smooth.</li>
+<li>We set <code>view=c(&quot;x&quot;,&quot;y&quot;)</code> to display the smooths for <code>x</code> and <code>y</code> (we can choose any two variables in our model to display like this)</li>
+<li><code>plot.type=&quot;contour&quot;</code> gives this “flat” plot, set <code>plot.type=&quot;persp&quot;</code> for a “perspective” plot, in 3D.</li>
+<li>The <code>too.far=0.1</code> argument displays the values of the smooth not “too far” from the data (try changing this value to see what happens.</li>
+<li><code>asp=1</code> ensures that the aspect ratio of the plot is 1, making the pixels square.</li>
+<li>Read the <code>?vis.gam</code> manual page for more information on the plotting options.</li>
+</ol>
+</div>
+<div id="checking-the-model" class="section level3">
+<h3><span class="header-section-number">6.4.2</span> Checking the model</h3>
+<p>We can use the <code>gam.check()</code> and <code>rqgam.check</code> functions to check the model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gam.check</span>(dsm_nb_xy)</code></pre></div>
+<p><img src="_main_files/figure-html/nb-xy-check-1.png" width="576" /></p>
+<pre><code>## 
+## Method: REML   Optimizer: outer newton
+## full convergence after 5 iterations.
+## Gradient range [-4.081497e-08,5.889688e-08]
+## (score 392.646 &amp; scale 1).
+## Hessian positive definite, eigenvalue range [2.157927,29.21001].
+## Model rank =  30 / 30 
+## 
+## Basis dimension (k) checking results. Low p-value (k-index&lt;1) may
+## indicate that k is too low, especially if edf is close to k&#39;.
+## 
+##        k&#39; edf k-index p-value    
+## s(x,y) 29  18    0.53  &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rqgam.check</span>(dsm_nb_xy)</code></pre></div>
+<p><img src="_main_files/figure-html/nb-xy-rqcheck-1.png" width="576" /></p>
+<p>Remember that the left side of the <code>gam.check()</code> plot and the right side of the <code>rqgam.check()</code> plot are most useful.</p>
+<p>Looking back through the lecture notes, do you see any problems in these plots or in the text output from <code>gam.check()</code>.</p>
+</div>
+<div id="setting-basis-complexity" class="section level3">
+<h3><span class="header-section-number">6.4.3</span> Setting basis complexity</h3>
+<p>We can set the basis complexity via the <code>k</code> argument to the <code>s()</code> term in the formula. For example the following re-fits the above model with a much smaller basis complexity than before:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dsm_nb_xy_smallk &lt;-<span class="st"> </span><span class="kw">dsm</span>(count<span class="op">~</span><span class="kw">s</span>(x, y, <span class="dt">k=</span><span class="dv">10</span>),
+                        <span class="dt">ddf.obj=</span>df_hn, <span class="dt">segment.data =</span> segs, <span class="dt">observation.data=</span>obs,
+                        <span class="dt">family=</span><span class="kw">nb</span>(), <span class="dt">method=</span><span class="st">&quot;REML&quot;</span>)</code></pre></div>
+<p>Compare the output of <code>vis.gam()</code> and <code>gam.check()</code> for this model to the model with a larger basis complexity.</p>
+</div>
+</div>
+<div id="estimated-abundance-as-response" class="section level2">
+<h2><span class="header-section-number">6.5</span> Estimated abundance as response</h2>
+<p>So far we’ve just used <code>count</code> as the response. That is, we adjusted the offset of the model to make it take into account the “effective area” of the segments (see lecture notes for a refresher).</p>
+<p>Instead of using <code>count</code> we could use <code>abundance.est</code>, which will leave the segment areas as they are and calculate the Horvitz-Thompson estimates of the abundance per segment and use that as the response in the model. This is most useful when we have covariates in the detection function (though we can use it any time).</p>
+<p>Try copying the code that fits the model <code>dsm_nb_xy</code> and make a model <code>dsm_nb_xy_ae</code> that replaces <code>count</code> for <code>abundance.est</code> in the model formula and uses the <code>df_hr_ss_size</code> detection function. Compare the results of summaries, plots and checks between this and the count model.</p>
+</div>
+<div id="univariate-models" class="section level2">
+<h2><span class="header-section-number">6.6</span> Univariate models</h2>
+<p>Instead of fitting a bivariate smooth of <code>x</code> and <code>y</code> using <code>s(x, y)</code>, we could instead use the additive nature and fit the following model:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dsm_nb_x_y &lt;-<span class="st"> </span><span class="kw">dsm</span>(count<span class="op">~</span><span class="kw">s</span>(x)<span class="op">+</span><span class="st"> </span><span class="kw">s</span>(y),
+                 <span class="dt">ddf.obj=</span>df_hn, <span class="dt">segment.data =</span> segs, <span class="dt">observation.data=</span>obs,
+                 <span class="dt">family=</span><span class="kw">nb</span>(), <span class="dt">method=</span><span class="st">&quot;REML&quot;</span>)</code></pre></div>
+<p>Compare this model with <code>dsm_nb_xy</code> using <code>vis.gam()</code> (Note you can display two plots side-by-side using <code>par(mfrow=c(1,2))</code>). Investigate the output from <code>summary()</code> and the check functions too, comparing with the other models, adjust <code>k</code> if necessary.</p>
+</div>
+<div id="tweedie-response-distribution" class="section level2">
+<h2><span class="header-section-number">6.7</span> Tweedie response distribution</h2>
+<p>So far, we’ve used <code>nb()</code> as the response – the negative binomial distribution. We can also try out the Tweedie distribution as a response by replacing <code>nb()</code> with <code>tw()</code>.</p>
+<p>Try this out and compare the resulting check plots.</p>
+</div>
+<div id="save-models" class="section level2">
+<h2><span class="header-section-number">6.8</span> Save models</h2>
+<p>It’ll be interesting to see how these models compare to the more complex models we’ll see later on. Let’s save the fitted models at this stage.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># add your models here</span>
+<span class="kw">save</span>(dsm_nb_x_y, dsm_nb_xy,
+     <span class="dt">file=</span><span class="st">&quot;dsms-xy.RData&quot;</span>)</code></pre></div>
+</div>
+<div id="extra-credit" class="section level2">
+<h2><span class="header-section-number">6.9</span> Extra credit</h2>
+<p>If you have time, try the following:</p>
+<ul>
+<li>What happens when we set <code>family=quasipoisson()</code>? Compare results of <code>gam.check</code> and <code>rqgam.check</code> for this and the other models.</li>
+<li>Make the <code>k</code> value very big (~100 or so), what do you notice?</li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="detection-function-fitting.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="advanced-density-surface-models.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

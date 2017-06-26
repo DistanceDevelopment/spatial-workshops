@@ -1,0 +1,41 @@
+details {
+    border-radius: 3px;
+    background: #EEE;
+}
+
+details summary {
+    font-size: 24px;
+    vertical-align: top;
+    background: cornflowerblue;
+    color: #FFF;
+    border-radius: 3px;
+    padding: 5px 10px;
+    outline: none;
+}
+
+details[open] summary {
+    background: #69c773;
+    color: #333;
+}
+
+/* Hide the default marker. */    
+details summary::-webkit-details-marker {
+    display: none;
+}
+
+/* Add the custom marker in the default state. */    
+details summary:before {
+    display: inline-block;
+    width: 33px;
+    height: 33px;
+    margin-right: 8px;
+    content: "";
+    background-image: url("d7.gif");
+    background-repeat: no-repeat;
+    background-position: 0 0;
+}
+
+/* Move the sprite image when the details box is open. */
+details[open] summary:before {
+    background-position: 0px 0;
+}

@@ -1,0 +1,9 @@
+# Simulation of distance sampling data
+
+## Laura to prepare
+
+## Bit of exposure to survey design engine
+
+## Trails/no trails exercise from previous years
+
+## Perhaps some exposure to DSsim vignette

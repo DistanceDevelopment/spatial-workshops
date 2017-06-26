@@ -1,0 +1,97 @@
+# Mark-recapture distance sampling of golftees
+
+This document is designed to give you some pointers so that you can perform the Mark-Recapture Distance Sampling practical directly using the `mrds` package in R, rather than via the Distance graphical interface.  I assume you have some knowledge of R, the `mrds` package, and Distance.
+
+## Golf tee survey
+
+Luckily for us, the golf tee dataset is provided aspart of the mrds package, so we don't have to worry about obtaining the data from the Distance GolfteesExercise project.
+
+Open R and load the mrds library and golf tee dataset.
+```{r preliminaries, message=FALSE, comment=NA}
+library(mrds)
+data(book.tee.data)
+#investigate the structure of the dataset
+str(book.tee.data)
+#extract the list elements from the dataset into easy-to-use objects
+detections <- book.tee.data$book.tee.dataframe
+#make sure sex and exposure are factor variables
+detections$sex <- as.factor(detections$sex)
+detections$exposure <- as.factor(detections$exposure)
+region <- book.tee.data$book.tee.region
+samples <- book.tee.data$book.tee.samples
+obs <- book.tee.data$book.tee.obs
+```
+We'll start by fitting the initial full independence model, with only distance as a covariate - just as was done in the "FI - MR dist" model in Distance.  Indeed, if you did fit that model in Distance, you can look in the Log tab at the R code Distance generated, and compare it with the code we use here.
+
+Feel free to use `?` to find out more about any of the functions used -- e.g., `?ddf` will tell you more about the ddf function.
+
+```{r, message=FALSE, comment=NA, fig.height=4, fig.cap="Goodness of fit (FI-trial) to golftee data."}
+#Fit the model
+fi.mr.dist <- ddf(method='trial.fi',mrmodel=~glm(link='logit',formula=~distance),
+                data=detections,meta.data=list(width=4))
+#Create a set of tables summarizing the double observer data (this is what Distance does)
+detection.tables <- det.tables(fi.mr.dist)
+#Print these detection tables
+detection.tables
+# They could also be plotted, but I've not done so in the interest of space
+# plot(detection.tables)
+
+#Produce a summary of the fitted detection function object
+summary(fi.mr.dist)
+
+#Produce goodness of fit statistics and a qq plot
+gof.result <- ddf.gof(fi.mr.dist, 
+                      main="Full independence, trial mode goodness of fit\nGolftee data")
+chi.distance <- gof.result$chisquare$chi1$chisq
+chi.markrecap <- gof.result$chisquare$chi2$chisq
+chi.total <- gof.result$chisquare$pooled.chi
+```
+
+Abbreviated $\chi^2$ goodness of fit assessment shows the $\chi^2$ contribution from the distance sampling model to be `r round(chi.distance,1)` and the $\chi^2$ contribution from the mark-recapture model to be `r round(chi.markrecap,1)`.  The combination of these elements produces a total $\chi^2$ of `r round(chi.total$chisq,1)` with `r chi.total$df` degrees of freedom, resulting in a P-value of `r round(chi.total$p,3)`
+
+```{r}
+#Calculate density estimates using the dht function
+tee.abund <- dht(fi.mr.dist,region,samples,obs)
+kable(tee.abund$individuals$summary, digits=2, 
+      caption="Survey summary statistics for golftees")
+kable(tee.abund$individuals$N, digits=2, 
+      caption="Abundance estimates for golftee population with two strata")
+```
+
+Now, see if you can work out how to change the call to ddf to fit the other models mentioned in the exercise, and then write code to enable you to compare the models and select among them.
+
+## Crabeater seal survey
+
+This analysis is described in @Borchers_2005 Biometrics paper of aerial survey data looking for seals in the Antarctic pack ice.  There were four observers in the plane, two on each side (front and back).  
+
+The data from the survey has been saved in a `.csv` file. This file can be easily read into R, and with the `checkdata()` function, the information to construct the region, sample, and observation table can be extracted.  Note that these tables are only needed when estimating abundance by scaling up from the covered region to the study area.
+
+```{r, comment=NA}
+library(Distance)
+crabseal <- read.csv("crabbieMRDS.csv")
+#  Half normal detection function, 700m truncation distance, 
+#      logit function for mark-recapture component
+crab.ddf.io <- ddf(method="io", dsmodel=~cds(key="hn"),
+                 mrmodel=~glm(link="logit", formula=~distance),
+                 data=crabseal, meta.data=list(width=700))
+summary(crab.ddf.io)
+```
+
+Goodness of fit could be examined in the same manner as the golf tees by the use of `ddf.gof(crab.ddf.io)` but I have not shown this step.
+
+Following model criticism and selection, estimation of abundance ensues.  the estimates of abundance for the study area are arbitrary because inference of the study was restricted to the covered region.  Hence the estimates of abundance here are artificial, but if we wished to produce them, we would need to produce the region, sample, and observation tables and apply Horvitz-Thompson like estimators to produce estimates of $\hat{N}$.  The use of `covert.units` adjusts the units of perpendicular distance measurement (m) to units of transect effort (km).  Be sure to perform the conversion correctly or your abundance estimates will be off by orders of magnitude.
+
+```{r}
+tables <- Distance:::checkdata(crabseal[crabseal$observer==1,])
+crab.ddf.io.abund <- dht(region=tables$region.table, 
+                         sample=tables$sample.table, obs=tables$obs.table,
+                         model=crab.ddf.io, se=TRUE, options=list(convert.units=0.001))
+kable(crab.ddf.io.abund$individuals$summary, digits=3,
+      caption="Summary information from crabeater seal aerial survey.")
+```
+
+```{r}
+kable(crab.ddf.io.abund$individual$N, digits=3,
+      caption="Crabeater seal abundance estimates for study area of arbitrary size.")
+```
+
