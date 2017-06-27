@@ -22,4 +22,41 @@
   type        = {resreport},
 }
 
+@Book{Faraway2006,
+  title       = {Extending the Linear Model with R},
+  publisher   = {Chapman \& Hall / CRC},
+  year        = {2006},
+  author      = {Faraway, J. J.},
+  owner       = {Tiago},
+  review      = {Code and data online at http://www.maths.bath.ac.uk/%7Ejjf23/ELM/},
+  subdatabase = {general statistics},
+  timestamp   = {2008.04.04},
+  url         = {http://www.maths.bath.ac.uk/%7Ejjf23/ELM/},
+}
+
+@Book{Wood2006,
+  title       = {Generalized Additive Models: an introduction with R},
+  publisher   = {CRC/Chapman \& Hall},
+  year        = {2006},
+  author      = {Simon N. Wood},
+  file        = {Wood2006.pdf:Wood2006.pdf:PDF},
+  owner       = {Tiago},
+  review      = {Good definitions for:
+	
+	p-value
+	
+	design matrix},
+  subdatabase = {other},
+  timestamp   = {2007.10.31},
+}
+
+@Book{Zuur2009b,
+  title     = {Mixed effects models and extensions in ecology with R},
+  publisher = {Springer},
+  year      = {2009},
+  author    = {Alain F. Zuur and Elena N. Ieno and Neil Walker and Anatoly A. Saveliev and Graham M. Smith},
+  owner     = {tiago},
+  timestamp = {2012.04.18},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}

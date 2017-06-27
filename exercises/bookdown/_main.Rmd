@@ -1,3 +1,46 @@
+--- 
+title: "Intermediate distance sampling workshop - St Andrews 2017"
+author: "Laura Marshall, David L. Miller and Len Thomas"
+date: '`r Sys.Date()`'
+output:
+  bookdown::pdf_book: 
+    includes:
+      in_header: preamble.tex
+  bookdown::gitbook: default
+csl: chicago-au-yr.csl
+geometry: a4paper
+documentclass: book
+link-citations: yes
+linkcolor: blue
+css: details.css
+site: bookdown::bookdown_site
+bibliography: references.bib
+---
+
+# Preface {-}
+
+<!--chapter:end:index.Rmd-->
+
+
+# A hands on introduction to R tutorial
+
+<!--chapter:end:01-Rtutorial.Rmd-->
+
+
+# analyse simulated data set
+
+<!--chapter:end:02-simple-analysis-simulated.Rmd-->
+
+
+# Problem datasets 
+
+<!--chapter:end:03-problem-datasets.Rmd-->
+
+
+# Simulation of distance sampling data
+
+<!--chapter:end:04-dssim.Rmd-->
+
 # Detection function fitting
 
 ## Aims
@@ -196,13 +239,20 @@ Once you have the hang of writing models and looking at the differences between 
 
 Looking at the models individually can be a bit unwieldy -- it's nicer to put that data into a table and sort the table by the relevant statistic.  The function `summarize_ds_models()` in the `Distance` package performs this task for us.
 
-The code below will make a results table with relevant statistics for model selection in it. The `summarize_ds_models()` function takes a series of object names as its first argument. We can do that with the two models that I fitted like so:
+The code below will make a results table with relevant statistics for model selection in it. Don't worry about how this code exactly works at the moment.
 
-```{r df-results}
-model_table <- summarize_ds_models(df_hn, df_hr_ss_size)
-kable(model_table, digits=3, caption = "Comparison of half normal and hazard rate with sea state and group size.")
+The `summarize_ds_models()` function expects a character vector of object names as its input. We can do that with the two models that I fitted like so:
+```{r model-list}
+models <- c("df_hn", "df_hr_ss_size")
 ```
 (You can add the models you fitted above into this list.)
+
+Here is the resulting table from the code above, made using the `kable` function from `knitr`:
+
+```{r df-results}
+model_table <- summarize_ds_models(models)
+kable(model_table, digits=3, caption = "Comparison of half normal and hazard rate with sea state and group size.")
+```
 
 #### A further note about model selection for the sperm whale data
 
@@ -262,3 +312,36 @@ You can check it worked by using the `load()` function to recover the models.
 
 Palka, D. (2006). Summer Abundance Estimates of Cetaceans in US North Atlantic Navy Operating Areas. Northeast Fisheries Science Center Reference Document 06-03. [Available online here](http://www.nefsc.noaa.gov/nefsc/publications/crd/crd1229/crd1229.pdf)
 -->
+
+<!--chapter:end:05-detection-functions.Rmd-->
+
+
+# Simple density surface models
+
+<!--chapter:end:06-simple-dsms.Rmd-->
+
+
+# Advanced density surface models
+
+<!--chapter:end:07-advanced-dsms.Rmd-->
+
+
+# Prediction using fitted density surface models
+
+<!--chapter:end:08-prediction.Rmd-->
+
+
+# Estimating precision of predictions from density surface models
+
+<!--chapter:end:09-variance.Rmd-->
+
+
+# Mark-recapture distance sampling of golftees
+
+<!--chapter:end:10-mrds.Rmd-->
+
+
+# References {-}
+
+<!--chapter:end:11-references.Rmd-->
+
