@@ -25,7 +25,7 @@
 <meta name="author" content="Laura Marshall, David L. Miller and Len Thomas">
 
 
-<meta name="date" content="2017-06-26">
+<meta name="date" content="2017-06-27">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -193,7 +193,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="8.5" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#save-prediction-grid-to-rdata"><i class="fa fa-check"></i><b>8.5</b> Save prediction grid to <code>RData</code></a></li>
 <li class="chapter" data-level="8.6" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#extra-credit-1"><i class="fa fa-check"></i><b>8.6</b> Extra credit</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="chapter" data-level="9" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html"><i class="fa fa-check"></i><b>9</b> Estimating precision of predictions from density surface models</a><ul>
 <li class="chapter" data-level="9.1" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#aims-4"><i class="fa fa-check"></i><b>9.1</b> Aims</a></li>
 <li class="chapter" data-level="9.2" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#load-packages-and-data"><i class="fa fa-check"></i><b>9.2</b> Load packages and data</a></li>
@@ -207,6 +206,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="10.1" data-path="mark-recapture-distance-sampling-of-golftees.html"><a href="mark-recapture-distance-sampling-of-golftees.html#golf-tee-survey"><i class="fa fa-check"></i><b>10.1</b> Golf tee survey</a></li>
 <li class="chapter" data-level="10.2" data-path="mark-recapture-distance-sampling-of-golftees.html"><a href="mark-recapture-distance-sampling-of-golftees.html#crabeater-seal-survey"><i class="fa fa-check"></i><b>10.2</b> Crabeater seal survey</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
 
       </nav>
@@ -244,13 +244,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="kw">library</span>(dsm)
 <span class="kw">library</span>(ggplot2)
 <span class="kw">library</span>(knitr)
-<span class="kw">library</span>(plyr)</code></pre></div>
-<pre><code>## 
-## Attaching package: &#39;plyr&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:secr&#39;:
-## 
-##     join</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(reshape2)</code></pre></div>
+<span class="kw">library</span>(kableExtra)
+<span class="kw">library</span>(plyr)
+<span class="kw">library</span>(reshape2)</code></pre></div>
 <p>Loading the data processed from GIS and the fitted detection function objects from the previous exercises:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;sperm-data.RData&quot;</span>)
 <span class="kw">load</span>(<span class="st">&quot;df-models.RData&quot;</span>)</code></pre></div>
@@ -295,7 +291,12 @@ segs_eda &lt;-<span class="st"> </span><span class="kw">melt</span>(segs_eda, <s
 <pre><code>## Warning: Ignoring unknown aesthetics: weight</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(p)</code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="_main_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<div class="figure"><span id="fig:histcovar"></span>
+<img src="_main_files/figure-html/histcovar-1.png" alt="Histograms of segment counts at various covariate levels." width="672" />
+<p class="caption">
+Figure 7.1: Histograms of segment counts at various covariate levels.
+</p>
+</div>
 <p>We can also just plot the counts against the covariates, note the high number of zeros (but still some interesting patterns):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(segs_eda) <span class="op">+</span>
 <span class="st">       </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(value, n)) <span class="op">+</span>
@@ -304,7 +305,12 @@ segs_eda &lt;-<span class="st"> </span><span class="kw">melt</span>(segs_eda, <s
 <span class="st">       </span><span class="kw">ylab</span>(<span class="st">&quot;Aggregated counts&quot;</span>)
 <span class="kw">print</span>(p)</code></pre></div>
 <pre><code>## Warning: Removed 6097 rows containing missing values (geom_point).</code></pre>
-<p><img src="_main_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<div class="figure"><span id="fig:countcovar"></span>
+<img src="_main_files/figure-html/countcovar-1.png" alt="Relationship of segment counts to covariate values." width="672" />
+<p class="caption">
+Figure 7.2: Relationship of segment counts to covariate values.
+</p>
+</div>
 <p>These plots give a very rough idea of the relationships we can expect in the model. Notably these plots don’t take into account interactions between the variables and potential correlations between the terms, as well as detectability.</p>
 </div>
 <div id="pre-model-fitting-1" class="section level2">
@@ -386,7 +392,12 @@ segs_eda &lt;-<span class="st"> </span><span class="kw">melt</span>(segs_eda, <s
 <h3><span class="header-section-number">7.5.1</span> Plot</h3>
 <p>Let’s plot the smooths from this model:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(dsm_nb_xy_ms, <span class="dt">pages=</span><span class="dv">1</span>, <span class="dt">scale=</span><span class="dv">0</span>)</code></pre></div>
-<p><img src="_main_files/figure-html/plot-nb-xy-1.png" width="672" /></p>
+<div class="figure"><span id="fig:plot-nb-xy"></span>
+<img src="_main_files/figure-html/plot-nb-xy-1.png" alt="Smooths for all covariates with neg-binomial response distribution." width="672" />
+<p class="caption">
+Figure 7.3: Smooths for all covariates with neg-binomial response distribution.
+</p>
+</div>
 <p>Notes:</p>
 <ol style="list-style-type: decimal">
 <li>Setting <code>shade=TRUE</code> gives prettier confidence bands.</li>
@@ -394,9 +405,15 @@ segs_eda &lt;-<span class="st"> </span><span class="kw">melt</span>(segs_eda, <s
 <li><code>scale=0</code> puts each plot on a different <span class="math inline">\(y\)</span>-axis scale, making it easier to see the effects. Setting <code>scale=-1</code> will put the plots on a common <span class="math inline">\(y\)</span>-axis scale</li>
 </ol>
 <p>We can also plot the bivariate smooth of <code>x</code> and <code>y</code> as we did before, using <code>vis.gam()</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">vis.gam</span>(dsm_nb_xy_ms, <span class="dt">view=</span><span class="kw">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;y&quot;</span>), <span class="dt">plot.type=</span><span class="st">&quot;contour&quot;</span>, <span class="dt">too.far=</span><span class="fl">0.1</span>, <span class="dt">main=</span><span class="st">&quot;s(x,y) (link scale)&quot;</span>, <span class="dt">asp=</span><span class="dv">1</span>)</code></pre></div>
-<p><img src="_main_files/figure-html/nb-xy-visgam-03-1.png" width="480" /></p>
-<p>Compare this plot to the one that was generated in the previous practical when only <code>x</code> and <code>y</code> were included in the model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">vis.gam</span>(dsm_nb_xy_ms, <span class="dt">view=</span><span class="kw">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;y&quot;</span>), <span class="dt">plot.type=</span><span class="st">&quot;contour&quot;</span>, <span class="dt">too.far=</span><span class="fl">0.1</span>, 
+        <span class="dt">main=</span><span class="st">&quot;s(x,y) (link scale)&quot;</span>, <span class="dt">asp=</span><span class="dv">1</span>)</code></pre></div>
+<div class="figure"><span id="fig:nb-xy-visgam-03"></span>
+<img src="_main_files/figure-html/nb-xy-visgam-03-1.png" alt="Fitted surface with all environmental covariates, and neg-binomial response distribution." width="384" />
+<p class="caption">
+Figure 7.4: Fitted surface with all environmental covariates, and neg-binomial response distribution.
+</p>
+</div>
+<p>Compare this plot to Figure <a href="simple-density-surface-models.html#fig:nb-xy-visgam">6.1</a>, generated in the previous practical when only <code>x</code> and <code>y</code> were included in the model.</p>
 </div>
 <div id="check" class="section level3">
 <h3><span class="header-section-number">7.5.2</span> Check</h3>
@@ -421,7 +438,7 @@ segs_eda &lt;-<span class="st"> </span><span class="kw">melt</span>(segs_eda, <s
 </div>
 <div id="concurvity" class="section level2">
 <h2><span class="header-section-number">7.7</span> Concurvity</h2>
-<p>Checking concurvity of terms in the model can be accomplished using the <code>concurvity()</code> function.</p>
+<p>Checking concurvity (<span class="citation">Amodio, Aria, and D’Ambrosio (<a href="#ref-Amodio2014">2014</a>)</span>) of terms in the model can be accomplished using the <code>concurvity()</code> function.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">concurvity</span>(dsm_nb_xy_ms)</code></pre></div>
 <pre><code>##                  para    s(x,y)  s(Depth) s(DistToCAS)    s(SST)    s(EKE)
 ## worst    9.804613e-24 0.9963493 0.9836597    0.9959057 0.9772853 0.7702479
@@ -433,30 +450,7 @@ segs_eda &lt;-<span class="st"> </span><span class="kw">melt</span>(segs_eda, <s
 ## estimate 0.8694619</code></pre>
 <p>By default the function returns a matrix of a measure of concurvity between one of the terms and the rest of the model.</p>
 <p>Compare the output of the models before and after removing terms.</p>
-<p>Reading these matrices can be a little laborious and not very fun. Here is a little bit of code to visualise the concurvity <em>between terms</em> in a model by colour coding the matrix (and blanking out the redundant information).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vis.concurvity &lt;-<span class="st"> </span><span class="cf">function</span>(b, <span class="dt">type=</span><span class="st">&quot;estimate&quot;</span>){
-  <span class="co"># arguments:</span>
-  <span class="co">#   b     -- a fitted gam</span>
-  <span class="co">#   type  -- concurvity measure to plot, see ?concurvity</span>
-  cc &lt;-<span class="st"> </span><span class="kw">concurvity</span>(b, <span class="dt">full=</span><span class="ot">FALSE</span>)[[type]]
-
-  <span class="kw">diag</span>(cc) &lt;-<span class="st"> </span><span class="ot">NA</span>
-  cc[<span class="kw">lower.tri</span>(cc)]&lt;-<span class="ot">NA</span>
-
-  <span class="kw">layout</span>(<span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dt">ncol=</span><span class="dv">2</span>), <span class="dt">widths=</span><span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">1</span>))
-  opar &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">0</span>) <span class="op">+</span><span class="st"> </span><span class="fl">0.1</span>)
-  <span class="co"># main plot</span>
-  <span class="kw">image</span>(<span class="dt">z=</span>cc, <span class="dt">x=</span><span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(cc), <span class="dt">y=</span><span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(cc), <span class="dt">ylab=</span><span class="st">&quot;&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;&quot;</span>,
-        <span class="dt">axes=</span><span class="ot">FALSE</span>, <span class="dt">asp=</span><span class="dv">1</span>, <span class="dt">zlim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))
-  <span class="kw">axis</span>(<span class="dv">1</span>, <span class="dt">at=</span><span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(cc), <span class="dt">labels =</span> <span class="kw">colnames</span>(cc), <span class="dt">las=</span><span class="dv">2</span>)
-  <span class="kw">axis</span>(<span class="dv">2</span>, <span class="dt">at=</span><span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(cc), <span class="dt">labels =</span> <span class="kw">rownames</span>(cc), <span class="dt">las=</span><span class="dv">2</span>)
-  <span class="co"># legend</span>
-  opar &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">3</span>) <span class="op">+</span><span class="st"> </span><span class="fl">0.1</span>)
-  <span class="kw">image</span>(<span class="kw">t</span>(<span class="kw">matrix</span>(<span class="kw">rep</span>(<span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">len=</span><span class="dv">100</span>), <span class="dv">2</span>), <span class="dt">ncol=</span><span class="dv">2</span>)),
-        <span class="dt">x=</span><span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dt">y=</span><span class="dv">1</span><span class="op">:</span><span class="dv">101</span>, <span class="dt">zlim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="dt">axes=</span><span class="ot">FALSE</span>, <span class="dt">xlab=</span><span class="st">&quot;&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;&quot;</span>)
-  <span class="kw">axis</span>(<span class="dv">4</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">1</span>,<span class="dv">101</span>,<span class="dt">len=</span><span class="dv">5</span>), <span class="dt">labels =</span> <span class="kw">round</span>(<span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dt">len=</span><span class="dv">5</span>),<span class="dv">1</span>), <span class="dt">las=</span><span class="dv">2</span>)
-  <span class="kw">par</span>(opar)
-}</code></pre></div>
+<p>Reading these matrices can be laborious and not very fun. The function <code>vis.concurvity()</code> in the <code>dsm</code> package is used to visualise the concurvity <em>between terms</em> in a model by colour coding the matrix (and blanking out the redundant information).</p>
 <p>Again compare the results of plotting for models with different terms.</p>
 </div>
 <div id="sensitivity" class="section level2">
@@ -508,7 +502,12 @@ segs_eda &lt;-<span class="st"> </span><span class="kw">melt</span>(segs_eda, <s
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
 <span class="kw">plot</span>(dsm_nb_xy_ms, <span class="dt">select=</span><span class="dv">2</span>)
 <span class="kw">plot</span>(dsm_nb_x_y_ms, <span class="dt">select=</span><span class="dv">3</span>)</code></pre></div>
-<p><img src="_main_files/figure-html/compare-depth-1.png" width="672" /></p>
+<div class="figure"><span id="fig:compare-depth"></span>
+<img src="_main_files/figure-html/compare-depth-1.png" alt="Shape of depth covariate response with bivariate s(x,y) and univariate s(x)+s(y)." width="672" />
+<p class="caption">
+Figure 7.5: Shape of depth covariate response with bivariate s(x,y) and univariate s(x)+s(y).
+</p>
+</div>
 <p>Note that there <code>select=</code> picks just one term to plot. These are in the order in which the terms occur in the <code>summary()</code> output (so you may well need to adjust the above code).</p>
 </div>
 </div>
@@ -534,8 +533,12 @@ model_list &lt;-<span class="st"> </span><span class="kw">list</span>(dsm_nb_x_y
 summary_table &lt;-<span class="st"> </span><span class="kw">ldply</span>(model_list, summarize_dsm)
 <span class="kw">row.names</span>(summary_table) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;dsm_nb_x_y_ms&quot;</span>, <span class="st">&quot;dsm_nb_xy_ms&quot;</span>)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">summary_table &lt;-<span class="st"> </span>summary_table[<span class="kw">order</span>(summary_table<span class="op">$</span>REML, <span class="dt">decreasing=</span><span class="ot">TRUE</span>),]
-<span class="kw">kable</span>(summary_table)</code></pre></div>
+<span class="kw">kable</span>(summary_table, 
+      <span class="dt">caption =</span> <span class="st">&quot;Model performance of s(x,y) and s(x)+s(y) in presence of other covariates.&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">latex_options=</span><span class="st">&quot;scale_down&quot;</span>)</code></pre></div>
+<pre><code>## Currently generic markdown table using pandoc is not supported.</code></pre>
 <table>
+<caption><span id="tab:print-table-03">Table 7.1: </span>Model performance of s(x,y) and s(x)+s(y) in presence of other covariates.</caption>
 <thead>
 <tr class="header">
 <th></th>
@@ -573,6 +576,12 @@ summary_table &lt;-<span class="st"> </span><span class="kw">ldply</span>(model_
 <span class="kw">save</span>(dsm_nb_xy_ms, dsm_nb_x_y_ms,
      <span class="dt">file=</span><span class="st">&quot;dsms.RData&quot;</span>)</code></pre></div>
 
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-Amodio2014">
+<p>Amodio, Sonia, Massimo Aria, and Antonio D’Ambrosio. 2014. “On Concurvity in Nonlinear and Nonparametric Regression Models.” <em>Statistica</em> 74 (1): 85–98. doi:<a href="https://doi.org/10.6092/issn.1973-2201/4599">10.6092/issn.1973-2201/4599</a>.</p>
 </div>
 </div>
             </section>

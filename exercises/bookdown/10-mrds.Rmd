@@ -25,7 +25,7 @@ We'll start by fitting the initial full independence model, with only distance a
 
 Feel free to use `?` to find out more about any of the functions used -- e.g., `?ddf` will tell you more about the ddf function.
 
-```{r, message=FALSE, comment=NA, fig.height=4, fig.cap="Goodness of fit (FI-trial) to golftee data."}
+```{r, fit-nocovar, message=FALSE, comment=NA, fig.height=4, fig.cap="Goodness of fit (FI-trial) to golftee data."}
 #Fit the model
 fi.mr.dist <- ddf(method='trial.fi',mrmodel=~glm(link='logit',formula=~distance),
                 data=detections,meta.data=list(width=4))
@@ -49,7 +49,7 @@ chi.total <- gof.result$chisquare$pooled.chi
 
 Abbreviated $\chi^2$ goodness of fit assessment shows the $\chi^2$ contribution from the distance sampling model to be `r round(chi.distance,1)` and the $\chi^2$ contribution from the mark-recapture model to be `r round(chi.markrecap,1)`.  The combination of these elements produces a total $\chi^2$ of `r round(chi.total$chisq,1)` with `r chi.total$df` degrees of freedom, resulting in a P-value of `r round(chi.total$p,3)`
 
-```{r}
+```{r, abund-from-dist}
 #Calculate density estimates using the dht function
 tee.abund <- dht(fi.mr.dist,region,samples,obs)
 kable(tee.abund$individuals$summary, digits=2, 
@@ -66,7 +66,7 @@ This analysis is described in @Borchers_2005 Biometrics paper of aerial survey d
 
 The data from the survey has been saved in a `.csv` file. This file can be easily read into R, and with the `checkdata()` function, the information to construct the region, sample, and observation table can be extracted.  Note that these tables are only needed when estimating abundance by scaling up from the covered region to the study area.
 
-```{r, comment=NA}
+```{r, crabdet, comment=NA}
 library(Distance)
 crabseal <- read.csv("crabbieMRDS.csv")
 #  Half normal detection function, 700m truncation distance, 
@@ -81,7 +81,7 @@ Goodness of fit could be examined in the same manner as the golf tees by the use
 
 Following model criticism and selection, estimation of abundance ensues.  the estimates of abundance for the study area are arbitrary because inference of the study was restricted to the covered region.  Hence the estimates of abundance here are artificial, but if we wished to produce them, we would need to produce the region, sample, and observation tables and apply Horvitz-Thompson like estimators to produce estimates of $\hat{N}$.  The use of `covert.units` adjusts the units of perpendicular distance measurement (m) to units of transect effort (km).  Be sure to perform the conversion correctly or your abundance estimates will be off by orders of magnitude.
 
-```{r}
+```{r, crabsummary}
 tables <- Distance:::checkdata(crabseal[crabseal$observer==1,])
 crab.ddf.io.abund <- dht(region=tables$region.table, 
                          sample=tables$sample.table, obs=tables$obs.table,
@@ -90,7 +90,7 @@ kable(crab.ddf.io.abund$individuals$summary, digits=3,
       caption="Summary information from crabeater seal aerial survey.")
 ```
 
-```{r}
+```{r, crabestimates}
 kable(crab.ddf.io.abund$individual$N, digits=3,
       caption="Crabeater seal abundance estimates for study area of arbitrary size.")
 ```

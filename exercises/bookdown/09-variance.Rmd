@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 # Estimating precision of predictions from density surface models
 
 Now we've fitted some models and estimated abundance, we can estimate the variance associated with the abundance estimate (and plot it).
@@ -22,6 +27,7 @@ library(ggplot2)
 library(viridis)
 library(plyr)
 library(knitr)
+library(kableExtra)
 library(rgdal)
 ```
 
@@ -40,7 +46,8 @@ Depending on the model response (count or Horvitz-Thompson) we can use either `d
 # need to remove the NAs as we did when plotting
 predgrid_var <- predgrid[!is.na(predgrid$Depth),]
 # now estimate variance
-var_nb_xy_ms <- dsm.var.prop(dsm_nb_xy_ms, predgrid_var, off.set=predgrid_var$off.set)
+var_nb_xy_ms <- dsm.var.prop(dsm_nb_xy_ms, predgrid_var, 
+                             off.set=predgrid_var$off.set)
 ```
 To summarise the results of this variance estimate:
 ```{r varest-summary}
@@ -85,7 +92,9 @@ per_model_var <- ldply(model_list, summarize_dsm_var, predgrid=predgrid_var)
 ```
 
 ```{r print-table}
-kable(per_model_var, caption = "Model performance: bivariate vs univariate spatial smooths without and with environmental covariates.")
+kable(per_model_var, booktabs=TRUE,
+      caption = "Model performance: bivariate vs univariate spatial smooths without and with environmental covariates.") %>%
+  kable_styling(latex_options="scale_down")
 ```
 
 
@@ -97,7 +106,8 @@ We can plot a map of the coefficient of variation, but we first need to estimate
 # use the split function to make each row of the predictiond data.frame into
 # an element of a list
 predgrid_var_split <- split(predgrid_var, 1:nrow(predgrid_var))
-var_split_nb_xy_ms <- dsm.var.prop(dsm_nb_xy_ms, predgrid_var_split, off.set=predgrid_var$off.set)
+var_split_nb_xy_ms <- dsm.var.prop(dsm_nb_xy_ms, predgrid_var_split, 
+                                   off.set=predgrid_var$off.set)
 ```
 Now we have the per-cell coefficients of variation, we assign that to a column of the prediction grid data and plot it as usual:
 
@@ -109,7 +119,8 @@ p <- ggplot(predgrid_var_map) +
        geom_tile(aes(x=x, y=y, fill=CV, width=10*1000, height=10*1000)) +
        scale_fill_viridis() +
        coord_equal() +
-       geom_point(aes(x=x,y=y, size=count), data=dsm_nb_xy_ms$data[dsm_nb_xy_ms$data$count>0,])
+       geom_point(aes(x=x,y=y, size=count), 
+                  data=dsm_nb_xy_ms$data[dsm_nb_xy_ms$data$count>0,])
 print(p)
 ```
 

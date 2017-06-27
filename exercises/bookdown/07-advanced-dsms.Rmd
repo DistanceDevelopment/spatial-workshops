@@ -18,6 +18,7 @@ library(Distance)
 library(dsm)
 library(ggplot2)
 library(knitr)
+library(kableExtra)
 library(plyr)
 library(reshape2)
 ```
@@ -66,7 +67,7 @@ segs_eda <- melt(segs_eda, id.vars=c("Sample.Label", "n"))
 
 
 Finally, we can plot histograms of counts for different values of the covariates:
-```{r, fig.cap="Histograms of segment counts at various covariate levels."}
+```{r, histcovar, fig.cap="Histograms of segment counts at various covariate levels."}
 p <- ggplot(segs_eda) +
        geom_histogram(aes(value, weight=n)) +
        facet_wrap(~variable, scale="free") +
@@ -76,7 +77,7 @@ print(p)
 ```
 
 We can also just plot the counts against the covariates, note the high number of zeros (but still some interesting patterns): 
-```{r, fig.cap="Relationship of segment counts to covariate values."}
+```{r, countcovar, fig.cap="Relationship of segment counts to covariate values."}
 p <- ggplot(segs_eda) +
        geom_point(aes(value, n)) +
        facet_wrap(~variable, scale="free") +
@@ -141,7 +142,8 @@ Notes:
 
 We can also plot the bivariate smooth of `x` and `y` as we did before, using `vis.gam()`:
 ```{r nb-xy-visgam-03, fig.width=4, fig.height=4, fig.cap="Fitted surface with all environmental covariates, and neg-binomial response distribution."}
-vis.gam(dsm_nb_xy_ms, view=c("x","y"), plot.type="contour", too.far=0.1, main="s(x,y) (link scale)", asp=1)
+vis.gam(dsm_nb_xy_ms, view=c("x","y"), plot.type="contour", too.far=0.1, 
+        main="s(x,y) (link scale)", asp=1)
 ```
 
 Compare this plot to Figure \@ref(fig:nb-xy-visgam), generated in the previous practical when only `x` and `y` were included in the model.
@@ -265,7 +267,9 @@ row.names(summary_table) <- c("dsm_nb_x_y_ms", "dsm_nb_xy_ms")
 
 ```{r print-table-03, results="asis"}
 summary_table <- summary_table[order(summary_table$REML, decreasing=TRUE),]
-kable(summary_table, caption = "Comparison of model performance of s(x,y) and s(x)+s(y) in presence of other covariates.")
+kable(summary_table, 
+      caption = "Model performance of s(x,y) and s(x)+s(y) in presence of other covariates.") %>%
+  kable_styling(latex_options="scale_down")
 ```
 
 ## Saving models

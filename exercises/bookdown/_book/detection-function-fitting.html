@@ -25,7 +25,7 @@
 <meta name="author" content="Laura Marshall, David L. Miller and Len Thomas">
 
 
-<meta name="date" content="2017-06-26">
+<meta name="date" content="2017-06-27">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -193,7 +193,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="8.5" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#save-prediction-grid-to-rdata"><i class="fa fa-check"></i><b>8.5</b> Save prediction grid to <code>RData</code></a></li>
 <li class="chapter" data-level="8.6" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#extra-credit-1"><i class="fa fa-check"></i><b>8.6</b> Extra credit</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="chapter" data-level="9" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html"><i class="fa fa-check"></i><b>9</b> Estimating precision of predictions from density surface models</a><ul>
 <li class="chapter" data-level="9.1" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#aims-4"><i class="fa fa-check"></i><b>9.1</b> Aims</a></li>
 <li class="chapter" data-level="9.2" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#load-packages-and-data"><i class="fa fa-check"></i><b>9.2</b> Load packages and data</a></li>
@@ -207,6 +206,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="10.1" data-path="mark-recapture-distance-sampling-of-golftees.html"><a href="mark-recapture-distance-sampling-of-golftees.html#golf-tee-survey"><i class="fa fa-check"></i><b>10.1</b> Golf tee survey</a></li>
 <li class="chapter" data-level="10.2" data-path="mark-recapture-distance-sampling-of-golftees.html"><a href="mark-recapture-distance-sampling-of-golftees.html#crabeater-seal-survey"><i class="fa fa-check"></i><b>10.2</b> Crabeater seal survey</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
 
       </nav>
@@ -242,26 +242,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="preamble" class="section level2">
 <h2><span class="header-section-number">5.2</span> Preamble</h2>
 <p>First need to load the requisite R libraries</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rgdal)</code></pre></div>
-<pre><code>## Loading required package: sp</code></pre>
-<pre><code>## rgdal: version: 1.2-7, (SVN revision 660)
-##  Geospatial Data Abstraction Library extensions to R successfully loaded
-##  Loaded GDAL runtime: GDAL 2.0.1, released 2015/09/15
-##  Path to GDAL shared files: C:/Users/eric/Documents/R/win-library/3.4/rgdal/gdal
-##  Loaded PROJ.4 runtime: Rel. 4.9.2, 08 September 2015, [PJ_VERSION: 492]
-##  Path to PROJ.4 shared files: C:/Users/eric/Documents/R/win-library/3.4/rgdal/proj
-##  Linking to sp version: 1.2-4</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
-<span class="kw">library</span>(Distance)</code></pre></div>
-<pre><code>## Loading required package: mrds</code></pre>
-<pre><code>## This is mrds 2.1.18
-## Built: R 3.4.0; ; 2017-06-12 11:05:22 UTC; windows</code></pre>
-<pre><code>## 
-## Attaching package: &#39;Distance&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:mrds&#39;:
-## 
-##     create.bins</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(knitr)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rgdal)
+<span class="kw">library</span>(ggplot2)
+<span class="kw">library</span>(Distance)
+<span class="kw">library</span>(knitr)
+<span class="kw">library</span>(kableExtra)</code></pre></div>
 </div>
 <div id="load-the-data" class="section level2">
 <h2><span class="header-section-number">5.3</span> Load the data</h2>
@@ -441,7 +426,7 @@ If you wanted to fit a detection function using Distance 7, you would have to as
 <p>Goodness of fit quantile-quantile plot and test results can be accessed using the <code>ddf.gof()</code> function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ddf.gof</span>(df_hn<span class="op">$</span>ddf)</code></pre></div>
 <div class="figure"><span id="fig:simple-gof"></span>
-<img src="_main_files/figure-html/simple-gof-1.png" alt="Goodness of fit QQ plot of half-normal detection function." width="480" />
+<img src="_main_files/figure-html/simple-gof-1.png" alt="Goodness of fit QQ plot of half-normal detection function." width="384" />
 <p class="caption">
 Figure 5.5: Goodness of fit QQ plot of half-normal detection function.
 </p>
@@ -481,9 +466,9 @@ Figure 5.5: Goodness of fit QQ plot of half-normal detection function.
 <p>We can plot the models simply using the <code>plot()</code> function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(df_hn)</code></pre></div>
 <div class="figure"><span id="fig:simple-plot"></span>
-<img src="_main_files/figure-html/simple-plot-1.png" alt="Half-normal detection function" width="672" />
+<img src="_main_files/figure-html/simple-plot-1.png" alt="Half-normal detection function." width="672" />
 <p class="caption">
-Figure 5.6: Half-normal detection function
+Figure 5.6: Half-normal detection function.
 </p>
 </div>
 <p>The dots on the plot indicate the distances where observations are. We can remove them (particularly useful for a model without covariates) using the additional argument <code>showpoints=FALSE</code> (try this out!).</p>
@@ -498,7 +483,8 @@ Figure 5.6: Half-normal detection function
 <li>You can run the current line of code in RStudio by hitting <code>Control+Enter</code> (on Windows/Linux; <code>Command+Enter</code> on Mac).</li>
 <li>Giving your models informative names will help later on! Here I’m using <code>df_</code> to indicate that this is a detection function, then shortened forms of the model form and covariates, separated by underscores, but use what makes sense to you (and future you!).</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df_hr_ss_size &lt;-<span class="st"> </span><span class="kw">ds</span>(distdata, <span class="dt">truncation=</span><span class="dv">6000</span>, <span class="dt">adjustment=</span><span class="ot">NULL</span>, <span class="dt">key=</span><span class="st">&quot;hr&quot;</span>, <span class="dt">formula=</span><span class="op">~</span>SeaState<span class="op">+</span>size)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df_hr_ss_size &lt;-<span class="st"> </span><span class="kw">ds</span>(distdata, <span class="dt">truncation=</span><span class="dv">6000</span>, <span class="dt">adjustment=</span><span class="ot">NULL</span>, 
+                    <span class="dt">key=</span><span class="st">&quot;hr&quot;</span>, <span class="dt">formula=</span><span class="op">~</span>SeaState<span class="op">+</span>size)</code></pre></div>
 <pre><code>## Fitting hazard-rate key function</code></pre>
 <pre><code>## AIC= 2249.327</code></pre>
 <pre><code>## No survey area information supplied, only estimating detection function.</code></pre>
@@ -506,60 +492,22 @@ Figure 5.6: Half-normal detection function
 </div>
 <div id="model-selection" class="section level2">
 <h2><span class="header-section-number">5.7</span> Model selection</h2>
-<p>Looking at the models individually can be a bit unwieldy – it’s nicer to put that data into a table and sort the table by the relevant statistic.</p>
-<p>The code below will make a results table with relevant statistics for model selection in it. Don’t worry about how this code exactly works at the moment.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">make_table &lt;-<span class="st"> </span><span class="cf">function</span>(models){
-
-  <span class="co"># this function extracts the model data for a single model (row)</span>
-  extract_model_data &lt;-<span class="st"> </span><span class="cf">function</span>(model){
-    <span class="kw">c</span>(<span class="kw">summary</span>(model)<span class="op">$</span>ds<span class="op">$</span>key,
-      model<span class="op">$</span>ddf<span class="op">$</span>ds<span class="op">$</span>aux<span class="op">$</span>ddfobj<span class="op">$</span>scale<span class="op">$</span>formula,
-      model<span class="op">$</span>ddf<span class="op">$</span>criterion,
-      <span class="kw">ddf.gof</span>(model<span class="op">$</span>ddf, <span class="dt">qq=</span><span class="ot">FALSE</span>)<span class="op">$</span>dsgof<span class="op">$</span>CvM<span class="op">$</span>p,
-      <span class="kw">summary</span>(model)<span class="op">$</span>ds<span class="op">$</span>average.p,
-      <span class="kw">summary</span>(model)<span class="op">$</span>ds<span class="op">$</span>average.p.se
-    )
-  }
-
-  <span class="co"># applying that to all the models then putting it into a data.frame</span>
-  res &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">t</span>(<span class="kw">as.data.frame</span>(<span class="kw">lapply</span>(models, extract_model_data))),
-                        <span class="dt">stringsAsFactors=</span><span class="ot">FALSE</span>)
-
-  <span class="co"># making sure the correct columns are numeric</span>
-  res[,<span class="dv">3</span>] &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(res[,<span class="dv">3</span>])
-  res[,<span class="dv">4</span>] &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(res[,<span class="dv">4</span>])
-  res[,<span class="dv">5</span>] &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(res[,<span class="dv">5</span>])
-  res[,<span class="dv">6</span>] &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(res[,<span class="dv">6</span>])
-
-  <span class="co"># giving the columns names</span>
-  <span class="kw">colnames</span>(res) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Key function&quot;</span>, <span class="st">&quot;Formula&quot;</span>, <span class="st">&quot;AIC&quot;</span>, <span class="st">&quot;Cramer-von Mises $p$-value&quot;</span>,
-                     <span class="st">&quot;$</span><span class="ch">\\</span><span class="st">hat{P_a}$&quot;</span>, <span class="st">&quot;se($</span><span class="ch">\\</span><span class="st">hat{P_a}$)&quot;</span>)
-
-  <span class="co"># creating a new column for the AIC difference to the best model</span>
-  res[[<span class="st">&quot;$</span><span class="ch">\\</span><span class="st">Delta$AIC&quot;</span>]] &lt;-<span class="st"> </span>res<span class="op">$</span>AIC <span class="op">-</span><span class="st"> </span><span class="kw">min</span>(res<span class="op">$</span>AIC, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)
-  <span class="co"># ordering the model by AIC score</span>
-  res &lt;-<span class="st"> </span>res[<span class="kw">order</span>(res<span class="op">$</span>AIC),]
-
-  <span class="co"># returning the data.frame</span>
-  <span class="kw">return</span>(res)
-}</code></pre></div>
-<p>The <code>make_table()</code> function expects a <code>list</code> of models as its input. We can do that with the two models that I fitted like so:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">models &lt;-<span class="st"> </span><span class="kw">list</span>()
-models<span class="op">$</span>df_hn &lt;-<span class="st"> </span>df_hn
-models<span class="op">$</span>df_hr_ss_size &lt;-<span class="st"> </span>df_hr_ss_size</code></pre></div>
-<p>(You can add the models you fitted above into this list.)</p>
-<p>Here is the resulting table from the code above, made using the <code>kable</code> function from <code>knitr</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_table &lt;-<span class="st"> </span><span class="kw">make_table</span>(models)
-<span class="kw">kable</span>(model_table, <span class="dt">digits=</span><span class="dv">3</span>, <span class="dt">caption =</span> <span class="st">&quot;Comparison of half normal and hazard rate with sea state and group size.&quot;</span>)</code></pre></div>
+<p>Looking at the models individually can be a bit unwieldy – it’s nicer to put that data into a table and sort the table by the relevant statistic. The function <code>summarize_ds_models()</code> in the <code>Distance</code> package performs this task for us.</p>
+<p>The code below will make a results table with relevant statistics for model selection in it. The <code>summarize_ds_models()</code> function takes a series of object names as its first argument. We can do that with the two models that I fitted like so:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_table &lt;-<span class="st"> </span><span class="kw">summarize_ds_models</span>(df_hn, df_hr_ss_size)
+<span class="kw">kable</span>(model_table, <span class="dt">digits=</span><span class="dv">3</span>, 
+      <span class="dt">caption =</span> <span class="st">&quot;Comparison of half normal and hazard rate with sea state and group size.&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">latex_options=</span><span class="st">&quot;scale_down&quot;</span>)</code></pre></div>
+<pre><code>## Currently generic markdown table using pandoc is not supported.</code></pre>
 <table>
 <caption><span id="tab:df-results">Table 5.1: </span>Comparison of half normal and hazard rate with sea state and group size.</caption>
 <thead>
 <tr class="header">
 <th></th>
+<th align="left">Model</th>
 <th align="left">Key function</th>
 <th align="left">Formula</th>
-<th align="right">AIC</th>
-<th align="right">Cramer-von Mises <span class="math inline">\(p\)</span>-value</th>
+<th align="right">C-vM <span class="math inline">\(p\)</span>-value</th>
 <th align="right"><span class="math inline">\(\hat{P_a}\)</span></th>
 <th align="right">se(<span class="math inline">\(\hat{P_a}\)</span>)</th>
 <th align="right"><span class="math inline">\(\Delta\)</span>AIC</th>
@@ -567,24 +515,34 @@ models<span class="op">$</span>df_hr_ss_size &lt;-<span class="st"> </span>df_hr
 </thead>
 <tbody>
 <tr class="odd">
-<td>df_hr_ss_size</td>
-<td align="left">hr</td>
+<td>2</td>
+<td align="left"></td>
+<td align="left">Hazard-rate</td>
 <td align="left">~SeaState + size</td>
-<td align="right">2249.327</td>
 <td align="right">0.880</td>
 <td align="right">0.355</td>
 <td align="right">0.074</td>
 <td align="right">0.000</td>
 </tr>
 <tr class="even">
-<td>df_hn</td>
-<td align="left">hn</td>
+<td>1</td>
+<td align="left"></td>
+<td align="left">Half-normal</td>
 <td align="left">~1</td>
-<td align="right">2252.060</td>
 <td align="right">0.074</td>
 <td align="right">0.549</td>
 <td align="right">0.037</td>
 <td align="right">2.733</td>
+</tr>
+<tr class="odd">
+<td>(You</td>
+<td align="left">can add the models you fitted above into th</td>
+<td align="left">is list.)</td>
+<td align="left"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
 </tr>
 </tbody>
 </table>
@@ -600,7 +558,7 @@ models<span class="op">$</span>df_hr_ss_size &lt;-<span class="st"> </span>df_hr
 \]</span> we can calculate each part of this equation in R:</p>
 <ul>
 <li><code>A</code> is the total area of the region we want to estimate abundance for. This was <span class="math inline">\(A=5.285e+11 m^2\)</span>.</li>
-<li><code>a</code> is the total area we surveyed. We know that the total transect length was 9,498,474m and the truncation distance. Knowing that then <span class="math inline">\(a=2wL\)</span> we can calculate <span class="math inline">\(a\)</span>.</li>
+<li><code>a</code> is the total area we surveyed. We know that the total transect length was 9,498,474m and the truncation distance. Knowing that <span class="math inline">\(a=2wL\)</span> we can calculate <span class="math inline">\(a\)</span>.</li>
 <li><span class="math inline">\(s_i\)</span> are the group sizes, they are stored in <code>df_hn$ddf$data$size</code>.</li>
 <li><span class="math inline">\(p_i\)</span> are the probabilities of detection, we can obtain them using <code>predict(df_hn$ddf)$fitted</code>.</li>
 </ul>

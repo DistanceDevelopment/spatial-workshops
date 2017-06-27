@@ -84,8 +84,8 @@ We can use the `gam.check()` and `rqgam.check` functions to check the model.
 gam.check(dsm_nb_xy)
 ```
 
-```{r nb-xy-rqcheck, fig.width=3, fig.height=3, fig.cap="Residual quartile gam check results s(x,y) neg-binomial."}
-rqgam.check(dsm_nb_xy)
+```{r nb-xy-rqcheck, fig.width=4, fig.height=4, fig.cap="Residual quartile gam check results s(x,y) neg-binomial."}
+rqgam.check(dsm_nb_xy, pch=20)
 ```
 
 Remember that the left side of the `gam.check()` plot and the right side of the `rqgam.check()` plot are most useful.

@@ -22,6 +22,7 @@ library(rgdal)
 library(ggplot2)
 library(Distance)
 library(knitr)
+library(kableExtra)
 ```
 
 ## Load the data
@@ -187,7 +188,8 @@ Here's an example to work from. Some tips before you start:
 * Giving your models informative names will help later on! Here I'm using `df_` to indicate that this is a detection function, then shortened forms of the model form and covariates, separated by underscores, but use what makes sense to you (and future you!).
 
 ```{r trying-models}
-df_hr_ss_size <- ds(distdata, truncation=6000, adjustment=NULL, key="hr", formula=~SeaState+size)
+df_hr_ss_size <- ds(distdata, truncation=6000, adjustment=NULL, 
+                    key="hr", formula=~SeaState+size)
 ```
 
 Once you have the hang of writing models and looking at the differences between them, you should move onto the next section.
@@ -200,7 +202,9 @@ The code below will make a results table with relevant statistics for model sele
 
 ```{r df-results}
 model_table <- summarize_ds_models(df_hn, df_hr_ss_size)
-kable(model_table, digits=3, caption = "Comparison of half normal and hazard rate with sea state and group size.")
+kable(model_table, digits=3, 
+      caption = "Comparison of half normal and hazard rate with sea state and group size.") %>%
+  kable_styling(latex_options="scale_down")
 ```
 (You can add the models you fitted above into this list.)
 
@@ -220,7 +224,7 @@ $$
 we can calculate each part of this equation in R:
 
 - `A` is the total area of the region we want to estimate abundance for. This was $A=5.285e+11 m^2$.
-- `a` is the total area we surveyed. We know that the total transect length was 9,498,474m and the truncation distance. Knowing that then $a=2wL$ we can calculate $a$.
+- `a` is the total area we surveyed. We know that the total transect length was 9,498,474m and the truncation distance. Knowing that $a=2wL$ we can calculate $a$.
 - $s_i$ are the group sizes, they are stored in `df_hn$ddf$data$size`.
 - $p_i$ are the probabilities of detection, we can obtain them using `predict(df_hn$ddf)$fitted`.
 
