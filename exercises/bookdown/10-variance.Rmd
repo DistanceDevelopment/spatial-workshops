@@ -92,7 +92,7 @@ per_model_var <- ldply(model_list, summarize_dsm_var, predgrid=predgrid_var)
 ```
 
 ```{r print-table}
-kable(per_model_var, booktabs=TRUE,
+kable(per_model_var, digits=1, booktabs=TRUE, escape=TRUE, 
       caption = "Model performance: bivariate vs univariate spatial smooths without and with environmental covariates.") %>%
   kable_styling(latex_options="scale_down")
 ```

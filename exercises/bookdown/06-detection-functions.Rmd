@@ -1,3 +1,8 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
 # Detection function fitting
 
 ## Aims
@@ -16,6 +21,10 @@ By the end of this practical you should feel confident doing the following:
 ## Preamble
 
 First need to load the requisite R libraries
+
+```{r pdfmaker, echo=FALSE}
+pdf <- TRUE
+```
 
 ```{r load-libraries, messages=FALSE}
 library(rgdal)
@@ -138,16 +147,27 @@ Other useful arguments for this practical are:
 - `formula=`: gives the formula to use for the scale parameter. By default it takes the value `~1`, meaning the scale parameter is constant and not a function of covariates.
 - `order=`: specifies the "order" of the adjustments to be used. This is a number (or vector of numbers) specifying the order of the terms. For example `order=2` fits order 2 adjustments, `order=c(2,3)` will fit a model with order 2 and 3 adjustments (mathematically, it only makes sense to include order 3 with order 2). By default the value is `NULL` which has `ds()` select the number of adjustments by AIC.
 
+```{asis, d7detfn, echo=!pdf}
 ***
 <details>
 <summary>Distance 7 instructions</summary>
-<p>If you wanted to fit a detection function using Distance 7, you would have to ask my wife. </p>
-
-<img src=DSC00648.JPG width=640 height=480>
-
+Steps to fit detection function using graphical interface
+<ol> 
+<li> Distance 7 project has been created for you and can be opened from a .zip archive
+<ul><li>Spend time examining the structure of data in the Data tab.</ul>
+<img src="D7grabs/d7open-project.PNG">
+<li> Move to the Analysis tab.
+<li> Create a new analysis.
+<li> Create a data filter to set the truncation distance to 6000m.
+<img src="D7grabs/d7trunc.PNG">
+<li> Create a model specifying MRDS analysis engine with half-normal detection function.
+<img src="D7grabs/d7detfn.PNG">
+<li> Press `Run` and examine contents of output window.  The results should be identical to those produced in the Summaries section below.
+</ol>
 </details>
 
 ***
+```
 
 ### Summaries
 
@@ -202,10 +222,11 @@ The code below will make a results table with relevant statistics for model sele
 
 ```{r df-results}
 model_table <- summarize_ds_models(df_hn, df_hr_ss_size)
-kable(model_table, digits=3, 
+kable(model_table, digits=3, format="latex", booktabs=TRUE, row.names = FALSE, escape=FALSE,
       caption = "Comparison of half normal and hazard rate with sea state and group size.") %>%
   kable_styling(latex_options="scale_down")
 ```
+
 (You can add the models you fitted above into this list.)
 
 #### A further note about model selection for the sperm whale data

@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="estimating-precision-of-predictions-from-density-surface-models.html">
-<link rel="next" href="references.html">
+<link rel="prev" href="simulation-of-distance-sampling-data.html">
+<link rel="next" href="detection-function-fitting.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -233,372 +233,121 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="mark-recapture-distance-sampling-of-golftees" class="section level1">
-<h1><span class="header-section-number">11</span> Mark-recapture distance sampling of golftees</h1>
-<p>This document is designed to give you some pointers so that you can perform the Mark-Recapture Distance Sampling practical directly using the <code>mrds</code> package in R, rather than via the Distance graphical interface. I assume you have some knowledge of R, the <code>mrds</code> package, and Distance.</p>
-<div id="golf-tee-survey" class="section level2">
-<h2><span class="header-section-number">11.1</span> Golf tee survey</h2>
-<p>Luckily for us, the golf tee dataset is provided aspart of the mrds package, so we don’t have to worry about obtaining the data from the Distance GolfteesExercise project.</p>
-<p>Open R and load the mrds library and golf tee dataset.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mrds)
-<span class="kw">data</span>(book.tee.data)
-<span class="co">#investigate the structure of the dataset</span>
-<span class="kw">str</span>(book.tee.data)</code></pre></div>
-<pre><code>List of 4
- $ book.tee.dataframe:&#39;data.frame&#39;: 324 obs. of  7 variables:
-  ..$ object  : num [1:324] 1 1 2 2 3 3 4 4 5 5 ...
-  ..$ observer: Factor w/ 2 levels &quot;1&quot;,&quot;2&quot;: 1 2 1 2 1 2 1 2 1 2 ...
-  ..$ detected: num [1:324] 1 0 1 0 1 0 1 0 1 0 ...
-  ..$ distance: num [1:324] 2.68 2.68 3.33 3.33 0.34 0.34 2.53 2.53 1.46 1.46 ...
-  ..$ size    : num [1:324] 2 2 2 2 1 1 2 2 2 2 ...
-  ..$ sex     : num [1:324] 1 1 1 1 0 0 1 1 1 1 ...
-  ..$ exposure: num [1:324] 1 1 0 0 0 0 1 1 0 0 ...
- $ book.tee.region   :&#39;data.frame&#39;: 2 obs. of  2 variables:
-  ..$ Region.Label: Factor w/ 2 levels &quot;1&quot;,&quot;2&quot;: 1 2
-  ..$ Area        : num [1:2] 1040 640
- $ book.tee.samples  :&#39;data.frame&#39;: 11 obs. of  3 variables:
-  ..$ Sample.Label: num [1:11] 1 2 3 4 5 6 7 8 9 10 ...
-  ..$ Region.Label: Factor w/ 2 levels &quot;1&quot;,&quot;2&quot;: 1 1 1 1 1 1 2 2 2 2 ...
-  ..$ Effort      : num [1:11] 10 30 30 27 21 12 23 23 15 12 ...
- $ book.tee.obs      :&#39;data.frame&#39;: 162 obs. of  3 variables:
-  ..$ object      : int [1:162] 1 2 3 21 22 23 24 59 60 61 ...
-  ..$ Region.Label: int [1:162] 1 1 1 1 1 1 1 1 1 1 ...
-  ..$ Sample.Label: int [1:162] 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#extract the list elements from the dataset into easy-to-use objects</span>
-detections &lt;-<span class="st"> </span>book.tee.data<span class="op">$</span>book.tee.dataframe
-<span class="co">#make sure sex and exposure are factor variables</span>
-detections<span class="op">$</span>sex &lt;-<span class="st"> </span><span class="kw">as.factor</span>(detections<span class="op">$</span>sex)
-detections<span class="op">$</span>exposure &lt;-<span class="st"> </span><span class="kw">as.factor</span>(detections<span class="op">$</span>exposure)
-region &lt;-<span class="st"> </span>book.tee.data<span class="op">$</span>book.tee.region
-samples &lt;-<span class="st"> </span>book.tee.data<span class="op">$</span>book.tee.samples
-obs &lt;-<span class="st"> </span>book.tee.data<span class="op">$</span>book.tee.obs</code></pre></div>
-<p>We’ll start by fitting the initial full independence model, with only distance as a covariate - just as was done in the “FI - MR dist” model in Distance. Indeed, if you did fit that model in Distance, you can look in the Log tab at the R code Distance generated, and compare it with the code we use here.</p>
-<p>Feel free to use <code>?</code> to find out more about any of the functions used – e.g., <code>?ddf</code> will tell you more about the ddf function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Fit the model</span>
-fi.mr.dist &lt;-<span class="st"> </span><span class="kw">ddf</span>(<span class="dt">method=</span><span class="st">&#39;trial.fi&#39;</span>,<span class="dt">mrmodel=</span><span class="op">~</span><span class="kw">glm</span>(<span class="dt">link=</span><span class="st">&#39;logit&#39;</span>,<span class="dt">formula=</span><span class="op">~</span>distance),
-                <span class="dt">data=</span>detections,<span class="dt">meta.data=</span><span class="kw">list</span>(<span class="dt">width=</span><span class="dv">4</span>))
-<span class="co">#Create a set of tables summarizing the double observer data (this is what Distance does)</span>
-detection.tables &lt;-<span class="st"> </span><span class="kw">det.tables</span>(fi.mr.dist)
-<span class="co">#Print these detection tables</span>
-detection.tables</code></pre></div>
-<pre><code>
-Observer 1 detections
-           Detected
-            Missed Detected
-  [0,0.4]        1       25
-  (0.4,0.8]      2       16
-  (0.8,1.2]      2       16
-  (1.2,1.6]      6       22
-  (1.6,2]        5        9
-  (2,2.4]        2       10
-  (2.4,2.8]      6       12
-  (2.8,3.2]      6        9
-  (3.2,3.6]      2        3
-  (3.6,4]        6        2
-
-Observer 2 detections
-           Detected
-            Missed Detected
-  [0,0.4]        4       22
-  (0.4,0.8]      1       17
-  (0.8,1.2]      0       18
-  (1.2,1.6]      2       26
-  (1.6,2]        1       13
-  (2,2.4]        2       10
-  (2.4,2.8]      3       15
-  (2.8,3.2]      4       11
-  (3.2,3.6]      2        3
-  (3.6,4]        1        7
-
-Duplicate detections
-
-  [0,0.4] (0.4,0.8] (0.8,1.2] (1.2,1.6]   (1.6,2]   (2,2.4] (2.4,2.8] 
-       21        15        16        20         8         8         9 
-(2.8,3.2] (3.2,3.6]   (3.6,4] 
-        5         1         1 
-
-Observer 1 detections of those seen by Observer 2
-          Missed Detected Prop. detected
-[0,0.4]        1       21      0.9545455
-(0.4,0.8]      2       15      0.8823529
-(0.8,1.2]      2       16      0.8888889
-(1.2,1.6]      6       20      0.7692308
-(1.6,2]        5        8      0.6153846
-(2,2.4]        2        8      0.8000000
-(2.4,2.8]      6        9      0.6000000
-(2.8,3.2]      6        5      0.4545455
-(3.2,3.6]      2        1      0.3333333
-(3.6,4]        6        1      0.1428571</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># They could also be plotted, but I&#39;ve not done so in the interest of space</span>
-<span class="co"># plot(detection.tables)</span>
-
-<span class="co">#Produce a summary of the fitted detection function object</span>
-<span class="kw">summary</span>(fi.mr.dist)</code></pre></div>
-<pre><code>
-Summary for trial.fi object 
-Number of observations               :  162 
-Number seen by primary               :  124 
-Number seen by secondary (trials)    :  142 
-Number seen by both (detected trials):  104 
-AIC                                  :  452.8094 
-
-
-Conditional detection function parameters:
-             estimate        se
-(Intercept)  2.900233 0.4876238
-distance    -1.058677 0.2235722
-
-                        Estimate          SE         CV
-Average p              0.6423252  0.04069409 0.06335434
-Average primary p(0)   0.9478579  0.06109655 0.06445750
-N in covered region  193.0486185 15.84826458 0.08209468</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Produce goodness of fit statistics and a qq plot</span>
-gof.result &lt;-<span class="st"> </span><span class="kw">ddf.gof</span>(fi.mr.dist, 
-                      <span class="dt">main=</span><span class="st">&quot;Full independence, trial mode goodness of fit</span><span class="ch">\n</span><span class="st">Golftee data&quot;</span>)</code></pre></div>
-<div class="figure"><span id="fig:fit-nocovar"></span>
-<img src="_main_files/figure-html/fit-nocovar-1.png" alt="Goodness of fit (FI-trial) to golftee data." width="672" />
-<p class="caption">
-Figure 11.1: Goodness of fit (FI-trial) to golftee data.
-</p>
+<div id="preparing-data-for-analysis" class="section level1">
+<h1><span class="header-section-number">5</span> Preparing data for analysis</h1>
+<div id="aims" class="section level2">
+<h2><span class="header-section-number">5.1</span> Aims</h2>
+<p>By the end of this practical, you should feel comfortable:</p>
+<ul>
+<li>Loading data from a geodatabase file into R</li>
+<li>Removing and renaming columns in a <code>data.frame</code></li>
+<li>Saving data to an <code>RData</code> file</li>
+</ul>
+<p>Note we can (and should) re-run this file when we update the <code>Analysis.gdb</code> file to ensure that the data R uses has all of the covariates we want to use in our analysis.</p>
 </div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">chi.distance &lt;-<span class="st"> </span>gof.result<span class="op">$</span>chisquare<span class="op">$</span>chi1<span class="op">$</span>chisq
-chi.markrecap &lt;-<span class="st"> </span>gof.result<span class="op">$</span>chisquare<span class="op">$</span>chi2<span class="op">$</span>chisq
-chi.total &lt;-<span class="st"> </span>gof.result<span class="op">$</span>chisquare<span class="op">$</span>pooled.chi</code></pre></div>
-<p>Abbreviated <span class="math inline">\(\chi^2\)</span> goodness of fit assessment shows the <span class="math inline">\(\chi^2\)</span> contribution from the distance sampling model to be 11.5 and the <span class="math inline">\(\chi^2\)</span> contribution from the mark-recapture model to be 3.4. The combination of these elements produces a total <span class="math inline">\(\chi^2\)</span> of 14.9 with 17 degrees of freedom, resulting in a P-value of 0.604</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Calculate density estimates using the dht function</span>
-tee.abund &lt;-<span class="st"> </span><span class="kw">dht</span>(fi.mr.dist,region,samples,obs)
-<span class="kw">kable</span>(tee.abund<span class="op">$</span>individuals<span class="op">$</span>summary, <span class="dt">digits=</span><span class="dv">2</span>, 
-      <span class="dt">caption=</span><span class="st">&quot;Survey summary statistics for golftees&quot;</span>)</code></pre></div>
-<table>
-<caption><span id="tab:abund-from-dist">Table 11.1: </span>Survey summary statistics for golftees</caption>
-<thead>
-<tr class="header">
-<th align="left">Region</th>
-<th align="right">Area</th>
-<th align="right">CoveredArea</th>
-<th align="right">Effort</th>
-<th align="right">n</th>
-<th align="right">ER</th>
-<th align="right">se.ER</th>
-<th align="right">cv.ER</th>
-<th align="right">mean.size</th>
-<th align="right">se.mean</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">1</td>
-<td align="right">1040</td>
-<td align="right">1040</td>
-<td align="right">130</td>
-<td align="right">229</td>
-<td align="right">1.76</td>
-<td align="right">0.12</td>
-<td align="right">0.07</td>
-<td align="right">3.18</td>
-<td align="right">0.21</td>
-</tr>
-<tr class="even">
-<td align="left">2</td>
-<td align="right">640</td>
-<td align="right">640</td>
-<td align="right">80</td>
-<td align="right">152</td>
-<td align="right">1.90</td>
-<td align="right">0.33</td>
-<td align="right">0.18</td>
-<td align="right">2.92</td>
-<td align="right">0.23</td>
-</tr>
-<tr class="odd">
-<td align="left">Total</td>
-<td align="right">1680</td>
-<td align="right">1680</td>
-<td align="right">210</td>
-<td align="right">381</td>
-<td align="right">1.81</td>
-<td align="right">0.14</td>
-<td align="right">0.08</td>
-<td align="right">3.07</td>
-<td align="right">0.15</td>
-</tr>
-</tbody>
-</table>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">kable</span>(tee.abund<span class="op">$</span>individuals<span class="op">$</span>N, <span class="dt">digits=</span><span class="dv">2</span>, 
-      <span class="dt">caption=</span><span class="st">&quot;Abundance estimates for golftee population with two strata&quot;</span>)</code></pre></div>
-<table>
-<caption><span id="tab:abund-from-dist">Table 11.1: </span>Abundance estimates for golftee population with two strata</caption>
-<thead>
-<tr class="header">
-<th align="left">Label</th>
-<th align="right">Estimate</th>
-<th align="right">se</th>
-<th align="right">cv</th>
-<th align="right">lcl</th>
-<th align="right">ucl</th>
-<th align="right">df</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">1</td>
-<td align="right">356.52</td>
-<td align="right">32.35</td>
-<td align="right">0.09</td>
-<td align="right">294.54</td>
-<td align="right">431.53</td>
-<td align="right">17.13</td>
-</tr>
-<tr class="even">
-<td align="left">2</td>
-<td align="right">236.64</td>
-<td align="right">44.14</td>
-<td align="right">0.19</td>
-<td align="right">147.33</td>
-<td align="right">380.09</td>
-<td align="right">5.06</td>
-</tr>
-<tr class="odd">
-<td align="left">Total</td>
-<td align="right">593.16</td>
-<td align="right">60.38</td>
-<td align="right">0.10</td>
-<td align="right">478.32</td>
-<td align="right">735.57</td>
-<td align="right">16.06</td>
-</tr>
-</tbody>
-</table>
-<p>Now, see if you can work out how to change the call to ddf to fit the other models mentioned in the exercise, and then write code to enable you to compare the models and select among them.</p>
+<div id="preamble" class="section level2">
+<h2><span class="header-section-number">5.2</span> Preamble</h2>
+<p>Load some useful packages:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rgdal)
+<span class="kw">library</span>(knitr)</code></pre></div>
 </div>
-<div id="crabeater-seal-survey" class="section level2">
-<h2><span class="header-section-number">11.2</span> Crabeater seal survey</h2>
-<p>This analysis is described in <span class="citation">Borchers et al. (<a href="#ref-Borchers_2005">2005</a>)</span> Biometrics paper of aerial survey data looking for seals in the Antarctic pack ice. There were four observers in the plane, two on each side (front and back).</p>
-<p>The data from the survey has been saved in a <code>.csv</code> file. This file can be easily read into R, and with the <code>checkdata()</code> function, the information to construct the region, sample, and observation table can be extracted. Note that these tables are only needed when estimating abundance by scaling up from the covered region to the study area.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(Distance)
-crabseal &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;crabbieMRDS.csv&quot;</span>)
-<span class="co">#  Half normal detection function, 700m truncation distance, </span>
-<span class="co">#      logit function for mark-recapture component</span>
-crab.ddf.io &lt;-<span class="st"> </span><span class="kw">ddf</span>(<span class="dt">method=</span><span class="st">&quot;io&quot;</span>, <span class="dt">dsmodel=</span><span class="op">~</span><span class="kw">cds</span>(<span class="dt">key=</span><span class="st">&quot;hn&quot;</span>),
-                 <span class="dt">mrmodel=</span><span class="op">~</span><span class="kw">glm</span>(<span class="dt">link=</span><span class="st">&quot;logit&quot;</span>, <span class="dt">formula=</span><span class="op">~</span>distance),
-                 <span class="dt">data=</span>crabseal, <span class="dt">meta.data=</span><span class="kw">list</span>(<span class="dt">width=</span><span class="dv">700</span>))
-<span class="kw">summary</span>(crab.ddf.io)</code></pre></div>
-<pre><code>
-Summary for io.fi object 
-Number of observations   :  1740 
-Number seen by primary   :  1394 
-Number seen by secondary :  1471 
-Number seen by both      :  1125 
-AIC                      :  3011.463 
-
-
-Conditional detection function parameters:
-                estimate           se
-(Intercept)  2.107762345 0.0994391200
-distance    -0.003087713 0.0003159216
-
-                        Estimate          SE          CV
-Average primary p(0)   0.8916554 0.009606428 0.010773701
-Average secondary p(0) 0.8916554 0.009606428 0.010773701
-Average combined p(0)  0.9882614 0.002081614 0.002106339
-
-
-Summary for ds object 
-Number of observations :  1740 
-Distance range         :  0  -  700 
-AIC                    :  22314.4 
-
-Detection function:
- Half-normal key function 
-
-Detection function parameters 
-Scale coefficient(s):  
-            estimate        se
-(Intercept) 5.828703 0.0268578
-
-           Estimate         SE         CV
-Average p 0.5845871 0.01247837 0.02134562
-
-
-Summary for io object
-Total AIC value :  25325.86 
-
-                        Estimate          SE         CV
-Average p              0.5777249  0.01239179 0.02144929
-N in covered region 3011.8139211 79.84197966 0.02650960</code></pre>
-<p>Goodness of fit could be examined in the same manner as the golf tees by the use of <code>ddf.gof(crab.ddf.io)</code> but I have not shown this step.</p>
-<p>Following model criticism and selection, estimation of abundance ensues. the estimates of abundance for the study area are arbitrary because inference of the study was restricted to the covered region. Hence the estimates of abundance here are artificial, but if we wished to produce them, we would need to produce the region, sample, and observation tables and apply Horvitz-Thompson like estimators to produce estimates of <span class="math inline">\(\hat{N}\)</span>. The use of <code>covert.units</code> adjusts the units of perpendicular distance measurement (m) to units of transect effort (km). Be sure to perform the conversion correctly or your abundance estimates will be off by orders of magnitude.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tables &lt;-<span class="st"> </span>Distance<span class="op">:::</span><span class="kw">checkdata</span>(crabseal[crabseal<span class="op">$</span>observer<span class="op">==</span><span class="dv">1</span>,])
-crab.ddf.io.abund &lt;-<span class="st"> </span><span class="kw">dht</span>(<span class="dt">region=</span>tables<span class="op">$</span>region.table, 
-                         <span class="dt">sample=</span>tables<span class="op">$</span>sample.table, <span class="dt">obs=</span>tables<span class="op">$</span>obs.table,
-                         <span class="dt">model=</span>crab.ddf.io, <span class="dt">se=</span><span class="ot">TRUE</span>, <span class="dt">options=</span><span class="kw">list</span>(<span class="dt">convert.units=</span><span class="fl">0.001</span>))
-<span class="kw">kable</span>(crab.ddf.io.abund<span class="op">$</span>individuals<span class="op">$</span>summary, <span class="dt">digits=</span><span class="dv">3</span>,
-      <span class="dt">caption=</span><span class="st">&quot;Summary information from crabeater seal aerial survey.&quot;</span>)</code></pre></div>
-<table>
-<caption><span id="tab:crabsummary">Table 11.2: </span>Summary information from crabeater seal aerial survey.</caption>
-<thead>
-<tr class="header">
-<th align="left">Region</th>
-<th align="right">Area</th>
-<th align="right">CoveredArea</th>
-<th align="right">Effort</th>
-<th align="right">n</th>
-<th align="right">ER</th>
-<th align="right">se.ER</th>
-<th align="right">cv.ER</th>
-<th align="right">mean.size</th>
-<th align="right">se.mean</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">1</td>
-<td align="right">1e+06</td>
-<td align="right">8594.082</td>
-<td align="right">6138.63</td>
-<td align="right">2053</td>
-<td align="right">0.334</td>
-<td align="right">0.033</td>
-<td align="right">0.097</td>
-<td align="right">1.18</td>
-<td align="right">0.013</td>
-</tr>
-</tbody>
-</table>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">kable</span>(crab.ddf.io.abund<span class="op">$</span>individual<span class="op">$</span>N, <span class="dt">digits=</span><span class="dv">3</span>,
-      <span class="dt">caption=</span><span class="st">&quot;Crabeater seal abundance estimates for study area of arbitrary size.&quot;</span>)</code></pre></div>
-<table>
-<caption><span id="tab:crabestimates">Table 11.3: </span>Crabeater seal abundance estimates for study area of arbitrary size.</caption>
-<thead>
-<tr class="header">
-<th align="left">Label</th>
-<th align="right">Estimate</th>
-<th align="right">se</th>
-<th align="right">cv</th>
-<th align="right">lcl</th>
-<th align="right">ucl</th>
-<th align="right">df</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Total</td>
-<td align="right">413493.2</td>
-<td align="right">41201.49</td>
-<td align="right">0.09964248</td>
-<td align="right">339670.9</td>
-<td align="right">503359.6</td>
-<td align="right">128.6257</td>
-</tr>
-</tbody>
-</table>
-
+<div id="load-and-arrange-data" class="section level2">
+<h2><span class="header-section-number">5.3</span> Load and arrange data</h2>
+<p>To fit our spatial models we require three objects:</p>
+<ol style="list-style-type: decimal">
+<li>The detection function we fitted previously.</li>
+<li>The segment data (sometimes called effort data). This tells us how much effort was expended per segment (in this case how far the boat went) and includes the covariates that we want to use to fit our model.</li>
+<li>The observation table. This links the observations in the detection function object to the segments.</li>
+</ol>
+<p>In R we can use the <code>rgdal</code> package to access the geodatabase files generated by ArcGIS (R can also access shapefiles and rasters).</p>
+<p>It can be useful in general to see which “layers” are available in the geodatabase, for that we can use the <code>ogrListLayers()</code> function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ogrListLayers</span>(<span class="st">&quot;Analysis.gdb&quot;</span>)</code></pre></div>
+<pre><code>##  [1] &quot;EN_Trackline1&quot;     &quot;EN_Trackline2&quot;     &quot;GU_Trackline2&quot;    
+##  [4] &quot;GU_Sightings&quot;      &quot;EN_Sightings&quot;      &quot;GU_Trackline&quot;     
+##  [7] &quot;Tracklines&quot;        &quot;Tracklines2&quot;       &quot;Segments&quot;         
+## [10] &quot;Sightings&quot;         &quot;Segment_Centroids&quot; &quot;Study_Area&quot;       
+## [13] &quot;US_Atlantic_EEZ&quot;  
+## attr(,&quot;driver&quot;)
+## [1] &quot;OpenFileGDB&quot;
+## attr(,&quot;nlayers&quot;)
+## [1] 13</code></pre>
+<div id="segment-data" class="section level3">
+<h3><span class="header-section-number">5.3.1</span> Segment data</h3>
+<p>For our analysis the segment data is located in in the “Segment_Centroids” table in the geodatabase. We can import that into R using the <code>readOGR()</code> function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">segs &lt;-<span class="st"> </span><span class="kw">readOGR</span>(<span class="st">&quot;Analysis.gdb&quot;</span>, <span class="dt">layer=</span><span class="st">&quot;Segment_Centroids&quot;</span>)</code></pre></div>
+<pre><code>## OGR data source with driver: OpenFileGDB 
+## Source: &quot;Analysis.gdb&quot;, layer: &quot;Segment_Centroids&quot;
+## with 949 features
+## It has 10 fields</code></pre>
+<p>To verify we have the right data we can plot it. This will give the locations of each segment:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(segs)</code></pre></div>
+<p><img src="_main_files/figure-html/segs-data-plot-1.png" width="480" /></p>
+<p>A further check would be to use <code>head()</code> to check that the structure of the data is correct. In particular it’s worth checking that the column names are correct and that the number of rows in the data set are correct (<code>dim()</code> will give the number of rows and columns).</p>
+<p>It can also be useful to check that the columns are the correct data types. Calling <code>str(segs@data)</code> (or any object loaded using <code>readOGR</code> appended with <code>@data</code>) will reveal the data types of each column. In this case we can see that the <code>CenterTime</code> column has been interpreted as a <code>factor</code> variable rather than as a date/time. We’re not going to use it in our analysis, so we don’t need to worry for now but <code>str()</code> can reveal potential problems with loaded data.</p>
+<p>For a deeper look at the values in the data, <code>summary()</code> will give summary statistics for each of the covariates as well as the projection and range of location values (lat/long or in our case <code>x</code> and <code>y</code>). We can compare these with values in ArcGIS.</p>
+<p>We can turn the object into a <code>data.frame</code> (so R can better understand it) and then check that it looks like it’s in the right format using <code>head()</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">segs &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(segs)
+<span class="kw">head</span>(segs)</code></pre></div>
+<pre><code>##            CenterTime SegmentID   Length  POINT_X  POINT_Y     Depth
+## 1 2004/06/24 07:27:04         1 10288.91 214544.0 689074.3  118.5027
+## 2 2004/06/24 08:08:04         2 10288.91 222654.3 682781.0  119.4853
+## 3 2004/06/24 09:03:18         3 10288.91 230279.9 675473.3  177.2779
+## 4 2004/06/24 09:51:27         4 10288.91 239328.9 666646.3  527.9562
+## 5 2004/06/24 10:25:39         5 10288.91 246686.5 659459.2  602.6378
+## 6 2004/06/24 11:00:22         6 10288.91 254307.0 652547.2 1094.4402
+##    DistToCAS      SST          EKE      NPP coords.x1 coords.x2
+## 1 14468.1533 15.54390 0.0014442616 1908.129  214544.0  689074.3
+## 2 10262.9648 15.88358 0.0014198086 1889.540  222654.3  682781.0
+## 3  6900.9829 16.21920 0.0011704842 1842.057  230279.9  675473.3
+## 4  1055.4124 16.45468 0.0004101589 1823.942  239328.9  666646.3
+## 5  1112.6293 16.62554 0.0002553244 1721.949  246686.5  659459.2
+## 6   707.5795 16.83725 0.0006556266 1400.281  254307.0  652547.2</code></pre>
+<p>As with the distance data, we need to give the columns of the data particular names for them to work with <code>dsm</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">segs<span class="op">$</span>x &lt;-<span class="st"> </span>segs<span class="op">$</span>POINT_X
+segs<span class="op">$</span>y &lt;-<span class="st"> </span>segs<span class="op">$</span>POINT_Y
+segs<span class="op">$</span>Effort &lt;-<span class="st"> </span>segs<span class="op">$</span>Length
+segs<span class="op">$</span>Sample.Label &lt;-<span class="st"> </span>segs<span class="op">$</span>SegmentID</code></pre></div>
+</div>
+<div id="observation-data" class="section level3">
+<h3><span class="header-section-number">5.3.2</span> Observation data</h3>
+<p>The observation data is exactly what we used to fit out detection function in the previous exercise (though this is not necessarily always true).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">obs &lt;-<span class="st"> </span><span class="kw">readOGR</span>(<span class="st">&quot;Analysis.gdb&quot;</span>, <span class="dt">layer=</span><span class="st">&quot;Sightings&quot;</span>)</code></pre></div>
+<pre><code>## OGR data source with driver: OpenFileGDB 
+## Source: &quot;Analysis.gdb&quot;, layer: &quot;Sightings&quot;
+## with 137 features
+## It has 7 fields</code></pre>
+<p>Again we can use a plot to see whether the data looks okay. This time we only have the locations of the observations:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(obs)</code></pre></div>
+<p><img src="_main_files/figure-html/obs-data-plot-1.png" width="672" /></p>
+<p>Again, converting the object to be a <code>data.frame</code> and checking it’s format using <code>head()</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">obs &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(obs)
+<span class="kw">head</span>(obs)</code></pre></div>
+<pre><code>##    Survey GroupSize SeaState  Distance        SightingTime SegmentID
+## 1 en04395         2      3.0  246.0173 2004/06/28 10:22:21        48
+## 2 en04395         2      2.5 1632.3934 2004/06/28 13:18:14        50
+## 3 en04395         1      3.0 2368.9941 2004/06/28 14:13:34        51
+## 4 en04395         1      3.5  244.6977 2004/06/28 15:06:01        52
+## 5 en04395         1      4.0 2081.3468 2004/06/29 10:48:31        56
+## 6 en04395         1      2.4 1149.2632 2004/06/29 14:35:33        59
+##   SightingID coords.x1 coords.x2
+## 1          1   -65.636    39.576
+## 2          2   -65.648    39.746
+## 3          3   -65.692    39.843
+## 4          4   -65.717    39.967
+## 5          5   -65.820    40.279
+## 6          6   -65.938    40.612</code></pre>
+<p>Finally, we need to rename some of the columns:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">obs<span class="op">$</span>distance &lt;-<span class="st"> </span>obs<span class="op">$</span>Distance
+obs<span class="op">$</span>object &lt;-<span class="st"> </span>obs<span class="op">$</span>SightingID
+obs<span class="op">$</span>Sample.Label &lt;-<span class="st"> </span>obs<span class="op">$</span>SegmentID
+obs<span class="op">$</span>size &lt;-<span class="st"> </span>obs<span class="op">$</span>GroupSize</code></pre></div>
 </div>
 </div>
-<h3>References</h3>
-<div id="refs" class="references">
-<div id="ref-Borchers_2005">
-<p>Borchers, D. L., J. L. Laake, C. Southwell, and C. G. M. Paxton. 2005. “Accommodating Unmodeled Heterogeneity in Double-Observer Distance Sampling Surveys.” <em>Biometrics</em> 62 (2). Wiley-Blackwell: 372–78. doi:<a href="https://doi.org/10.1111/j.1541-0420.2005.00493.x">10.1111/j.1541-0420.2005.00493.x</a>.</p>
+<div id="save-the-data" class="section level2">
+<h2><span class="header-section-number">5.4</span> Save the data</h2>
+<p>We can now save the <code>data.frame</code>s that we’ve created into an <code>RData</code> file so we can use them later.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">save</span>(segs, obs, <span class="dt">file=</span><span class="st">&quot;sperm-data.RData&quot;</span>)</code></pre></div>
+
 </div>
 </div>
             </section>
@@ -606,8 +355,8 @@ crab.ddf.io.abund &lt;-<span class="st"> </span><span class="kw">dht</span>(<spa
           </div>
         </div>
       </div>
-<a href="estimating-precision-of-predictions-from-density-surface-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="simulation-of-distance-sampling-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="detection-function-fitting.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

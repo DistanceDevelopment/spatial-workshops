@@ -1,9 +1,6 @@
----
-title: "Load and process geographical data in R"
-author: "David L Miller"
----
+# Preparing data for analysis
 
-# Aims
+## Aims
 
 By the end of this practical, you should feel comfortable:
 
@@ -13,7 +10,7 @@ By the end of this practical, you should feel comfortable:
 
 Note we can (and should) re-run this file when we update the `Analysis.gdb` file to ensure that the data R uses has all of the covariates we want to use in our analysis.
 
-# Preamble
+## Preamble
 
 Load some useful packages:
 
@@ -22,7 +19,7 @@ library(rgdal)
 library(knitr)
 ```
 
-# Load and arrange data
+## Load and arrange data
 
 To fit our spatial models we require three objects:
 
@@ -37,7 +34,7 @@ It can be useful in general to see which "layers" are available in the geodataba
 ogrListLayers("Analysis.gdb")
 ```
 
-## Segment data
+### Segment data
 
 For our analysis the segment data is located in in the "Segment_Centroids" table in the geodatabase. We can import that into R using the `readOGR()` function:
 ```{r segs-data-load}
@@ -45,7 +42,7 @@ segs <- readOGR("Analysis.gdb", layer="Segment_Centroids")
 ```
 
 To verify we have the right data we can plot it. This will give the locations of each segment:
-```{r segs-data-plot, fig.width=5, fig.height=5}
+```{r segs-data-plot, fig.width=4, fig.height=4, fig.cap="Segment centroid locations for spearm whale dataset."}
 plot(segs)
 ```
 
@@ -54,7 +51,6 @@ A further check would be to use `head()` to check that the structure of the data
 It can also be useful to check that the columns are the correct data types. Calling `str(segs@data)` (or any object loaded using `readOGR` appended with `@data`) will reveal the data types of each column. In this case we can see that the `CenterTime` column has been interpreted as a `factor` variable rather than as a date/time. We're not going to use it in our analysis, so we don't need to worry for now but `str()` can reveal potential problems with loaded data.
 
 For a deeper look at the values in the data, `summary()` will give summary statistics for each of the covariates as well as the projection and range of location values (lat/long or in our case `x` and `y`). We can compare these with values in ArcGIS.
-
 
 We can turn the object into a `data.frame` (so R can better understand it) and then check that it looks like it's in the right format using `head()`:
 ```{r segs-data-df}
@@ -69,7 +65,7 @@ segs$Effort <- segs$Length
 segs$Sample.Label <- segs$SegmentID
 ```
 
-## Observation data
+### Observation data
 
 The observation data is exactly what we used to fit out detection function in the previous exercise (though this is not necessarily always true).
 
@@ -78,7 +74,7 @@ obs <- readOGR("Analysis.gdb", layer="Sightings")
 ```
 
 Again we can use a plot to see whether the data looks okay. This time we only have the locations of the observations:
-```{r obs-data-plot}
+```{r obs-data-plot, fig.height=4, fig.width=4, fig.cap="Sighting locations for spearm whale dataset."}
 plot(obs)
 ```
 
@@ -97,8 +93,7 @@ obs$size <- obs$GroupSize
 ```
 
 
-
-# Save the data
+## Save the data
 
 We can now save the `data.frame`s that we've created into an `RData` file so we can use them later.
 

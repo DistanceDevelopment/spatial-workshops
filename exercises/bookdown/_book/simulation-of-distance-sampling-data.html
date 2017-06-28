@@ -25,7 +25,7 @@
 <meta name="author" content="Laura Marshall, David L. Miller and Len Thomas">
 
 
-<meta name="date" content="2017-06-27">
+<meta name="date" content="2017-06-28">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -33,7 +33,7 @@
   
   
 <link rel="prev" href="problem-datasets.html">
-<link rel="next" href="detection-function-fitting.html">
+<link rel="next" href="preparing-data-for-analysis.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -130,81 +130,90 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="4.3" data-path="simulation-of-distance-sampling-data.html"><a href="simulation-of-distance-sampling-data.html#trailsno-trails-exercise-from-previous-years"><i class="fa fa-check"></i><b>4.3</b> Trails/no trails exercise from previous years</a></li>
 <li class="chapter" data-level="4.4" data-path="simulation-of-distance-sampling-data.html"><a href="simulation-of-distance-sampling-data.html#perhaps-some-exposure-to-dssim-vignette"><i class="fa fa-check"></i><b>4.4</b> Perhaps some exposure to DSsim vignette</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html"><i class="fa fa-check"></i><b>5</b> Detection function fitting</a><ul>
-<li class="chapter" data-level="5.1" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#aims"><i class="fa fa-check"></i><b>5.1</b> Aims</a></li>
-<li class="chapter" data-level="5.2" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#preamble"><i class="fa fa-check"></i><b>5.2</b> Preamble</a></li>
-<li class="chapter" data-level="5.3" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#load-the-data"><i class="fa fa-check"></i><b>5.3</b> Load the data</a></li>
-<li class="chapter" data-level="5.4" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#exploratory-analysis"><i class="fa fa-check"></i><b>5.4</b> Exploratory analysis</a><ul>
-<li class="chapter" data-level="5.4.1" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#distances"><i class="fa fa-check"></i><b>5.4.1</b> Distances</a></li>
-<li class="chapter" data-level="5.4.2" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#size-and-distance"><i class="fa fa-check"></i><b>5.4.2</b> Size and distance</a></li>
-<li class="chapter" data-level="5.4.3" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#distance-and-sea-state"><i class="fa fa-check"></i><b>5.4.3</b> Distance and sea state</a></li>
-<li class="chapter" data-level="5.4.4" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#survey-effect"><i class="fa fa-check"></i><b>5.4.4</b> Survey effect</a></li>
+<li class="chapter" data-level="5" data-path="preparing-data-for-analysis.html"><a href="preparing-data-for-analysis.html"><i class="fa fa-check"></i><b>5</b> Preparing data for analysis</a><ul>
+<li class="chapter" data-level="5.1" data-path="preparing-data-for-analysis.html"><a href="preparing-data-for-analysis.html#aims"><i class="fa fa-check"></i><b>5.1</b> Aims</a></li>
+<li class="chapter" data-level="5.2" data-path="preparing-data-for-analysis.html"><a href="preparing-data-for-analysis.html#preamble"><i class="fa fa-check"></i><b>5.2</b> Preamble</a></li>
+<li class="chapter" data-level="5.3" data-path="preparing-data-for-analysis.html"><a href="preparing-data-for-analysis.html#load-and-arrange-data"><i class="fa fa-check"></i><b>5.3</b> Load and arrange data</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="preparing-data-for-analysis.html"><a href="preparing-data-for-analysis.html#segment-data"><i class="fa fa-check"></i><b>5.3.1</b> Segment data</a></li>
+<li class="chapter" data-level="5.3.2" data-path="preparing-data-for-analysis.html"><a href="preparing-data-for-analysis.html#observation-data"><i class="fa fa-check"></i><b>5.3.2</b> Observation data</a></li>
 </ul></li>
-<li class="chapter" data-level="5.5" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#fitting-detection-functions"><i class="fa fa-check"></i><b>5.5</b> Fitting detection functions</a><ul>
-<li class="chapter" data-level="5.5.1" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#summaries"><i class="fa fa-check"></i><b>5.5.1</b> Summaries</a></li>
-<li class="chapter" data-level="5.5.2" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#goodness-of-fit"><i class="fa fa-check"></i><b>5.5.2</b> Goodness of fit</a></li>
-<li class="chapter" data-level="5.5.3" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#plotting"><i class="fa fa-check"></i><b>5.5.3</b> Plotting</a></li>
+<li class="chapter" data-level="5.4" data-path="preparing-data-for-analysis.html"><a href="preparing-data-for-analysis.html#save-the-data"><i class="fa fa-check"></i><b>5.4</b> Save the data</a></li>
 </ul></li>
-<li class="chapter" data-level="5.6" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#now-you-try"><i class="fa fa-check"></i><b>5.6</b> Now you try…</a></li>
-<li class="chapter" data-level="5.7" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#model-selection"><i class="fa fa-check"></i><b>5.7</b> Model selection</a><ul>
-<li class="chapter" data-level="5.7.1" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#estimating-abundance"><i class="fa fa-check"></i><b>5.7.1</b> Estimating abundance</a></li>
-<li class="chapter" data-level="5.7.2" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#save-model-objects"><i class="fa fa-check"></i><b>5.7.2</b> Save model objects</a></li>
+<li class="chapter" data-level="6" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html"><i class="fa fa-check"></i><b>6</b> Detection function fitting</a><ul>
+<li class="chapter" data-level="6.1" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#aims-1"><i class="fa fa-check"></i><b>6.1</b> Aims</a></li>
+<li class="chapter" data-level="6.2" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#preamble-1"><i class="fa fa-check"></i><b>6.2</b> Preamble</a></li>
+<li class="chapter" data-level="6.3" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#load-the-data"><i class="fa fa-check"></i><b>6.3</b> Load the data</a></li>
+<li class="chapter" data-level="6.4" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#exploratory-analysis"><i class="fa fa-check"></i><b>6.4</b> Exploratory analysis</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#distances"><i class="fa fa-check"></i><b>6.4.1</b> Distances</a></li>
+<li class="chapter" data-level="6.4.2" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#size-and-distance"><i class="fa fa-check"></i><b>6.4.2</b> Size and distance</a></li>
+<li class="chapter" data-level="6.4.3" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#distance-and-sea-state"><i class="fa fa-check"></i><b>6.4.3</b> Distance and sea state</a></li>
+<li class="chapter" data-level="6.4.4" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#survey-effect"><i class="fa fa-check"></i><b>6.4.4</b> Survey effect</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#fitting-detection-functions"><i class="fa fa-check"></i><b>6.5</b> Fitting detection functions</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#summaries"><i class="fa fa-check"></i><b>6.5.1</b> Summaries</a></li>
+<li class="chapter" data-level="6.5.2" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#goodness-of-fit"><i class="fa fa-check"></i><b>6.5.2</b> Goodness of fit</a></li>
+<li class="chapter" data-level="6.5.3" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#plotting"><i class="fa fa-check"></i><b>6.5.3</b> Plotting</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#now-you-try"><i class="fa fa-check"></i><b>6.6</b> Now you try…</a></li>
+<li class="chapter" data-level="6.7" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#model-selection"><i class="fa fa-check"></i><b>6.7</b> Model selection</a><ul>
+<li class="chapter" data-level="6.7.1" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#estimating-abundance"><i class="fa fa-check"></i><b>6.7.1</b> Estimating abundance</a></li>
+<li class="chapter" data-level="6.7.2" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#save-model-objects"><i class="fa fa-check"></i><b>6.7.2</b> Save model objects</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html"><i class="fa fa-check"></i><b>6</b> Simple density surface models</a><ul>
-<li class="chapter" data-level="6.1" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#aims-1"><i class="fa fa-check"></i><b>6.1</b> Aims</a></li>
-<li class="chapter" data-level="6.2" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#load-the-packages-and-data"><i class="fa fa-check"></i><b>6.2</b> Load the packages and data</a></li>
-<li class="chapter" data-level="6.3" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#pre-model-fitting"><i class="fa fa-check"></i><b>6.3</b> Pre-model fitting</a></li>
-<li class="chapter" data-level="6.4" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#fitting-dsms"><i class="fa fa-check"></i><b>6.4</b> Fitting DSMs</a><ul>
-<li class="chapter" data-level="6.4.1" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#visualising-output"><i class="fa fa-check"></i><b>6.4.1</b> Visualising output</a></li>
-<li class="chapter" data-level="6.4.2" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#checking-the-model"><i class="fa fa-check"></i><b>6.4.2</b> Checking the model</a></li>
-<li class="chapter" data-level="6.4.3" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#setting-basis-complexity"><i class="fa fa-check"></i><b>6.4.3</b> Setting basis complexity</a></li>
+<li class="chapter" data-level="7" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html"><i class="fa fa-check"></i><b>7</b> Simple density surface models</a><ul>
+<li class="chapter" data-level="7.1" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#aims-2"><i class="fa fa-check"></i><b>7.1</b> Aims</a></li>
+<li class="chapter" data-level="7.2" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#load-the-packages-and-data"><i class="fa fa-check"></i><b>7.2</b> Load the packages and data</a></li>
+<li class="chapter" data-level="7.3" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#pre-model-fitting"><i class="fa fa-check"></i><b>7.3</b> Pre-model fitting</a></li>
+<li class="chapter" data-level="7.4" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#fitting-dsms"><i class="fa fa-check"></i><b>7.4</b> Fitting DSMs</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#visualising-output"><i class="fa fa-check"></i><b>7.4.1</b> Visualising output</a></li>
+<li class="chapter" data-level="7.4.2" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#checking-the-model"><i class="fa fa-check"></i><b>7.4.2</b> Checking the model</a></li>
+<li class="chapter" data-level="7.4.3" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#setting-basis-complexity"><i class="fa fa-check"></i><b>7.4.3</b> Setting basis complexity</a></li>
 </ul></li>
-<li class="chapter" data-level="6.5" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#estimated-abundance-as-response"><i class="fa fa-check"></i><b>6.5</b> Estimated abundance as response</a></li>
-<li class="chapter" data-level="6.6" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#univariate-models"><i class="fa fa-check"></i><b>6.6</b> Univariate models</a></li>
-<li class="chapter" data-level="6.7" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#tweedie-response-distribution"><i class="fa fa-check"></i><b>6.7</b> Tweedie response distribution</a></li>
-<li class="chapter" data-level="6.8" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#save-models"><i class="fa fa-check"></i><b>6.8</b> Save models</a></li>
-<li class="chapter" data-level="6.9" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#extra-credit"><i class="fa fa-check"></i><b>6.9</b> Extra credit</a></li>
+<li class="chapter" data-level="7.5" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#estimated-abundance-as-response"><i class="fa fa-check"></i><b>7.5</b> Estimated abundance as response</a></li>
+<li class="chapter" data-level="7.6" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#univariate-models"><i class="fa fa-check"></i><b>7.6</b> Univariate models</a></li>
+<li class="chapter" data-level="7.7" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#tweedie-response-distribution"><i class="fa fa-check"></i><b>7.7</b> Tweedie response distribution</a></li>
+<li class="chapter" data-level="7.8" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#save-models"><i class="fa fa-check"></i><b>7.8</b> Save models</a></li>
+<li class="chapter" data-level="7.9" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#extra-credit"><i class="fa fa-check"></i><b>7.9</b> Extra credit</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html"><i class="fa fa-check"></i><b>7</b> Advanced density surface models</a><ul>
-<li class="chapter" data-level="7.1" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#aims-2"><i class="fa fa-check"></i><b>7.1</b> Aims</a></li>
-<li class="chapter" data-level="7.2" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#load-data-and-packages"><i class="fa fa-check"></i><b>7.2</b> Load data and packages</a></li>
-<li class="chapter" data-level="7.3" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#exploratory-analysis-1"><i class="fa fa-check"></i><b>7.3</b> Exploratory analysis</a></li>
-<li class="chapter" data-level="7.4" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#pre-model-fitting-1"><i class="fa fa-check"></i><b>7.4</b> Pre-model fitting</a></li>
-<li class="chapter" data-level="7.5" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#our-new-friend"><i class="fa fa-check"></i><b>7.5</b> Our new friend <code>+</code></a><ul>
-<li class="chapter" data-level="7.5.1" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#plot"><i class="fa fa-check"></i><b>7.5.1</b> Plot</a></li>
-<li class="chapter" data-level="7.5.2" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#check"><i class="fa fa-check"></i><b>7.5.2</b> Check</a></li>
-<li class="chapter" data-level="7.5.3" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#select-terms"><i class="fa fa-check"></i><b>7.5.3</b> Select terms</a></li>
-<li class="chapter" data-level="7.5.4" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#compare-response-distributions"><i class="fa fa-check"></i><b>7.5.4</b> Compare response distributions</a></li>
+<li class="chapter" data-level="8" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html"><i class="fa fa-check"></i><b>8</b> Advanced density surface models</a><ul>
+<li class="chapter" data-level="8.1" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#aims-3"><i class="fa fa-check"></i><b>8.1</b> Aims</a></li>
+<li class="chapter" data-level="8.2" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#load-data-and-packages"><i class="fa fa-check"></i><b>8.2</b> Load data and packages</a></li>
+<li class="chapter" data-level="8.3" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#exploratory-analysis-1"><i class="fa fa-check"></i><b>8.3</b> Exploratory analysis</a></li>
+<li class="chapter" data-level="8.4" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#pre-model-fitting-1"><i class="fa fa-check"></i><b>8.4</b> Pre-model fitting</a></li>
+<li class="chapter" data-level="8.5" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#our-new-friend"><i class="fa fa-check"></i><b>8.5</b> Our new friend <code>+</code></a><ul>
+<li class="chapter" data-level="8.5.1" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#plot"><i class="fa fa-check"></i><b>8.5.1</b> Plot</a></li>
+<li class="chapter" data-level="8.5.2" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#check"><i class="fa fa-check"></i><b>8.5.2</b> Check</a></li>
+<li class="chapter" data-level="8.5.3" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#select-terms"><i class="fa fa-check"></i><b>8.5.3</b> Select terms</a></li>
+<li class="chapter" data-level="8.5.4" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#compare-response-distributions"><i class="fa fa-check"></i><b>8.5.4</b> Compare response distributions</a></li>
 </ul></li>
-<li class="chapter" data-level="7.6" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#estimated-abundance-as-a-response"><i class="fa fa-check"></i><b>7.6</b> Estimated abundance as a response</a></li>
-<li class="chapter" data-level="7.7" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#concurvity"><i class="fa fa-check"></i><b>7.7</b> Concurvity</a></li>
-<li class="chapter" data-level="7.8" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#sensitivity"><i class="fa fa-check"></i><b>7.8</b> Sensitivity</a><ul>
-<li class="chapter" data-level="7.8.1" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#compare-bivariate-and-additive-spatial-effects"><i class="fa fa-check"></i><b>7.8.1</b> Compare bivariate and additive spatial effects</a></li>
+<li class="chapter" data-level="8.6" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#estimated-abundance-as-a-response"><i class="fa fa-check"></i><b>8.6</b> Estimated abundance as a response</a></li>
+<li class="chapter" data-level="8.7" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#concurvity"><i class="fa fa-check"></i><b>8.7</b> Concurvity</a></li>
+<li class="chapter" data-level="8.8" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#sensitivity"><i class="fa fa-check"></i><b>8.8</b> Sensitivity</a><ul>
+<li class="chapter" data-level="8.8.1" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#compare-bivariate-and-additive-spatial-effects"><i class="fa fa-check"></i><b>8.8.1</b> Compare bivariate and additive spatial effects</a></li>
 </ul></li>
-<li class="chapter" data-level="7.9" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#comparing-models"><i class="fa fa-check"></i><b>7.9</b> Comparing models</a></li>
-<li class="chapter" data-level="7.10" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#saving-models"><i class="fa fa-check"></i><b>7.10</b> Saving models</a></li>
+<li class="chapter" data-level="8.9" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#comparing-models"><i class="fa fa-check"></i><b>8.9</b> Comparing models</a></li>
+<li class="chapter" data-level="8.10" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#saving-models"><i class="fa fa-check"></i><b>8.10</b> Saving models</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html"><i class="fa fa-check"></i><b>8</b> Prediction using fitted density surface models</a><ul>
-<li class="chapter" data-level="8.1" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#aims-3"><i class="fa fa-check"></i><b>8.1</b> Aims</a></li>
-<li class="chapter" data-level="8.2" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#loading-the-packages-and-data"><i class="fa fa-check"></i><b>8.2</b> Loading the packages and data</a></li>
-<li class="chapter" data-level="8.3" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#loading-prediction-data"><i class="fa fa-check"></i><b>8.3</b> Loading prediction data</a></li>
-<li class="chapter" data-level="8.4" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#save-the-prediction-to-a-raster"><i class="fa fa-check"></i><b>8.4</b> Save the prediction to a raster</a></li>
-<li class="chapter" data-level="8.5" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#save-prediction-grid-to-rdata"><i class="fa fa-check"></i><b>8.5</b> Save prediction grid to <code>RData</code></a></li>
-<li class="chapter" data-level="8.6" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#extra-credit-1"><i class="fa fa-check"></i><b>8.6</b> Extra credit</a></li>
+<li class="chapter" data-level="9" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html"><i class="fa fa-check"></i><b>9</b> Prediction using fitted density surface models</a><ul>
+<li class="chapter" data-level="9.1" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#aims-4"><i class="fa fa-check"></i><b>9.1</b> Aims</a></li>
+<li class="chapter" data-level="9.2" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#loading-the-packages-and-data"><i class="fa fa-check"></i><b>9.2</b> Loading the packages and data</a></li>
+<li class="chapter" data-level="9.3" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#loading-prediction-data"><i class="fa fa-check"></i><b>9.3</b> Loading prediction data</a></li>
+<li class="chapter" data-level="9.4" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#save-the-prediction-to-a-raster"><i class="fa fa-check"></i><b>9.4</b> Save the prediction to a raster</a></li>
+<li class="chapter" data-level="9.5" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#save-prediction-grid-to-rdata"><i class="fa fa-check"></i><b>9.5</b> Save prediction grid to <code>RData</code></a></li>
+<li class="chapter" data-level="9.6" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#extra-credit-1"><i class="fa fa-check"></i><b>9.6</b> Extra credit</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html"><i class="fa fa-check"></i><b>9</b> Estimating precision of predictions from density surface models</a><ul>
-<li class="chapter" data-level="9.1" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#aims-4"><i class="fa fa-check"></i><b>9.1</b> Aims</a></li>
-<li class="chapter" data-level="9.2" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#load-packages-and-data"><i class="fa fa-check"></i><b>9.2</b> Load packages and data</a></li>
-<li class="chapter" data-level="9.3" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#estimation-of-variance"><i class="fa fa-check"></i><b>9.3</b> Estimation of variance</a></li>
-<li class="chapter" data-level="9.4" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#summarise-multiple-models"><i class="fa fa-check"></i><b>9.4</b> Summarise multiple models</a></li>
-<li class="chapter" data-level="9.5" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#plotting-1"><i class="fa fa-check"></i><b>9.5</b> Plotting</a></li>
-<li class="chapter" data-level="9.6" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#save-the-uncertainty-maps-to-raster-files"><i class="fa fa-check"></i><b>9.6</b> Save the uncertainty maps to raster files</a></li>
-<li class="chapter" data-level="9.7" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#extra-credit-2"><i class="fa fa-check"></i><b>9.7</b> Extra credit</a></li>
+<li class="chapter" data-level="10" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html"><i class="fa fa-check"></i><b>10</b> Estimating precision of predictions from density surface models</a><ul>
+<li class="chapter" data-level="10.1" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#aims-5"><i class="fa fa-check"></i><b>10.1</b> Aims</a></li>
+<li class="chapter" data-level="10.2" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#load-packages-and-data"><i class="fa fa-check"></i><b>10.2</b> Load packages and data</a></li>
+<li class="chapter" data-level="10.3" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#estimation-of-variance"><i class="fa fa-check"></i><b>10.3</b> Estimation of variance</a></li>
+<li class="chapter" data-level="10.4" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#summarise-multiple-models"><i class="fa fa-check"></i><b>10.4</b> Summarise multiple models</a></li>
+<li class="chapter" data-level="10.5" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#plotting-1"><i class="fa fa-check"></i><b>10.5</b> Plotting</a></li>
+<li class="chapter" data-level="10.6" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#save-the-uncertainty-maps-to-raster-files"><i class="fa fa-check"></i><b>10.6</b> Save the uncertainty maps to raster files</a></li>
+<li class="chapter" data-level="10.7" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#extra-credit-2"><i class="fa fa-check"></i><b>10.7</b> Extra credit</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="mark-recapture-distance-sampling-of-golftees.html"><a href="mark-recapture-distance-sampling-of-golftees.html"><i class="fa fa-check"></i><b>10</b> Mark-recapture distance sampling of golftees</a><ul>
-<li class="chapter" data-level="10.1" data-path="mark-recapture-distance-sampling-of-golftees.html"><a href="mark-recapture-distance-sampling-of-golftees.html#golf-tee-survey"><i class="fa fa-check"></i><b>10.1</b> Golf tee survey</a></li>
-<li class="chapter" data-level="10.2" data-path="mark-recapture-distance-sampling-of-golftees.html"><a href="mark-recapture-distance-sampling-of-golftees.html#crabeater-seal-survey"><i class="fa fa-check"></i><b>10.2</b> Crabeater seal survey</a></li>
+<li class="chapter" data-level="11" data-path="mark-recapture-distance-sampling-of-golftees.html"><a href="mark-recapture-distance-sampling-of-golftees.html"><i class="fa fa-check"></i><b>11</b> Mark-recapture distance sampling of golftees</a><ul>
+<li class="chapter" data-level="11.1" data-path="mark-recapture-distance-sampling-of-golftees.html"><a href="mark-recapture-distance-sampling-of-golftees.html#golf-tee-survey"><i class="fa fa-check"></i><b>11.1</b> Golf tee survey</a></li>
+<li class="chapter" data-level="11.2" data-path="mark-recapture-distance-sampling-of-golftees.html"><a href="mark-recapture-distance-sampling-of-golftees.html#crabeater-seal-survey"><i class="fa fa-check"></i><b>11.2</b> Crabeater seal survey</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
@@ -246,7 +255,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
         </div>
       </div>
 <a href="problem-datasets.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="detection-function-fitting.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="preparing-data-for-analysis.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

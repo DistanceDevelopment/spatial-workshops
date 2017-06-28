@@ -59,4 +59,20 @@
   timestamp = {2012.04.18},
 }
 
+@Article{Amodio2014,
+  author        = {Sonia Amodio and Massimo Aria and Antonio D’Ambrosio},
+  title         = {On concurvity in nonlinear and nonparametric regression models},
+  journal       = {Statistica},
+  year          = {2014},
+  volume        = {74},
+  number        = {1},
+  pages         = {85--98},
+  issn          = {1973-2201},
+  __markedentry = {[eric:6]},
+  abstract      = {When data are affected by multicollinearity in the linear regression framework, then concurvity will be present in fitting a generalized additive model (GAM). The term concurvity describes nonlinear dependencies among the predictor variables. As collinearity results in inflated variance of the estimated regression coefficients in the linear regression model, the result of the presence of concurvity leads to instability of the estimated coefficients in GAMs. Even if the backfitting algorithm will always converge to a solution, in case of concurvity the final solution of the backfitting procedure in fitting a GAM is influenced by the starting functions. While exact concurvity is highly unlikely, approximate concurvity, the analogue of multicollinearity, is of practical concern as it can lead to upwardly biased estimates of the parameters and to underestimation of their standard errors, increasing the risk of committing type I error. We compare the existing approaches to detect concurvity, pointing out their advantages and drawbacks, using simulated and real data sets. As a result, this paper will provide a general criterion to detect concurvity in nonlinear and non parametric regression models.},
+  doi           = {10.6092/issn.1973-2201/4599},
+  keywords      = {Concurvity; multicollinearity; nonparametric regression; additive models;},
+  url           = {https://rivista-statistica.unibo.it/article/view/4599},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}

@@ -24,7 +24,7 @@ A bookdown version of the workshop practicals.  Section numbers correspond to pr
 | Section number | Topic | Scheduled |
 |--------------:|:-----|:---------|
 | 1  | R tutorial | Sunday pm |
-| 2  | simple ds() | Monday am |
+| 2  | simple ds() of simulated data | Monday am |
 | 3  | awkward data | Monday pm |
 | 4  | DSsim | Monday pm |
 | 5  | Sperm whale intro | Tuesday am |
