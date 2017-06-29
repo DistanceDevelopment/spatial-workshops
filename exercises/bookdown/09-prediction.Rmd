@@ -15,6 +15,11 @@ By the end of this practical, you should feel comfortable:
 
 ## Loading the packages and data
 
+```{r pdfmakerpredict, echo=FALSE}
+pdf <- TRUE
+```
+
+
 ```{r load-packages-04}
 library(knitr)
 library(dsm)
@@ -34,7 +39,7 @@ load("dsms.RData")
 
 ## Loading prediction data
 
-Before we can make predictions we first need to load the covariates into a "stack" from their files on disk using the `stack()` function from `raster`. We give `stack()` a vector of locations to load the rasters from. Note that in RStudio you can use tab-completion for these locations and avoid some typing.At this point we arbitrarily choose the time periods of the SST, NPP and EKE rasters (2 June 2004, or Julian date 153).
+Before we can make predictions we first need to load the covariates into a "stack" from their files on disk using the `stack()` function from `raster`. We give `stack()` a vector of locations to load the rasters from. Note that in RStudio you can use tab-completion for these locations and avoid some typing. At this point we arbitrarily choose the time periods of the SST, NPP and EKE rasters (2 June 2004, or Julian date 153).
 
 ```{r preddata}
 predictorStack <- stack(c("../../spermwhale-analysis/Covariates_for_Study_Area/Depth.img",
@@ -57,6 +62,21 @@ predgrid <- as.data.frame(predictorStack, xy=TRUE)
 predgrid$off.set <- (10*1000)^2
 ```
 
+
+```{asis, d7predgrid, echo=!pdf}
+***
+<details>
+<summary>Distance 7 instructions</summary>
+Access the prediction grid using graphical interface:
+<ul> 
+<li> A layer in the Distance project contains georeferenced covariates. Spelling and capitalisation must match variable names used in fitting `dsm` models.  Creation of this prediction grid by importing data can be a labourious process.<br>
+<img src="D7grabs/d7-dsm-predgrid.PNG">
+</ul> 
+</details>
+
+***
+```
+
 We can then predict for the model `dsm_nb_xy_ms`:
 ```{r makepred1}
 pp <- predict(dsm_nb_xy_ms, predgrid)
@@ -67,6 +87,20 @@ sum(pp, na.rm=TRUE)
 ```
 Because we predicted over the whole raster grid (including those cells without covariate values -- e.g. land), some of the values in `pp` will be `NA`, so we can ignore them when we sum by setting `na.rm=TRUE`. We need to do this again when we plot the data too.
 
+
+```{asis, d7prediction, echo=!pdf}
+***
+<details>
+<summary>Distance 7 instructions</summary>
+Prediction to entire study area using graphical interface:
+<ul> 
+<li> Using `Prediction` tab of DSM model definition, specify density surface model with which to make predictions, size of each cell in the prediction grid (in correct units for the offset), and the layer name of the prediction grid.  Tickboxes can be checked for prediction into subregions of the study area and for visualisation.<br>
+<img src="D7grabs/d7-dsm-predict.PNG">
+</ul> 
+</details>
+
+***
+```
 We can also plot this to get a spatial representation of the predictions:
 ```{r predsp, fig.cap="Predicted surface for abundance estimates with bivariate spatial smooth along with environmental covariates."}
 # assign the predictions to the prediction grid data.frame

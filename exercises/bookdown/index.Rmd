@@ -17,6 +17,10 @@ site: bookdown::bookdown_site
 bibliography: references.bib
 ---
 
+```{r pdfmaker, echo=FALSE}
+pdf <- FALSE
+```
+
 # Preface {-}
 
 A bookdown version of the workshop practicals.  Section numbers correspond to practicals and topics:

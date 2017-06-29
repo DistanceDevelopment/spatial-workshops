@@ -20,6 +20,11 @@ By the end of this practical, you should feel comfortable:
 
 ## Load packages and data
 
+```{r pdfmakervar, echo=FALSE}
+pdf <- TRUE
+```
+
+
 ```{r load-packages-05}
 library(dsm)
 library(raster)
@@ -52,6 +57,20 @@ var_nb_xy_ms <- dsm.var.prop(dsm_nb_xy_ms, predgrid_var,
 To summarise the results of this variance estimate:
 ```{r varest-summary}
 summary(var_nb_xy_ms)
+```
+
+```{asis, d7varprop, echo=!pdf}
+***
+<details>
+<summary>Distance 7 instructions</summary>
+Variance estimation using graphical interface:
+<ul> 
+<li> Using `Variance` tab of DSM model definition, specify the analysis that made the predictions, the 1-&alpha; level (for confidence intervals) and the method of variance computation.<br>
+<img src="D7grabs/d7-dsm-varprop.PNG">
+</ul> 
+</details>
+
+***
 ```
 
 Try this out for some of the other models you've saved. Remember to use `dsm.var.gam` when there are covariates in the detection function and `dsm.var.prop` when there aren't.
@@ -99,6 +118,20 @@ kable(per_model_var, digits=1, booktabs=TRUE, escape=TRUE,
 
 
 ## Plotting
+
+```{asis, d7varplot, echo=!pdf}
+***
+<details>
+<summary>Distance 7 instructions</summary>
+Visualising uncertainty using graphical interface:
+<ul> 
+<li> Not currently possible.<br>
+<!-- <img src="D7grabs/d7-dsm-prediction.PNG"> -->
+</ul> 
+</details>
+
+***
+```
 
 We can plot a map of the coefficient of variation, but we first need to estimate the variance per prediction cell, rather than over the whole area. This calculation takes a while!
 

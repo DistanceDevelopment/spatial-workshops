@@ -25,7 +25,7 @@
 <meta name="author" content="Laura Marshall, David L. Miller and Len Thomas">
 
 
-<meta name="date" content="2017-06-28">
+<meta name="date" content="2017-06-29">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -290,7 +290,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>There are typically multiple ways to do the same thing in R, and this is sometimes referred to as a disadvantage. For simplicity, we deliberately avoid presenting the several alternatives for each action, and concentrate on the ones we prefer. This is not the same as saying these are the best, and if you continue to work with R you will likely get used to doing things your way - for now we do it our way!</p>
 <p>An object should have been created in your workspace. You can list all objects in a given workspace using</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ls</span>()</code></pre></div>
-<pre><code>## [1] &quot;myvar1&quot; &quot;obj2&quot;   &quot;x1&quot;</code></pre>
+<pre><code>## [1] &quot;myvar1&quot; &quot;obj2&quot;   &quot;pdf&quot;    &quot;x1&quot;</code></pre>
 <p>You can also remove any object by using the <code>rm</code> function, so here we remove <code>myvar1</code>, <code>x1</code> and <code>obj2</code></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rm</span>(myvar1,x1,obj2)</code></pre></div>
 <p>and hence our workspace is empty again. Note the difference between <code>ls()</code> and <code>rm()</code>. While the first function does not need any arguments, the second requires at least one argument (but can take several). This can be easily seen by checking their help files and noting that <code>rm()</code> needs at least 1 explicit argument while <code>ls()</code> can work with defaults.</p>

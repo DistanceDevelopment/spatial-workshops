@@ -21,10 +21,10 @@ By the end of this practical you should feel confident doing the following:
 ## Preamble
 
 First need to load the requisite R libraries
-
-```{r pdfmaker, echo=FALSE}
+```{r pdfmakerddf, echo=FALSE}
 pdf <- TRUE
 ```
+
 
 ```{r load-libraries, messages=FALSE}
 library(rgdal)

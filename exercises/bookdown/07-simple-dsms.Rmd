@@ -15,6 +15,11 @@ The example code below uses the `df_hn` detection function in the density surfac
 
 ## Load the packages and data
 
+```{r pdfmakerdsm, echo=FALSE}
+pdf <- TRUE
+```
+
+
 ```{r load-packages-02}
 library(Distance)
 library(dsm)
@@ -41,6 +46,26 @@ Here we've used the value of the truncation stored in the detection function obj
 Also note that if you want to fit DSMs using detection functions with different truncation distances, then you'll need to reload the `sperm-data.RData` and do the truncation again for that detection function.
 
 ## Fitting DSMs
+
+
+```{asis, d7simpledsm, echo=!pdf}
+***
+<details>
+<summary>Distance 7 instructions</summary>
+Steps to fit gams using graphical interface:
+<ol> 
+<li> Keep the data filter with the truncation distance to 6000m.
+<li> Set analysis engine to `DSM-Density surface modelling`. Specify the response, response distribution, modelling clusters or individuals.  Note to specify the analysis number associated with the detection function of interest.  In this case the detection function analysis was named `hn 6000 trunc`.<br>
+<img src="D7grabs/d7-dsm-simple.PNG">
+<li> Move to the `Diagnostics` button. Tick all boxes except autocorrelation box, which is uninformative for this dataset.<br>
+<img src="D7grabs/d7-dsm-diagnos.PNG">
+<li> Press `Run` and examine contents of output window.  The results should be identical to those produced in the Summaries section below.
+</ol>
+</details>
+
+***
+```
+
 
 Using the data that we've saved so far, we can build a call to the `dsm()` function and fit out first density surface model. Here we're only going to look at models that include spatial smooths.
 
@@ -133,6 +158,23 @@ So far, we've used `nb()` as the response -- the negative binomial distribution.
 
 Try this out and compare the resulting check plots.
 
+```{asis, d7response, echo=!pdf}
+***
+<details>
+<summary>Distance 7 instructions</summary>
+Changing response or response distribution:
+<ol> 
+<li> Keep the data filter with the truncation distance to 6000m.
+<li> Response `count` vs `abundance` can be specified with pull-down menu.  Offsets and link functions (shown on right of window) will change consistent with the response specified.
+<img src="D7grabs/d7-dsm-response.PNG">
+<li> Likewise, response distribution family.
+<img src="D7grabs/d7-dsm-distr.PNG">
+<li> Be sure you are using the model name field at the bottom of the window to provide detailed name of the models being constructed.
+</ol>
+</details>
+
+***
+```
 
 ## Save models
 

@@ -13,6 +13,11 @@ By the end of this practical, you should feel comfortable:
 
 ## Load data and packages
 
+```{r pdfmakerdsmadv, echo=FALSE}
+pdf <- TRUE
+```
+
+
 ```{r load-packages-03}
 library(Distance)
 library(dsm)
@@ -105,6 +110,21 @@ Again note that if you want to fit DSMs using detection functions with different
 We can build a really big model using `+` to include all the terms that we want in the model. We can check what's available to us by using `head()` to look at the segment table:
 ```{r seg-table}
 head(segs)
+```
+
+
+```{asis, d7complexdsm, echo=!pdf}
+***
+<details>
+<summary>Distance 7 instructions</summary>
+Fitting complex gams using graphical interface:
+<ul> 
+<li> There is nothing difficult about fitting these complex models.  The graphical interface is of little help however, you must type the right-hand side of the model you wish to fit into the formula box, just as it is presented in the code snippet below. Much of the formula has scrolled out of the window (but it is there).<br>
+<img src="D7grabs/d7-dsm-complex.PNG">
+</ul> 
+</details>
+
+***
 ```
 
 We can then fit a model with the available covariates in it, each as an `s()` term.
@@ -255,7 +275,21 @@ summarize_dsm <- function(model){
 }
 ```
 
-We can, again, make a list of the models and give that to the above function
+```{asis, d7comparedsm, echo=!pdf}
+***
+<details>
+<summary>Distance 7 instructions</summary>
+Model comparison using graphical interface:
+<ul> 
+<li> The `Results Table` of Distance is good for making model comparisons.  There are fewer metrics from which to choose, but metrics in the `Results Table` can be added or removed by using the right-most icon <img src="D7grabs/d7-dsm-icon.PNG"><br>
+<img src="D7grabs/d7-dsm-compare.PNG">
+</ul> 
+</details>
+
+***
+```
+
+We can make a list of the models and pass the list to the above function.
 
 ```{r apply-summary}
 # add your models to this list!

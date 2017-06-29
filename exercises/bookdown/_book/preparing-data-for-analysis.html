@@ -25,7 +25,7 @@
 <meta name="author" content="Laura Marshall, David L. Miller and Len Thomas">
 
 
-<meta name="date" content="2017-06-28">
+<meta name="date" content="2017-06-29">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -281,7 +281,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## It has 10 fields</code></pre>
 <p>To verify we have the right data we can plot it. This will give the locations of each segment:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(segs)</code></pre></div>
-<p><img src="_main_files/figure-html/segs-data-plot-1.png" width="480" /></p>
+<div class="figure"><span id="fig:segs-data-plot"></span>
+<img src="_main_files/figure-html/segs-data-plot-1.png" alt="Segment centroid locations for spearm whale dataset." width="384" />
+<p class="caption">
+Figure 5.1: Segment centroid locations for spearm whale dataset.
+</p>
+</div>
 <p>A further check would be to use <code>head()</code> to check that the structure of the data is correct. In particular it’s worth checking that the column names are correct and that the number of rows in the data set are correct (<code>dim()</code> will give the number of rows and columns).</p>
 <p>It can also be useful to check that the columns are the correct data types. Calling <code>str(segs@data)</code> (or any object loaded using <code>readOGR</code> appended with <code>@data</code>) will reveal the data types of each column. In this case we can see that the <code>CenterTime</code> column has been interpreted as a <code>factor</code> variable rather than as a date/time. We’re not going to use it in our analysis, so we don’t need to worry for now but <code>str()</code> can reveal potential problems with loaded data.</p>
 <p>For a deeper look at the values in the data, <code>summary()</code> will give summary statistics for each of the covariates as well as the projection and range of location values (lat/long or in our case <code>x</code> and <code>y</code>). We can compare these with values in ArcGIS.</p>
@@ -318,7 +323,12 @@ segs<span class="op">$</span>Sample.Label &lt;-<span class="st"> </span>segs<spa
 ## It has 7 fields</code></pre>
 <p>Again we can use a plot to see whether the data looks okay. This time we only have the locations of the observations:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(obs)</code></pre></div>
-<p><img src="_main_files/figure-html/obs-data-plot-1.png" width="672" /></p>
+<div class="figure"><span id="fig:obs-data-plot"></span>
+<img src="_main_files/figure-html/obs-data-plot-1.png" alt="Sighting locations for spearm whale dataset." width="384" />
+<p class="caption">
+Figure 5.2: Sighting locations for spearm whale dataset.
+</p>
+</div>
 <p>Again, converting the object to be a <code>data.frame</code> and checking it’s format using <code>head()</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">obs &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(obs)
 <span class="kw">head</span>(obs)</code></pre></div>
