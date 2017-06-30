@@ -1,3 +1,13 @@
 # Problem datasets 
 
 ## Len to prepare
+
+### Blue monkey data set
+
+* [Distance 7 project](Difficult data/D7BlueMonkey - Demo 3.zip)
+* [Data as csv for R analysis](Difficult data\BlueMonkey.csv)
+
+### Odd spike data set
+
+* [Distance 7 project](Difficult data/D7OddSpike - Demo 2.zip)
+* [R script to manufacture and conduct analysis](Difficult data\Oddspike.r)

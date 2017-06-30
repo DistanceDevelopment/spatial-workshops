@@ -1,8 +1,3 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
 # Estimating precision of predictions from density surface models
 
 Now we've fitted some models and estimated abundance, we can estimate the variance associated with the abundance estimate (and plot it).
