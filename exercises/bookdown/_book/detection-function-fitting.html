@@ -25,7 +25,7 @@
 <meta name="author" content="Laura Marshall, David L. Miller and Len Thomas">
 
 
-<meta name="date" content="2017-06-29">
+<meta name="date" content="2017-07-03">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -122,7 +122,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="2.1" data-path="analyse-simulated-data-set.html"><a href="analyse-simulated-data-set.html#laura-to-prepare"><i class="fa fa-check"></i><b>2.1</b> Laura to prepare</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="problem-datasets.html"><a href="problem-datasets.html"><i class="fa fa-check"></i><b>3</b> Problem datasets</a><ul>
-<li class="chapter" data-level="3.1" data-path="problem-datasets.html"><a href="problem-datasets.html#len-to-prepare"><i class="fa fa-check"></i><b>3.1</b> Len to prepare</a></li>
+<li class="chapter" data-level="3.1" data-path="problem-datasets.html"><a href="problem-datasets.html#len-to-prepare"><i class="fa fa-check"></i><b>3.1</b> Len to prepare</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="problem-datasets.html"><a href="problem-datasets.html#blue-monkey-data-set"><i class="fa fa-check"></i><b>3.1.1</b> Blue monkey data set</a></li>
+<li class="chapter" data-level="3.1.2" data-path="problem-datasets.html"><a href="problem-datasets.html#odd-spike-data-set"><i class="fa fa-check"></i><b>3.1.2</b> Odd spike data set</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="simulation-of-distance-sampling-data.html"><a href="simulation-of-distance-sampling-data.html"><i class="fa fa-check"></i><b>4</b> Simulation of distance sampling data</a><ul>
 <li class="chapter" data-level="4.1" data-path="simulation-of-distance-sampling-data.html"><a href="simulation-of-distance-sampling-data.html#laura-to-prepare-1"><i class="fa fa-check"></i><b>4.1</b> Laura to prepare</a></li>
@@ -256,7 +259,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="kw">library</span>(Distance)</code></pre></div>
 <pre><code>## Loading required package: mrds</code></pre>
 <pre><code>## This is mrds 2.1.18
-## Built: R 3.4.0; ; 2017-06-12 11:05:22 UTC; windows</code></pre>
+## Built: R 3.4.0; ; 2017-06-30 11:36:14 UTC; windows</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;Distance&#39;</code></pre>
 <pre><code>## The following object is masked from &#39;package:mrds&#39;:
@@ -409,29 +412,6 @@ Figure 6.4: Effect of survey upon detection distances.
 <li><code>formula=</code>: gives the formula to use for the scale parameter. By default it takes the value <code>~1</code>, meaning the scale parameter is constant and not a function of covariates.</li>
 <li><code>order=</code>: specifies the “order” of the adjustments to be used. This is a number (or vector of numbers) specifying the order of the terms. For example <code>order=2</code> fits order 2 adjustments, <code>order=c(2,3)</code> will fit a model with order 2 and 3 adjustments (mathematically, it only makes sense to include order 3 with order 2). By default the value is <code>NULL</code> which has <code>ds()</code> select the number of adjustments by AIC.</li>
 </ul>
-<hr />
-<details> <summary>Distance 7 instructions</summary> Steps to fit detection function using graphical interface
-<ol>
-<li>
-Distance 7 project has been created for you and can be opened from a .zip archive
-<ul>
-<li>
-Spend time examining the structure of data in the Data tab.
-</ul>
-<img src="D7grabs/d7open-project.PNG">
-<li>
-Move to the Analysis tab.
-<li>
-Create a new analysis.
-<li>
-Create a data filter to set the truncation distance to 6000m. <img src="D7grabs/d7trunc.PNG">
-<li>
-Create a model specifying MRDS analysis engine with half-normal detection function. <img src="D7grabs/d7detfn.PNG">
-<li>
-Press <code>Run</code> and examine contents of output window. The results should be identical to those produced in the Summaries section below.
-</ol>
-<p></details></p>
-<hr />
 <div id="summaries" class="section level3">
 <h3><span class="header-section-number">6.5.1</span> Summaries</h3>
 <p>We can look at the summary of the fitted detection function using the <code>summary()</code> function:</p>

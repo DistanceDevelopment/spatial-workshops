@@ -25,7 +25,7 @@
 <meta name="author" content="Laura Marshall, David L. Miller and Len Thomas">
 
 
-<meta name="date" content="2017-06-29">
+<meta name="date" content="2017-07-03">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -122,7 +122,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="2.1" data-path="analyse-simulated-data-set.html"><a href="analyse-simulated-data-set.html#laura-to-prepare"><i class="fa fa-check"></i><b>2.1</b> Laura to prepare</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="problem-datasets.html"><a href="problem-datasets.html"><i class="fa fa-check"></i><b>3</b> Problem datasets</a><ul>
-<li class="chapter" data-level="3.1" data-path="problem-datasets.html"><a href="problem-datasets.html#len-to-prepare"><i class="fa fa-check"></i><b>3.1</b> Len to prepare</a></li>
+<li class="chapter" data-level="3.1" data-path="problem-datasets.html"><a href="problem-datasets.html#len-to-prepare"><i class="fa fa-check"></i><b>3.1</b> Len to prepare</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="problem-datasets.html"><a href="problem-datasets.html#blue-monkey-data-set"><i class="fa fa-check"></i><b>3.1.1</b> Blue monkey data set</a></li>
+<li class="chapter" data-level="3.1.2" data-path="problem-datasets.html"><a href="problem-datasets.html#odd-spike-data-set"><i class="fa fa-check"></i><b>3.1.2</b> Odd spike data set</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="simulation-of-distance-sampling-data.html"><a href="simulation-of-distance-sampling-data.html"><i class="fa fa-check"></i><b>4</b> Simulation of distance sampling data</a><ul>
 <li class="chapter" data-level="4.1" data-path="simulation-of-distance-sampling-data.html"><a href="simulation-of-distance-sampling-data.html#laura-to-prepare-1"><i class="fa fa-check"></i><b>4.1</b> Laura to prepare</a></li>
@@ -254,7 +257,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="kw">library</span>(dsm)</code></pre></div>
 <pre><code>## Loading required package: numDeriv</code></pre>
 <pre><code>## This is dsm 2.2.15
-## Built: R 3.4.0; ; 2017-05-01 22:53:07 UTC; windows</code></pre>
+## Built: R 3.4.0; ; 2017-06-30 11:35:49 UTC; windows</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
 <span class="kw">library</span>(knitr)</code></pre></div>
 <p>Loading the <code>RData</code> files where we saved our results:</p>
@@ -270,20 +273,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="fitting-dsms" class="section level2">
 <h2><span class="header-section-number">7.4</span> Fitting DSMs</h2>
-<hr />
-<details> <summary>Distance 7 instructions</summary> Steps to fit gams using graphical interface:
-<ol>
-<li>
-Keep the data filter with the truncation distance to 6000m.
-<li>
-Set analysis engine to <code>DSM-Density surface modelling</code>. Specify the response, response distribution, modelling clusters or individuals. Note to specify the analysis number associated with the detection function of interest. In this case the detection function analysis was named <code>hn 6000 trunc</code>.<br> <img src="D7grabs/d7-dsm-simple.PNG">
-<li>
-Move to the <code>Diagnostics</code> button. Tick all boxes except autocorrelation box, which is uninformative for this dataset.<br> <img src="D7grabs/d7-dsm-diagnos.PNG">
-<li>
-Press <code>Run</code> and examine contents of output window. The results should be identical to those produced in the Summaries section below.
-</ol>
-<p></details></p>
-<hr />
 <p>Using the data that we’ve saved so far, we can build a call to the <code>dsm()</code> function and fit out first density surface model. Here we’re only going to look at models that include spatial smooths.</p>
 <p>Let’s start with a very simple model – a bivariate smooth of <code>x</code> and <code>y</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dsm_nb_xy &lt;-<span class="st"> </span><span class="kw">dsm</span>(count<span class="op">~</span><span class="kw">s</span>(x,y),
@@ -396,20 +385,6 @@ Figure 7.3: Residual quartile gam check results s(x,y) neg-binomial.
 <h2><span class="header-section-number">7.7</span> Tweedie response distribution</h2>
 <p>So far, we’ve used <code>nb()</code> as the response – the negative binomial distribution. We can also try out the Tweedie distribution as a response by replacing <code>nb()</code> with <code>tw()</code>.</p>
 <p>Try this out and compare the resulting check plots.</p>
-<hr />
-<details> <summary>Distance 7 instructions</summary> Changing response or response distribution:
-<ol>
-<li>
-Keep the data filter with the truncation distance to 6000m.
-<li>
-Response <code>count</code> vs <code>abundance</code> can be specified with pull-down menu. Offsets and link functions (shown on right of window) will change consistent with the response specified. <img src="D7grabs/d7-dsm-response.PNG">
-<li>
-Likewise, response distribution family. <img src="D7grabs/d7-dsm-distr.PNG">
-<li>
-Be sure you are using the model name field at the bottom of the window to provide detailed name of the models being constructed.
-</ol>
-<p></details></p>
-<hr />
 </div>
 <div id="save-models" class="section level2">
 <h2><span class="header-section-number">7.8</span> Save models</h2>
