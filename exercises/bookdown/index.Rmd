@@ -6,6 +6,7 @@ output:
   bookdown::pdf_book: 
     includes:
       in_header: preamble.tex
+    keep_tex: TRUE
   bookdown::gitbook: default
 csl: chicago-au-yr.csl
 geometry: a4paper
@@ -18,7 +19,7 @@ bibliography: references.bib
 ---
 
 ```{r pdfmaker, echo=FALSE}
-pdf <- FALSE
+pdf <- TRUE
 ```
 
 # Preface {-}

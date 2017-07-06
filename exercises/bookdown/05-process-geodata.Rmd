@@ -1,4 +1,4 @@
-# Preparing data for analysis
+# Preparing survey data for spatial analysis
 
 ## Aims
 

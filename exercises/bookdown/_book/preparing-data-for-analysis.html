@@ -25,14 +25,14 @@
 <meta name="author" content="Laura Marshall, David L. Miller and Len Thomas">
 
 
-<meta name="date" content="2017-07-03">
+<meta name="date" content="2017-07-06">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="simulation-of-distance-sampling-data.html">
+<link rel="prev" href="creating-distance-sampling-simulations-using-dssim.html">
 <link rel="next" href="detection-function-fitting.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -127,11 +127,24 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="3.1.2" data-path="problem-datasets.html"><a href="problem-datasets.html#odd-spike-data-set"><i class="fa fa-check"></i><b>3.1.2</b> Odd spike data set</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="simulation-of-distance-sampling-data.html"><a href="simulation-of-distance-sampling-data.html"><i class="fa fa-check"></i><b>4</b> Simulation of distance sampling data</a><ul>
-<li class="chapter" data-level="4.1" data-path="simulation-of-distance-sampling-data.html"><a href="simulation-of-distance-sampling-data.html#laura-to-prepare-1"><i class="fa fa-check"></i><b>4.1</b> Laura to prepare</a></li>
-<li class="chapter" data-level="4.2" data-path="simulation-of-distance-sampling-data.html"><a href="simulation-of-distance-sampling-data.html#bit-of-exposure-to-survey-design-engine"><i class="fa fa-check"></i><b>4.2</b> Bit of exposure to survey design engine</a></li>
-<li class="chapter" data-level="4.3" data-path="simulation-of-distance-sampling-data.html"><a href="simulation-of-distance-sampling-data.html#trailsno-trails-exercise-from-previous-years"><i class="fa fa-check"></i><b>4.3</b> Trails/no trails exercise from previous years</a></li>
-<li class="chapter" data-level="4.4" data-path="simulation-of-distance-sampling-data.html"><a href="simulation-of-distance-sampling-data.html#perhaps-some-exposure-to-dssim-vignette"><i class="fa fa-check"></i><b>4.4</b> Perhaps some exposure to DSsim vignette</a></li>
+<li class="chapter" data-level="4" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html"><i class="fa fa-check"></i><b>4</b> Creating distance sampling simulations using DSsim</a><ul>
+<li class="chapter" data-level="4.1" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#aim"><i class="fa fa-check"></i><b>4.1</b> Aim</a></li>
+<li class="chapter" data-level="4.2" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#create-a-region-object"><i class="fa fa-check"></i><b>4.2</b> Create a region object</a></li>
+<li class="chapter" data-level="4.3" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#create-a-density-object"><i class="fa fa-check"></i><b>4.3</b> Create a density object</a></li>
+<li class="chapter" data-level="4.4" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#creating-population-description-and-detectability-objects"><i class="fa fa-check"></i><b>4.4</b> Creating population description and detectability objects</a></li>
+<li class="chapter" data-level="4.5" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#creating-the-survey-design-object"><i class="fa fa-check"></i><b>4.5</b> Creating the survey design object</a></li>
+<li class="chapter" data-level="4.6" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#creating-the-analyses-object"><i class="fa fa-check"></i><b>4.6</b> Creating the analyses object</a></li>
+<li class="chapter" data-level="4.7" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#creating-the-simulation-object"><i class="fa fa-check"></i><b>4.7</b> Creating the simulation object</a></li>
+<li class="chapter" data-level="4.8" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#now-for-the-automated-designs-parallel-lines"><i class="fa fa-check"></i><b>4.8</b> Now for the automated designs: Parallel lines</a><ul>
+<li class="chapter" data-level="4.8.1" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#zigzag-survey-design"><i class="fa fa-check"></i><b>4.8.1</b> ZigZag survey design</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#results-from-999-repetitions"><i class="fa fa-check"></i><b>4.9</b> Results from 999 repetitions</a></li>
+<li class="chapter" data-level="4.10" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#running-distance-sampling-simulations-using-distance-7.1"><i class="fa fa-check"></i><b>4.10</b> Running distance sampling simulations using Distance 7.1</a></li>
+<li class="chapter" data-level="4.11" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#creating-simulations-in-distance"><i class="fa fa-check"></i><b>4.11</b> Creating simulations in Distance</a><ul>
+<li class="chapter" data-level="4.11.1" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#simulation-details"><i class="fa fa-check"></i><b>4.11.1</b> Simulation Details</a></li>
+<li class="chapter" data-level="4.11.2" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#simulation-properties"><i class="fa fa-check"></i><b>4.11.2</b> Simulation Properties</a></li>
+<li class="chapter" data-level="4.11.3" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#results"><i class="fa fa-check"></i><b>4.11.3</b> Results</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="preparing-data-for-analysis.html"><a href="preparing-data-for-analysis.html"><i class="fa fa-check"></i><b>5</b> Preparing data for analysis</a><ul>
 <li class="chapter" data-level="5.1" data-path="preparing-data-for-analysis.html"><a href="preparing-data-for-analysis.html#aims"><i class="fa fa-check"></i><b>5.1</b> Aims</a></li>
@@ -368,7 +381,7 @@ obs<span class="op">$</span>size &lt;-<span class="st"> </span>obs<span class="o
           </div>
         </div>
       </div>
-<a href="simulation-of-distance-sampling-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="creating-distance-sampling-simulations-using-dssim.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="detection-function-fitting.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
@@ -401,7 +414,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["_main.pdf"],
+"download": null,
 "toc": {
 "collapse": "subsection"
 }

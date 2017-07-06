@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Intermediate distance sampling workshop - St Andrews 2017</title>
+  <meta name="description" content="Intermediate distance sampling workshop - St Andrews 2017">
+  <meta name="generator" content="bookdown 0.4 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Intermediate distance sampling workshop - St Andrews 2017" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Intermediate distance sampling workshop - St Andrews 2017" />
+  
+  
+  
+
+<meta name="author" content="Laura Marshall, David L. Miller and Len Thomas">
+
+
+<meta name="date" content="2017-07-06">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="problem-datasets.html">
+<link rel="next" href="preparing-survey-data-for-spatial-analysis.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="details.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html"><i class="fa fa-check"></i><b>1</b> A hands on introduction to R tutorial</a><ul>
+<li class="chapter" data-level="1.1" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#introduction"><i class="fa fa-check"></i><b>1.1</b> Introduction</a></li>
+<li class="chapter" data-level="1.2" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#introduction-to-rstudio"><i class="fa fa-check"></i><b>1.2</b> Introduction to RStudio</a></li>
+<li class="chapter" data-level="1.3" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#a-first-session-in-rstudio"><i class="fa fa-check"></i><b>1.3</b> A first session in RStudio</a></li>
+<li class="chapter" data-level="1.4" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#Types-classes"><i class="fa fa-check"></i><b>1.4</b> Types and classes of objects</a></li>
+<li class="chapter" data-level="1.5" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#subsetting-data"><i class="fa fa-check"></i><b>1.5</b> Subsetting data</a></li>
+<li class="chapter" data-level="1.6" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#mathematical-functions-and-simple-data-calculations"><i class="fa fa-check"></i><b>1.6</b> Mathematical functions and simple data calculations</a></li>
+<li class="chapter" data-level="1.7" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#importing-and-exporting-data"><i class="fa fa-check"></i><b>1.7</b> Importing and exporting data</a></li>
+<li class="chapter" data-level="1.8" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#graphics"><i class="fa fa-check"></i><b>1.8</b> Graphics</a></li>
+<li class="chapter" data-level="1.9" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#extending-basic-capabilities-via-packages"><i class="fa fa-check"></i><b>1.9</b> Extending basic capabilities via packages</a></li>
+<li class="chapter" data-level="1.10" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#linear-regression"><i class="fa fa-check"></i><b>1.10</b> Linear regression</a></li>
+<li class="chapter" data-level="1.11" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#some-advanced-capabilities-of-r"><i class="fa fa-check"></i><b>1.11</b> Some advanced capabilities of R</a><ul>
+<li class="chapter" data-level="1.11.1" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#simulation-and-random-number-generation"><i class="fa fa-check"></i><b>1.11.1</b> Simulation and random number generation</a></li>
+<li class="chapter" data-level="1.11.2" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#writing-your-own-functions"><i class="fa fa-check"></i><b>1.11.2</b> Writing your own functions</a></li>
+</ul></li>
+<li class="chapter" data-level="1.12" data-path="a-hands-on-introduction-to-r-tutorial.html"><a href="a-hands-on-introduction-to-r-tutorial.html#wrap-up"><i class="fa fa-check"></i><b>1.12</b> Wrap up</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="analyse-simulated-data-set.html"><a href="analyse-simulated-data-set.html"><i class="fa fa-check"></i><b>2</b> analyse simulated data set</a><ul>
+<li class="chapter" data-level="2.1" data-path="analyse-simulated-data-set.html"><a href="analyse-simulated-data-set.html#laura-to-prepare"><i class="fa fa-check"></i><b>2.1</b> Laura to prepare</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="problem-datasets.html"><a href="problem-datasets.html"><i class="fa fa-check"></i><b>3</b> Problem datasets</a><ul>
+<li class="chapter" data-level="3.1" data-path="problem-datasets.html"><a href="problem-datasets.html#len-to-prepare"><i class="fa fa-check"></i><b>3.1</b> Len to prepare</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="problem-datasets.html"><a href="problem-datasets.html#blue-monkey-data-set"><i class="fa fa-check"></i><b>3.1.1</b> Blue monkey data set</a></li>
+<li class="chapter" data-level="3.1.2" data-path="problem-datasets.html"><a href="problem-datasets.html#odd-spike-data-set"><i class="fa fa-check"></i><b>3.1.2</b> Odd spike data set</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html"><i class="fa fa-check"></i><b>4</b> Creating distance sampling simulations using DSsim</a><ul>
+<li class="chapter" data-level="4.1" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#aim"><i class="fa fa-check"></i><b>4.1</b> Aim</a></li>
+<li class="chapter" data-level="4.2" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#create-a-region-object"><i class="fa fa-check"></i><b>4.2</b> Create a region object</a></li>
+<li class="chapter" data-level="4.3" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#create-a-density-object"><i class="fa fa-check"></i><b>4.3</b> Create a density object</a></li>
+<li class="chapter" data-level="4.4" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#creating-population-description-and-detectability-objects"><i class="fa fa-check"></i><b>4.4</b> Creating population description and detectability objects</a></li>
+<li class="chapter" data-level="4.5" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#creating-the-survey-design-object"><i class="fa fa-check"></i><b>4.5</b> Creating the survey design object</a></li>
+<li class="chapter" data-level="4.6" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#creating-the-analyses-object"><i class="fa fa-check"></i><b>4.6</b> Creating the analyses object</a></li>
+<li class="chapter" data-level="4.7" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#creating-the-simulation-object"><i class="fa fa-check"></i><b>4.7</b> Creating the simulation object</a></li>
+<li class="chapter" data-level="4.8" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#now-for-the-automated-designs-parallel-lines"><i class="fa fa-check"></i><b>4.8</b> Now for the automated designs: Parallel lines</a><ul>
+<li class="chapter" data-level="4.8.1" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#zigzag-survey-design"><i class="fa fa-check"></i><b>4.8.1</b> ZigZag survey design</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#results-from-999-repetitions"><i class="fa fa-check"></i><b>4.9</b> Results from 999 repetitions</a></li>
+<li class="chapter" data-level="4.10" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#running-distance-sampling-simulations-using-distance-7.1"><i class="fa fa-check"></i><b>4.10</b> Running distance sampling simulations using Distance 7.1</a></li>
+<li class="chapter" data-level="4.11" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#creating-simulations-in-distance"><i class="fa fa-check"></i><b>4.11</b> Creating simulations in Distance</a><ul>
+<li class="chapter" data-level="4.11.1" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#simulation-details"><i class="fa fa-check"></i><b>4.11.1</b> Simulation Details</a></li>
+<li class="chapter" data-level="4.11.2" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#simulation-properties"><i class="fa fa-check"></i><b>4.11.2</b> Simulation Properties</a></li>
+<li class="chapter" data-level="4.11.3" data-path="creating-distance-sampling-simulations-using-dssim.html"><a href="creating-distance-sampling-simulations-using-dssim.html#results"><i class="fa fa-check"></i><b>4.11.3</b> Results</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="preparing-survey-data-for-spatial-analysis.html"><a href="preparing-survey-data-for-spatial-analysis.html"><i class="fa fa-check"></i><b>5</b> Preparing survey data for spatial analysis</a><ul>
+<li class="chapter" data-level="5.1" data-path="preparing-survey-data-for-spatial-analysis.html"><a href="preparing-survey-data-for-spatial-analysis.html#aims"><i class="fa fa-check"></i><b>5.1</b> Aims</a></li>
+<li class="chapter" data-level="5.2" data-path="preparing-survey-data-for-spatial-analysis.html"><a href="preparing-survey-data-for-spatial-analysis.html#preamble"><i class="fa fa-check"></i><b>5.2</b> Preamble</a></li>
+<li class="chapter" data-level="5.3" data-path="preparing-survey-data-for-spatial-analysis.html"><a href="preparing-survey-data-for-spatial-analysis.html#load-and-arrange-data"><i class="fa fa-check"></i><b>5.3</b> Load and arrange data</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="preparing-survey-data-for-spatial-analysis.html"><a href="preparing-survey-data-for-spatial-analysis.html#segment-data"><i class="fa fa-check"></i><b>5.3.1</b> Segment data</a></li>
+<li class="chapter" data-level="5.3.2" data-path="preparing-survey-data-for-spatial-analysis.html"><a href="preparing-survey-data-for-spatial-analysis.html#observation-data"><i class="fa fa-check"></i><b>5.3.2</b> Observation data</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="preparing-survey-data-for-spatial-analysis.html"><a href="preparing-survey-data-for-spatial-analysis.html#save-the-data"><i class="fa fa-check"></i><b>5.4</b> Save the data</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html"><i class="fa fa-check"></i><b>6</b> Detection function fitting</a><ul>
+<li class="chapter" data-level="6.1" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#aims-1"><i class="fa fa-check"></i><b>6.1</b> Aims</a></li>
+<li class="chapter" data-level="6.2" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#preamble-1"><i class="fa fa-check"></i><b>6.2</b> Preamble</a></li>
+<li class="chapter" data-level="6.3" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#load-the-data"><i class="fa fa-check"></i><b>6.3</b> Load the data</a></li>
+<li class="chapter" data-level="6.4" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#exploratory-analysis"><i class="fa fa-check"></i><b>6.4</b> Exploratory analysis</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#distances"><i class="fa fa-check"></i><b>6.4.1</b> Distances</a></li>
+<li class="chapter" data-level="6.4.2" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#size-and-distance"><i class="fa fa-check"></i><b>6.4.2</b> Size and distance</a></li>
+<li class="chapter" data-level="6.4.3" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#distance-and-sea-state"><i class="fa fa-check"></i><b>6.4.3</b> Distance and sea state</a></li>
+<li class="chapter" data-level="6.4.4" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#survey-effect"><i class="fa fa-check"></i><b>6.4.4</b> Survey effect</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#fitting-detection-functions"><i class="fa fa-check"></i><b>6.5</b> Fitting detection functions</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#summaries"><i class="fa fa-check"></i><b>6.5.1</b> Summaries</a></li>
+<li class="chapter" data-level="6.5.2" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#goodness-of-fit"><i class="fa fa-check"></i><b>6.5.2</b> Goodness of fit</a></li>
+<li class="chapter" data-level="6.5.3" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#plotting"><i class="fa fa-check"></i><b>6.5.3</b> Plotting</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#now-you-try"><i class="fa fa-check"></i><b>6.6</b> Now you try…</a></li>
+<li class="chapter" data-level="6.7" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#model-selection"><i class="fa fa-check"></i><b>6.7</b> Model selection</a><ul>
+<li class="chapter" data-level="6.7.1" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#estimating-abundance"><i class="fa fa-check"></i><b>6.7.1</b> Estimating abundance</a></li>
+<li class="chapter" data-level="6.7.2" data-path="detection-function-fitting.html"><a href="detection-function-fitting.html#save-model-objects"><i class="fa fa-check"></i><b>6.7.2</b> Save model objects</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html"><i class="fa fa-check"></i><b>7</b> Simple density surface models</a><ul>
+<li class="chapter" data-level="7.1" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#aims-2"><i class="fa fa-check"></i><b>7.1</b> Aims</a></li>
+<li class="chapter" data-level="7.2" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#load-the-packages-and-data"><i class="fa fa-check"></i><b>7.2</b> Load the packages and data</a></li>
+<li class="chapter" data-level="7.3" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#pre-model-fitting"><i class="fa fa-check"></i><b>7.3</b> Pre-model fitting</a></li>
+<li class="chapter" data-level="7.4" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#fitting-dsms"><i class="fa fa-check"></i><b>7.4</b> Fitting DSMs</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#visualising-output"><i class="fa fa-check"></i><b>7.4.1</b> Visualising output</a></li>
+<li class="chapter" data-level="7.4.2" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#checking-the-model"><i class="fa fa-check"></i><b>7.4.2</b> Checking the model</a></li>
+<li class="chapter" data-level="7.4.3" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#setting-basis-complexity"><i class="fa fa-check"></i><b>7.4.3</b> Setting basis complexity</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#estimated-abundance-as-response"><i class="fa fa-check"></i><b>7.5</b> Estimated abundance as response</a></li>
+<li class="chapter" data-level="7.6" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#univariate-models"><i class="fa fa-check"></i><b>7.6</b> Univariate models</a></li>
+<li class="chapter" data-level="7.7" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#tweedie-response-distribution"><i class="fa fa-check"></i><b>7.7</b> Tweedie response distribution</a></li>
+<li class="chapter" data-level="7.8" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#save-models"><i class="fa fa-check"></i><b>7.8</b> Save models</a></li>
+<li class="chapter" data-level="7.9" data-path="simple-density-surface-models.html"><a href="simple-density-surface-models.html#extra-credit"><i class="fa fa-check"></i><b>7.9</b> Extra credit</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html"><i class="fa fa-check"></i><b>8</b> Advanced density surface models</a><ul>
+<li class="chapter" data-level="8.1" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#aims-3"><i class="fa fa-check"></i><b>8.1</b> Aims</a></li>
+<li class="chapter" data-level="8.2" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#load-data-and-packages"><i class="fa fa-check"></i><b>8.2</b> Load data and packages</a></li>
+<li class="chapter" data-level="8.3" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#exploratory-analysis-1"><i class="fa fa-check"></i><b>8.3</b> Exploratory analysis</a></li>
+<li class="chapter" data-level="8.4" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#pre-model-fitting-1"><i class="fa fa-check"></i><b>8.4</b> Pre-model fitting</a></li>
+<li class="chapter" data-level="8.5" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#our-new-friend"><i class="fa fa-check"></i><b>8.5</b> Our new friend <code>+</code></a><ul>
+<li class="chapter" data-level="8.5.1" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#plot"><i class="fa fa-check"></i><b>8.5.1</b> Plot</a></li>
+<li class="chapter" data-level="8.5.2" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#check"><i class="fa fa-check"></i><b>8.5.2</b> Check</a></li>
+<li class="chapter" data-level="8.5.3" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#select-terms"><i class="fa fa-check"></i><b>8.5.3</b> Select terms</a></li>
+<li class="chapter" data-level="8.5.4" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#compare-response-distributions"><i class="fa fa-check"></i><b>8.5.4</b> Compare response distributions</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#estimated-abundance-as-a-response"><i class="fa fa-check"></i><b>8.6</b> Estimated abundance as a response</a></li>
+<li class="chapter" data-level="8.7" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#concurvity"><i class="fa fa-check"></i><b>8.7</b> Concurvity</a></li>
+<li class="chapter" data-level="8.8" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#sensitivity"><i class="fa fa-check"></i><b>8.8</b> Sensitivity</a><ul>
+<li class="chapter" data-level="8.8.1" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#compare-bivariate-and-additive-spatial-effects"><i class="fa fa-check"></i><b>8.8.1</b> Compare bivariate and additive spatial effects</a></li>
+</ul></li>
+<li class="chapter" data-level="8.9" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#comparing-models"><i class="fa fa-check"></i><b>8.9</b> Comparing models</a></li>
+<li class="chapter" data-level="8.10" data-path="advanced-density-surface-models.html"><a href="advanced-density-surface-models.html#saving-models"><i class="fa fa-check"></i><b>8.10</b> Saving models</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html"><i class="fa fa-check"></i><b>9</b> Prediction using fitted density surface models</a><ul>
+<li class="chapter" data-level="9.1" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#aims-4"><i class="fa fa-check"></i><b>9.1</b> Aims</a></li>
+<li class="chapter" data-level="9.2" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#loading-the-packages-and-data"><i class="fa fa-check"></i><b>9.2</b> Loading the packages and data</a></li>
+<li class="chapter" data-level="9.3" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#loading-prediction-data"><i class="fa fa-check"></i><b>9.3</b> Loading prediction data</a></li>
+<li class="chapter" data-level="9.4" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#save-the-prediction-to-a-raster"><i class="fa fa-check"></i><b>9.4</b> Save the prediction to a raster</a></li>
+<li class="chapter" data-level="9.5" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#save-prediction-grid-to-rdata"><i class="fa fa-check"></i><b>9.5</b> Save prediction grid to <code>RData</code></a></li>
+<li class="chapter" data-level="9.6" data-path="prediction-using-fitted-density-surface-models.html"><a href="prediction-using-fitted-density-surface-models.html#extra-credit-1"><i class="fa fa-check"></i><b>9.6</b> Extra credit</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html"><i class="fa fa-check"></i><b>10</b> Estimating precision of predictions from density surface models</a><ul>
+<li class="chapter" data-level="10.1" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#aims-5"><i class="fa fa-check"></i><b>10.1</b> Aims</a></li>
+<li class="chapter" data-level="10.2" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#load-packages-and-data"><i class="fa fa-check"></i><b>10.2</b> Load packages and data</a></li>
+<li class="chapter" data-level="10.3" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#estimation-of-variance"><i class="fa fa-check"></i><b>10.3</b> Estimation of variance</a></li>
+<li class="chapter" data-level="10.4" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#summarise-multiple-models"><i class="fa fa-check"></i><b>10.4</b> Summarise multiple models</a></li>
+<li class="chapter" data-level="10.5" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#plotting-1"><i class="fa fa-check"></i><b>10.5</b> Plotting</a></li>
+<li class="chapter" data-level="10.6" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#save-the-uncertainty-maps-to-raster-files"><i class="fa fa-check"></i><b>10.6</b> Save the uncertainty maps to raster files</a></li>
+<li class="chapter" data-level="10.7" data-path="estimating-precision-of-predictions-from-density-surface-models.html"><a href="estimating-precision-of-predictions-from-density-surface-models.html#extra-credit-2"><i class="fa fa-check"></i><b>10.7</b> Extra credit</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="mark-recapture-distance-sampling-of-golftees.html"><a href="mark-recapture-distance-sampling-of-golftees.html"><i class="fa fa-check"></i><b>11</b> Mark-recapture distance sampling of golftees</a><ul>
+<li class="chapter" data-level="11.1" data-path="mark-recapture-distance-sampling-of-golftees.html"><a href="mark-recapture-distance-sampling-of-golftees.html#golf-tee-survey"><i class="fa fa-check"></i><b>11.1</b> Golf tee survey</a></li>
+<li class="chapter" data-level="11.2" data-path="mark-recapture-distance-sampling-of-golftees.html"><a href="mark-recapture-distance-sampling-of-golftees.html#crabeater-seal-survey"><i class="fa fa-check"></i><b>11.2</b> Crabeater seal survey</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Intermediate distance sampling workshop - St Andrews 2017</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="creating-distance-sampling-simulations-using-dssim" class="section level1">
+<h1><span class="header-section-number">4</span> Creating distance sampling simulations using DSsim</h1>
+<blockquote>
+<p>Assumes home directory is directory in which exercise has been expanded</p>
+</blockquote>
+<div id="aim" class="section level2">
+<h2><span class="header-section-number">4.1</span> Aim</h2>
+<p>The aim of this exercise is to run simulations which will allow you to compare three different survey designs for a specific population. You should judge these designs on their accuracy and precision.</p>
+<p>You will also need the following R packages installed on your machine: DSsim, shapefiles, splancs and mrds. Now examine the other files and folders in the “DSsim Exercise” folder. There are three files starting with the name “Region” and ending with .dbf, .shp and .shx, these files make up the shapefile for the survey region. The “density.surface.robj” file is the density surface for the survey region. The “Survey Transects” folder contains a folder for each of the designs you are asked to look at, these contain the transect shapefiles. The “Results” folder contains the results from 999 replications as this can take a good few hours to run. To setup the workspace first load the libraries DSsim and shapefiles, loading these two will automatically make splancs and mrds available.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(DSsim)
+<span class="kw">library</span>(shapefiles)</code></pre></div>
+</div>
+<div id="create-a-region-object" class="section level2">
+<h2><span class="header-section-number">4.2</span> Create a region object</h2>
+<p>Read the Region shapefile into R using the read.shapefile function from the shapefiles library.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">region.shapefile &lt;-<span class="st"> </span><span class="kw">read.shapefile</span>(<span class="st">&quot;Region&quot;</span>)</code></pre></div>
+<p>Next you are going to create the region object using this shapefile. As there are no strata you only need to provide a name for your survey region and the units which are in metres (m). The survey region is displayed in Figure <a href="creating-distance-sampling-simulations-using-dssim.html#fig:finishreg">4.1</a>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">region &lt;-<span class="st"> </span><span class="kw">make.region</span>(<span class="dt">region.name =</span> <span class="st">&quot;Survey Region&quot;</span>, <span class="dt">units =</span> <span class="st">&quot;m&quot;</span>, 
+                      <span class="dt">shapefile =</span> region.shapefile)
+<span class="kw">plot</span>(region, <span class="dt">plot.units =</span> <span class="st">&quot;km&quot;</span>)</code></pre></div>
+<div class="figure"><span id="fig:finishreg"></span>
+<img src="_main_files/figure-html/finishreg-1.png" alt="Study region for simulation" width="672" />
+<p class="caption">
+Figure 4.1: Study region for simulation
+</p>
+</div>
+</div>
+<div id="create-a-density-object" class="section level2">
+<h2><span class="header-section-number">4.3</span> Create a density object</h2>
+<p>You are now going to create a density object within this region. For the purposes of this exercise a density surface has already been created and can be loaded as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;density.surface.robj&quot;</span>)</code></pre></div>
+<p>You will see that an object called “density.surface” has appeared in the workspace. This object is a list with one element (if the region had been divided up into strata then this list would contain an element for each strata). To have a look at what the density surface data look like type <code>head(density.surface[[1]])</code>. You can see that it is a data set of x and y locations and the densities at each point.</p>
+<p>To create the density object you will need to provide the density surface, the region object for which it was created and the grid spacing that was used. I used a grid spacing of 1,000 m in both the x and y directions to create this density surface. The density surface describing animal distribution is shown in Figure 4.2.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pop.density &lt;-<span class="st"> </span><span class="kw">make.density</span>(<span class="dt">region =</span> region, <span class="dt">density.surface =</span> density.surface, 
+                            <span class="dt">x.space =</span> <span class="dv">1000</span>, <span class="dt">y.space =</span> <span class="dv">1000</span>) 
+<span class="kw">plot</span>(pop.density, <span class="dt">plot.units =</span> <span class="st">&quot;km&quot;</span>)
+<span class="kw">plot</span>(region, <span class="dt">add =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="figure"><span id="fig:popden"></span>
+<img src="_main_files/figure-html/popden-1.png" alt="Study region with animal density superimposed
+Note lower density near the trail system" width="672" />
+<p class="caption">
+Figure 4.2: Study region with animal density superimposed Note lower density near the trail system
+</p>
+</div>
+<p>Optionally, the following code can be used to define your own density surface. Firstly the density object is created with a constant value, then high and low spots can be added with varying radii of influence. The sigma parameter is used to calculate a Gaussian decay around the central point.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">alternative.density &lt;-<span class="st"> </span><span class="kw">make.density</span>(<span class="dt">region =</span> region, <span class="dt">x.space =</span> <span class="dv">1000</span>, 
+                                    <span class="dt">y.space =</span> <span class="dv">1000</span>, <span class="dt">constant =</span> <span class="fl">0.4e-7</span>)
+
+alternative.density &lt;-<span class="st"> </span><span class="kw">add.hotspot</span>(alternative.density, <span class="dt">centre =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">2500</span>, <span class="dv">2224000</span>), 
+                                   <span class="dt">sigma =</span> <span class="dv">10000</span>, <span class="dt">amplitude =</span> <span class="fl">0.1e-7</span>)
+alternative.density &lt;-<span class="st"> </span><span class="kw">add.hotspot</span>(alternative.density, <span class="dt">centre =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">2184000</span>), 
+                                   <span class="dt">sigma =</span> <span class="dv">18000</span>, <span class="dt">amplitude =</span> <span class="op">-</span><span class="fl">0.5e-8</span>)</code></pre></div>
+</div>
+<div id="creating-population-description-and-detectability-objects" class="section level2">
+<h2><span class="header-section-number">4.4</span> Creating population description and detectability objects</h2>
+<p>For this exercise we will fix the population size at 1500 individuals. To do this set N = 1500 and tell it to generate exactly this number of individuals (fixed.N = TRUE).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pop.description &lt;-<span class="st"> </span><span class="kw">make.population.description</span>(<span class="dt">region.obj =</span> region, 
+                                               <span class="dt">density.obj =</span> pop.density, 
+                                               <span class="dt">N =</span> <span class="dv">1500</span>, <span class="dt">fixed.N =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p>We will now describe the detectability of the population using a half-normal function with a sigma (scale.param) of 500 m and a truncation distance of 1000 m. This means that around 2/3 of the detections will be made within 500 m of the transect and we will exclude anything sighted further than 1000 m perpendicular distance from the transect.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">detect &lt;-<span class="st"> </span><span class="kw">make.detectability</span>(<span class="dt">key.function =</span> <span class="st">&quot;hn&quot;</span>, <span class="dt">scale.param =</span> <span class="dv">500</span>, <span class="dt">truncation =</span> <span class="dv">1000</span>)</code></pre></div>
+</div>
+<div id="creating-the-survey-design-object" class="section level2">
+<h2><span class="header-section-number">4.5</span> Creating the survey design object</h2>
+<p>We will now create a design object. For now concentrate on the subjective design, we will come back to the parallel and zigzag designs later. The subjective design was based on using some <strong>existing paths</strong> to make the survey easier to carry out. Additional transects were then added to achieve a more even coverage of the survey region.</p>
+<p>NOTE: The path argument to describe where the files are located must match your previous settings add “/Survey Transects/Subjective Design”.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">subjective.design &lt;-<span class="st"> </span><span class="kw">make.design</span>(<span class="dt">transect.type =</span> <span class="st">&quot;Line&quot;</span>, 
+                                 <span class="dt">design.details =</span> <span class="kw">c</span>(<span class="st">&quot;user specified&quot;</span>), 
+                                 <span class="dt">region =</span> region, 
+                                 <span class="dt">plus.sampling =</span> <span class="ot">FALSE</span>, 
+                                 <span class="dt">path =</span> <span class="st">&quot;Survey Transects/Subjective Design&quot;</span>)</code></pre></div>
+</div>
+<div id="creating-the-analyses-object" class="section level2">
+<h2><span class="header-section-number">4.6</span> Creating the analyses object</h2>
+<p>The final thing we need to do before creating the simulation object is describe the analyses we wish to carry out on the simulated data. Let’s try letting it choose between a half-normal and a hazard rate model based on the AIC values.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ddf.analyses &lt;-<span class="st"> </span><span class="kw">make.ddf.analysis.list</span>(
+                <span class="dt">dsmodel =</span> <span class="kw">list</span>(<span class="op">~</span><span class="kw">cds</span>(<span class="dt">key =</span> <span class="st">&quot;hn&quot;</span>, <span class="dt">formula =</span> <span class="op">~</span><span class="dv">1</span>), <span class="co">#half-normal model</span>
+                               <span class="op">~</span><span class="kw">cds</span>(<span class="dt">key =</span> <span class="st">&quot;hr&quot;</span>, <span class="dt">formula =</span> <span class="op">~</span><span class="dv">1</span>)),  <span class="co">#hazard rate model</span>
+                <span class="dt">method =</span> <span class="st">&quot;ds&quot;</span>, <span class="dt">criteria =</span> <span class="st">&quot;AIC&quot;</span>, <span class="dt">truncation =</span> <span class="dv">1000</span>)</code></pre></div>
+</div>
+<div id="creating-the-simulation-object" class="section level2">
+<h2><span class="header-section-number">4.7</span> Creating the simulation object</h2>
+<p>We can finally put it all together and have a look at some example populations, transects and survey data. I suggest you set the number of repetitions (reps) to be fairly low or else it will take a long time to run. For the subjective design you need to specify that it will be using the same set of transects each time, single.transect.set = TRUE.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my.simulation.subjective &lt;-<span class="st"> </span><span class="kw">make.simulation</span>(<span class="dt">reps =</span> <span class="dv">10</span>, 
+                                            <span class="dt">single.transect.set =</span> <span class="ot">TRUE</span>, 
+                                            <span class="dt">region.obj =</span> region, 
+                                            <span class="dt">design.obj =</span> subjective.design, 
+                                            <span class="dt">population.description.obj =</span> pop.description,
+                                            <span class="dt">detectability.obj =</span> detect, 
+                                            <span class="dt">ddf.analyses.list =</span> ddf.analyses)</code></pre></div>
+<p>Before running the simulation it is a good idea to have a check to see that it is doing what you want. The function <code>check.sim.setup()</code> will allow you to investigate the simulation properties. Having created a population, transects, survey and detections, the function plots them to assure you are happy with the simulation structure.</p>
+<p>Let’s check our subjective design simulation, see Figure <a href="creating-distance-sampling-simulations-using-dssim.html#fig:plotsimul">4.3</a>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">check.sim.setup</span>(my.simulation.subjective)</code></pre></div>
+<div class="figure"><span id="fig:plotsimul"></span>
+<img src="_main_files/figure-html/plotsimul-1.png" alt="Region, population, transects, detections" width="672" />
+<p class="caption">
+Figure 4.3: Region, population, transects, detections
+</p>
+</div>
+<p>Once you are happy it is time to run the simulation. Please be patient as it will take a few minutes to complete.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my.simulation.subjective  &lt;-<span class="st"> </span><span class="kw">run</span>(my.simulation.subjective)
+<span class="kw">summary</span>(my.simulation.subjective, <span class="dt">description.summary =</span> <span class="ot">FALSE</span>)</code></pre></div>
+</div>
+<div id="now-for-the-automated-designs-parallel-lines" class="section level2">
+<h2><span class="header-section-number">4.8</span> Now for the automated designs: Parallel lines</h2>
+<p>You will need to create a new simulation each with a new design object for the parallel design. The other objects (region, density, population description etc.) should be left the same.</p>
+<p>NOTE: We now wish different transects to be used on each repetition (<code>single.transect.set = FALSE</code>).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">parallel.design &lt;-<span class="st"> </span><span class="kw">make.design</span>(<span class="dt">transect.type =</span> <span class="st">&quot;Line&quot;</span>,
+                               <span class="dt">design.details =</span> <span class="kw">c</span>(<span class="st">&quot;Parallel&quot;</span>,<span class="st">&quot;Systematic&quot;</span>),
+                               <span class="dt">region.obj =</span> region, <span class="dt">design.axis =</span> <span class="dv">45</span>,
+                               <span class="dt">spacing =</span> <span class="dv">12000</span>, <span class="dt">plus.sampling =</span> <span class="ot">FALSE</span>,
+                               <span class="dt">path =</span> <span class="st">&quot;Survey Transects/Parallel Design&quot;</span>)
+
+my.simulation.parallel &lt;-<span class="st"> </span><span class="kw">make.simulation</span>(<span class="dt">reps =</span> <span class="dv">10</span>, 
+                                          <span class="dt">single.transect.set =</span> <span class="ot">FALSE</span>, 
+                                          <span class="dt">region.obj =</span> region, 
+                                          <span class="dt">design.obj =</span> parallel.design, 
+                                          <span class="dt">population.description.obj =</span> pop.description,
+                                          <span class="dt">detectability.obj =</span> detect,
+                                          <span class="dt">ddf.analyses.list =</span> ddf.analyses)</code></pre></div>
+<p>Having created the features of the simulation, we want to check features of the simulation have been correctly specified, see Figure <a href="creating-distance-sampling-simulations-using-dssim.html#fig:parallelcheck">4.4</a>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">check.sim.setup</span>(my.simulation.parallel)</code></pre></div>
+<div class="figure"><span id="fig:parallelcheck"></span>
+<img src="_main_files/figure-html/parallelcheck-1.png" alt="Check setup of parallel transect design simulation" width="672" />
+<p class="caption">
+Figure 4.4: Check setup of parallel transect design simulation
+</p>
+</div>
+<p>When satisfied with this simulation setup, you would proceed to run your parallel design simulation.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my.simulation.parallel  &lt;-<span class="st"> </span><span class="kw">run</span>(my.simulation.parallel)
+<span class="kw">summary</span>(my.simulation.parallel, <span class="dt">description.summary =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div id="zigzag-survey-design" class="section level3">
+<h3><span class="header-section-number">4.8.1</span> ZigZag survey design</h3>
+<p>Now have a go at creating and running a simulation using the equal spaced zigzag design transects in the “Zigzag Design” folder. The spacing used to generate these was 8250m on a design axis of 135 degrees. Use <code>?make.design</code> for help.</p>
+<p>Having created the features of the simulation, check the features of the simulation have been correctly specified (Fig. <a href="creating-distance-sampling-simulations-using-dssim.html#fig:zigzagcheck">4.5</a>).</p>
+<div class="figure"><span id="fig:zigzagcheck"></span>
+<img src="_main_files/figure-html/zigzagcheck-1.png" alt="Check setup of zigzag transect design simulation" width="672" />
+<p class="caption">
+Figure 4.5: Check setup of zigzag transect design simulation
+</p>
+</div>
+<p>When satisfied with this simulation setup, you would proceed to run your zigzag design simulation.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my.simulation.zigzag  &lt;-<span class="st"> </span><span class="kw">run</span>(my.simulation.zigzag)
+<span class="kw">summary</span>(my.simulation.zigzag)</code></pre></div>
+</div>
+</div>
+<div id="results-from-999-repetitions" class="section level2">
+<h2><span class="header-section-number">4.9</span> Results from 999 repetitions</h2>
+<p>I ran each of these simulations 999 times and stored the simulations as r objects. Load these into the R workspace using the following code:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;Results/simulation.subjective.robj&quot;</span>)
+<span class="kw">load</span>(<span class="st">&quot;Results/simulation.parallel.robj&quot;</span>)
+<span class="kw">load</span>(<span class="st">&quot;Results/simulation.zigzag.robj&quot;</span>)</code></pre></div>
+<p>The objects <code>simulation.subjective</code>, <code>simulation.parallel</code> and <code>simulation.zigzag</code> will now be in your workspace. Have a look at the results using the <code>summary()</code> function and use them to fill in the table below, Figure 4.5.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(simulation.subjective)
+<span class="kw">summary</span>(simulation.parallel)
+<span class="kw">summary</span>(simulation.zigzag)</code></pre></div>
+<p>Which survey design would you recommend? Why?<br />
+What would happen if our assumptions about animal distribution were incorrect?</p>
+<div class="figure">
+<img src="images/results.png" alt="Results Table" />
+<p class="caption">Results Table</p>
+</div>
+</div>
+<div id="running-distance-sampling-simulations-using-distance-7.1" class="section level2">
+<h2><span class="header-section-number">4.10</span> Running distance sampling simulations using Distance 7.1</h2>
+<p>If you would like to investigate different designs then these can be created and used in simulations in Distance 7.1. Note that currently the simulation options in Distance 7.1 are somewhat more restricted than in DSsim.</p>
+<p>We have created a Distance project based on the scenario just described and setup the systematic parallel and equal spaced zigzag designs as specified above. This project is named <code>DSsimExercis</code>e. This exercise will lead you through replicating the previous simulations in Distance, but you could choose to invesgitate different designs or even try out some simulations on your own study area if you prefer.</p>
+<p>If you wish to try out simulations on your own study area help on importing geographic data, creating designs and analyses can be found in the Distance manual.</p>
+</div>
+<div id="creating-simulations-in-distance" class="section level2">
+<h2><span class="header-section-number">4.11</span> Creating simulations in Distance</h2>
+<div id="simulation-details" class="section level3">
+<h3><span class="header-section-number">4.11.1</span> Simulation Details</h3>
+<p>Open the <code>DSsimExercise.dst</code> project and navigate to the Simulation Browser tab (on the far right, with the rabbit coming out of the hat). Now create a new simulation and give it a meaningful name. Open the details for this simulation, Figure 4.6.</p>
+<ul>
+<li>Select the <strong>design</strong> option for these simulations as we want to use a different survey (set of transects) in each iteration and then select which design to use from the dropdown menu.
+<ul>
+<li>Distance will generate the required number of surveys for the simulation. (Selecting the <strong>survey</strong> option will instruct Distance to use only a single set of transects for the whole simulation.)<br />
+</li>
+</ul></li>
+<li>Select a data filter with an absolute right truncation distance.
+<ul>
+<li>The truncation distance specified in the data filter will give the greatest perpendicular distance at which an observation can be made and the distance to which the detection function model(s) will be fitted.<br />
+</li>
+</ul></li>
+<li>Select one or more (mrds) models to fit to the simulated data. Here we can use the MADS HN v HR model definition (ID 3) to point to both the half-normal and hazard rate model definitions.
+<ul>
+<li>Use the Properties button to have a look at the MADS model definition properties, particularly the detection function tab.</li>
+<li>The model with the minimum AIC will be selected in each simulation iteration.</li>
+</ul></li>
+</ul>
+<div class="figure">
+<img src="images/details.png" alt="Simulation Details" />
+<p class="caption">Simulation Details</p>
+</div>
+</div>
+<div id="simulation-properties" class="section level3">
+<h3><span class="header-section-number">4.11.2</span> Simulation Properties</h3>
+<p>Now click on the Simulation ‘Properties’ button to set the other simulation properties. The Simulation tab (Figure 4.7) allows us to specify the geographic layer to use, in this example as we do not have strata we must select the global study region layer. Here we can also tell Distance how many times to repeat the simulation and set shapefile options. It is sensible to run the simulation only once in the first instance to check the setup is correct. The shapefile options allow us to tell Distance to save the shapefiles for use in subseqent simulations using the same design. This can save some processing time. If requested the shapefiles are stored in the project .dat folder under ‘Simulation/Simulation[ID]/shapefiles’.</p>
+<div class="figure">
+<img src="images/simulation.png" alt="Properties Pages: Simulation tab" />
+<p class="caption">Properties Pages: Simulation tab</p>
+</div>
+<p>Next we can define our density surface which describes animal distribution (Figure 4.8). As in exercise 1A we can select a grid spacing of 1000. Distance has more restricted options than DSsim. Currently we are only able to specify a constant density surface with hot/low spots. Note that this density surface is just giving Distance the relative (rather than absolute) densities.</p>
+<div class="figure">
+<img src="images/density.png" alt="Properties Pages: Density tab" />
+<p class="caption">Properties Pages: Density tab</p>
+</div>
+
+<p>The Population tab (Figure 4.9) currently only requires that we provide a population size, in this case 1500.</p>
+<div class="figure">
+<img src="images/population.png" alt="Properties Pages: Population tab" />
+<p class="caption">Properties Pages: Population tab</p>
+</div>
+<p>Next we describe the detectability of the animals. We will assume a half-normal detection function with sigma = 500m (Figure 4.10). The units of the detection function parameters must be the same as those of the study region and a reminder is provided below the table.</p>
+<div class="figure">
+<img src="images/detect.png" alt="Properties Pages: Detectability tab" />
+<p class="caption">Properties Pages: Detectability tab</p>
+</div>
+<p>Finally we can select some miscelaneous options. These do not affect the output seen within distance. The option to run the simulation in parallel can speed things up if running more than a few iterations. Saving the results from each iteration to file will create csv files with the individual estimates from each repetition. Saving an example dataset will create a csv file that is ready to be read into a distance project for analysis. These files are stored in the project .dat folder under ‘Simulation/Simulation[ID]’.</p>
+<p>Further instructions on setting up different simulations options can be found in the Distance manual.</p>
+</div>
+<div id="results" class="section level3">
+<h3><span class="header-section-number">4.11.3</span> Results</h3>
+<p>Solutions to this practical can be found in the DSsimExerciseSolutions.dst project. In this project both the parallel and zigzag design simulations have been run 100 times.</p>
+<p>Note that even though the designs were never initially run to estimate coverage, when a simulation is run this triggers the design to be run. Therefore, the design results give the coverage for the actual sets of transects used in the simulation.</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="problem-datasets.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="preparing-survey-data-for-spatial-analysis.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -7,7 +7,7 @@ The aim of this exercise is to run simulations which will allow you to compare t
 
 You will also need the following R packages installed on your machine: DSsim, shapefiles, splancs and mrds. Now examine the other files and folders in the "DSsim Exercise" folder. There are three files starting with the name "Region" and ending with .dbf, .shp and .shx, these files make up the shapefile for the survey region. The "density.surface.robj" file is the density surface for the survey region. The "Survey Transects" folder contains a folder for each of the designs you are asked to look at, these contain the transect shapefiles. The "Results" folder contains the results from 999 replications as this can take a good few hours to run. To setup the workspace first load the libraries DSsim and shapefiles, loading these two will automatically make splancs and mrds available.
 
-```{r setup, message=FALSE, warning=FALSE}
+```{r setupDSsim, message=FALSE, warning=FALSE}
 library(DSsim)
 library(shapefiles)
 ```
@@ -16,7 +16,7 @@ library(shapefiles)
 
 Read the Region shapefile into R using the read.shapefile function from the shapefiles library.
 
-```{r regionobj}
+```{r regionobjDSsim}
 region.shapefile <- read.shapefile("Region")
 ```
 
@@ -37,7 +37,7 @@ load("density.surface.robj")
 
 You will see that an object called "density.surface" has appeared in the workspace. This object is a list with one element (if the region had been divided up into strata then this list would contain an element for each strata). To have a look at what the density surface data look like type `head(density.surface[[1]])`. You can see that it is a data set of x and y locations and the densities at each point.
 
-To create the density object you will need to provide the density surface, the region object for which it was created and the grid spacing that was used. I used a grid spacing of 1,000 m in both the x and y directions to create this density surface. The density surface describing animal distribution is shown in Figure 2.
+To create the density object you will need to provide the density surface, the region object for which it was created and the grid spacing that was used. I used a grid spacing of 1,000 m in both the x and y directions to create this density surface. The density surface describing animal distribution is shown in Figure 4.2.
 
 ```{r popden, fig.cap="Study region with animal density superimposed\nNote lower density near the trail system"}
 pop.density <- make.density(region = region, density.surface = density.surface, 
@@ -108,32 +108,7 @@ my.simulation.subjective <- make.simulation(reps = 10,
                                             ddf.analyses.list = ddf.analyses)
 ```
 
-Before running the simulation it is a good idea to have a check to see that it is doing what you want. This little function will allow you to investigate the simulation properties. This function having created a population, transects, survey and detections, then plots them to assure you are happy with the simulation structure.
-
-```{r sim-components, comment=NA}
-check.sim.setup <- function(simsetup) {
-  #  small function to plot the simulation setup
-  #
-  #  input:
-  #     simsetup - object created by make.simulation()
-  #
-  #  output:
-  #     4-panel plot of study region with popn, study region with transects,
-  #     study region with detected objects, and histogram of detection distances
-  pop <- generate.population(simsetup)  #generate a population
-  transects <- generate.transects(simsetup)   #generate the transects
-  eg.survey <- create.survey.results(simsetup)  #simulate the survey process of detection
-  dist.data <- get.distance.data(eg.survey)  #look at distance data
-  par(mfrow = c(2,2))
-  plot(region)
-  plot(pop)
-  plot(region)
-  plot(transects, col = 4, lwd = 2)
-  plot(eg.survey)
-  hist(dist.data$distance, xlab = "Distance (m)", main = "Distance Data")
-  par(mfrow=c(1,1))
-  }
-```
+Before running the simulation it is a good idea to have a check to see that it is doing what you want. The function `check.sim.setup()` will allow you to investigate the simulation properties. Having created a population, transects, survey and detections, the function plots them to assure you are happy with the simulation structure.
 
 Let's check our subjective design simulation, see Figure \@ref(fig:plotsimul).
 
@@ -143,7 +118,7 @@ check.sim.setup(my.simulation.subjective)
 
 Once you are happy it is time to run the simulation. Please be patient as it will take a few minutes to complete.
 
-```{r conductsim, comment=NA, cache = TRUE}
+```{r conductsim, comment=NA, cache = TRUE, results='hide'}
 my.simulation.subjective  <- run(my.simulation.subjective)
 summary(my.simulation.subjective, description.summary = FALSE)
 ```
@@ -175,7 +150,7 @@ check.sim.setup(my.simulation.parallel)
 ```
 
 When satisfied with this simulation setup, you would proceed to run your parallel design simulation. 
-```{r parallel-run, cache = TRUE, comment=NA}
+```{r parallel-run, cache = TRUE, comment=NA, results='hide'}
 my.simulation.parallel  <- run(my.simulation.parallel)
 summary(my.simulation.parallel, description.summary = FALSE)
 ```
@@ -184,7 +159,7 @@ summary(my.simulation.parallel, description.summary = FALSE)
 ### ZigZag survey design
 Now have a go at creating and running a simulation using the equal spaced zigzag design transects in the "Zigzag Design" folder. The spacing used to generate these was 8250m on a design axis of 135 degrees. Use `?make.design` for help.
 
-```{r design-zigzag, echo=FALSE, eval=FALSE}
+```{r design-zigzag, echo=FALSE, eval=TRUE}
 zigzag.design <- make.design(transect.type = "Line",
                                design.details = c("Zigzag","Equal Spaced"),
                                region.obj = region, design.axis = 135,
@@ -201,7 +176,7 @@ my.simulation.zigzag <- make.simulation(reps = 10,
 ```
 Having created the features of the simulation, check the features of the simulation have been correctly specified (Fig. \@ref(fig:zigzagcheck)).
 
-```{r zigzagcheck, fig.cap="Check setup of zigzag transect design simulation", eval=FALSE, echo=FALSE}
+```{r zigzagcheck, fig.cap="Check setup of zigzag transect design simulation", eval=TRUE, echo=FALSE}
 check.sim.setup(my.simulation.zigzag)
 ```
 
@@ -222,7 +197,7 @@ load("Results/simulation.parallel.robj")
 load("Results/simulation.zigzag.robj")
 ```
 
-The objects `simulation.subjective`, `simulation.parallel` and `simulation.zigzag` will now be in your workspace. Have a look at the results using the `summary()` function and use them to fill in the table below, Figure 5.
+The objects `simulation.subjective`, `simulation.parallel` and `simulation.zigzag` will now be in your workspace. Have a look at the results using the `summary()` function and use them to fill in the table below, Figure 4.5.
 
 ```{r bluepeter-summaries, eval=FALSE}
 summary(simulation.subjective)
@@ -240,7 +215,7 @@ What would happen if our assumptions about animal distribution were incorrect?
 
 If you would like to investigate different designs then these can be created and used in simulations in Distance 7.1. Note that currently the simulation options in Distance 7.1 are somewhat more restricted than in DSsim. 
 
-We have created a Distance project based on Exercise 1A and setup the systematic parallel and equal spaced zigzag designs as specified above. This project is named DSsimExercise. This exercise will lead you through replicating the simulations in exercise 1A in Distance, but you could choose to invesgitate different designs or even try out some simulations on your own study area if you prefer. 
+We have created a Distance project based on the scenario just described and setup the systematic parallel and equal spaced zigzag designs as specified above. This project is named `DSsimExercis`e. This exercise will lead you through replicating the previous simulations in Distance, but you could choose to invesgitate different designs or even try out some simulations on your own study area if you prefer. 
 
 If you wish to try out simulations on your own study area help on importing geographic data, creating designs and analyses can be found in the Distance manual. 
 
@@ -248,30 +223,35 @@ If you wish to try out simulations on your own study area help on importing geog
 
 ### Simulation Details
 
-Open the DSsimExercise.dst project and navigate to the Simulation Browser tab (on the far right, with the rabbit coming out of the hat). Now create a new simulation and give it a meaningful name. Open the details for this simulation, Figure 6.     
-  1. Select the design option for these simulations as we want to use a different survey (set of transects) in each iteration and then select which design to use from the dropdown menu. Distance will now automatically generate the required number of surveys for the simulation. (Selecting the survey option will instruct Distance to use only a single set of transects for the whole simulation.)     
-  2. Now select a data filter with an absolute right truncation distance. The truncation distance specified in the data filter will give the greatest perpendicular distance at which an observation can be made and the distance to which the detection function model(s) will be fitted.     
-  3. Finally we can select one or more (mrds) models to fit to the simulated data. Here we can use the MADS HN v HR model definition (ID 3) to point to both the half-normal and hazard rate model definitions. Use the Properties button to have a look at the MADS model definition properties, particularly the detection function tab. Here we will see that the model with the minimum AIC will be selected in each simulation iteration. 
+Open the `DSsimExercise.dst` project and navigate to the Simulation Browser tab (on the far right, with the rabbit coming out of the hat). Now create a new simulation and give it a meaningful name. Open the details for this simulation, Figure 4.6.
+
+* Select the **design** option for these simulations as we want to use a different survey (set of transects) in each iteration and then select which design to use from the dropdown menu. 
+    + Distance will generate the required number of surveys for the simulation. (Selecting the **survey** option will instruct Distance to use only a single set of transects for the whole simulation.)     
+* Select a data filter with an absolute right truncation distance. 
+    + The truncation distance specified in the data filter will give the greatest perpendicular distance at which an observation can be made and the distance to which the detection function model(s) will be fitted.     
+* Select one or more (mrds) models to fit to the simulated data. Here we can use the MADS HN v HR model definition (ID 3) to point to both the half-normal and hazard rate model definitions. 
+    + Use the Properties button to have a look at the MADS model definition properties, particularly the detection function tab. 
+    + The model with the minimum AIC will be selected in each simulation iteration. 
 
 ![Simulation Details](images/details.png)
 
 ### Simulation Properties
 
-Now click on the Simulation 'Properties' button to set the other simulation properties. The Simulation tab (Figure 7) allows us to specify the geographic layer to use, in this example as we do not have strata we must select the global study region layer. Here we can also tell Distance how many times to repeat the simulation and set shapefile options. It is sensible to run the simulation only once in the first instance to check the setup is correct. The shapefile options allow us to tell Distance to save the shapefiles for use in subseqent simulations using the same design. This can save some processing time. If requested the shapefiles are stored in the project .dat folder under 'Simulation/Simulation[ID]/shapefiles'.    
+Now click on the Simulation 'Properties' button to set the other simulation properties. The Simulation tab (Figure 4.7) allows us to specify the geographic layer to use, in this example as we do not have strata we must select the global study region layer. Here we can also tell Distance how many times to repeat the simulation and set shapefile options. It is sensible to run the simulation only once in the first instance to check the setup is correct. The shapefile options allow us to tell Distance to save the shapefiles for use in subseqent simulations using the same design. This can save some processing time. If requested the shapefiles are stored in the project .dat folder under 'Simulation/Simulation[ID]/shapefiles'.    
 
 ![Properties Pages: Simulation tab](images/simulation.png)
 
-Next we can define our density surface which describes animal distribution (Figure 8). As in exercise 1A we can select a grid spacing of 1000. Distance has more restricted options than DSsim. Currently we are only able to specify a constant density surface with hot/low spots. Note that this density surface is just giving Distance the relative (rather than absolute) densities.    
+Next we can define our density surface which describes animal distribution (Figure 4.8). As in exercise 1A we can select a grid spacing of 1000. Distance has more restricted options than DSsim. Currently we are only able to specify a constant density surface with hot/low spots. Note that this density surface is just giving Distance the relative (rather than absolute) densities.    
 
 ![Properties Pages: Density tab](images/density.png)
 
 \newpage
 
-The Population tab (Figure 9) currently only requires that we provide a population size, in this case 1500.       
+The Population tab (Figure 4.9) currently only requires that we provide a population size, in this case 1500.       
 
 ![Properties Pages: Population tab](images/population.png)
 
-Next we describe the detectability of the animals. We will assume a half-normal detection function with sigma = 500m (Figure 10). The units of the detection function parameters must be the same as those of the study region and a reminder is provided below the table.            
+Next we describe the detectability of the animals. We will assume a half-normal detection function with sigma = 500m (Figure 4.10). The units of the detection function parameters must be the same as those of the study region and a reminder is provided below the table.            
 
 ![Properties Pages: Detectability tab](images/detect.png)
 

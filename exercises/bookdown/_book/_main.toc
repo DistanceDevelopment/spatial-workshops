@@ -1,0 +1,112 @@
+\contentsline {chapter}{Preface}{7}{chapter*.2}
+\contentsline {chapter}{\numberline {1}A hands on introduction to R tutorial}{9}{chapter.1}
+\contentsline {section}{\numberline {1.1}Introduction}{9}{section.1.1}
+\contentsline {section}{\numberline {1.2}Introduction to RStudio}{9}{section.1.2}
+\contentsline {section}{\numberline {1.3}A first session in RStudio}{10}{section.1.3}
+\contentsline {section}{\numberline {1.4}Types and classes of objects}{14}{section.1.4}
+\contentsline {section}{\numberline {1.5}Subsetting data}{16}{section.1.5}
+\contentsline {section}{\numberline {1.6}Mathematical functions and simple data calculations}{17}{section.1.6}
+\contentsline {section}{\numberline {1.7}Importing and exporting data}{18}{section.1.7}
+\contentsline {section}{\numberline {1.8}Graphics}{19}{section.1.8}
+\contentsline {section}{\numberline {1.9}Extending basic capabilities via packages}{21}{section.1.9}
+\contentsline {section}{\numberline {1.10}Linear regression}{22}{section.1.10}
+\contentsline {section}{\numberline {1.11}Some advanced capabilities of R}{24}{section.1.11}
+\contentsline {subsection}{\numberline {1.11.1}Simulation and random number generation}{24}{subsection.1.11.1}
+\contentsline {subsection}{\numberline {1.11.2}Writing your own functions}{25}{subsection.1.11.2}
+\contentsline {section}{\numberline {1.12}Wrap up}{26}{section.1.12}
+\contentsline {chapter}{\numberline {2}analyse simulated data set}{27}{chapter.2}
+\contentsline {section}{\numberline {2.1}Laura to prepare}{27}{section.2.1}
+\contentsline {chapter}{\numberline {3}Problem datasets}{29}{chapter.3}
+\contentsline {section}{\numberline {3.1}Len to prepare}{29}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}Blue monkey data set}{29}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {3.1.2}Odd spike data set}{29}{subsection.3.1.2}
+\contentsline {chapter}{\numberline {4}Creating distance sampling simulations using DSsim}{31}{chapter.4}
+\contentsline {section}{\numberline {4.1}Aim}{31}{section.4.1}
+\contentsline {section}{\numberline {4.2}Create a region object}{31}{section.4.2}
+\contentsline {section}{\numberline {4.3}Create a density object}{32}{section.4.3}
+\contentsline {section}{\numberline {4.4}Creating population description and detectability objects}{33}{section.4.4}
+\contentsline {section}{\numberline {4.5}Creating the survey design object}{33}{section.4.5}
+\contentsline {section}{\numberline {4.6}Creating the analyses object}{33}{section.4.6}
+\contentsline {section}{\numberline {4.7}Creating the simulation object}{34}{section.4.7}
+\contentsline {section}{\numberline {4.8}Now for the automated designs: Parallel lines}{35}{section.4.8}
+\contentsline {subsection}{\numberline {4.8.1}ZigZag survey design}{35}{subsection.4.8.1}
+\contentsline {section}{\numberline {4.9}Results from 999 repetitions}{36}{section.4.9}
+\contentsline {section}{\numberline {4.10}Running distance sampling simulations using Distance 7.1}{36}{section.4.10}
+\contentsline {section}{\numberline {4.11}Creating simulations in Distance}{37}{section.4.11}
+\contentsline {subsection}{\numberline {4.11.1}Simulation Details}{37}{subsection.4.11.1}
+\contentsline {subsection}{\numberline {4.11.2}Simulation Properties}{38}{subsection.4.11.2}
+\contentsline {subsection}{\numberline {4.11.3}Results}{40}{subsection.4.11.3}
+\contentsline {chapter}{\numberline {5}Preparing survey data for spatial analysis}{41}{chapter.5}
+\contentsline {section}{\numberline {5.1}Aims}{41}{section.5.1}
+\contentsline {section}{\numberline {5.2}Preamble}{41}{section.5.2}
+\contentsline {section}{\numberline {5.3}Load and arrange data}{41}{section.5.3}
+\contentsline {subsection}{\numberline {5.3.1}Segment data}{42}{subsection.5.3.1}
+\contentsline {subsection}{\numberline {5.3.2}Observation data}{43}{subsection.5.3.2}
+\contentsline {section}{\numberline {5.4}Save the data}{44}{section.5.4}
+\contentsline {chapter}{\numberline {6}Detection function fitting}{45}{chapter.6}
+\contentsline {section}{\numberline {6.1}Aims}{45}{section.6.1}
+\contentsline {section}{\numberline {6.2}Preamble}{45}{section.6.2}
+\contentsline {section}{\numberline {6.3}Load the data}{46}{section.6.3}
+\contentsline {section}{\numberline {6.4}Exploratory analysis}{47}{section.6.4}
+\contentsline {subsection}{\numberline {6.4.1}Distances}{47}{subsection.6.4.1}
+\contentsline {subsection}{\numberline {6.4.2}Size and distance}{47}{subsection.6.4.2}
+\contentsline {subsection}{\numberline {6.4.3}Distance and sea state}{48}{subsection.6.4.3}
+\contentsline {subsection}{\numberline {6.4.4}Survey effect}{48}{subsection.6.4.4}
+\contentsline {section}{\numberline {6.5}Fitting detection functions}{49}{section.6.5}
+\contentsline {subsection}{\numberline {6.5.1}Summaries}{50}{subsection.6.5.1}
+\contentsline {subsection}{\numberline {6.5.2}Goodness of fit}{50}{subsection.6.5.2}
+\contentsline {subsection}{\numberline {6.5.3}Plotting}{51}{subsection.6.5.3}
+\contentsline {section}{\numberline {6.6}Now you try\ldots {}}{52}{section.6.6}
+\contentsline {section}{\numberline {6.7}Model selection}{52}{section.6.7}
+\contentsline {subsubsection}{\numberline {6.7.0.1}A further note about model selection for the sperm whale data}{53}{subsubsection.6.7.0.1}
+\contentsline {subsection}{\numberline {6.7.1}Estimating abundance}{53}{subsection.6.7.1}
+\contentsline {subsubsection}{\numberline {6.7.1.1}Accounting for perception bias}{53}{subsubsection.6.7.1.1}
+\contentsline {subsection}{\numberline {6.7.2}Save model objects}{54}{subsection.6.7.2}
+\contentsline {chapter}{\numberline {7}Simple density surface models}{55}{chapter.7}
+\contentsline {section}{\numberline {7.1}Aims}{55}{section.7.1}
+\contentsline {section}{\numberline {7.2}Load the packages and data}{55}{section.7.2}
+\contentsline {section}{\numberline {7.3}Pre-model fitting}{56}{section.7.3}
+\contentsline {section}{\numberline {7.4}Fitting DSMs}{56}{section.7.4}
+\contentsline {subsection}{\numberline {7.4.1}Visualising output}{57}{subsection.7.4.1}
+\contentsline {subsection}{\numberline {7.4.2}Checking the model}{57}{subsection.7.4.2}
+\contentsline {subsection}{\numberline {7.4.3}Setting basis complexity}{58}{subsection.7.4.3}
+\contentsline {section}{\numberline {7.5}Estimated abundance as response}{59}{section.7.5}
+\contentsline {section}{\numberline {7.6}Univariate models}{59}{section.7.6}
+\contentsline {section}{\numberline {7.7}Tweedie response distribution}{59}{section.7.7}
+\contentsline {section}{\numberline {7.8}Save models}{59}{section.7.8}
+\contentsline {section}{\numberline {7.9}Extra credit}{60}{section.7.9}
+\contentsline {chapter}{\numberline {8}Advanced density surface models}{61}{chapter.8}
+\contentsline {section}{\numberline {8.1}Aims}{61}{section.8.1}
+\contentsline {section}{\numberline {8.2}Load data and packages}{61}{section.8.2}
+\contentsline {section}{\numberline {8.3}Exploratory analysis}{62}{section.8.3}
+\contentsline {section}{\numberline {8.4}Pre-model fitting}{63}{section.8.4}
+\contentsline {section}{\numberline {8.5}Our new friend \texttt {+}}{64}{section.8.5}
+\contentsline {subsection}{\numberline {8.5.1}Plot}{65}{subsection.8.5.1}
+\contentsline {subsection}{\numberline {8.5.2}Check}{66}{subsection.8.5.2}
+\contentsline {subsection}{\numberline {8.5.3}Select terms}{66}{subsection.8.5.3}
+\contentsline {subsection}{\numberline {8.5.4}Compare response distributions}{67}{subsection.8.5.4}
+\contentsline {section}{\numberline {8.6}Estimated abundance as a response}{67}{section.8.6}
+\contentsline {section}{\numberline {8.7}Concurvity}{67}{section.8.7}
+\contentsline {section}{\numberline {8.8}Sensitivity}{67}{section.8.8}
+\contentsline {subsection}{\numberline {8.8.1}Compare bivariate and additive spatial effects}{67}{subsection.8.8.1}
+\contentsline {section}{\numberline {8.9}Comparing models}{69}{section.8.9}
+\contentsline {section}{\numberline {8.10}Saving models}{70}{section.8.10}
+\contentsline {chapter}{\numberline {9}Prediction using fitted density surface models}{71}{chapter.9}
+\contentsline {section}{\numberline {9.1}Aims}{71}{section.9.1}
+\contentsline {section}{\numberline {9.2}Loading the packages and data}{71}{section.9.2}
+\contentsline {section}{\numberline {9.3}Loading prediction data}{72}{section.9.3}
+\contentsline {section}{\numberline {9.4}Save the prediction to a raster}{73}{section.9.4}
+\contentsline {section}{\numberline {9.5}Save prediction grid to \texttt {RData}}{74}{section.9.5}
+\contentsline {section}{\numberline {9.6}Extra credit}{74}{section.9.6}
+\contentsline {chapter}{\numberline {10}Estimating precision of predictions from density surface models}{75}{chapter.10}
+\contentsline {section}{\numberline {10.1}Aims}{75}{section.10.1}
+\contentsline {section}{\numberline {10.2}Load packages and data}{75}{section.10.2}
+\contentsline {section}{\numberline {10.3}Estimation of variance}{76}{section.10.3}
+\contentsline {section}{\numberline {10.4}Summarise multiple models}{76}{section.10.4}
+\contentsline {section}{\numberline {10.5}Plotting}{82}{section.10.5}
+\contentsline {section}{\numberline {10.6}Save the uncertainty maps to raster files}{84}{section.10.6}
+\contentsline {section}{\numberline {10.7}Extra credit}{84}{section.10.7}
+\contentsline {chapter}{\numberline {11}Mark-recapture distance sampling of golftees}{85}{chapter.11}
+\contentsline {section}{\numberline {11.1}Golf tee survey}{85}{section.11.1}
+\contentsline {section}{\numberline {11.2}Crabeater seal survey}{89}{section.11.2}
+\contentsline {chapter}{References}{91}{chapter*.3}
