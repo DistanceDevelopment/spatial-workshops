@@ -12,11 +12,7 @@ Why model abundance spatially?
 library(knitr)
 library(magrittr)
 library(viridis)
-opts_chunk$set(cache=TRUE, echo=FALSE)
-# load the sperm whale data
-#load("../spermwhale-analysis/df-models.RData")
-# remove the fitted models to avoid confusion
-#rm(df_hr, df_hr_ss)
+opts_chunk$set(cache=TRUE, echo=FALSE, out.width='\\textwidth', fig.height=10, fig.width=10)
 ```
 - Use more information
 - Greater explanatory power
@@ -28,8 +24,8 @@ Extra information
 
 ```{r loadtracks, results="hide"}
 library(rgdal)
-tracksEN <- readOGR("../spermwhale-analysis/Analysis.gdb", "EN_Trackline1")
-tracksGU <- readOGR("../spermwhale-analysis/Analysis.gdb", "GU_Trackline")
+tracksEN <- readOGR("../spermwhaledata/rawdata/Analysis.gdb", "EN_Trackline1")
+tracksGU <- readOGR("../spermwhaledata/rawdata/Analysis.gdb", "GU_Trackline")
 ```
 ```{r plottracks, cache=FALSE}
 library(ggplot2)
@@ -50,11 +46,11 @@ Extra information - depth
 
 ```{r loadcovars, results="hide"}
 library(raster)
-predictorStack <- stack(c("../spermwhale-analysis/Covariates_for_Study_Area/Depth.img", "../spermwhale-analysis/Covariates_for_Study_Area/GLOB/CMC/CMC0.2deg/analysed_sst/2004/20040601-CMC-L4SSTfnd-GLOB-v02-fv02.0-CMC0.2deg-analysed_sst.img","../spermwhale-analysis/Covariates_for_Study_Area/VGPM/Rasters/vgpm.2004153.hdf.gz.img"))
+predictorStack <- stack(c("../spermwhaledata/rawdata/Covariates_for_Study_Area/Depth.img", "../spermwhaledata/rawdata/Covariates_for_Study_Area/GLOB/CMC/CMC0.2deg/analysed_sst/2004/20040601-CMC-L4SSTfnd-GLOB-v02-fv02.0-CMC0.2deg-analysed_sst.img","../spermwhaledata/rawdata/Covariates_for_Study_Area/VGPM/Rasters/vgpm.2004153.hdf.gz.img"))
 names(predictorStack) <- c("Depth","SST","NPP")
 ```
 ```{r plotdepth}
-load("../spermwhale-analysis/sperm-data.RData")
+load("../spermwhaledata/R_import/spermwhale.RData")
 depthdat <- as.data.frame(predictorStack[[1]],xy=TRUE)
 depthdat <- depthdat[!is.na(depthdat$Depth),]
 library(plyr)
@@ -62,17 +58,20 @@ plotobs <- join(obs, segs, by="Sample.Label")
 p <- ggplot() +
       geom_tile(aes(x=x, y=y, fill=Depth), data=depthdat) + 
       geom_point(aes(x=x, y=y, size=size), alpha=0.6, data=plotobs) +
-      coord_equal() + scale_fill_viridis()
+      coord_equal() +
+      scale_fill_viridis() +
+      theme_minimal()
 print(p)
 ```
 
 Extra information - depth
 ==========================
 
-```{r plotdepth-notspat}
+```{r plotdepth-notspat, fig.width=10}
 p <- ggplot(plotobs)+
        geom_histogram(aes(Depth, weight=size)) +
-       xlab("Depth") + ylab("Aggregated counts")
+       xlab("Depth") + ylab("Aggregated counts") +
+       theme_minimal()
 print(p)
 ```
 ***
@@ -81,13 +80,14 @@ print(p)
 Extra information - SST
 ============================================
 
-```{r plotsst}
+```{r plotsst, fig.width=10}
 sstdat <- as.data.frame(predictorStack[[2]], xy=TRUE)
 sstdat <- sstdat[!is.na(sstdat$SST),]
 p <- ggplot() +
       geom_tile(aes(x=x, y=y, fill=SST), data=sstdat) + 
       geom_point(aes(x=x, y=y, size=size), alpha=0.6, data=plotobs) +
-      coord_equal() + scale_fill_viridis()
+      coord_equal() + scale_fill_viridis() +
+      theme_minimal()
 print(p)
 ```
 
@@ -95,10 +95,11 @@ print(p)
 Extra information - SST
 ============================================
 
-```{r plotsst-notspat}
+```{r plotsst-notspat, fig.width=10}
 p <- ggplot(plotobs)+
        geom_histogram(aes(SST, weight=size), binwidth=1) +
-       xlab("SST") + ylab("Aggregated counts")
+       xlab("SST") + ylab("Aggregated counts") +
+       theme_minimal()
 print(p)
 ```
 ***
@@ -151,7 +152,7 @@ type:section
 Effort
 ==========
 
-```{r tracks2}
+```{r tracks2, fig.width=10}
 print(p_maptr)
 ```
 ***
@@ -178,16 +179,18 @@ Smooth response
 ================
 
 ```{r plotsmooths, messages=FALSE}
-load("../spermwhale-analysis/count-models.RData")
+library(Distance)
 library(dsm)
-plot(dsm.nb.xy, select=2)
+df <- ds(dist, truncation=6000)
+dsm_tw_xy_depth <- dsm(count ~ s(x, y) + s(Depth), ddf.obj=df, observation.data=obs, segment.data=segs, family=tw())
+plot(dsm_tw_xy_depth, select=2)
 ```
 
 Explicit spatial effects
 ============================
 
 ```{r plot-spat-smooths, messages=FALSE}
-vis.gam(dsm.qp.xy, type="response", view=c("x","y"), plot.type="contour", main="")
+vis.gam(dsm_tw_xy_depth, view=c("x","y"), plot.type="contour", main="", asp=1, too.far=0.06)
 ```
 
 Predictions
@@ -198,13 +201,13 @@ Predictions over an arbitrary area
 ===================================
 
 ```{r predplot}
-load("../spermwhale-analysis/predgrid.RData")
-predgrid$Nhat <- predict(dsm.tw.xy, predgrid)
+predgrid$Nhat <- predict(dsm_tw_xy_depth, predgrid)
 p <- ggplot(predgrid) + 
       geom_tile(aes(x=x, y=y, fill=Nhat, width=10*1000, height=10*1000)) +
       coord_equal() +
-      labs(fill="Density")+
-      scale_fill_viridis()
+      labs(fill="Density") +
+      scale_fill_viridis() +
+      theme_minimal()
 print(p)
 ```
 ***
@@ -306,13 +309,9 @@ What do we need?
 - Segment data
 - Observation data to link segments to detections
 
-Jason demo of segmenting etc
+Example of spatial data in QGIS
 =====================================
 type:section
-
-- Show each table
-- Their relations
-- Spatial representation
 
 
 Recap
