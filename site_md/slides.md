@@ -23,25 +23,4 @@ Making predictions                          | [PDF](https://raw.githubuserconten
 Estimating variance                         | [PDF](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/slides/9-variance.pdf)             | [HTML](slides/9-variance.html)          | [Rpres](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/slides/9-variance.Rpres)
 Practical advice                            | [PDF](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/slides/xx-practical-advice.pdf)    | [HTML](slides/xx-practical-advice.html) | [Rpres](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/slides/xx-practical-advice.Rpres)
 Advanced topics                             | [PDF](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/slides/xx-advanced-topics.pdf)     | [HTML](slides/xx-advanced-topics.html) | [Rpres](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/slides/xx-advanced-topics.Rpres)
-Extrapolating (Laura Mannocci)              | [PDF](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/slides/extrapolation-mannocci.pdf) |  (none)                                   | (none)
-
-## Lab
-
-Lecture name                             |                                                      PDF                                                             |                      HTML               |             Rpres
------------------------------------------|----------------------------------------------------------------------------------------------------------------------|-----------------------------------------|---------------------------------------------------------------------------------------------------------------------------
-Software setup                           | [PDF](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/slides/Software_Setup.pdf)      | (none)                                   | (none)
-Lab 1                                    | [PDF](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/slides/Lab_1.pdf)      | (none)                                   | (none)
-
-## Building the slides yourself
-
-You'll need some extra R packages to get the code in the presentations to run. Issuing the following command should ensure that they work.
-
-```{r}
-install.packages(c("Distance", "RColorBrewer", "animation", "dsm", "ggplot2",
-                   "gridExtra", "knitr", "magrittr", "mgcv", "numDeriv",
-                   "plyr", "raster", "reshape2", "rgdal", "statmod", "tweedie",
-                   "viridis", "htmltools", "caTools", "bitops", "rmarkdown",
-                   "tweedie"))
-```
-Data used in the slides is in the `spermwhale-analysis` directory of [this github repository](https://github.com/distancedevelopment/spatial-workshops). It may well be easier to download all files in the repository (use the "Download ZIP" button in the right hand side) if you wish to rebuild the slides from scratch (using RStudio).
 
