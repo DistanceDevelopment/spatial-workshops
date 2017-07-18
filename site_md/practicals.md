@@ -8,19 +8,6 @@ layout: index
 
 Here you can find the exercises and solutions for the practical sessions during the course. All content is here and will remain here on the Distance website for future consultation.
 
-
-## R packages
-
-To ensure that the below practicals and their solutions run on your computer, ensure that the following R packages<sup>1</sup> are installed:
-
-```{r}
-install.packages(c("Distance", "dsm", "ggplot2", "knitr", "plyr",
-                   "raster", "reshape2", "rgdal", "viridis",
-                   "htmltools", "caTools", "bitops", "rmarkdown",
-                   "tweedie"))
-```
-
-
 ## Practicals
 
 Practicals are provided in both RMarkdown (`.Rmd`) and HTML format. RMarkdown can be opened in RStudio and the file "knitted" into the corresponding HTML.
@@ -37,7 +24,7 @@ If you wish to run the solution `.Rmd` files on your own machine, then please us
 Practical Description           | Exercise                                                                                                                                                                | Solutions                                                                                                               | Data
 --------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|-----------------------------------------------
 Fit detection functions         | [Rmd](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/exercises/1-detection-functions.Rmd) [HTML](practicals/1-detection-functions.html) | [Rmd](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/exercises/1-detection-functions-solutions.Rmd) [HTML](practicals/1-detection-functions-solutions.html) | [zipped `gdb`](practicals/Exercise_Day1.zip)
-Process data from ArcGIS in R   | [Rmd](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/exercises/process-geodata.Rmd) [HTML(1)](practicals/process-geodata-1.html)<sup>2</sup> [HTML(2)](practicals/process-geodata-2.html) | (none)           | Use as below<sup>3</sup>
+Process data from ArcGIS in R   | [Rmd](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/exercises/process-geodata.Rmd) [HTML(1)](practicals/process-geodata-1.html)<sup>1</sup> [HTML(2)](practicals/process-geodata-2.html) | (none)           | Use as below<sup>2</sup>
 Fitting simple DSMs             | [Rmd](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/exercises/2-simple-dsms.Rmd) [HTML](practicals/2-simple-dsms.html)         | [Rmd](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/exercises/2-simple-dsms-solutions.Rmd) [HTML](practicals/2-simple-dsms-solutions.html)                | [zipped `gdb`](practicals/Exercise_Day2.zip)
 Advanced DSMs                   | [Rmd](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/exercises/3-advanced-dsms.Rmd) [HTML](practicals/3-advanced-dsms.html)       | [Rmd](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/exercises/3-advanced-dsms-solutions.Rmd)       [HTML](practicals/3-advanced-dsms-solutions.html) | [zipped `gdb`](practicals/Exercise_Day3.zip)
 Predictions                     | [Rmd](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/exercises/4-prediction.Rmd) [HTML](practicals/4-prediction.html)          | [Rmd](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/exercises/4-prediction-solutions.Rmd) [HTML](practicals/4-prediction-solutions.html)    | [zipped `gdb`](practicals/Exercise_Day4.zip)
@@ -48,8 +35,7 @@ If you run into a problem running any of these examples, please report [an issue
 
 
 
-<sup>1</sup> You can get the latest versions of the distance sampling related R packages by installing them from GitHub. See [instructions here](https://github.com/distancedevelopment/dsm/wiki/LatestVersion).
-<sup>2</sup> You'll need to run the `process-geodata.Rmd` file before "Fitting simple DSMs" and again before "Advanced DSMs" to ensure that you have the updated covariates from the GIS. After "Advanced DSMs" the `sperm-whale.RData` file can be used for subsequent analyses.
-<sup>3</sup> `process-geodata.Rmd` is run either using data from "Fitting simple DSMs" or "Advanced DSMs".
+<sup>1</sup> You'll need to run the `process-geodata.Rmd` file before "Fitting simple DSMs" and again before "Advanced DSMs" to ensure that you have the updated covariates from the GIS. After "Advanced DSMs" the `sperm-whale.RData` file can be used for subsequent analyses.
+<sup>2</sup> `process-geodata.Rmd` is run either using data from "Fitting simple DSMs" or "Advanced DSMs".
 
 
