@@ -13,7 +13,6 @@ If you find a bug in the code, practicals and slides in this repository, please 
 
 - `slides` contains lecture slides in `.Rpres` and PDF formats
 * `exercises` contains the practical exercises used in the computer lab sessions
-- `spermwhale_analysis` contains @dill's quick analysis of the sperm whale data, all related data files
 * `site_md` contains the markdown files that are on `distancesampling.org`
 
 
