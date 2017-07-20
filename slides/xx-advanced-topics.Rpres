@@ -1,6 +1,5 @@
 Advanced topics
 ===============
-author: David L Miller & Jason J Roberts
 transition: none
 css: custom.css
 
@@ -138,6 +137,3 @@ Which covariates should we include?
 - Dynamic vs static variables
 - Spatial terms? Habitat models?
 
-Over to Jason and Laura...
-===========================
-type: section
