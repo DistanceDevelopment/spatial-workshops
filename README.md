@@ -15,6 +15,9 @@ If you find a bug in the code, practicals and slides in this repository, please 
 * `exercises` contains the practical exercises used in the computer lab sessions
 * `site_md` contains the markdown files that are on `distancesampling.org`
 
+# Building things
+
+To get things to build (like the slides), you'll need to clone the [spermwhaledata](https://github.com/DistanceDevelopment/spermwhaledata) repository into the top level directory here.
 
 # Tools
 
