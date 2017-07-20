@@ -17,6 +17,10 @@
   font-size: 1.2em;
 }
 
+.reveal pre code.r {
+  font-size: 1.5em;
+}
+
 div.bigq {
  font-size: 200%;
  line-height: normal;

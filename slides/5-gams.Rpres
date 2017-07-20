@@ -5,6 +5,24 @@ css: custom.css
 transition: none
 
 
+```{r setup, include=FALSE}
+library(knitr)
+library(magrittr)
+library(viridis)
+library(ggplot2)
+library(reshape2)
+library(animation)
+opts_chunk$set(cache=TRUE, echo=FALSE, fig.height=10, fig.width=10)
+```
+
+```{r initialmodeletc, echo=FALSE, message=FALSE, warning=FALSE}
+load("../spermwhaledata/R_import/spermwhale.RData")
+library(Distance)
+library(dsm)
+df <- ds(dist, truncation=6000)
+dsm_tw_xy_depth <- dsm(count ~ s(x, y) + s(Depth), ddf.obj=df, observation.data=obs, segment.data=segs, family=tw())
+```
+
 Overview
 =========
 
@@ -14,17 +32,6 @@ Overview
 - Fitting GAMs using `dsm`
 - Model checking
 
-```{r setup, include=FALSE}
-library(knitr)
-library(magrittr)
-library(viridis)
-library(ggplot2)
-library(reshape2)
-library(dsm)
-library(animation)
-opts_chunk$set(cache=TRUE, echo=FALSE)
-load("../spermwhale-analysis/count-models.RData")
-```
 
 What is a GAM?
 ===============
@@ -36,7 +43,7 @@ type:section
 1. *Collective noun used to refer to a group of whales, or rarely also of porpoises; a pod.*
 2. *(by extension) A social gathering of whalers (whaling ships).*
 
-(via Natalie Kelly, CSIRO. Seen in Moby Dick.)
+(via Natalie Kelly, AAD. Seen in Moby Dick.)
 
 Generalized Additive Models
 ============================
@@ -52,20 +59,8 @@ What does a model look like?
 - Model as sum of terms
 
 ```{r sumterms, fig.width=15}
-plot(dsm.nb,pages=1)
+plot(dsm_tw_xy_depth, pages=1, scheme=1)
 ```
-
-Mathematically...
-==================
-
-Taking the previous example...
-
-$$
-n_j = A_j\hat{p}_j \exp\left[ \beta_0 + s(\text{y}_j) + s(\text{Depth}_j) \right] + \epsilon_j
-$$
-
-where $\epsilon_j \sim N(0, \sigma^2)$, $\quad n_j\sim$ count distribution
-
 
 Mathematically...
 ==================
@@ -98,7 +93,7 @@ Count distributions
 =====================
 
 ```{r countshist}
-hist(dsm.nb.xy$data$count, xlab="Count", main="")
+hist(dsm_tw_xy_depth$data$count, xlab="Count", main="")
 ```
 ***
 - Response is a count (not not always integer)
@@ -143,7 +138,7 @@ for(i in 1:ncol(fymat)){
 - We are interested in $1 < q < 2$ 
 - (here $q = 1.2, 1.3, \ldots, 1.9$)
 
-Negative binomial
+Negative binomial distribution
 ==================
 
 ```{r negbin}
@@ -187,11 +182,15 @@ where $\epsilon_j \sim N(0, \sigma^2)$, $\quad n_j\sim$ count distribution
 Okay, but what about these "s" things?
 ====================================
 
-```{r n-covar}
-spdat <- dsm.nb.xy$data
+```{r n-covar, fig.height=12, fig.width=9}
+spdat <- dsm_tw_xy_depth$data
 spdat <- melt(spdat, id.vars = c("Sample.Label","count"), measure.vars = c("x","y"))
 p <- ggplot(spdat) +
       geom_point(aes(y=count,x=value)) +
+      theme_minimal() +
+      theme(strip.text=element_text(size=25),
+            axis.text.y=element_text(size=15)) + 
+      xlab("") + ylab("Count") +
       facet_wrap(~variable, ncol=1)
 print(p)
 ```
@@ -211,6 +210,7 @@ Straight lines vs. interpolation
 =================================
 
 ```{r wiggles}
+par(cex=1.5, lwd=1.75)
 library(mgcv)
 # hacked from the example in ?gam
 set.seed(2) ## simulate some data... 
@@ -224,8 +224,8 @@ b.justright <- gam(y~s(x2),data=dat)
 b.sp0 <- gam(y~s(x2, sp=0, k=50),data=dat)
 b.spinf <- gam(y~s(x2),data=dat, sp=1e10)
 
-curve(f2,0,1, col="blue", ylim=ylim)
-points(dat$x2, dat$y-mean(dat$y))
+curve(f2, 0, 1, col="blue", ylim=ylim)
+points(dat$x2, dat$y-mean(dat$y), pch=19, cex=0.8)
 
 ```
 ***
@@ -235,13 +235,36 @@ points(dat$x2, dat$y-mean(dat$y))
 
 Splines
 ========
+left: 55%
+
+```{r results='hide'}
+par(cex=1.5)
+set.seed(2)
+datb <- gamSim(1,n=400,dist="normal",scale=2)
+bb <- gam(y~s(x0, k=5, bs="cr"),data=datb)
+
+# main plot
+plot(bb, se=FALSE, ylim=c(-1, 1), lwd=3, asp=1/2)
+
+# plot each basis
+cf <- coef(bb)
+xp <- data.frame(x0=seq(0, 1, length.out=100))
+Xp <- predict(bb, newdata=xp, type="lpmatrix")
+
+for(i in 1:length(cf)){
+  cf_c <- cf
+  cf_c[-i] <- 0
+  cf_c[i] <- 1
+  lines(xp$x0, as.vector(Xp%*%cf_c), lty=i+1, lwd=2)
+}
+```
+
+*** 
 
 - Functions made of other, simpler functions
 - **Basis functions** $b_k$, estimate $\beta_k$ 
 - $s(x) = \sum_{k=1}^K \beta_k b_k(x)$
-- Makes the math(s) much easier
-
-<img src="images/addbasis.png">
+- Makes the maths much easier
 
 Measuring wigglyness
 ======================
@@ -258,7 +281,9 @@ Measuring wigglyness
 Wigglyness by derivatives
 ==========================
 
-```{r wigglyanim, results="hide"}
+```{r wigglyanim, results="hide", fig.width=12}
+par(cex=1.5, lwd=1.75)
+
 library(numDeriv)
 f2 <- function(x) 0.2*x^11*(10*(1-x))^6+10*(10*x)^3*(1-x)^10 - mean(dat$y)
 
@@ -370,18 +395,12 @@ where $\epsilon_j \sim N(0, \sigma^2)$, $\quad n_j\sim$ count distribution
 Your first DSM
 ===============
 
-```{r loaddat}
-load("../spermwhale-analysis/df-models.RData")
-load("../spermwhale-analysis/sperm-data.RData")
-```
 ```{r firstdsm, echo=TRUE}
 library(dsm)
-dsm_x_tw <- dsm(count~s(x), ddf.obj=df_hr,
+dsm_x_tw <- dsm(count~s(x), ddf.obj=df,
                 segment.data=segs, observation.data=obs,
-                family=tw(), method="REML")
+                family=tw())
 ```
-
-(`method="REML"` uses REML to select the smoothing parameter)
 
 `dsm` is based on `mgcv` by Simon Wood
 
@@ -412,9 +431,10 @@ Adding a term
 - Just use `+`
 ```{r xydsm, echo=TRUE}
 dsm_xy_tw <- dsm(count ~ s(x) + s(y),
-                 ddf.obj=df_hr,
-                 segment.data=segs, observation.data=obs,
-                 family=tw(), method="REML")
+                 ddf.obj=df,
+                 segment.data=segs,
+                 observation.data=obs,
+                 family=tw())
 ```
 
 Summary
@@ -427,8 +447,12 @@ summary(dsm_xy_tw)
 Plotting
 ================
 
-```{r plotsmooth-xy, fig.width=12, echo=TRUE}
-plot(dsm_xy_tw, scale=0, pages=1)
+```{r plotsmooth-xy1, eval=FALSE, echo=TRUE}
+plot(dsm_xy_tw, pages=1)
+```
+```{r plotsmooth-xy2, fig.width=25, echo=FALSE}
+par(cex.axis=2, lwd=2, cex.lab=2)
+plot(dsm_xy_tw, pages=1)
 ```
 - `scale=0`: each plot on different scale
 - `pages=1`: plot together
@@ -461,9 +485,10 @@ Bivariate spatial term
 
 ```{r xy-biv-dsm, echo=TRUE}
 dsm_xyb_tw <- dsm(count ~ s(x, y),
-                 ddf.obj=df_hr,
-                 segment.data=segs, observation.data=obs,
-                 family=tw(), method="REML")
+                 ddf.obj=df,
+                 segment.data=segs,
+                 observation.data=obs,
+                 family=tw())
 ```
 
 Summary
@@ -476,32 +501,47 @@ summary(dsm_xyb_tw)
 Plotting... erm...
 ================
 
-```{r plotsmooth-xy-biv}
+```{r plotsmooth-xy-biv1, eval=TRUE, fig.width=15, fig.height=17}
+par(cex.axis=2, lwd=2, cex.lab=2, cex=2)
+plot(dsm_xyb_tw, asp=1)
+```
+
+***
+
+```{r plotsmooth-xy-biv2, eval=FALSE, echo=TRUE}
 plot(dsm_xyb_tw)
 ```
 
 Let's try something different
 ===============================
 
-```{r visgam, echo=TRUE}
-vis.gam(dsm_xyb_tw, view=c("x","y"), plot.type="contour", too.far=0.1, asp=1)
+```{r twodee-p, echo=TRUE, eval=FALSE}
+plot(dsm_xyb_tw, select=1,
+     scheme=2, asp=1)
 ```
 - Still on link scale
 - `too.far` excludes points far from data
 
+***
+
+```{r twodee, echo=FALSE, fig.height=12}
+par(cex.axis=1.2, lwd=2, cex.lab=1.5, cex=2)
+plot(dsm_xyb_tw, select=1, scheme=2, asp=1)
+```
+
 Comparing bivariate and additive models
 ========================================
 
-```{r xy-x-y, fig.width=15}
+```{r xy-x-y, fig.width=28, fig.height=15}
 dsm_xy_nb <- dsm(count~s(x,y),
-                 ddf.obj=df_hr,
+                 ddf.obj=df,
                  segment.data=segs, observation.data=obs,
                  family=nb(), method="REML")
 dsm_x_y_nb <- dsm(count~s(x) +s(y),
-                  ddf.obj=df_hr,
+                  ddf.obj=df,
                   segment.data=segs, observation.data=obs,
                   family=nb(), method="REML")
-par(mfrow=c(1,2))
+par(cex.axis=1.2, lwd=2, cex.lab=1.5, cex=2, mfrow=c(1,2))
 vis.gam(dsm_xy_nb, plot.type = "contour", view=c("x","y"), zlim = c(-11,1), too.far=0.1, asp=1, main="Bivariate")
 vis.gam(dsm_x_y_nb, plot.type = "contour", view=c("x","y"), zlim = c(-11,1), too.far=0.1, asp=1, main="Additive")
 ```
@@ -519,6 +559,7 @@ Simon Wood
 Model checking
 ===============
 
+- Checking $\neq$ validation!
 - As with detection function, checking is important
 - Want to know the model conforms to assumptions
 - What assumptions should we check?
@@ -556,9 +597,9 @@ Increasing basis size
 ====================
 
 ```{r gamcheck-kplus-text, fig.keep="none", echo=TRUE}
-dsm_x_tw_k <- dsm(count~s(x, k=20), ddf.obj=df_hr,
+dsm_x_tw_k <- dsm(count~s(x, k=20), ddf.obj=df,
                   segment.data=segs, observation.data=obs,
-                  family=tw(), method="REML")
+                  family=tw())
 gam.check(dsm_x_tw_k)
 ```
 
@@ -581,7 +622,7 @@ What are residuals?
 
 - Generally residuals = observed value - fitted value
 - BUT hard to see patterns in these "raw" residuals
-- Need to standardise -- **deviance residuals**
+- Need to standardise $\Rightarrow$ **deviance residuals**
 - Residual sum of squares $\Rightarrow$ linear model
   - deviance $\Rightarrow$ GAM
 - Expect these residuals $\sim N(0,1)$
@@ -596,12 +637,12 @@ gam.check(dsm_x_tw)
 Shortcomings
 =============
 
-- `gam.check` left side can be helpful
-- Right side is victim of artifacts
+- `gam.check` can be helpful
+- "Resids vs. linear pred" is victim of artifacts
 - Need an alternative
 - "Randomised quanitle residuals" (*experimental*)
   - `rqgam.check`
-  - Exactly normal residuals (left side useless)
+  - Exactly normal residuals
 
 
 
@@ -616,7 +657,8 @@ rqgam.check(dsm_x_tw)
 Residuals vs. covariates
 =========================
 
-```{r covar-resids, fig.width=12}
+```{r covar-resids, fig.width=15}
+par(cex.axis=2, lwd=2, cex.lab=2)
 library(statmod)
 par(mfrow=c(1,2))
 plot(dsm_x_tw$data$x, residuals(dsm_x_tw), ylab="Deviance residuals", xlab="x")
@@ -627,7 +669,8 @@ plot(dsm_x_tw$data$x, qres.tweedie(dsm_x_tw), ylab="Randomised quantile residual
 Residuals vs. covariates (boxplots)
 =========================
 
-```{r covar-resids-boxplot, fig.width=12}
+```{r covar-resids-boxplot, fig.width=15}
+par(cex.axis=2, lwd=2, cex.lab=2, las=2)
 library(statmod)
 par(mfrow=c(1,2))
 
