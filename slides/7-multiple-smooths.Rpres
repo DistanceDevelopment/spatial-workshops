@@ -4,15 +4,6 @@ author: David L Miller
 css: custom.css
 transition: none
 
-
-Recap
-======
-
-- How GAMs work
-- How to include detection info
-- Simple spatial-only models
-- How to check those models
-
 ```{r setup, include=FALSE}
 library(knitr)
 library(magrittr)
@@ -21,12 +12,25 @@ library(ggplot2)
 library(reshape2)
 library(dsm)
 library(animation)
-opts_chunk$set(cache=TRUE, echo=FALSE)
-load("../spermwhale-analysis/count-models.RData")
-load("../spermwhale-analysis/df-models.RData")
-load("../spermwhale-analysis/sperm-data.RData")
-library(dsm)
+opts_chunk$set(cache=TRUE, echo=FALSE, fig.height=10, fig.width=10)
 ```
+
+```{r initialmodeletc, echo=FALSE, message=FALSE, warning=FALSE}
+load("../spermwhaledata/R_import/spermwhale.RData")
+library(Distance)
+library(dsm)
+df_hr <- ds(dist, truncation=6000, key="hr")
+dsm_tw_xy_depth <- dsm(count ~ s(x, y) + s(Depth), ddf.obj=df_hr, observation.data=obs, segment.data=segs, family=tw())
+```
+
+
+Recap
+======
+
+- How GAMs work
+- How to include detection info
+- Simple spatial-only models
+- How to check those models
 
 
 Univariate models are fun, but...
@@ -44,42 +48,6 @@ Ecology is not univariate
   - Response distribution
 - Large literature on model selection
 
-Tobler's first law of geography
-==================================
-type:section
-
-"Everything is related to everything else, but near things are more related than distant things"
-
-Tobler (1970)
-
-Implications of Tobler's law
-==============================
-
-```{r pairrrrs, fig.width=10}
-plot(segs[,c("x","y","SST","EKE","NPP","Depth")], pch=19, cex=0.4)
-```
-
-blah
-=====
-type:section
-title:none
-
-Covariates are not only correlated (linearly)...
-<br/>
-<br/>
-<br/>
-<br/>
-...they are also "concurve"
-
-
-What can we do about this?
-===========================
-
-- Careful inclusion of smooths
-- Fit models using robust criteria (REML)
-- Test for concurvity
-- Test for sensitivity
-
 Models with multiple smooths
 ===========================
 type:section
@@ -90,16 +58,16 @@ Adding smooths
 - Already know that `+` is our friend
 - Add everything then remove smooth terms?
 
-```{r add-term, echo=TRUE}
-dsm_all_tw <- dsm(count~s(x, y, bs="ts") +
-                        s(Depth, bs="ts") +
-                        s(DistToCAS, bs="ts") +
-                        s(SST, bs="ts") +
-                        s(EKE, bs="ts") +
-                        s(NPP, bs="ts"),
-                      ddf.obj=df_hr,
-                      segment.data=segs, observation.data=obs,
-                      family=tw(), method="REML")
+```{r add-all, echo=TRUE}
+dsm_all <- dsm(count~s(x, y) +
+                        s(Depth) +
+                        s(DistToCAS) +
+                        s(SST) +
+                        s(EKE) +
+                        s(NPP),
+                  ddf.obj=df_hr,
+                  segment.data=segs, observation.data=obs,
+                  family=tw())
 ```
 
 Now we have a huge model, what do we do?
@@ -109,26 +77,95 @@ type: section
 Smooth term selection
 ================
 
-- Classically two main approaches:
-  - Stepwise - path dependence
-  - All possible subsets - computationally expensive
+- Classically, two main approaches
+- Both have problems
+- Usually use $p$-values
+
+**Stepwise selection** - path dependence
+
+**All possible subsets** - computationally expensive (fishing?)
   
-
-Removing terms by shrinkage
-=============================
-
-- Remove smooths using a penalty (shrink the EDF)
-- Basis `"ts"` - thin plate splines with shrinkage
-- "Automatic"
-
+  
 p-values
 =================
 
-- $p$-values can be used
-- They are **approximate**
+- $p$-values can calculate
+- Test for zero effect of a smooth
+- They are **approximate** for GAMs (but useful)
 - Reported in `summary`
-- Generally useful though
 
+p-values example
+================
+
+```{r p-summary, echo=TRUE}
+summary(dsm_all)
+```
+
+
+Shrinkage or extra penalties
+=============================
+
+- Can "remove" terms during fitting, two methods
+- Basis `s(..., bs="ts")` - thin plate splines with shrinkage
+  - nullspace should be shrunk less than the wiggly part
+- `dsm(..., select=TRUE)` - extra penalty
+  - no assumption of how much to shrink the nullspace
+
+Shrinkage example
+=================
+
+```{r add-ts, echo=TRUE}
+dsm_ts_all <- dsm(count~s(x, y, bs="ts") +
+                        s(Depth, bs="ts") +
+                        s(DistToCAS, bs="ts") +
+                        s(SST, bs="ts") +
+                        s(EKE, bs="ts") +
+                        s(NPP, bs="ts"),
+                  ddf.obj=df_hr,
+                  segment.data=segs, observation.data=obs,
+                  family=tw())
+```
+
+Shrinkage example
+=================
+
+```{r ts-summary, echo=TRUE}
+summary(dsm_ts_all)
+```
+
+Extra penalty example
+=================
+
+```{r add-select, echo=TRUE}
+dsm_sel <- dsm(count~s(x, y) +
+                     s(Depth) +
+                     s(DistToCAS) +
+                     s(SST) +
+                     s(EKE) +
+                     s(NPP),
+                  ddf.obj=df_hr,
+                  segment.data=segs, observation.data=obs,
+                  family=tw(), select=TRUE)
+```
+
+Extra penalty example
+=================
+
+```{r select-summary, echo=TRUE}
+summary(dsm_sel)
+```
+
+EDF comparison
+==============
+
+```{r edf-comp}
+aa <- cbind(summary(dsm_all)$edf,
+            summary(dsm_sel)$edf,
+            summary(dsm_ts_all)$edf)
+rownames(aa) <- rownames(summary(dsm_sel)$s.table)
+colnames(aa) <- c("allterms", "select", "ts")
+print(round(aa, 4), digits=4)
+```
 
 Let's employ a mixture of these techniques
 ===========================================
@@ -143,6 +180,8 @@ How do we select smooth terms?
 2. Remove non-significant terms by $p$-value
   - Decide on a significance level and use that as a rule
 
+(In some sense leaving "shrunk" terms in is more "consistent", but can be computationally annoying)
+
 Example of selection
 ======================
 type: section
@@ -151,7 +190,7 @@ Selecting smooth terms
 ========================
 
 ```{r add-term-summary}
-summary(dsm_all_tw)
+summary(dsm_ts_all)
 ```
 
   
@@ -159,25 +198,14 @@ Shrinkage in action
 ====================
 
 ```{r smooth-shrinkage, fig.width=15}
-plot(dsm_all_tw, pages=1, scale=0)
+plot(dsm_ts_all, pages=1, scale=0)
 ```
 
 Same model with no shrinkage
 =============================
 
-```{r add-term-nots}
-dsm_all_tw_nots <- dsm(count~s(x, y) +
-                        s(Depth) +
-                        s(DistToCAS) +
-                        s(SST) +
-                        s(EKE) +
-                        s(NPP),
-                      ddf.obj=df_hr,
-                      segment.data=segs, observation.data=obs,
-                      family=tw(), method="REML")
-```
 ```{r smooth-no-shrinkage, fig.width=15}
-plot(dsm_all_tw_nots, pages=1, scale=0)
+plot(dsm_all, pages=1, scale=0)
 ```
 
 
@@ -234,6 +262,13 @@ Comparing models
 =================
 type: section
 
+Comparing models
+=================
+
+- Usually have >1 option
+- How can we pick?
+- Even if we have 1 model, is it any good?
+
 Nested vs. non-nested models
 ==============================
 
@@ -253,6 +288,16 @@ Measures of "fit"
 - Highest likelihood value (*saturated* model) minus estimated model value
 - (These are usually not very high for DSMs)
 
+AIC
+===
+
+- Can get AIC from our model
+- Comparison of AIC fine (but not the end of the story)
+
+```{r aic, echo=TRUE}
+AIC(dsm_all)
+AIC(dsm_ts_all)
+```
 
 A quick note about REML scores
 ================================
@@ -260,9 +305,10 @@ A quick note about REML scores
 - Use REML to select the smoothness
 - Can also use the score to do model selection
 - **BUT** only compare models with the same fixed effects
-  - (i.e. same "linear terms" in the model)
-- $\Rightarrow$ **All terms** must be penalised (e.g. `bs="ts"`)
-- Alternatively set `select=TRUE` in `gam()`
+  - (i.e., same "linear terms" in the model)
+- $\Rightarrow$ **All terms** must be penalised
+  - `bs="ts"` or `select=TRUE`
+
 
 
 Selecting between response distributions
@@ -274,19 +320,43 @@ Goodness of fit tests
 
 - Q-Q plots
 - Closer to the line == better
-```{r gof-qq, fig.width=15}
+```{r gof-qq, fig.width=18}
 dsm_x_nb <- dsm(count~s(x, bs="ts"),
                 ddf.obj=df_hr,
                 segment.data=segs, observation.data=obs,
                 family=nb(), method="REML")
-par(mfrow=c(1,2))
-qq.gam(dsm_all_tw, asp=1, main="Tweedie")
-qq.gam(dsm_x_nb, asp=1, main="Negative binomial")
+par(mfrow=c(1,2), cex.title=3, cex.axis=1.5, cex.lab=1.5, lwd=2)
+qq.gam(dsm_all, asp=1, main="Tweedie", cex=5)
+qq.gam(dsm_x_nb, asp=1, main="Negative binomial", cex=5)
 ```
 
-Going back to concurvity
-==========================
+
+Tobler's first law of geography
+==================================
 type:section
+
+"Everything is related to everything else, but near things are more related than distant things"
+
+Tobler (1970)
+
+Implications of Tobler's law
+==============================
+
+```{r pairrrrs, fig.width=10}
+plot(segs[,c("x","y","SST","EKE","NPP","Depth")], pch=19, cex=0.4)
+```
+
+blah
+=====
+type:section
+title:none
+
+Covariates are not only correlated (linearly)...
+<br/>
+<br/>
+<br/>
+<br/>
+...they are also "concurve"
 
 "How much can one smooth be approximated by one or more other smooths?"
 
@@ -294,7 +364,7 @@ Concurvity (model/smooth)
 =========================
 
 ```{r concurvity, echo=TRUE}
-concurvity(dsm_all_tw)
+concurvity(dsm_all)
 ```
 
 
@@ -302,39 +372,17 @@ Concurvity between smooths
 ===========================
 
 ```{r concurvity-all, echo=TRUE}
-concurvity(dsm_all_tw, full=FALSE)$estimate
+concurvity(dsm_all, full=FALSE)$estimate
 ```
 
 Visualising concurvity between terms
 ==========================
 
 ```{r concurvity-all-vis}
-vis.concurvity <- function(b, type="estimate"){
-  cc <- concurvity(b, full=FALSE)[[type]]
-  
-  diag(cc) <- NA
-  cc[lower.tri(cc)]<-NA
-  
-  layout(matrix(1:2, ncol=2), widths=c(5,1))
-  opar <- par(mar=c(5, 6, 5, 0) + 0.1)
-  # main plot
-  image(z=cc, x=1:ncol(cc), y=1:nrow(cc), ylab="", xlab="",
-        axes=FALSE, asp=1, zlim=c(0,1))
-  axis(1, at=1:ncol(cc), labels = colnames(cc), las=2)
-  axis(2, at=1:nrow(cc), labels = rownames(cc), las=2)
-  # legend
-  opar <- par(mar=c(5, 0, 4, 3) + 0.1)
-  image(t(matrix(rep(seq(0, 1, len=100), 2), ncol=2)),
-        x=1:3, y=1:101, zlim=c(0,1), axes=FALSE, xlab="", ylab="")
-  axis(4, at=seq(1,101,len=5), labels = round(seq(0,1,len=5),1), las=2)
-  par(opar)
-}
-
-vis.concurvity(dsm_all_tw)
+vis.concurvity(dsm_ts_all)
 ```
 ***
 - Previous matrix output visualised
-- Diagonal/lower triangle left out for clarity
 - High values (yellow) = BAD
 
 Path dependence
@@ -383,7 +431,7 @@ summary(dsm_no_depth)$s.table
 Comparison of spatial effects
 ===============================
 
-```{r sensitivity-vis, fig.width=12}
+```{r sensitivity-vis, fig.width=18}
 par(mfrow=c(1,2))
 vis.gam(dsm_all_tw_rm, view=c("x","y"), plot.type="contour", main="s(x,y) + s(Depth)", asp=1, too.far=0.1, zlim=c(-6, 2))
 vis.gam(dsm_no_depth, view=c("x","y"), plot.type="contour", main="s(x,y)+s(EKE)+s(NPP)", asp=1, too.far=0.1, zlim=c(-6, 2))
@@ -425,12 +473,12 @@ Comparing those three models...
 ================================
 
 ```{r sensitivity-table, results="asis"}
-sens <- data.frame(Name     = c("`s(x,y) + s(Depth)`",
+sens <- data.frame(Model    = c("`s(x,y) + s(Depth)`",
                                 "`s(x,y)+s(EKE)+s(NPP)`",
                                 "`s(SST)+s(Depth)`"),
-                   Rsq      = c(summary(dsm_all_tw_rm)$r.sq,
-                                summary(dsm_no_depth)$r.sq,
-                                summary(dsm_no_xy)$r.sq),
+                   AIC      = c(AIC(dsm_all_tw_rm),
+                                AIC(dsm_no_depth),
+                                AIC(dsm_no_xy)),
                    Deviance = c(summary(dsm_all_tw_rm)$dev.expl,
                                 summary(dsm_no_depth)$dev.expl,
                                 summary(dsm_no_xy)$dev.expl))
@@ -457,7 +505,7 @@ Recap
 - Adding smooths
 - Removing smooths
   - $p$-values
-  - shrinkage
+  - shrinkage/extra penalties
 - Comparing models
 - Comparing response distributions
 - Sensitivity
