@@ -105,12 +105,14 @@ summary(dsm_all)
 Shrinkage or extra penalties
 =============================
 
-- Can "remove" terms during fitting, two methods
+- Use penalty to remove terms during fitting
+- Two methods
 - Basis `s(..., bs="ts")` - thin plate splines with shrinkage
   - nullspace should be shrunk less than the wiggly part
 - `dsm(..., select=TRUE)` - extra penalty
   - no assumption of how much to shrink the nullspace
-
+  
+  
 Shrinkage example
 =================
 
@@ -167,6 +169,17 @@ colnames(aa) <- c("allterms", "select", "ts")
 print(round(aa, 4), digits=4)
 ```
 
+Double penalty can be slow
+===========================
+
+- Lots of smoothing parameters to estimate
+
+```{r numberofsmoopars, echo=TRUE}
+length(dsm_ts_all$sp)
+length(dsm_sel$sp)
+```
+
+
 Let's employ a mixture of these techniques
 ===========================================
 type: section
@@ -185,7 +198,7 @@ How do we select smooth terms?
 Example of selection
 ======================
 type: section
-http://www.kaysbar.co.uk/
+
 Selecting smooth terms
 ========================
 
@@ -219,9 +232,10 @@ dsm_all_tw_rm <- dsm(count~s(x, y, bs="ts") +
                         #s(SST, bs="ts") +
                         s(EKE, bs="ts"),#+
                         #s(NPP, bs="ts"),
-                      ddf.obj=df_hr,
-                      segment.data=segs, observation.data=obs,
-                      family=tw(), method="REML")
+                     ddf.obj=df_hr,
+                     segment.data=segs,
+                     observation.data=obs,
+                     family=tw())
 ```
 
 What does that look like?
