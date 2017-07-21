@@ -35,7 +35,7 @@ $$
 $$
 
 - $s_i$ are group/cluster sizes
-- $\hat{p}_i$ is the detection probability (from distance sampling)
+- $\hat{p}_i$ is the detection probability (from detection function)
 
 Hidden in this formula is a simple assumption
 =============================================
@@ -118,6 +118,7 @@ p_maptr <- ggplot()+
       geom_path(aes(x=long,y=lat, group=group), colour="red", data=tracksEN) + 
       geom_path(aes(x=long,y=lat, group=group), colour="blue", data=tracksGU)+
       geom_polygon(aes(x=long,y=lat, group=group), data=mapdata)+
+      theme_minimal() +
       coord_map(xlim=range(tracksEN$long, tracksGU$long)+c(-1,1),
                 ylim=range(tracksEN$lat, tracksGU$lat)+c(-1,1))
 print(p_maptr)
@@ -185,20 +186,11 @@ p <- ggplot(plotobs)+
 print(p)
 ```
 ***
-- NB this only shows segments where counts > 0
+- (only segments where counts > 0)
 
 
-blah
-==================
-title: false
-
-<div class="bigq">
-What is going on here?
-</div>
-
-
-"You should model that"
-=======================
+You should model that
+=====================
 type: section
 
 
@@ -220,11 +212,8 @@ Modelling requirements
 
 - Include detectability
 - Account for effort
-- Flexible
-- Explicit spatial terms
-- Interpretable effects
+- Flexible/interpretable effects
 - Predictions over an arbitrary area
-- Model validation
 
 
 Accounting for effort
@@ -319,8 +308,8 @@ Effective effort
 - "Adjusting for effort"
 - "Count model"
 
-Horvitz-Thompson estimates
-===========================
+Estimated abundance
+===================
 
 - Estimate H-T abundance per segment
 - Effort is area of each segment
@@ -334,10 +323,10 @@ Detectability and covariates
 =============================
 
 - 2 covariate "levels" in detection function
-  - "Observer"/"observation" -- change **within** transect
+  - "Observer"/"observation" -- change **within** segment
   - "Segment" -- change **between** segments
-- "Estimated abundance" lets us use observer-level covariates in detection function
 - "Count model" only lets us use segment-level covariates
+- "Estimated abundance" lets us use either
 
 When to use each approach?
 ============================

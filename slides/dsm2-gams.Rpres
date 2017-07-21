@@ -1,6 +1,5 @@
 Generalized Additive Models
 ============================
-author: David L Miller
 css: custom.css
 transition: none
 
@@ -30,7 +29,6 @@ Overview
 - What is smoothing?
 - How do GAMs work?
 - Fitting GAMs using `dsm`
-- Model checking
 
 
 What is a GAM?
@@ -342,11 +340,11 @@ Smoothing parameter
 =======================
 
 
-```{r wiggles-plot, fig.width=15}
+```{r wiggles-plot, fig.width=18, fig.height=10}
 # make three plots, w. estimated smooth, truth and data on each
-par(mfrow=c(1,3), cex.main=3.5)
+par(mfrow=c(1,3), lwd=2.6, cex=1.6, pch=19, cex.main=1.8)
 
-plot(b.justright, se=FALSE, ylim=ylim, main=expression(lambda*plain("= just right")))
+plot(b.justright, se=FALSE, ylim=ylim, main=expression(lambda*plain("= estimated")))
 points(dat$x2, dat$y-mean(dat$y))
 curve(f2,0,1, col="blue", add=TRUE)
 
@@ -369,9 +367,69 @@ How wiggly are things?
 - EDF < $k$
 - Set $k$ "large enough"
 
+
+Why GAMs are cool...
+================================================
+![](images/igam.jpg)
+***
+- Fancy smooths (cyclic, boundaries, ...)
+- Fancy responses (exp family and beyond!)
+- Random effects (by equivalence)
+- Markov random fields
+- Correlation structures
+- See Wood (2006/2017) for a handy intro
+
+
+
+
 Okay, that was a lot of theory...
 ==================================
 type:section
+
+
+Example data
+=========================
+type:section
+
+Example data
+============
+
+<img src="images/data_ships.png">
+
+Example data
+============
+
+<img src="images/observers.png">
+
+Sperm whales off the US east coast
+====================================
+
+<img src="images/spermwhale.png" width="100%">
+
+***
+
+- Hang out near canyons, eat squid
+- Surveys in 2004, US east coast
+- Combination of data from 2 NOAA cruises
+- Thanks to Debi Palka (NOAA NEFSC), Lance Garrison (NOAA SEFSC) for data. Jason Roberts (Duke University) for data prep.
+
+
+
+Model formulation
+=================
+
+- Pure spatial, pure environmental, mixed?
+- May have some prior knowledge
+  - Biology/ecology
+- What are drivers of distribution?
+- Inferential aim
+  - Abundance
+  - Ecology
+
+
+
+
+
 
 Fitting GAMs using dsm
 =========================
@@ -536,172 +594,16 @@ Comparing bivariate and additive models
 dsm_xy_nb <- dsm(count~s(x,y),
                  ddf.obj=df,
                  segment.data=segs, observation.data=obs,
-                 family=nb(), method="REML")
+                 family=nb())
 dsm_x_y_nb <- dsm(count~s(x) +s(y),
                   ddf.obj=df,
                   segment.data=segs, observation.data=obs,
-                  family=nb(), method="REML")
-par(cex.axis=1.2, lwd=2, cex.lab=1.5, cex=2, mfrow=c(1,2))
+                  family=nb())
+par(cex.axis=1.2, cex.main=4, lwd=2, cex.lab=1.8, cex=2, mfrow=c(1,2))
 vis.gam(dsm_xy_nb, plot.type = "contour", view=c("x","y"), zlim = c(-11,1), too.far=0.1, asp=1, main="Bivariate")
 vis.gam(dsm_x_y_nb, plot.type = "contour", view=c("x","y"), zlim = c(-11,1), too.far=0.1, asp=1, main="Additive")
 ```
 
-Model checking
-===============
-type:section
-
-<br/>
-<br/>
-*"perhaps the most important part of applied statistical modelling"*
-
-Simon Wood
-
-Model checking
-===============
-
-- Checking $\neq$ validation!
-- As with detection function, checking is important
-- Want to know the model conforms to assumptions
-- What assumptions should we check?
-
-What to check
-===============
-
-- Convergence (not usually an issue)
-- Basis size is big enough
-- Residuals
-
-
-Basis size
-===========
-type:section
-
-Basis size (k)
-===========
-
-- Set `k` per term
-- e.g. `s(x, k=10)` or `s(x, y, k=100)`
-- Penalty removes "extra" wigglyness
-  - *up to a point!*
-- (But computation is slower with bigger `k`)
-
-Checking basis size
-====================
-
-```{r gamcheck-text, fig.keep="none", echo=TRUE}
-gam.check(dsm_x_tw)
-```
-
-
-Increasing basis size
-====================
-
-```{r gamcheck-kplus-text, fig.keep="none", echo=TRUE}
-dsm_x_tw_k <- dsm(count~s(x, k=20), ddf.obj=df,
-                  segment.data=segs, observation.data=obs,
-                  family=tw())
-gam.check(dsm_x_tw_k)
-```
-
-Sometimes basis size isn't the issue...
-========================================
-
-- Generally, double `k` and see what happens
-- Didn't increase the EDF much here
-- Other things can cause low "`p-value`" and "`k-index`"
-- Increasing `k` can cause problems (nullspace)
-
-
-Don't throw away your residuals!
-==================================
-type:section
-
-
-What are residuals?
-====================
-
-- Generally residuals = observed value - fitted value
-- BUT hard to see patterns in these "raw" residuals
-- Need to standardise $\Rightarrow$ **deviance residuals**
-- Residual sum of squares $\Rightarrow$ linear model
-  - deviance $\Rightarrow$ GAM
-- Expect these residuals $\sim N(0,1)$
-
-Residual checking
-===================
-
-```{r gamcheck, results="hide"}
-gam.check(dsm_x_tw)
-```
-
-Shortcomings
-=============
-
-- `gam.check` can be helpful
-- "Resids vs. linear pred" is victim of artifacts
-- Need an alternative
-- "Randomised quanitle residuals" (*experimental*)
-  - `rqgam.check`
-  - Exactly normal residuals
-
-
-
-Randomised quantile residuals
-==============================
-
-
-```{r rqgamcheck}
-rqgam.check(dsm_x_tw)
-```
-
-Residuals vs. covariates
-=========================
-
-```{r covar-resids, fig.width=15}
-par(cex.axis=2, lwd=2, cex.lab=2)
-library(statmod)
-par(mfrow=c(1,2))
-plot(dsm_x_tw$data$x, residuals(dsm_x_tw), ylab="Deviance residuals", xlab="x")
-environment(dsm_x_tw$family$variance)$p <- dsm_x_tw$family$getTheta(TRUE)
-plot(dsm_x_tw$data$x, qres.tweedie(dsm_x_tw), ylab="Randomised quantile residuals", xlab="x")
-```
-
-Residuals vs. covariates (boxplots)
-=========================
-
-```{r covar-resids-boxplot, fig.width=15}
-par(cex.axis=2, lwd=2, cex.lab=2, las=2)
-library(statmod)
-par(mfrow=c(1,2))
-
-resid_dat <- data.frame(x     = dsm_x_tw$data$x,
-                        x_cut = cut(dsm_x_tw$data$x,
-                                    seq(min(dsm_x_tw$data$x),
-                                        max(dsm_x_tw$data$x),
-                                        len=20)),
-                        dres  = residuals(dsm_x_tw),
-                        qres  = qres.tweedie(dsm_x_tw))
-
-plot(dres~x_cut, data=resid_dat, ylab="Deviance residuals", xlab="x")
-plot(qres~x_cut, data=resid_dat, ylab="Randomised quantile residuals", xlab="x")
-```
-
-Example of "bad" plots
-=======================
-
-![Bad residual check plot from Wood 2006](images/badgam.png)
-
-Example of "bad" plots
-=======================
-
-![Bad residual check plot from Wood 2006](images/badgam-annotate.png)
-
-Residual checks
-================
-
-- Looking for patterns (not artifacts)
-- This can be tricky
-- Need to use a mixture of techniques
 
 
 Let's have a go...
