@@ -25,7 +25,7 @@
 <meta name="author" content="Laura Marshall, David L. Miller and Len Thomas">
 
 
-<meta name="date" content="2017-07-06">
+<meta name="date" content="2017-07-21">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -375,6 +375,14 @@ Figure 8.2: Relationship of segment counts to covariate values.
 ## 4 666646.3 10288.91            4
 ## 5 659459.2 10288.91            5
 ## 6 652547.2 10288.91            6</code></pre>
+<hr />
+<details> <summary>Distance 7 instructions</summary> Fitting complex gams using graphical interface:
+<ul>
+<li>
+There is nothing difficult about fitting these complex models. The graphical interface is of little help however, you must type the right-hand side of the model you wish to fit into the formula box, just as it is presented in the code snippet below. Much of the formula has scrolled out of the window (but it is there).<br> <img src="D7grabs/d7-dsm-complex.PNG">
+</ul>
+<p></details></p>
+<hr />
 <p>We can then fit a model with the available covariates in it, each as an <code>s()</code> term.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dsm_nb_xy_ms &lt;-<span class="st"> </span><span class="kw">dsm</span>(count<span class="op">~</span><span class="kw">s</span>(x,y, <span class="dt">bs=</span><span class="st">&quot;ts&quot;</span>) <span class="op">+</span>
 <span class="st">                       </span><span class="kw">s</span>(Depth, <span class="dt">bs=</span><span class="st">&quot;ts&quot;</span>) <span class="op">+</span>
@@ -556,6 +564,14 @@ Figure 8.5: Shape of depth covariate response with bivariate s(x,y) and univaria
             )
 
 }</code></pre></div>
+<hr />
+<details> <summary>Distance 7 instructions</summary> Model comparison using graphical interface:
+<ul>
+<li>
+The <code>Results Table</code> of Distance is good for making model comparisons. There are fewer metrics from which to choose, but metrics in the <code>Results Table</code> can be added or removed by using the right-most icon <img src="D7grabs/d7-dsm-icon.PNG"><br> <img src="D7grabs/d7-dsm-compare.PNG">
+</ul>
+<p></details></p>
+<hr />
 <p>We can make a list of the models and pass the list to the above function.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># add your models to this list!</span>
 model_list &lt;-<span class="st"> </span><span class="kw">list</span>(dsm_nb_x_y_ms, dsm_nb_xy_ms)

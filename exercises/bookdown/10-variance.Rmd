@@ -16,7 +16,7 @@ By the end of this practical, you should feel comfortable:
 ## Load packages and data
 
 ```{r pdfmakervar, echo=FALSE}
-pdf <- TRUE
+pdf <- FALSE
 ```
 
 

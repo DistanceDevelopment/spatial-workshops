@@ -3,14 +3,14 @@ title: "Intermediate distance sampling workshop - St Andrews 2017"
 author: "Laura Marshall, David L. Miller and Len Thomas"
 date: '`r Sys.Date()`'
 output:
-  bookdown::pdf_book: 
+  bookdown::gitbook: default
+  bookdown::pdf_book:
     includes:
       in_header: preamble.tex
-    keep_tex: TRUE
-  bookdown::gitbook: default
+    keep_tex: yes
 csl: chicago-au-yr.csl
-geometry: a4paper
 documentclass: book
+geometry: a4paper
 link-citations: yes
 linkcolor: blue
 css: details.css
@@ -19,7 +19,7 @@ bibliography: references.bib
 ---
 
 ```{r pdfmaker, echo=FALSE}
-pdf <- TRUE
+pdf <- FALSE
 ```
 
 # Preface {-}

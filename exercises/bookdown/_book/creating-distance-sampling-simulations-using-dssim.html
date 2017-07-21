@@ -25,7 +25,7 @@
 <meta name="author" content="Laura Marshall, David L. Miller and Len Thomas">
 
 
-<meta name="date" content="2017-07-06">
+<meta name="date" content="2017-07-21">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -251,19 +251,17 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
             <section class="normal" id="section-">
 <div id="creating-distance-sampling-simulations-using-dssim" class="section level1">
 <h1><span class="header-section-number">4</span> Creating distance sampling simulations using DSsim</h1>
-<blockquote>
-<p>Assumes home directory is directory in which exercise has been expanded</p>
-</blockquote>
+<p>If you prefer to perform simulations using Distance 7.1, please skip ahead to the section <a href="creating-distance-sampling-simulations-using-dssim.html#running-distance-sampling-simulations-using-distance-7.1">Running distance sampling simulations using Distance 7.1</a>.</p>
 <div id="aim" class="section level2">
 <h2><span class="header-section-number">4.1</span> Aim</h2>
 <p>The aim of this exercise is to run simulations which will allow you to compare three different survey designs for a specific population. You should judge these designs on their accuracy and precision.</p>
-<p>You will also need the following R packages installed on your machine: DSsim, shapefiles, splancs and mrds. Now examine the other files and folders in the “DSsim Exercise” folder. There are three files starting with the name “Region” and ending with .dbf, .shp and .shx, these files make up the shapefile for the survey region. The “density.surface.robj” file is the density surface for the survey region. The “Survey Transects” folder contains a folder for each of the designs you are asked to look at, these contain the transect shapefiles. The “Results” folder contains the results from 999 replications as this can take a good few hours to run. To setup the workspace first load the libraries DSsim and shapefiles, loading these two will automatically make splancs and mrds available.</p>
+<p>You will also need the following R packages installed on your machine: <code>DSsim</code>, <code>shapefiles</code>, <code>splancs</code> and <code>mrds</code>. Now examine the other files and folders in the “DSsim Exercise” folder. There are three files starting with the name “Region” and ending with .dbf, .shp and .shx, these files make up the shapefile for the survey region. The “density.surface.robj” file is the density surface for the survey region. The “Survey Transects” folder contains a folder for each of the designs you are asked to look at, these contain the transect shapefiles. The “Results” folder contains the results from 999 replications as this can take a good few hours to run. To setup the workspace first load the packages <code>DSsim</code> and <code>shapefiles</code>, loading these two will automatically make <code>splancs</code> and <code>mrds</code> available.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(DSsim)
 <span class="kw">library</span>(shapefiles)</code></pre></div>
 </div>
 <div id="create-a-region-object" class="section level2">
 <h2><span class="header-section-number">4.2</span> Create a region object</h2>
-<p>Read the Region shapefile into R using the read.shapefile function from the shapefiles library.</p>
+<p>Read the Region shapefile into R using the <code>read.shapefile()</code> function from the <code>shapefiles</code> package.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">region.shapefile &lt;-<span class="st"> </span><span class="kw">read.shapefile</span>(<span class="st">&quot;Region&quot;</span>)</code></pre></div>
 <p>Next you are going to create the region object using this shapefile. As there are no strata you only need to provide a name for your survey region and the units which are in metres (m). The survey region is displayed in Figure <a href="creating-distance-sampling-simulations-using-dssim.html#fig:finishreg">4.1</a>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">region &lt;-<span class="st"> </span><span class="kw">make.region</span>(<span class="dt">region.name =</span> <span class="st">&quot;Survey Region&quot;</span>, <span class="dt">units =</span> <span class="st">&quot;m&quot;</span>, 
@@ -280,8 +278,8 @@ Figure 4.1: Study region for simulation
 <h2><span class="header-section-number">4.3</span> Create a density object</h2>
 <p>You are now going to create a density object within this region. For the purposes of this exercise a density surface has already been created and can be loaded as follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;density.surface.robj&quot;</span>)</code></pre></div>
-<p>You will see that an object called “density.surface” has appeared in the workspace. This object is a list with one element (if the region had been divided up into strata then this list would contain an element for each strata). To have a look at what the density surface data look like type <code>head(density.surface[[1]])</code>. You can see that it is a data set of x and y locations and the densities at each point.</p>
-<p>To create the density object you will need to provide the density surface, the region object for which it was created and the grid spacing that was used. I used a grid spacing of 1,000 m in both the x and y directions to create this density surface. The density surface describing animal distribution is shown in Figure 4.2.</p>
+<p>You will see that an object called <code>density.surface</code> has appeared in the workspace. This object is a list with one element (if the region had been divided up into strata then this list would contain an element for each strata). To have a look at what the density surface data look like type <code>head(density.surface[[1]])</code>. You can see that it is a data set of x and y locations and the densities at each point.</p>
+<p>To create the density object you will need to provide the density surface, the region object for which it was created and the grid spacing that was used. I used a grid spacing of 1000m in both the x and y directions to create this density surface. The density surface describing animal distribution is shown in Figure 4.2.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pop.density &lt;-<span class="st"> </span><span class="kw">make.density</span>(<span class="dt">region =</span> region, <span class="dt">density.surface =</span> density.surface, 
                             <span class="dt">x.space =</span> <span class="dv">1000</span>, <span class="dt">y.space =</span> <span class="dv">1000</span>) 
 <span class="kw">plot</span>(pop.density, <span class="dt">plot.units =</span> <span class="st">&quot;km&quot;</span>)
@@ -308,7 +306,7 @@ alternative.density &lt;-<span class="st"> </span><span class="kw">add.hotspot</
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pop.description &lt;-<span class="st"> </span><span class="kw">make.population.description</span>(<span class="dt">region.obj =</span> region, 
                                                <span class="dt">density.obj =</span> pop.density, 
                                                <span class="dt">N =</span> <span class="dv">1500</span>, <span class="dt">fixed.N =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<p>We will now describe the detectability of the population using a half-normal function with a sigma (scale.param) of 500 m and a truncation distance of 1000 m. This means that around 2/3 of the detections will be made within 500 m of the transect and we will exclude anything sighted further than 1000 m perpendicular distance from the transect.</p>
+<p>We will now describe the detectability of the population using a half-normal function with a sigma (scale.param) of 500m and a truncation distance of 1000m. This means that around 2/3 of the detections will be made within 500m of the transect and we will exclude anything sighted further than 1000m perpendicular distance from the transect.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">detect &lt;-<span class="st"> </span><span class="kw">make.detectability</span>(<span class="dt">key.function =</span> <span class="st">&quot;hn&quot;</span>, <span class="dt">scale.param =</span> <span class="dv">500</span>, <span class="dt">truncation =</span> <span class="dv">1000</span>)</code></pre></div>
 </div>
 <div id="creating-the-survey-design-object" class="section level2">
@@ -397,7 +395,7 @@ Figure 4.5: Check setup of zigzag transect design simulation
 </div>
 <div id="results-from-999-repetitions" class="section level2">
 <h2><span class="header-section-number">4.9</span> Results from 999 repetitions</h2>
-<p>I ran each of these simulations 999 times and stored the simulations as r objects. Load these into the R workspace using the following code:</p>
+<p>I ran each of these simulations 999 times and stored the simulations as R objects. Load these into the R workspace using the following code:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;Results/simulation.subjective.robj&quot;</span>)
 <span class="kw">load</span>(<span class="st">&quot;Results/simulation.parallel.robj&quot;</span>)
 <span class="kw">load</span>(<span class="st">&quot;Results/simulation.zigzag.robj&quot;</span>)</code></pre></div>
@@ -415,7 +413,7 @@ What would happen if our assumptions about animal distribution were incorrect?</
 <div id="running-distance-sampling-simulations-using-distance-7.1" class="section level2">
 <h2><span class="header-section-number">4.10</span> Running distance sampling simulations using Distance 7.1</h2>
 <p>If you would like to investigate different designs then these can be created and used in simulations in Distance 7.1. Note that currently the simulation options in Distance 7.1 are somewhat more restricted than in DSsim.</p>
-<p>We have created a Distance project based on the scenario just described and setup the systematic parallel and equal spaced zigzag designs as specified above. This project is named <code>DSsimExercis</code>e. This exercise will lead you through replicating the previous simulations in Distance, but you could choose to invesgitate different designs or even try out some simulations on your own study area if you prefer.</p>
+<p>We have created a Distance project based on the scenario just described and setup the systematic parallel and equal spaced zigzag designs as specified above. This project is named <code>DSsimExercise</code>. This exercise will lead you through replicating the previous simulations in Distance, but you could choose to investigate different designs or even try out some simulations on your own study area if you prefer.</p>
 <p>If you wish to try out simulations on your own study area help on importing geographic data, creating designs and analyses can be found in the Distance manual.</p>
 </div>
 <div id="creating-simulations-in-distance" class="section level2">
@@ -447,7 +445,7 @@ What would happen if our assumptions about animal distribution were incorrect?</
 </div>
 <div id="simulation-properties" class="section level3">
 <h3><span class="header-section-number">4.11.2</span> Simulation Properties</h3>
-<p>Now click on the Simulation ‘Properties’ button to set the other simulation properties. The Simulation tab (Figure 4.7) allows us to specify the geographic layer to use, in this example as we do not have strata we must select the global study region layer. Here we can also tell Distance how many times to repeat the simulation and set shapefile options. It is sensible to run the simulation only once in the first instance to check the setup is correct. The shapefile options allow us to tell Distance to save the shapefiles for use in subseqent simulations using the same design. This can save some processing time. If requested the shapefiles are stored in the project .dat folder under ‘Simulation/Simulation[ID]/shapefiles’.</p>
+<p>Now click on the Simulation ‘Properties’ button to set the other simulation properties. The Simulation tab (Figure 4.7) allows us to specify the geographic layer to use, in this example as we do not have strata we must select the global study region layer. Here we can also tell Distance how many times to repeat the simulation and set shapefile options. It is sensible to run the simulation only once in the first instance to check the setup is correct. The shapefile options allow us to tell Distance to save the shapefiles for use in subsequent simulations using the same design. This can save some processing time. If requested the shapefiles are stored in the project .dat folder under ‘Simulation/Simulation[ID]/shapefiles’.</p>
 <div class="figure">
 <img src="images/simulation.png" alt="Properties Pages: Simulation tab" />
 <p class="caption">Properties Pages: Simulation tab</p>
@@ -468,7 +466,7 @@ What would happen if our assumptions about animal distribution were incorrect?</
 <img src="images/detect.png" alt="Properties Pages: Detectability tab" />
 <p class="caption">Properties Pages: Detectability tab</p>
 </div>
-<p>Finally we can select some miscelaneous options. These do not affect the output seen within distance. The option to run the simulation in parallel can speed things up if running more than a few iterations. Saving the results from each iteration to file will create csv files with the individual estimates from each repetition. Saving an example dataset will create a csv file that is ready to be read into a distance project for analysis. These files are stored in the project .dat folder under ‘Simulation/Simulation[ID]’.</p>
+<p>Finally we can select some miscellaneous options. These do not affect the output seen within distance. The option to run the simulation in parallel can speed things up if running more than a few iterations. Saving the results from each iteration to file will create csv files with the individual estimates from each repetition. Saving an example dataset will create a csv file that is ready to be read into a distance project for analysis. These files are stored in the project .dat folder under ‘Simulation/Simulation[ID]’.</p>
 <p>Further instructions on setting up different simulations options can be found in the Distance manual.</p>
 </div>
 <div id="results" class="section level3">

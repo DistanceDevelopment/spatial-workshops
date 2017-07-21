@@ -25,7 +25,7 @@
 <meta name="author" content="Laura Marshall, David L. Miller and Len Thomas">
 
 
-<meta name="date" content="2017-07-06">
+<meta name="date" content="2017-07-21">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -422,6 +422,29 @@ Figure 6.4: Effect of survey upon detection distances.
 <li><code>formula=</code>: gives the formula to use for the scale parameter. By default it takes the value <code>~1</code>, meaning the scale parameter is constant and not a function of covariates.</li>
 <li><code>order=</code>: specifies the “order” of the adjustments to be used. This is a number (or vector of numbers) specifying the order of the terms. For example <code>order=2</code> fits order 2 adjustments, <code>order=c(2,3)</code> will fit a model with order 2 and 3 adjustments (mathematically, it only makes sense to include order 3 with order 2). By default the value is <code>NULL</code> which has <code>ds()</code> select the number of adjustments by AIC.</li>
 </ul>
+<hr />
+<details> <summary>Distance 7 instructions</summary> Steps to fit detection function using graphical interface
+<ol>
+<li>
+Distance 7 project has been created for you and can be opened from a .zip archive
+<ul>
+<li>
+Spend time examining the structure of data in the Data tab.
+</ul>
+<img src="D7grabs/d7open-project.PNG">
+<li>
+Move to the Analysis tab.
+<li>
+Create a new analysis.
+<li>
+Create a data filter to set the truncation distance to 6000m. <img src="D7grabs/d7trunc.PNG">
+<li>
+Create a model specifying MRDS analysis engine with half-normal detection function. <img src="D7grabs/d7detfn.PNG">
+<li>
+Press <code>Run</code> and examine contents of output window. The results should be identical to those produced in the Summaries section below.
+</ol>
+<p></details></p>
+<hr />
 <div id="summaries" class="section level3">
 <h3><span class="header-section-number">6.5.1</span> Summaries</h3>
 <p>We can look at the summary of the fitted detection function using the <code>summary()</code> function:</p>
