@@ -1,0 +1,523 @@
+Making predictions
+========================================
+css: custom.css
+transition: none
+
+```{r setup, include=FALSE}
+library(knitr)
+library(magrittr)
+library(viridis)
+library(ggplot2)
+library(reshape2)
+library(dsm)
+library(animation)
+opts_chunk$set(cache=TRUE, echo=FALSE)
+```
+
+
+```{r initialmodeletc, echo=FALSE, message=FALSE, warning=FALSE}
+load("../spermwhaledata/R_import/spermwhale.RData")
+library(Distance)
+library(dsm)
+df_hr <- ds(dist, truncation=6000, key="hr")
+dsm_tw_xy_depth <- dsm(count ~ s(x, y) + s(Depth), ddf.obj=df_hr, observation.data=obs, segment.data=segs, family=tw())
+# fit a quick model from previous exericises
+dsm_all_tw_rm <- dsm(count~s(x, y, bs="ts") +
+                           s(Depth, bs="ts"),
+                     ddf.obj=df_hr,
+                     segment.data=segs, observation.data=obs,
+                     family=tw(), method="REML")
+```
+
+
+So far...
+==========
+
+- Build, check & select models for detectability
+- Build, check & select models for abundance
+- Make some ecological inference about smooths
+- **What about predictions?**
+
+Let's talk about maps
+======================
+type:section
+
+What does a map mean?
+======================
+left: 45%
+
+```{r predmap1}
+predgrid$Nhat_tw <- predict(dsm_all_tw_rm, predgrid)
+p <- ggplot(predgrid) +
+      geom_tile(aes(x=x, y=y, fill=Nhat_tw)) +
+      scale_fill_viridis() +
+      theme_minimal() +
+      theme(legend.position="bottom") +
+      coord_equal()
+print(p)
+```
+
+***
+
+- Grids!
+- Cells are abundance estimate
+- "snapshot"
+- Sum cells to get abundance
+- Sum a subset?
+
+Going back to the formula
+==================
+
+(Count) Model:
+
+$$
+n_j = A_j\hat{p}_j \exp\left[ \beta_0 + s(\text{y}_j) + s(\text{Depth}_j) \right] + \epsilon_j
+$$
+
+Predictions (index $r$):
+
+$$
+n_r = A_r \exp\left[ \beta_0 + s(\text{y}_r) + s(\text{Depth}_r) \right]
+$$
+
+Need to "fill-in" values for $A_r$, $\text{y}_r$ and $\text{Depth}_r$.
+
+
+Predicting
+============
+
+- With these values can use `predict` in R
+- `predict(model, newdata=data)`
+
+
+
+
+Prediction data
+================
+
+```{r preddata}
+head(predgrid)
+```
+
+A quick word about rasters
+==========================
+
+- We have talked about rasters a bit
+- In R, the `data.frame` is king
+- Fortunately `as.data.frame` exists
+- Make our "stack" and then convert to `data.frame`
+
+
+Predictors
+========================
+
+```{r preddata-plot, fig.width=16, fig.height=16}
+library(gridExtra)
+p1 <- ggplot(predgrid[,c("x","y","Depth")]) +
+      geom_tile(aes(x=x,y=y,fill=Depth)) +
+      scale_fill_viridis() +
+      theme_minimal() +
+      theme(legend.position="bottom", legend.title=element_text(size=25)) +
+      coord_equal()
+p2 <- ggplot(predgrid[,c("x","y","NPP")]) +
+      geom_tile(aes(x=x,y=y,fill=NPP)) +
+      scale_fill_viridis() +
+      theme_minimal() +
+      theme(legend.position="bottom", legend.title=element_text(size=25)) +
+      coord_equal()
+p3 <- ggplot(predgrid[,c("x","y","SST")]) +
+      geom_tile(aes(x=x,y=y,fill=SST)) +
+      scale_fill_viridis() +
+      theme_minimal() +
+      theme(legend.position="bottom", legend.title=element_text(size=25)) +
+      coord_equal()
+grid.arrange(p1, p2, p3, ncol=2,nrow=2)
+```
+
+
+Making a prediction
+====================
+
+- Add another column to the prediction data
+- Plotting then easier (in R)
+
+```{r predictions, echo=TRUE}
+predgrid$Nhat_tw <- predict(dsm_all_tw_rm, predgrid)
+```
+
+
+Maps of predictions
+====================
+left: 45%
+
+```{r predmap}
+p <- ggplot(predgrid) +
+      geom_tile(aes(x=x, y=y, fill=Nhat_tw)) +
+      scale_fill_viridis() +
+      theme_minimal() +
+      theme(legend.position="bottom") +
+      coord_equal()
+print(p)
+```
+
+***
+
+```{r echo=TRUE, eval=FALSE}
+p <- ggplot(predgrid) +
+      geom_tile(aes(x=x, y=y,
+                    fill=Nhat_tw)) +
+      scale_fill_viridis() +
+      coord_equal()
+print(p)
+```
+
+
+Total abundance
+====================
+
+Each cell has an abundance, sum to get total
+
+```{r total-abund, echo=TRUE}
+sum(predict(dsm_all_tw_rm, predgrid))
+```
+
+Subsetting
+============
+
+R subsetting lets you calculate "interesting" estimates:
+
+```{r subset-abund, echo=TRUE}
+# how many sperm whales at depths less than 2500m?
+sum(predgrid$Nhat_tw[predgrid$Depth < 2500])
+# how many sperm whales North of 0?
+sum(predgrid$Nhat_tw[predgrid$x>0])
+```
+
+
+Extrapolation
+================
+type:section
+
+What do we mean by extrapolation?
+==================================
+
+- Predicting at values outside those observed
+- What does "outside" mean?
+  - between transects?
+  - outside "survey area"?
+
+***
+
+```{r loadtracks, results="hide"}
+library(rgdal)
+tracksEN <- readOGR("../spermwhaledata/rawdata/Analysis.gdb", "EN_Trackline1")
+tracksGU <- readOGR("../spermwhaledata/rawdata/Analysis.gdb", "GU_Trackline")
+```
+```{r plottracks}
+library(ggplot2)
+tracksEN <- fortify(tracksEN)
+tracksGU <- fortify(tracksGU)
+mapdata <- map_data("world2","usa")
+p_maptr <- ggplot()+
+      geom_path(aes(x=long,y=lat, group=group), colour="red", data=tracksEN) + 
+      geom_path(aes(x=long,y=lat, group=group), colour="blue", data=tracksGU)+
+      theme_minimal() +
+      geom_polygon(aes(x=long,y=lat, group=group), data=mapdata)+
+      coord_map(xlim=range(tracksEN$long, tracksGU$long)+c(-1,1),
+                ylim=range(tracksEN$lat, tracksGU$lat)+c(-1,1))
+print(p_maptr)
+```
+
+
+Temporal extrapolation
+========================
+
+- Models are temporally implicit (mostly)
+- Dynamic variables change seasonally
+- Migration can be an issue
+- Need to understand what the predictions **are**
+
+Extrapolation
+==============
+
+- Extrapolation is fraught with issues
+- Want to be predicting "inside the rug"
+- In general, try not to do it!
+- (Think about variance too!)
+
+```{r intherug}
+par(cex.lab=2, mar=c(5,6,4,2)+0.1)
+plot(dsm_tw_xy_depth, select=2)
+```
+
+Recap
+======
+
+* Using `predict`
+* Getting "overall" abundance
+* Subsetting
+* Plotting in R
+* Extrapolation (and its dangers)
+
+Estimating variance
+========================================
+type:section
+
+```{r initialmodeletcunc, echo=FALSE, message=FALSE, warning=FALSE}
+dsm_all_tw_rm <- dsm(count~s(x, y, bs="ts") +
+                           s(Depth, bs="ts"),
+                     ddf.obj=df_hr,
+                     segment.data=segs, observation.data=obs,
+                     family=tw(), method="REML")
+dsm_ts_all <- dsm(count~s(x, y, bs="ts") +
+                        s(Depth, bs="ts") +
+                        s(DistToCAS, bs="ts") +
+                        s(SST, bs="ts") +
+                        s(EKE, bs="ts") +
+                        s(NPP, bs="ts"),
+                  ddf.obj=df_hr,
+                  segment.data=segs, observation.data=obs,
+                  family=tw())
+dsm_all <- dsm(count~s(x, y) +
+                        s(Depth) +
+                        s(DistToCAS) +
+                        s(SST) +
+                        s(EKE) +
+                        s(NPP),
+                  ddf.obj=df_hr,
+                  segment.data=segs, observation.data=obs,
+                  family=tw())
+```
+
+
+
+Now we can make predictions
+=============================
+type:section
+
+Now we are dangerous.
+
+
+Predictions are useless without uncertainty
+============================================
+type:section
+
+
+
+Where does uncertainty come from?
+==================================
+type:section
+
+Sources of uncertainty
+=======================
+
+- Detection function
+- GAM parameters
+
+```{r unc-sources, fig.width=18}
+par(mfrow=c(1,2), lwd=2, cex.axis=2, cex.lab=2)
+plot(df_hr)
+plot(dsm_all_tw_rm, select=2)
+```
+
+Let's think about smooths first
+================================
+type:section
+
+Uncertainty in smooths
+========================
+
+- Dashed lines are +/- 2 standard errors
+- How do we translate to $\hat{N}$?
+
+```{r twmod-unc-smooth, fig.width=18}
+par(mfrow=c(1,3), lwd=2, cex.lab=3.5, cex.axis=2, mar=c(5,6,4,2))
+plot(dsm_all, scale=0, scheme=2, select=2)
+plot(dsm_all, scale=0, scheme=2, select=4)
+plot(dsm_all, scale=0, scheme=2, select=5)
+```
+
+
+Back to bases
+===============
+
+- Before we expressed smooths as:
+  - $s(x) = \sum_{k=1}^K \beta_k b_k(x)$
+- Theory tells us that:
+  - $\boldsymbol{\beta} \sim N(\boldsymbol{\hat{\beta}}, \mathbf{V}_\boldsymbol{\beta})$
+  - where $\mathbf{V}_\boldsymbol{\beta}$ is a bit complicated
+  - (derived from the smoother matrix)
+
+Predictions to prediction variance (roughly)
+================================================
+
+- "map" data onto fitted values $\mathbf{X}\boldsymbol{\beta}$
+- "map" prediction matrix to predictions $\mathbf{X}_p \boldsymbol{\beta}$
+- Here $\mathbf{X}_p$ need to take smooths into account
+- pre-/post-multiply by $\mathbf{X}_p$ to "transform variance"
+  - $\Rightarrow \mathbf{X}_p^\text{T}\mathbf{V}_\boldsymbol{\beta} \mathbf{X}_p$
+  - link scale, need to do another transform for response
+
+
+Adding in detection functions
+===============================
+type:section
+
+GAM + detection function uncertainty
+=====================================
+
+(Getting a little fast-and-loose with the mathematics)
+
+
+<div style="font-size:150%">
+$$
+\text{CV}^2\left( \hat{N} \right) \approx \text{CV}^2\left( \text{GAM} \right) +\\
+\text{CV}^2\left( \text{detection function}\right)
+$$
+</div>
+
+Not that simple...
+====================
+
+- Assumes detection function and GAM are **independent**
+- **Maybe** this is okay?
+- (Probably not true?)
+
+Variance propagation
+====================
+
+- Include the detectability as term in GAM
+- Random effect, mean zero, variance of detection function
+- Uncertainty "propagated" through the model
+- Details in bibliography (too much to detail here)
+- Under development
+- (Can cover in special topic)
+
+That seemed complicated...
+===========================
+type:section
+
+R to the rescue
+=================
+type:section
+
+In R...
+=========
+
+- Functions in `dsm` to do this
+- `dsm.var.gam`
+  - assumes spatial model and detection function are independent
+- `dsm.var.prop`
+  - propagates uncertainty from detection function to spatial model
+  - only works for `count` models (more or less)
+  
+
+Variance of abundance
+======================
+
+Using `dsm.var.gam`
+
+```{r, var-tot-abund-gam, echo=TRUE}
+dsm_tw_var_ind <- dsm.var.gam(dsm_all_tw_rm, predgrid,
+                              off.set=predgrid$off.set)
+summary(dsm_tw_var_ind)
+```
+
+Variance of abundance
+======================
+
+Using `dsm.var.prop`
+
+```{r, var-tot-abund, echo=TRUE}
+dsm_tw_var <- dsm.var.prop(dsm_all_tw_rm, predgrid,
+                           off.set=predgrid$off.set)
+summary(dsm_tw_var)
+```
+
+Plotting - data processing
+============================
+
+- Calculate uncertainty per-cell
+- `dsm.var.*` thinks `predgrid` is one "region"
+- Need to split data into cells (using `split()`)
+- (Could be arbitrary sets of cells, see exercises)
+- Need `width` and `height` of cells for plotting
+
+Plotting (code)
+=================
+
+```{r var-map-split, echo=TRUE}
+predgrid$width <- predgrid$height <- 10*1000
+predgrid_split <- split(predgrid, 1:nrow(predgrid))
+head(predgrid_split,3)
+dsm_tw_var_map <- dsm.var.prop(dsm_all_tw_rm, predgrid_split, 
+                               off.set=predgrid$off.set)
+```
+
+CV plot
+========
+
+```{r plotit}
+p <- plot(dsm_tw_var_map, observations=FALSE, plot=FALSE) + 
+      coord_equal() +
+      theme(legend.position="bottom") +
+      scale_fill_viridis()
+print(p)
+```
+
+***
+
+```
+p <- plot(dsm_tw_var_map, observations=FALSE, plot=FALSE) + 
+      coord_equal() +
+      scale_fill_viridis()
+print(p)
+```
+
+Interpreting CV plots
+======================
+
+- Plotting coefficient of variation
+- Standardise standard deviation by mean
+- $\text{CV} = \text{se}(\hat{N})/\hat{N}$ (per cell)
+- Can be useful to overplot survey effort
+
+Effort overplotted
+=====================
+
+```{r loadtracksCV, results="hide"}
+library(rgdal)
+tracks <- readOGR("../spermwhaledata/rawdata/Analysis.gdb", "Segments")
+tracks <- fortify(tracks)
+```
+```{r plottracksCV, fig.width=12, fig.height=12}
+library(ggplot2)
+p <- plot(dsm_tw_var_map, observations=FALSE, plot=FALSE) + 
+      coord_equal() +
+      scale_fill_viridis() +
+      geom_path(aes(x=long,y=lat, group=group), colour="white", data=tracks) 
+print(p)
+```
+
+Big CVs
+========
+
+- Here CVs are "well behaved"
+- Not always the case (huge CVs possible)
+- These can be a pain to plot
+- Use `cut()` in R to make categorical variable
+  - e.g. `c(seq(0,1, len=100), 2:4, Inf)` or somesuch
+
+
+
+Recap
+======
+
+- How does uncertainty arise in a DSM?
+- Estimate variance of abundance estimate
+- Map coefficient of variation
+
+
+Let's try that!
+=================
+type:section
