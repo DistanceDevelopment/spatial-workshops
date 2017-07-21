@@ -23,10 +23,10 @@ The first day of the workshop will review fundamental principles of distance sam
 | Day       | Purpose                                                 | 0900-1030                                               | 1045-1215                                                          | 1345-1515                                                          | 1530-1700                          |
 |-----------|---------------------------------------------------------|---------------------------------------------------------|--------------------------------------------------------------------|--------------------------------------------------------------------|------------------------------------|
 | Sunday    | R refresher/tutorial                                    |                                                         |                                                                    | Start 1400                                                         | *Practical 1*         |
-| Monday    | Detection functions, distance sampling simulation       | Welcome and review of assumptions                       | *Practicals 2 and 3:* Analyse simple simulated and awkward data sets | Distance sampling simulation: automated survey design              | *Practical 4:* Simulation            |
-| Tuesday   | Sperm whale data analysis                               | What is a DSM?                                          | Intro to generalized additive models (GAMS)                        | *Practicals 5, 6, 7:* Process data, fit detection function, fit GAMs | Adding covariates to DSMs          |
-| Wednesday | Add covariates, produce predictions                     | Multiple smooths and model selection                    | *Practical 8:* Fit and check multiple smooth DSMs                    | Model checking                                                     | Prediction and variance estimation |
-| Thursday  | Double platform detection functions and advanced topics | *Practicals 9 and 10:* prediction and variance            | Mark-recapture distance sampling                                   | *Practical 11:* `mrds`                                                 | Advanced DSM topics                |
+| Monday    | Detection functions, distance sampling simulation       | Welcome and review of assumptions                       | *Practicals 2 & 3:* Analyse simple simulated and awkward data sets | Distance sampling simulation: automated survey design              | *Practical 4:* Simulation            |
+| Tuesday   | Sperm whale data analysis                               | What is a Density Surface Model (DSM)?                                          | Intro to generalized additive models (GAMs)                        | *Practicals 5, 6 & 7:* Process data, fit detection function, fit GAMs | DSM: Model checking            |
+| Wednesday | Add covariates, produce predictions                     | DSM: Multiple smooths and model selection                    | *Practical 8:* Fit and check multiple smooth DSMs                    |  DSM: Prediction & variance estimation     |  *Practicals 9 & 10:* DSM: Prediction and variance |
+| Thursday  | Double platform detection functions and advanced topics | DSM wrapup | Mark-recapture distance sampling                                   | *Practical 11:* `mrds`                                                 | DSM: Modelling advice and advanced topics                |
 | Friday    | Research talks and unstructured time | Research talks: acoustics, SCR, `inlabru`, HMMs, movement | Special topics                                                     | Open                                                               | Open                               |
 
 
@@ -67,8 +67,7 @@ Several participants have noted they are unfamiliar with R and RStudio.  There a
 
 ### Etherpad
 
-As a collaboration tool, there exists an online *scratchpad*.  This can be used to share questions, solutions, code snippets, chat between participants and instructors.  Feel free to bookmark this URL and use as you wish:
-https://beta.etherpad.org/p/DistStAnd2017
+As a collaboration tool, there exists an online *scratchpad*. This can be used to share questions, solutions, code snippets, request special topics to be covered on Friday and chat between participants and instructors. Feel free to bookmark this URL and use as you wish: [https://beta.etherpad.org/p/DistStAnd2017](https://beta.etherpad.org/p/DistStAnd2017)
 
 ### ArcGIS
 

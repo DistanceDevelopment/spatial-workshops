@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # correct the paths to the mathjax files for HTML versions of the slides
 
@@ -13,6 +13,6 @@ for i in $( ls *.html); do
   sed "s/$FN//" "$i" > tmp.html
   mv tmp.html $i
   PDFFN=${i/.html/}.pdf
-  ~/sources/decktape/bin/phantomjs ~/sources/decktape/decktape.js automatic -s 1024x768 $i $PDFFN
-  #mv $i ~/current/webwebweb/distancesampling.com/workshops/duke-spatial-2015/slides/
+  ~/sources/decktape/phantomjs ~/sources/decktape/decktape.js automatic -s 1024x768 $i $PDFFN
+  mv $i ~/current/webwebweb/distancesampling.com/workshops/stand-intermed-2017/slides/
 done
