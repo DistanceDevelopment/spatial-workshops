@@ -25,7 +25,7 @@
 <meta name="author" content="Laura Marshall, David L. Miller and Len Thomas">
 
 
-<meta name="date" content="2017-07-06">
+<meta name="date" content="2017-07-21">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -290,23 +290,39 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="loading-prediction-data" class="section level2">
 <h2><span class="header-section-number">9.3</span> Loading prediction data</h2>
 <p>Before we can make predictions we first need to load the covariates into a “stack” from their files on disk using the <code>stack()</code> function from <code>raster</code>. We give <code>stack()</code> a vector of locations to load the rasters from. Note that in RStudio you can use tab-completion for these locations and avoid some typing. At this point we arbitrarily choose the time periods of the SST, NPP and EKE rasters (2 June 2004, or Julian date 153).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predictorStack &lt;-<span class="st"> </span><span class="kw">stack</span>(<span class="kw">c</span>(<span class="st">&quot;../../spermwhale-analysis/Covariates_for_Study_Area/Depth.img&quot;</span>,
-                          <span class="st">&quot;../../spermwhale-analysis/Covariates_for_Study_Area/GLOB/CMC/CMC0.2deg/analysed_sst/2004/20040602-CMC-L4SSTfnd-GLOB-v02-fv02.0-CMC0.2deg-analysed_sst.img&quot;</span>,
-                          <span class="st">&quot;../../spermwhale-analysis/Covariates_for_Study_Area/VGPM/Rasters/vgpm.2004153.hdf.gz.img&quot;</span>,
-                          <span class="st">&quot;../../spermwhale-analysis/Covariates_for_Study_Area/DistToCanyonsAndSeamounts.img&quot;</span>,
-                          <span class="st">&quot;../../spermwhale-analysis/Covariates_for_Study_Area/Global/DT\ all\ sat/MSLA_ke/2004/MSLA_ke_2004153.img&quot;</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predictorStack &lt;-<span class="st"> </span><span class="kw">stack</span>(<span class="kw">c</span>(<span class="st">&quot;Covariates_for_Study_Area/Depth.img&quot;</span>,
+                          <span class="st">&quot;Covariates_for_Study_Area/GLOB/CMC/CMC0.2deg/analysed_sst/2004/20040602-CMC-L4SSTfnd-GLOB-v02-fv02.0-CMC0.2deg-analysed_sst.img&quot;</span>,
+                          <span class="st">&quot;Covariates_for_Study_Area/VGPM/Rasters/vgpm.2004153.hdf.gz.img&quot;</span>,
+                          <span class="st">&quot;Covariates_for_Study_Area/DistToCanyonsAndSeamounts.img&quot;</span>,
+                          <span class="st">&quot;Covariates_for_Study_Area/Global/DT\ all\ sat/MSLA_ke/2004/MSLA_ke_2004153.img&quot;</span>
                           ))</code></pre></div>
 <p>We need to rename the layers in our stack to match those in the model we are going to use to predict. If you need a refresher on the names that were used there, call <code>summary()</code> on the DSM object.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">names</span>(predictorStack) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Depth&quot;</span>,<span class="st">&quot;SST&quot;</span>,<span class="st">&quot;NPP&quot;</span>, <span class="st">&quot;DistToCAS&quot;</span>, <span class="st">&quot;EKE&quot;</span>)</code></pre></div>
 <p>Now these are loaded, we can coerce the stack into something <code>dsm</code> can talk to using the <code>as.data.frame</code> function. Note we need the <code>xy=TRUE</code> to ensure that <code>x</code> and <code>y</code> are included in the prediction data. We also set the offset value – the area of each cell in our prediction grid.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predgrid &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(predictorStack, <span class="dt">xy=</span><span class="ot">TRUE</span>)
 predgrid<span class="op">$</span>off.set &lt;-<span class="st"> </span>(<span class="dv">10</span><span class="op">*</span><span class="dv">1000</span>)<span class="op">^</span><span class="dv">2</span></code></pre></div>
+<hr />
+<details> <summary>Distance 7 instructions</summary> Access the prediction grid using graphical interface:
+<ul>
+<li>
+A layer in the Distance project contains georeferenced covariates. Spelling and capitalisation must match variable names used in fitting <code>dsm</code> models. Creation of this prediction grid by importing data can be a labourious process.<br> <img src="D7grabs/d7-dsm-predgrid.PNG">
+</ul>
+<p></details></p>
+<hr />
 <p>We can then predict for the model <code>dsm_nb_xy_ms</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pp &lt;-<span class="st"> </span><span class="kw">predict</span>(dsm_nb_xy_ms, predgrid)</code></pre></div>
 <p>This is just a list of numbers – the predicted abundance per cell. We can sum these to get the estimated abundance for the study area:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(pp, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</code></pre></div>
 <pre><code>## [1] 1710.347</code></pre>
 <p>Because we predicted over the whole raster grid (including those cells without covariate values – e.g. land), some of the values in <code>pp</code> will be <code>NA</code>, so we can ignore them when we sum by setting <code>na.rm=TRUE</code>. We need to do this again when we plot the data too.</p>
+<hr />
+<details> <summary>Distance 7 instructions</summary> Prediction to entire study area using graphical interface:
+<ul>
+<li>
+Using <code>Prediction</code> tab of DSM model definition, specify density surface model with which to make predictions, size of each cell in the prediction grid (in correct units for the offset), and the layer name of the prediction grid. Tickboxes can be checked for prediction into subregions of the study area and for visualisation.<br> <img src="D7grabs/d7-dsm-predict.PNG">
+</ul>
+<p></details></p>
+<hr />
 <p>We can also plot this to get a spatial representation of the predictions:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># assign the predictions to the prediction grid data.frame</span>
 predgrid<span class="op">$</span>Nhat_nb_xy &lt;-<span class="st"> </span>pp

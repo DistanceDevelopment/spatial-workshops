@@ -22,7 +22,7 @@ By the end of this practical you should feel confident doing the following:
 
 First need to load the requisite R libraries
 ```{r pdfmakerddf, echo=FALSE}
-pdf <- TRUE
+pdf <- FALSE
 ```
 
 

@@ -16,7 +16,7 @@ By the end of this practical, you should feel comfortable:
 ## Loading the packages and data
 
 ```{r pdfmakerpredict, echo=FALSE}
-pdf <- TRUE
+pdf <- FALSE
 ```
 
 
@@ -42,11 +42,11 @@ load("dsms.RData")
 Before we can make predictions we first need to load the covariates into a "stack" from their files on disk using the `stack()` function from `raster`. We give `stack()` a vector of locations to load the rasters from. Note that in RStudio you can use tab-completion for these locations and avoid some typing. At this point we arbitrarily choose the time periods of the SST, NPP and EKE rasters (2 June 2004, or Julian date 153).
 
 ```{r preddata}
-predictorStack <- stack(c("../../spermwhale-analysis/Covariates_for_Study_Area/Depth.img",
-                          "../../spermwhale-analysis/Covariates_for_Study_Area/GLOB/CMC/CMC0.2deg/analysed_sst/2004/20040602-CMC-L4SSTfnd-GLOB-v02-fv02.0-CMC0.2deg-analysed_sst.img",
-                          "../../spermwhale-analysis/Covariates_for_Study_Area/VGPM/Rasters/vgpm.2004153.hdf.gz.img",
-                          "../../spermwhale-analysis/Covariates_for_Study_Area/DistToCanyonsAndSeamounts.img",
-                          "../../spermwhale-analysis/Covariates_for_Study_Area/Global/DT\ all\ sat/MSLA_ke/2004/MSLA_ke_2004153.img"
+predictorStack <- stack(c("Covariates_for_Study_Area/Depth.img",
+                          "Covariates_for_Study_Area/GLOB/CMC/CMC0.2deg/analysed_sst/2004/20040602-CMC-L4SSTfnd-GLOB-v02-fv02.0-CMC0.2deg-analysed_sst.img",
+                          "Covariates_for_Study_Area/VGPM/Rasters/vgpm.2004153.hdf.gz.img",
+                          "Covariates_for_Study_Area/DistToCanyonsAndSeamounts.img",
+                          "Covariates_for_Study_Area/Global/DT\ all\ sat/MSLA_ke/2004/MSLA_ke_2004153.img"
                           ))
 ```
 

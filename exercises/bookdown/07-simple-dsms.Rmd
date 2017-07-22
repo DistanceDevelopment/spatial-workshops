@@ -16,7 +16,7 @@ The example code below uses the `df_hn` detection function in the density surfac
 ## Load the packages and data
 
 ```{r pdfmakerdsm, echo=FALSE}
-pdf <- TRUE
+pdf <- FALSE
 ```
 
 

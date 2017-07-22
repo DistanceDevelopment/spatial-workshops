@@ -2,11 +2,30 @@
 
 This document is designed to give you some pointers so that you can perform the Mark-Recapture Distance Sampling practical directly using the `mrds` package in R, rather than via the Distance graphical interface.  I assume you have some knowledge of R, the `mrds` package, and Distance.
 
+```{r pdfmakermrds, echo=FALSE}
+pdf <- FALSE
+```
+
+
 ## Golf tee survey
 
-Luckily for us, the golf tee dataset is provided aspart of the mrds package, so we don't have to worry about obtaining the data from the Distance GolfteesExercise project.
+The golf tee dataset is provided as part of the `mrds` package, as well as in the Distance `GolfteesExercise` project.
 
-Open R and load the mrds library and golf tee dataset.
+
+```{asis, d7mrdsgolfdata, echo=!pdf}
+***
+<details>
+<summary>Distance 7 instructions</summary>
+Data layers associated with the golftees dataset
+<ul> 
+<li> Note particularly the fields in the Observation layer: object, observer, detected.<br>
+<img src="D7grabs/d7-mrds-golfdata.PNG">
+</ul> 
+</details>
+
+***
+```
+Open R and load the `mrds` package and golf tee dataset.
 ```{r preliminaries, message=FALSE, comment=NA}
 library(mrds)
 data(book.tee.data)
@@ -47,6 +66,19 @@ chi.markrecap <- gof.result$chisquare$chi2$chisq
 chi.total <- gof.result$chisquare$pooled.chi
 ```
 
+```{asis, d7mrdsgolffit, echo=!pdf}
+***
+<details>
+<summary>Distance 7 instructions</summary>
+Specification of the full independence model with distance as the only covariate in the mark-recapture model, fitted with a logit transform
+<img src="D7grabs/d7-mrds-golffit.PNG">
+
+Having run this model in Distance 7, convince yourself the parameter estimates for sigma and the distance covariate are the same when using the Distance 7 interface as when using <i>mrds()</i> directly.
+</details>
+
+***
+```
+
 Abbreviated $\chi^2$ goodness of fit assessment shows the $\chi^2$ contribution from the distance sampling model to be `r round(chi.distance,1)` and the $\chi^2$ contribution from the mark-recapture model to be `r round(chi.markrecap,1)`.  The combination of these elements produces a total $\chi^2$ of `r round(chi.total$chisq,1)` with `r chi.total$df` degrees of freedom, resulting in a P-value of `r round(chi.total$p,3)`
 
 ```{r, abund-from-dist}
@@ -64,7 +96,7 @@ Now, see if you can work out how to change the call to ddf to fit the other mode
 
 This analysis is described in @Borchers_2005 Biometrics paper of aerial survey data looking for seals in the Antarctic pack ice.  There were four observers in the plane, two on each side (front and back).  
 
-The data from the survey has been saved in a `.csv` file. This file can be easily read into R, and with the `checkdata()` function, the information to construct the region, sample, and observation table can be extracted.  Note that these tables are only needed when estimating abundance by scaling up from the covered region to the study area.
+The data from the survey has been saved in a `.csv` file. This file is read into R using `read.table()`.   Note that these tables are only needed when estimating abundance by scaling up from the covered region to the study area.
 
 ```{r, crabdet, comment=NA}
 library(Distance)
@@ -77,9 +109,23 @@ crab.ddf.io <- ddf(method="io", dsmodel=~cds(key="hn"),
 summary(crab.ddf.io)
 ```
 
+```{asis, d7mrdscrabfit, echo=!pdf}
+***
+<details>
+<summary>Distance 7 instructions</summary>
+Specification of the point independence model with distance as the only covariate in the mark-recapture model.  However under point independence, not only is the a mark-recapture model but also a distance sampling model (shown here)
+<img src="D7grabs/d7-mrds-crabfit.PNG">
+
+Having run this model in Distance 7, convince yourself the parameter estimates for sigma and the distance covariate are the same when using the Distance 7 interface as when using <i>mrds()</i> directly.
+</details>
+
+***
+```
+
+
 Goodness of fit could be examined in the same manner as the golf tees by the use of `ddf.gof(crab.ddf.io)` but I have not shown this step.
 
-Following model criticism and selection, estimation of abundance ensues.  the estimates of abundance for the study area are arbitrary because inference of the study was restricted to the covered region.  Hence the estimates of abundance here are artificial, but if we wished to produce them, we would need to produce the region, sample, and observation tables and apply Horvitz-Thompson like estimators to produce estimates of $\hat{N}$.  The use of `covert.units` adjusts the units of perpendicular distance measurement (m) to units of transect effort (km).  Be sure to perform the conversion correctly or your abundance estimates will be off by orders of magnitude.
+Following model criticism and selection, estimation of abundance ensues.  The estimates of abundance for the study area are arbitrary because inference of the study was restricted to the covered region.  Hence the estimates of abundance here are artificial. For illustration, the `checkdata()` function produces the region, sample, and observation tables. From these tables Horvitz-Thompson like estimators can be applied to produce estimates of $\hat{N}$.  The use of `convert.units` adjusts the units of perpendicular distance measurement (m) to units of transect effort (km).  Be sure to perform the conversion correctly or your abundance estimates will be off by orders of magnitude.
 
 ```{r, crabsummary}
 tables <- Distance:::checkdata(crabseal[crabseal$observer==1,])
@@ -95,3 +141,15 @@ kable(crab.ddf.io.abund$individual$N, digits=3,
       caption="Crabeater seal abundance estimates for study area of arbitrary size.")
 ```
 
+```{asis, d7mrdscrabestimates, echo=!pdf}
+***
+<details>
+<summary>Distance 7 instructions</summary>
+Specification of the point independence model with distance as the only covariate in the mark-recapture model.  However under point independence, not only is the a mark-recapture model but also a distance sampling model (shown here).
+<img src="D7grabs/d7-mrds-crabfit.PNG">
+
+The abundance estimates are not an exact match between the Distance 7 analysis and the mrds() analysis because of slight differences in the datasets.  However, there is general agreement that the seal population size in this arbitrary study area is approximately 400,000 with a CV of ~10%.
+</details>
+
+***
+```

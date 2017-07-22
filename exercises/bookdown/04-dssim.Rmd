@@ -1,11 +1,15 @@
 #  Creating distance sampling simulations using DSsim 
 
-> Assumes home directory is directory in which exercise has been expanded
+```{r pdfmakerdssim, echo=FALSE}
+pdf <- FALSE
+```
+
+If you prefer to perform simulations using Distance 7.1, please skip ahead to the section [Running distance sampling simulations using Distance 7.1].
 
 ## Aim
 The aim of this exercise is to run simulations which will allow you to compare three different survey designs for a specific population. You should judge these designs on their accuracy and precision.
 
-You will also need the following R packages installed on your machine: DSsim, shapefiles, splancs and mrds. Now examine the other files and folders in the "DSsim Exercise" folder. There are three files starting with the name "Region" and ending with .dbf, .shp and .shx, these files make up the shapefile for the survey region. The "density.surface.robj" file is the density surface for the survey region. The "Survey Transects" folder contains a folder for each of the designs you are asked to look at, these contain the transect shapefiles. The "Results" folder contains the results from 999 replications as this can take a good few hours to run. To setup the workspace first load the libraries DSsim and shapefiles, loading these two will automatically make splancs and mrds available.
+You will also need the following R packages installed on your machine: `DSsim`, `shapefiles`, `splancs` and `mrds`. Now examine the other files and folders in the "DSsim Exercise" folder. There are three files starting with the name "Region" and ending with .dbf, .shp and .shx, these files make up the shapefile for the survey region. The "density.surface.robj" file is the density surface for the survey region. The "Survey Transects" folder contains a folder for each of the designs you are asked to look at, these contain the transect shapefiles. The "Results" folder contains the results from 999 replications as this can take a good few hours to run. To setup the workspace first load the packages `DSsim` and `shapefiles`, loading these two will automatically make `splancs` and `mrds` available.
 
 ```{r setupDSsim, message=FALSE, warning=FALSE}
 library(DSsim)
@@ -14,7 +18,7 @@ library(shapefiles)
 
 ## Create a region object
 
-Read the Region shapefile into R using the read.shapefile function from the shapefiles library.
+Read the Region shapefile into R using the `read.shapefile()` function from the `shapefiles` package.
 
 ```{r regionobjDSsim}
 region.shapefile <- read.shapefile("Region")
@@ -35,9 +39,9 @@ You are now going to create a density object within this region. For the purpose
 load("density.surface.robj")
 ```
 
-You will see that an object called "density.surface" has appeared in the workspace. This object is a list with one element (if the region had been divided up into strata then this list would contain an element for each strata). To have a look at what the density surface data look like type `head(density.surface[[1]])`. You can see that it is a data set of x and y locations and the densities at each point.
+You will see that an object called `density.surface` has appeared in the workspace. This object is a list with one element (if the region had been divided up into strata then this list would contain an element for each strata). To have a look at what the density surface data look like type `head(density.surface[[1]])`. You can see that it is a data set of x and y locations and the densities at each point.
 
-To create the density object you will need to provide the density surface, the region object for which it was created and the grid spacing that was used. I used a grid spacing of 1,000 m in both the x and y directions to create this density surface. The density surface describing animal distribution is shown in Figure 4.2.
+To create the density object you will need to provide the density surface, the region object for which it was created and the grid spacing that was used. I used a grid spacing of 1000m in both the x and y directions to create this density surface. The density surface describing animal distribution is shown in Figure 4.2.
 
 ```{r popden, fig.cap="Study region with animal density superimposed\nNote lower density near the trail system"}
 pop.density <- make.density(region = region, density.surface = density.surface, 
@@ -68,7 +72,7 @@ pop.description <- make.population.description(region.obj = region,
                                                N = 1500, fixed.N = TRUE)
 ```
 
-We will now describe the detectability of the population using a half-normal function with a sigma (scale.param) of 500 m and a truncation distance of 1000 m. This means that around 2/3 of the detections will be made within 500 m of the transect and we will exclude anything sighted further than 1000 m perpendicular distance from the transect.
+We will now describe the detectability of the population using a half-normal function with a sigma (scale.param) of 500m and a truncation distance of 1000m. This means that around 2/3 of the detections will be made within 500m of the transect and we will exclude anything sighted further than 1000m perpendicular distance from the transect.
 ```{r detect}
 detect <- make.detectability(key.function = "hn", scale.param = 500, truncation = 1000)
 ```
@@ -189,7 +193,7 @@ summary(my.simulation.zigzag)
 
 ## Results from 999 repetitions
 
-I ran each of these simulations 999 times and stored the simulations as r objects. Load these into the R workspace using the following code:
+I ran each of these simulations 999 times and stored the simulations as R objects. Load these into the R workspace using the following code:
 
 ```{r bluepeter, eval=FALSE}
 load("Results/simulation.subjective.robj")
@@ -215,7 +219,7 @@ What would happen if our assumptions about animal distribution were incorrect?
 
 If you would like to investigate different designs then these can be created and used in simulations in Distance 7.1. Note that currently the simulation options in Distance 7.1 are somewhat more restricted than in DSsim. 
 
-We have created a Distance project based on the scenario just described and setup the systematic parallel and equal spaced zigzag designs as specified above. This project is named `DSsimExercis`e. This exercise will lead you through replicating the previous simulations in Distance, but you could choose to invesgitate different designs or even try out some simulations on your own study area if you prefer. 
+We have created a Distance project based on the scenario just described and setup the systematic parallel and equal spaced zigzag designs as specified above. This project is named `DSsimExercise`. This exercise will lead you through replicating the previous simulations in Distance, but you could choose to investigate different designs or even try out some simulations on your own study area if you prefer. 
 
 If you wish to try out simulations on your own study area help on importing geographic data, creating designs and analyses can be found in the Distance manual. 
 
@@ -237,7 +241,7 @@ Open the `DSsimExercise.dst` project and navigate to the Simulation Browser tab 
 
 ### Simulation Properties
 
-Now click on the Simulation 'Properties' button to set the other simulation properties. The Simulation tab (Figure 4.7) allows us to specify the geographic layer to use, in this example as we do not have strata we must select the global study region layer. Here we can also tell Distance how many times to repeat the simulation and set shapefile options. It is sensible to run the simulation only once in the first instance to check the setup is correct. The shapefile options allow us to tell Distance to save the shapefiles for use in subseqent simulations using the same design. This can save some processing time. If requested the shapefiles are stored in the project .dat folder under 'Simulation/Simulation[ID]/shapefiles'.    
+Now click on the Simulation 'Properties' button to set the other simulation properties. The Simulation tab (Figure 4.7) allows us to specify the geographic layer to use, in this example as we do not have strata we must select the global study region layer. Here we can also tell Distance how many times to repeat the simulation and set shapefile options. It is sensible to run the simulation only once in the first instance to check the setup is correct. The shapefile options allow us to tell Distance to save the shapefiles for use in subsequent simulations using the same design. This can save some processing time. If requested the shapefiles are stored in the project .dat folder under 'Simulation/Simulation[ID]/shapefiles'.    
 
 ![Properties Pages: Simulation tab](images/simulation.png)
 
@@ -255,7 +259,7 @@ Next we describe the detectability of the animals. We will assume a half-normal 
 
 ![Properties Pages: Detectability tab](images/detect.png)
 
-Finally we can select some miscelaneous options. These do not affect the output seen within distance. The option to run the simulation in parallel can speed things up if running more than a few iterations. Saving the results from each iteration to file will create csv files with the individual estimates from each repetition. Saving an example dataset will create a csv file that is ready to be read into a distance project for analysis. These files are stored in the project .dat folder under 'Simulation/Simulation[ID]'.      
+Finally we can select some miscellaneous options. These do not affect the output seen within distance. The option to run the simulation in parallel can speed things up if running more than a few iterations. Saving the results from each iteration to file will create csv files with the individual estimates from each repetition. Saving an example dataset will create a csv file that is ready to be read into a distance project for analysis. These files are stored in the project .dat folder under 'Simulation/Simulation[ID]'.      
 
 Further instructions on setting up different simulations options can be found in the Distance manual.
 
