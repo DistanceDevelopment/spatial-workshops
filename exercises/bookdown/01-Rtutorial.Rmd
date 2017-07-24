@@ -431,7 +431,7 @@ pairs(indat)
 
 ## Extending basic capabilities via packages
 
-While R base installation includes enough functions that getting acquainted with them could take several years, many more are available via the installation of additional packages available online. A package is just a set of functions and data sets (and the corresponding documentation plus some additional required files) which usually have some specific goal. As examples, in our workshop we will be using packages `secr` and `mgcv`, which allow the implementation of spatially explicit capture recapture (SECR) models and generalized additive models (GAM), respectively.
+While R base installation includes enough functions that getting acquainted with them could take several years, many more are available via the installation of additional packages available online. A package is just a set of functions and data sets (and the corresponding documentation plus some additional required files) which usually have some specific goal. As examples, in our workshop we will be using packages `Distance` and `dsm`, which implement fitting of distance sampling detection functions and spatial modelling of distance sampling data, respectively.
 
 Note packages cover a very wide range of applications, and chances are that at least a package, often more than one, already exists to implement most kinds of statistical or data processing tasks we might imagine.
 
@@ -439,33 +439,33 @@ Installing a new package in R requires a call to function `install.packages()`. 
 
 After a package is installed it needs to be loaded to be available. In R this is done calling function `library()` with the package name as an argument. In RStudio this becomes simpler by checking the boxes under the RStudio tab packages (by default this tab is available on the bottom right window, along with the Files, Plots, Help and Viewer tabs).
 
-We use `secr` as an example. Notice, to begin with `secr` is not available
+We use `Distance` as an example in its function `ds`. Notice, to begin with `ds` is not available
 
-```{r secr}
-?secr
+```{r Distance}
+?ds
 ```
 
 Next, we install the package.
 
-```{r secr1, eval=FALSE}
-install.packages("secr")
+```{r Distance1, eval=FALSE}
+install.packages("Distance")
 ```
 
 Then, we load the package
 
-```{r secr2}
-library("secr")
+```{r Distance2}
+library("Distance")
 ```
 
 and finally we check that the functions in it are now loaded
 
-```{r secr3}
-?secr
+```{r Distance3}
+?ds
 ```
 
-We would now be ready to analyse results from a SECR survey.
+We would now be ready to analyse distance sampling data
 
-**Task 4**: Run the example code available in the help page from package `secr`. Try to understand what is happening: we simulate some SECR data and we then estimate density based on simulated capture histories. In particular, look at the simulated density and the estimated density. This is just a taster for the course to follow...!
+**Task 4**: Run the example code available in the help page from package `Distance`. Try to understand what is happening -- this is very similar to how Distance for Windows works. This is just a taster for the course to follow...!
 
 ## Linear regression
 
