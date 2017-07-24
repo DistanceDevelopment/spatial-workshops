@@ -1,3 +1,5 @@
-# analyse simulated data set
+# Create and analyse simulated data set
 
-## Laura to prepare
+The purpose of this session is to refresh our memories of analysing straightforward distance sampling data. We will simulate a data set using `DSsim` and analyse it using Distance for Windows or `Distance` in R. More instructions will be given during the workshop.
+
+

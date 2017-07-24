@@ -1,13 +1,17 @@
-# Problem datasets 
+# Problem datasets
 
-## Len to prepare
+The purpose of this session is to challenge yourself with the analysis of some difficult datasets. We will give more instructions on how to analyse them during the workshop.
 
-### Blue monkey data set
+## Blue monkey data set
 
 * [Distance 7 project](Difficult data/D7BlueMonkey - Demo 3.zip)
 * [Data as csv for R analysis](Difficult data\BlueMonkey.csv)
 
-### Odd spike data set
+## Odd spike data set
 
 * [Distance 7 project](Difficult data/D7OddSpike - Demo 2.zip)
 * [R script to manufacture and conduct analysis](Difficult data\Oddspike.r)
+
+## Other datasets to follow
+
+
