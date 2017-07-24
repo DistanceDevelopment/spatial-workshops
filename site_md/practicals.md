@@ -10,32 +10,41 @@ Here you can find the exercises and solutions for the practical sessions during 
 
 ## Practicals
 
-Practicals are provided in both RMarkdown (`.Rmd`) and HTML format. RMarkdown can be opened in RStudio and the file "knitted" into the corresponding HTML.
+Practicals are provided in [RMarkdown](http://rmarkdown.rstudio.com/index.html) (`.Rmd`) format. RMarkdown can be opened in RStudio and the file "knitted" into HTML or PDF.
+
+An HTML version of all practicals is provided [here](practicals/bookdown/) and is generated using using the [`bookdown`](https://bookdown.org/) package.
 
 Note that the practicals are designed to be run sequentially, files generated from previous analyses are loaded and used in subsequent analyses.
 
-### Solutions
+Number | Practical Description            | Rmd file |
+-------|----------------------------------|----------|
+1      | R tutorial                       | [Rmd](practicals/01-Rtutorial.Rmd) |
+2      | Straightforward distance samping | [Rmd](practicals/02-simple-analysis-simulated.Rmd) |
+3      | Awkward data sets                | [Rmd](practicals/03-problem-datasets.Rmd) |
+4      | Simulation of distance sampling data | [Rmd](practicals/04-dssim.Rmd) |
+5      | Processing data                  | [Rmd](practicals/05-process-geodata.Rmd) |
+6      | Fitting detection functions       | [Rmd](practicals/06-detection-functions.Rmd) |
+7      | Fitting DSMs                     |[Rmd](practicals/07-simple-dsms.Rmd) |
+8      | Multiple term DSMs, model checking and selection | [Rmd](practicals/08-advanced-dsms.Rmd) |
+9      | DSM Prediction | [Rmd](practicals/09-prediction.Rmd) |
+10     | DSM Variance | [Rmd](practicals/10-variance.Rmd) |
+11     | `mrds` | [Rmd](practicals/11-mrds.Rmd) |
 
-If you wish to run the solution `.Rmd` files on your own machine, then please use the [data from day 4](practicals/Exercise_Day4.zip), as there is some extra content that requires all of the data in order to work. Additionally, you will need [this CSS file](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/exercises/custom.css) to colour-code the solutions (just put it in the same directory as your `.Rmd` files).
+## Data
 
+To run the sperm whale analysis you'll need to download the following files, unzip them and store the unzipped folders in the same place as the `Rmd` files below:
 
-## Practicals, data and solutions
+- [Analysis.gdb](practicals/Analysis.gdb.zip)
+- [Covariates_for_Study_Area.zip](practicals/Covariates_for_Study_Area.zip)
 
-Practical Description           | Exercise                                                                                                                                                                | Solutions                                                                                                               | Data
---------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|-----------------------------------------------
-Fit detection functions         | [Rmd](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/exercises/1-detection-functions.Rmd) [HTML](practicals/1-detection-functions.html) | [Rmd](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/exercises/1-detection-functions-solutions.Rmd) [HTML](practicals/1-detection-functions-solutions.html) | [zipped `gdb`](practicals/Exercise_Day1.zip)
-Process data from ArcGIS in R   | [Rmd](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/exercises/process-geodata.Rmd) [HTML(1)](practicals/process-geodata-1.html)<sup>1</sup> [HTML(2)](practicals/process-geodata-2.html) | (none)           | Use as below<sup>2</sup>
-Fitting simple DSMs             | [Rmd](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/exercises/2-simple-dsms.Rmd) [HTML](practicals/2-simple-dsms.html)         | [Rmd](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/exercises/2-simple-dsms-solutions.Rmd) [HTML](practicals/2-simple-dsms-solutions.html)                | [zipped `gdb`](practicals/Exercise_Day2.zip)
-Advanced DSMs                   | [Rmd](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/exercises/3-advanced-dsms.Rmd) [HTML](practicals/3-advanced-dsms.html)       | [Rmd](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/exercises/3-advanced-dsms-solutions.Rmd)       [HTML](practicals/3-advanced-dsms-solutions.html) | [zipped `gdb`](practicals/Exercise_Day3.zip)
-Predictions                     | [Rmd](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/exercises/4-prediction.Rmd) [HTML](practicals/4-prediction.html)          | [Rmd](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/exercises/4-prediction-solutions.Rmd) [HTML](practicals/4-prediction-solutions.html)    | [zipped `gdb`](practicals/Exercise_Day4.zip)
-Variance estimation             | [Rmd](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/exercises/5-variance.Rmd) [HTML](practicals/5-variance.html)            | [Rmd](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/exercises/5-variance-solutions.Rmd) [HTML](practicals/5-variance-solutions.html)      | [zipped `gdb`](practicals/Exercise_Day4.zip)
+We'd like to thank Jason Roberts of Duke University for preparing these files in ArcGIS with the [MGET Toolbox](http://mgel2011-kvm.env.duke.edu/mget/).
 
+## Problems
 
-If you run into a problem running any of these examples, please report [an issue on this GitHub repository](https://github.com/DistanceDevelopment/spatial-workshops/issues).
+If you run into a problem running any of these examples, please report [an issue on this GitHub repository](https://github.com/DistanceDevelopment/spatial-workshops/issues). Or contact the workshop instructors.
 
 
 
-<sup>1</sup> You'll need to run the `process-geodata.Rmd` file before "Fitting simple DSMs" and again before "Advanced DSMs" to ensure that you have the updated covariates from the GIS. After "Advanced DSMs" the `sperm-whale.RData` file can be used for subsequent analyses.
-<sup>2</sup> `process-geodata.Rmd` is run either using data from "Fitting simple DSMs" or "Advanced DSMs".
+
 
 

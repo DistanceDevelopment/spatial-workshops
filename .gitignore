@@ -3,6 +3,5 @@
 .RData
 slides/*.html
 slides/*.md
-exercises/*.html
 spermwhale-analysis/*.html
-exercises/2-simple-dsms-solutions.Rmd
+practicals/_book*

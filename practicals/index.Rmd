@@ -1,0 +1,29 @@
+--- 
+title: "Intermediate distance sampling workshop - St Andrews 2017"
+author: "Laura Marshall, David L. Miller, Eric Rexstad and Len Thomas"
+date: '`r Sys.Date()`'
+output:
+  bookdown::gitbook: default
+  bookdown::pdf_book:
+    includes:
+      in_header: preamble.tex
+    keep_tex: yes
+csl: chicago-au-yr.csl
+documentclass: book
+geometry: a4paper
+link-citations: yes
+linkcolor: blue
+css: details.css
+site: bookdown::bookdown_site
+bibliography: references.bib
+---
+
+```{r pdfmaker, echo=FALSE}
+pdf <- FALSE
+```
+
+# Preface {-}
+
+Here is an HTML version of the practicals. To download the RMarkdown files that generated them [go here](http://distancesampling.org/workshops/stand-intermed-2017/practicals.html).
+
+
