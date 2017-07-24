@@ -38,7 +38,7 @@ load("df-models.RData")
 Before we fit a model using `dsm()` we must first remove the observations from the spatial data that we excluded when we fitted the detection function -- those observations at distances greater than the truncation.
 
 ```{r truncate-obs-02}
-obs <- obs[obs$distance <= df_hn$ddf$meta.data$width,]
+obs <- obs[obs$distance <= df_hn$ddf$meta.data$width, ]
 ```
 
 Here we've used the value of the truncation stored in the detection function object, but we could also use the numeric value (which we can also find by checking the model's `summary()`).
@@ -74,9 +74,18 @@ Let's start with a very simple model -- a bivariate smooth of `x` and `y`:
 ```{r nb-xy-02}
 dsm_nb_xy <- dsm(count~s(x,y),
                  ddf.obj=df_hn, segment.data = segs, observation.data=obs,
-                 family=nb(), method="REML")
+                 family=nb())
 ```
 
+
+Garbage in, garbage out
+=======================
+type:section
+title:none
+
+<img src="images/kitabet_2016-Nov-22.jpg" width="100%">
+
+[@kitabet](http://twitter.com/kitabet)
 Note again that we try to have informative model object names so that we can work out what the main features of the model were from its name alone.
 
 We can look at a `summary()` of this model. Look through the summary output and try to pick out the important information based on what we've talked about in the lectures so far.
@@ -86,6 +95,15 @@ summary(dsm_nb_xy)
 
 ### Visualising output
 
+
+Garbage in, garbage out
+=======================
+type:section
+title:none
+
+<img src="images/kitabet_2016-Nov-22.jpg" width="100%">
+
+[@kitabet](http://twitter.com/kitabet)
 As discussed in the lectures, the `plot` output is not terribly useful for bivariate smooths like these. We'll use `vis.gam()` to visualise the smooth instead:
 ```{r nb-xy-visgam, fig.width=5, fig.height=5, fig.cap="Fitted surface (on link scale) for s(x,y)"}
 vis.gam(dsm_nb_xy, view=c("x","y"), plot.type="contour", 
@@ -125,7 +143,7 @@ We can set the basis complexity via the `k` argument to the `s()` term in the fo
 ```{r nb-xy-smallk}
 dsm_nb_xy_smallk <- dsm(count~s(x, y, k=10),
                         ddf.obj=df_hn, segment.data = segs, observation.data=obs,
-                        family=nb(), method="REML")
+                        family=nb())
 ```
 
 Compare the output of `vis.gam()` and `gam.check()` for this model to the model with a larger basis complexity.
@@ -146,7 +164,7 @@ Instead of fitting a bivariate smooth of `x` and `y` using `s(x, y)`, we could i
 ```{r additive-xy-nb}
 dsm_nb_x_y <- dsm(count~s(x)+ s(y),
                  ddf.obj=df_hn, segment.data = segs, observation.data=obs,
-                 family=nb(), method="REML")
+                 family=nb())
 ```
 
 Compare this model with `dsm_nb_xy` using `vis.gam()` (Note you can display two plots side-by-side using `par(mfrow=c(1,2))`). Investigate the output from `summary()` and the check functions too, comparing with the other models, adjust `k` if necessary.
@@ -178,7 +196,7 @@ Changing response or response distribution:
 
 ## Save models
 
-It'll be interesting to see how these models compare to the more complex models we'll see later on. Let's save the fitted models at this stage.
+It'll be interesting to see how these models compare to the more complex models we'll see later on. Let's save the fitted models at this stage (add your own models to this list so you can use them later).
 
 ```{r save-models-02}
 # add your models here

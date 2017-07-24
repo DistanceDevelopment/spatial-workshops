@@ -23,7 +23,6 @@ library(Distance)
 library(dsm)
 library(ggplot2)
 library(knitr)
-library(kableExtra)
 library(plyr)
 library(reshape2)
 ```
@@ -302,8 +301,8 @@ row.names(summary_table) <- c("dsm_nb_x_y_ms", "dsm_nb_xy_ms")
 ```{r print-table-03, results="asis"}
 summary_table <- summary_table[order(summary_table$REML, decreasing=TRUE),]
 kable(summary_table, 
-      caption = "Model performance of s(x,y) and s(x)+s(y) in presence of other covariates.") %>%
-  kable_styling(latex_options="scale_down")
+      caption = "Model performance of s(x,y) and s(x)+s(y) in presence of other covariates.")# %>%
+#  kable_styling(latex_options="scale_down")
 ```
 
 ## Saving models

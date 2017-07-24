@@ -18,6 +18,10 @@ Load some useful packages:
 library(rgdal)
 library(knitr)
 ```
+```{r}
+output.format <- opts_knit$get("rmarkdown.pandoc.to")
+print(output.format)
+```
 
 ## Load and arrange data
 

@@ -31,7 +31,6 @@ library(rgdal)
 library(ggplot2)
 library(Distance)
 library(knitr)
-library(kableExtra)
 ```
 
 ## Load the data
@@ -223,8 +222,7 @@ The code below will make a results table with relevant statistics for model sele
 ```{r df-results}
 model_table <- summarize_ds_models(df_hn, df_hr_ss_size)
 kable(model_table, digits=3, format="latex", booktabs=TRUE, row.names = FALSE, escape=FALSE,
-      caption = "Comparison of half normal and hazard rate with sea state and group size.") %>%
-  kable_styling(latex_options="scale_down")
+      caption = "Comparison of half normal and hazard rate with sea state and group size.")
 ```
 
 (You can add the models you fitted above into this list.)
@@ -268,7 +266,7 @@ From @Palka2006, we think that observations on the track line were such that $g(
 ```{r ht-perception}
 ```
 
-This kind of correction works fine when we have a single number to adjust by, in general we'd like to model the perception bias using "mark-recapture distance sampling" techniques.
+This kind of correction works fine when it's appropriate to use a single number to adjust by, in general we'd like to model the perception bias, for example using "mark-recapture distance sampling" techniques.
 
 ### Save model objects
 
@@ -281,9 +279,3 @@ save(df_hn, df_hr_ss_size, # add you models here, followed by commas!
 ```
 
 You can check it worked by using the `load()` function to recover the models.
-
-<!--
-### References
-
-Palka, D. (2006). Summer Abundance Estimates of Cetaceans in US North Atlantic Navy Operating Areas. Northeast Fisheries Science Center Reference Document 06-03. [Available online here](http://www.nefsc.noaa.gov/nefsc/publications/crd/crd1229/crd1229.pdf)
--->
