@@ -5,3 +5,7 @@ slides/*.html
 slides/*.md
 spermwhale-analysis/*.html
 practicals/_book*
+slides/*-cache
+slides/*-figure
+slides/*_files
+*.log
