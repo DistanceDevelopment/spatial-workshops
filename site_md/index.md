@@ -27,7 +27,7 @@ The first day of the workshop will review fundamental principles of distance sam
 | Tuesday   | Sperm whale data analysis                               | What is a Density Surface Model (DSM)?                                          | Intro to generalized additive models (GAMs)                        | *Practicals 5, 6 & 7:* Process data, fit detection function, fit DSMs | DSM: Model checking            |
 | Wednesday | Add covariates, produce predictions                     | DSM: Multiple smooths and model selection                    | *Practical 8:* Multiple term DSMs, model checking and selection |  DSM: Prediction & variance estimation     |  *Practicals 9 & 10:* DSM: Prediction and variance |
 | Thursday  | Double platform detection functions and advanced topics |  DSM: Modelling advice and advanced topics                | DSM wrapup | Mark-recapture distance sampling                                   | *Practical 11:* `mrds`                                                 |
-| Friday    | Research talks and unstructured time | Research talks: acoustics, SCR, `inlabru`, HMMs, movement | Special topics                                                     | Open                                                               | Open                               |
+| Friday    | Research talks and unstructured time | Research talks: acoustics, spatial capture-recapture, HMMs, other spatial approaches, movement | Special topics                                                     | Open                                                               | Open                               |
 
 
 
