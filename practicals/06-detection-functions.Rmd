@@ -261,7 +261,7 @@ Note that in the solutions to this exercise (posted on the course website) I sho
 
 It's common, especially in marine surveys, for animals at zero distance to be missed by observers. There are several ways to deal with this issue. For now, we are just going to use a very simply constant correction factor to inflate the abundance.
 
-From @Palka2006, we think that observations on the track line were such that $g(0)=0.46$, we can apply that correction to our abundance estimate (in a very primitive way):
+From Palka (2006), we think that observations on the track line were such that $g(0)=0.46$, we can apply that correction to our abundance estimate (in a very primitive way):
 
 ```{r ht-perception}
 ```
@@ -279,3 +279,7 @@ save(df_hn, df_hr_ss_size, # add you models here, followed by commas!
 ```
 
 You can check it worked by using the `load()` function to recover the models.
+
+## References
+
+Palka, D. L. (2006) *Summer Abundance Estimates of Cetaceans in US North Atlantic Navy Operating Areas*. Northeast Fisheries Science Center Reference Document 06-03

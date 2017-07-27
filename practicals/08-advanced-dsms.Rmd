@@ -212,7 +212,7 @@ Again, we've only looked at models with `count` as the response. Try using a det
 
 ## Concurvity
 
-Checking concurvity (@Amodio2014) of terms in the model can be accomplished using the `concurvity()` function.
+Checking concurvity of terms in the model can be accomplished using the `concurvity()` function.
 
 ```{r concurvity-checks, fig.cap="Concurvity for model with many environmental covariates."}
 concurvity(dsm_nb_xy_ms)
