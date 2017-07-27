@@ -74,7 +74,7 @@ obs <- readOGR("Analysis.gdb", layer="Sightings")
 ```
 
 Again we can use a plot to see whether the data looks okay. This time we only have the locations of the observations:
-```{r obs-data-plot, fig.height=4, fig.width=4, fig.cap="Sighting locations for spearm whale dataset."}
+```{r obs-data-plot, fig.height=4, fig.width=4, fig.cap="Sighting locations for sperm whale dataset."}
 plot(obs)
 ```
 
