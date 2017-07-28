@@ -16,3 +16,4 @@ for i in $( ls *.html); do
   ~/sources/decktape/phantomjs ~/sources/decktape/decktape.js automatic -s 1024x768 $i $PDFFN
   mv $i ~/current/webwebweb/distancesampling.com/workshops/stand-intermed-2017/slides/
 done
+

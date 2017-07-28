@@ -4,10 +4,6 @@ output:
   pdf_document: default
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, eval=FALSE)
-```
-
 # Create and analyse a simulated dataset
 
 The purpose of this session is to refresh our memories of analysing straightforward distance sampling data. We will simulate a simple line transect dataset using the Distance simulation engine, so we know the true population size and detection function, and then analyze the data to see how close we are to the truth.  The exercise can be completed using Distance for Windows or `R` (or both!).

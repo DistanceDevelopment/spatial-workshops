@@ -1,17 +1,120 @@
+---
+output: 
+  html_document: default
+  pdf_document: default
+---
+
 # Problem datasets
 
-The purpose of this session is to challenge yourself with the analysis of some difficult datasets. We will give more instructions on how to analyse them during the workshop.
+You can use this session in one (or both) of two ways.
 
-## Blue monkey data set
+Firstly, you can use it to get more practice and guidance on analysis of fairly straightforward distance sampling data in `R`.  In this case, have a look at the Ducknest and Crabeater Seal examples below.
 
-* [Distance 7 project](Difficult data/D7BlueMonkey - Demo 3.zip)
-* [Data as csv for R analysis](Difficult data\BlueMonkey.csv)
+Secondly, you can challenge yourself with the analysis of some more complex or problematic datasets, focussing on detection function estimation, using either `Distance for Windows` or `R`.  We do not provide any specific instructions if you're using `R`.  This this case, have a look at the examples starting with Capercaillie.
+
+There are many more examples here than you have time to look at in this session - but they will give you something to work on in open sessions later (or perhaps at home) if you don't have your own data.
+
+## Ducknest
+
+The following code performs a simple analysis of the Monte Vista ducknest data in `R`.  You will be very familiar with this dataset if you came on an Introductory course previously.
+
+```{r ducknest}
+#Read in the data
+#The following command only works if ducknests.csv is in your current directory.  
+#In RStudio you can use the menu item Session | Set working directory to achieve this
+#Or you can use the setwd() function in the R console
+ducknests <- read.csv("ducknests.csv")
+
+#Show the first few lines
+head(ducknests)
+```
+
+```{r introdsfit}
+#Fit detection functions - convert.units is necessary because the effort is in km but the distances are in m. 
+library(Distance)
+halfnorm.ducks <- ds(ducknests, key="hn", adjustment="cos", convert.units = 0.001)
+unifcos.ducks <- ds(ducknests, key="unif", adjustment="cos", mono="strict", convert.units = 0.001)
+hazard.ducks <- ds(ducknests, key="hr",  adjustment="poly", convert.units = 0.001)
+#Compare the models
+summarize_ds_models(halfnorm.ducks,unifcos.ducks,hazard.ducks,output="plain")
+#Here's another way to get the AIC values out -- more clunky and less informative
+cat("AIC HN=", AIC(halfnorm.ducks),  "AIC UNIF=", AIC(unifcos.ducks), "AIC HZ=", AIC(hazard.ducks))
+```
+
+```{r introdfplot}
+#Plot selected function and goodness of fit
+par(mfrow=c(1,2))
+plot(halfnorm.ducks, main="Duck nests, half-normal detection function")
+fit.test <- ddf.gof(halfnorm.ducks$ddf)
+par(mfrow=c(1,1))
+```
+
+```{r introdssummary}
+summary(halfnorm.ducks)
+#Show how to pull some results out of the fitted object
+halfnorm.ducks$dht$individuals$summary
+halfnorm.ducks$dht$individuals$D
+```
+
+## Crabeater seal
+
+This is an aerial survey dataset on crabeater seals in Antarctica that we will encounter later on in the course, when we discuss Mark Recapture Distance Sampling.  For the moment, though, the following `R` code demonstrates an analysis using Multiple Covariate Distance Sampling (MCDS).
+
+The following code demonstrates import of the data into R, and fitting of a simple half-normal detection function examining the possible improvement of the model by incorporating a _side of plane_ covariate.
+
+```{r crabbie}
+#Read in data - again, the csv file has to be in your current directory.
+crab.covariate <- read.csv("crabbieMCDS.csv")
+head(crab.covariate, n=3)
+#make sure side (i.e., side of plane) is stored as a factor
+crab.covariate$side<-as.factor(crab.covariate$side)
+
+#fit detection function with side of plane as a covariate
+library(Distance)
+ds.side <- ds(crab.covariate, key="hn", formula=~side, truncation=700)
+
+#do some diagnostic plots and a goodness-of-fit test
+plot(ds.side)
+ds.gof(ds.side, lwd = 2, lty = 1, pch = ".", cex = 0.5)
+
+#compare with a model that does not have side of plane as a covar
+ds.noside <- ds(crab.covariate, key="hn", truncation=700)
+summarize_ds_models(ds.side,ds.noside,output="plain")
+```
+
+What is your conclusion so far?  Are there other diagnostics you might want to run, or other models you might want to fit?
+
+## Capercaillie
+
+This is a fairly straightforward dataset from a line transect survey of capercaillie (a large grouse) in Scotland.  Feel free to skip over this example if you are quite confident in the analysis of conventional line transect data.
+
+There is one minor issue in the distances, which does not affect the results much.  If you decide to analyze these data, see if you can tell what is is.
+
+The data are given in the form of a tab-delimited text file.  The size of the study area is not known, so it is given as 0 so we can estimate capercaillie density but not abundance.  Also, we do not have individual line data; we just know that the total line length was 240km.  So, we'll be able to estimate density, but not get an accurate estimate of variance, because we won't be able to calculate between-line variance in encounter rate.
+
+* [Data as tab-delimited text file](capercaillie.txt)
+
+## Amakihi
+
+The Amakihi is a Hawaiian forest bird.  The dataset you have here is from a point transct survey, which had 7 geographic strata.  Try analyzing the data and select a detection function to use for inference.  In addition to a conventional distance sampling analysis, try the available covariates to see if you can obtain more relaible stratum-level estimates of density.  Potential covariates are month, observer (OBS), minutes after sunrise (MAS) and hours after sunrise (HAS).
+
+These data were used as the motivating example in a paper describing Multiple Covariate Distance Sampling (Marques et al. 2007), and also in Section 5.3.2.1 of the new Distance Sampling book (Buckland et al. 2015); you have the paper on your data stick and a hard copy of the book, so once you've finished your analysis, you can compare what you found with their analysis.  (An analysis file is also available on the book web site https://synergy.st-andrews.ac.uk/ds-manda/)
+
+* [Distance 7 project](Difficult data/Amakihi2.zip)
+* [Data as csv for R analysis](Difficult data\Amakihi.csv)
 
 ## Odd spike data set
+
+These data are not real! - they are synthetic.  Try fitting detection functions without the monotonicity constraint, and use model selection to decide which model is the most parsimonious.
 
 * [Distance 7 project](Difficult data/D7OddSpike - Demo 2.zip)
 * [R script to manufacture and conduct analysis](Difficult data\Oddspike.r)
 
-## Other datasets to follow
+## Blue monkey data set
+
+These data are real, unfortunately.  They are on groups of monkeys from a line transect survey in tropical forest.  What is the major issue with these data?  What questions would you like to ask the data gatherers in order to decide how the data might be salvaged?  In the absence of such information, what are your thoughts about the best way to analyze the data to infer detectability?
+
+* [Distance 7 project](Difficult data/D7BlueMonkey - Demo 3.zip)
+* [Data as csv for R analysis](Difficult data\BlueMonkey.csv)
 
 

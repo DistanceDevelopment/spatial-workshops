@@ -16,6 +16,8 @@ linkcolor: blue
 css: details.css
 site: bookdown::bookdown_site
 bibliography: references.bib
+new_session: yes
+
 ---
 
 ```{r pdfmaker, echo=FALSE}
