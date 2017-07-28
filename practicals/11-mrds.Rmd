@@ -27,6 +27,7 @@ Data layers associated with the golftees dataset
 ```
 Open R and load the `mrds` package and golf tee dataset.
 ```{r preliminaries, message=FALSE, comment=NA}
+library(knitr)
 library(mrds)
 data(book.tee.data)
 #investigate the structure of the dataset
