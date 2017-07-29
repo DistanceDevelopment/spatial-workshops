@@ -1,12 +1,12 @@
 ---
-title: Practical exercises & solutions
+title: Practical exercises
 layout: index
 
 ---
 
-# Practical exercises & solutions
+# Practical exercises
 
-Here you can find the exercises and solutions for the practical sessions during the course. All content is here and will remain here on the Distance website for future consultation.
+Here you can find the exercises for the practical sessions during the course. All content is here and will remain here on the Distance website for future consultation.
 
 ## Practicals
 
@@ -49,7 +49,8 @@ Ha, fooled you.  Data for this practical will be simulated; therefore no dataset
 ### Data for challenging data sets (Practical 3)
 
 - [Ducknests](practicals/ducknests.csv)
-- [Crabeater seals MCDS](practicals/crabbieMCDS.csv)
+- [Crabeater seals](practicals/crabbieMCDS.csv)
+- [Crabeater seals Distance project](practicals/CrabbieMCDSExercise.zip)
 - [Capercaillie](practicals/capercaillie.txt)
 - [Amakihi](practicals/amakihi.csv)
 - [Amakihi Distance project](practicals/Amakihi2.zip)

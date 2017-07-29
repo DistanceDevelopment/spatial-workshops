@@ -154,3 +154,49 @@ The abundance estimates are not an exact match between the Distance 7 analysis a
 
 ***
 ```
+
+
+### Extra credit -- Crabeater seals with MCDS
+
+We can also analyse the crabeater seals data as if it were MCDS data (ignoring $g(0)$).
+
+Data identical to that avaiable in the Distance project `CrabbieMCDSExercise.zip` has been ported to `crabbieMCDS.csv` as if you had entered these data yourself into a spreadsheet.
+
+This short exercise guides you through the import of those data into R, and fits a simple half-normal detection function examining the possible improvement of the model by incorporating a _side of plane_ covariate.
+
+```{r, message=FALSE, comment=NA}
+library(Distance)
+crab.covariate <- read.csv("crabbieMCDS.csv")
+head(crab.covariate, n=3)
+```
+
+Noting that the data have been read into R appropriately, we are ready to fit a detection function.  
+
+Note that _side of plane_ is assigned characters (L/R) in our data.  Before using _side of plane_ as a covariate, we need to tell R that _side of plane_ takes on discrete values, hence characters are acceptable for use; this happens with the `as.factor()` function.
+
+```{r, comment=NA}
+ds.side <- ds(crab.covariate, key="hn", formula=~as.factor(side), truncation=700)
+```
+
+Having fitted a detection function using _side of plane_ as a covariate to the half-normal detection function, we would like to assess the fit of this function to our data.  Two visual assessments are provided by the panels below: histogram and function on the left and QQ plot on the right.
+
+```{r, fig.cap="Histogram and fitted half-normal detection function on left.  Q-Q plot of detection function and data on right."}
+par(mfrow = c(1, 2))
+plot.title <- "Two sets of points\none for each 'side' of plane"
+plot(ds.side, pch=19, cex=0.5, main = plot.title)
+gof.result <- ds.gof(ds.side, lwd = 2, lty = 1, pch = ".", cex = 0.5)
+message <- paste("CVM GOF p-value=", round(gof.result$dsgof$CvM$p, 4))
+text(0.6, 0.2, message, cex=0.5)
+```
+
+We could also fit a detection function without the covariate and contrast the two models.
+
+```{r, comment=NA}
+ds.nocov <- ds(crab.covariate, key="hn", formula=~1, truncation=700)
+```
+
+AIC score for model without covariate is `r options(scipen=9)` `r round(ds.nocov$ddf$criterion)` and AIC score for model with _side_ as a covariate is  `r round(ds.side$ddf$criterion)` so the model that includes _side_ as a covariate is preferred.  
+
+Abundance estimates are provided if you print the contents of `summary.covar` or `summary.nocovar` to your console, but we do not provide those results.
+<!--We could go on to produce abundance estimates from our preferred model using `dht(cr.cov.ddf)` if we had provided information about the size of the crabeater seal study area. -->
+
