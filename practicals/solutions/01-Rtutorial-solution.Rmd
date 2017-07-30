@@ -1,0 +1,65 @@
+# Specially requested solutions to Tasks 3, 5 and 6 of 01-Rtutorial
+
+**Task 3**: Using data `cars`, create a plot that represents the stopping  distances as a function of the speed of cars. Use the `points` function to add a special symbol to points corresponding to cars with speed lower than 15 mph, but distance larger than 70m. Check out the function `text` to add text annotations to plots. Customize axis labels.
+
+```{r t3-sol}
+plot(cars$speed, cars$dist, xlab="Speed (mph)", ylab="Stopping distance (m)")
+points(cars$speed[cars$speed<15 & cars$dist>70], 
+  cars$dist[cars$speed<15 & cars$dist>70], pch=20, col="blue")
+text(15, 70, "Special point", cex=0.7)
+```
+
+*The function `points` needs and `x` argument and a `y` argument.  Each argument here uses a compound condition to subset the dataframe.  Clumsy, but effective.  Perhaps more elegant is the following:*
+
+```{r t3-sol2}
+plot(cars$speed, cars$dist, xlab="Speed (mph)", ylab="Stopping distance (m)")
+ind<-cars$speed<15 & cars$dist>70
+points(cars$speed[ind], cars$dist[ind], pch=20, col="blue")
+text(15, 70, "Special point", cex=0.7)
+```
+
+
+Regression of braking distance with speed
+
+```{r lm}
+data(cars)
+mylm1 <- lm(dist~speed, data=cars)
+```
+
+
+**Task 5**: Use abline to draw dashed lines (tip, use optional argument `lty=2`) representing the estimated distance that a car moving at 16 mph would take to stop.
+
+```{r t5-sol}
+xl <- "Speed (mph)"
+yl <- "Distance (m)"
+plot(cars$speed, cars$dist, xlab=xl, ylab=yl, ylim=c(0,120) ,xlim=c(0,30))
+abline(mylm1)
+stop.at.16mph <- coef(mylm1)[1] + coef(mylm1)[2] * 16
+abline(v=16, lty=2)
+abline(h=stop.at.16mph, lty=2)
+text(0, stop.at.16mph+2, paste("Distance for 16mph=", round(stop.at.16mph,2), "m"), 
+  cex=0.7, pos=4)
+```
+
+*We need to determine the stopping distance for a car travelling at 16mph using the coefficients of the predicted regression.  Once that value is determined, two calls to abline (one horizontal and one vertical) are made.  Finally text is placed onto the graph, at coordinates 0 and stop.at.16mph+2.  The text string is made up of words pasted together with the distance in question.  This is an example of function calls as arguments to other functions.*
+
+
+**Task 6**: Using what you have learnt here, create two histograms, one of 50, another of 5000, random deviates from a Gaussian distribution, using the optional argument `freq=FALSE` (leading to an estimate of the density function). Then add a line to the plot that represents the true underlying density (tip, you can use function `dnorm()`), and comment on the results.
+
+```{r t6-sol}
+par(mfrow=c(2,1))
+set.seed(28282346)
+only50 <- rnorm(n=50, mean=20, sd=4)
+hist(only50, freq=FALSE)
+xrange <- seq(from=5, to=35, length=100)
+gaussian <- dnorm(xrange, mean=20, sd=4)
+lines(xrange, gaussian)
+only5000 <- rnorm(n=5000, mean=20, sd=4)
+hist(only5000, freq = FALSE)
+lines(xrange, gaussian)
+par(mfrow=c(1,1))
+```
+
+*The hint suggested the use of the `dnorm()` function.  It takes an x-value and returns the value of the Gaussian density at the value x.  We make a vector of x-values (choosing a range and a number of values), passing that vector to `dnorm()` producing another vector.  Your friendly function `lines()`, a close relative of the function `points()` makes a nice density curve superimposed atop the histogram.*
+
+*Note the use of the function set.seed() in the code above.  This is used to initialize the random number generator.  Set the seed if you want to get the same answer each time you run code that contains random number generation.  Otherwise, omit (or comment out) this line, and the random number will be initialized from the computer clock. There are lots of resources on the web about random number generation on computers and the use of seeds, if you want to find out more.*
