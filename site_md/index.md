@@ -11,8 +11,9 @@ This is the site for the Intermediate-level Distance Sampling Workshop given in 
 ## Course materials
 
 - [Slides](slides.html) in PDF, HTML and R formats
-- [Practical session exercises, solutions and data](practicals.html)
+- [Practical session exercises and data](practicals.html)
 - [Bibliography](bibliography.html) listing additional useful publications
+- [Course evaluation](https://docs.google.com/forms/d/e/1FAIpQLSfRwTobQ29PSrSbiVVBw6vxbRIG_qTgrWZKEyxyFjvhXV0ICA/viewform?c=0&w=1&includes_info_params=true) please fill this in at the end of the course with your feedback
 
 ## Course description
 
@@ -29,7 +30,9 @@ The first day of the workshop will review fundamental principles of distance sam
 | Thursday  | Double platform detection functions and advanced topics |  DSM: Modelling advice and advanced topics                | DSM wrapup | Mark-recapture distance sampling                                   | *Practical 11:* `mrds`                                                 |
 | Friday    | Research talks and unstructured time | Research talks: acoustics, spatial capture-recapture, HMMs, other spatial approaches, movement | Special topics                                                     | Open                                                               | Open                               |
 
+## Refresher of distance sampling concepts
 
+To remind you about fundamentals of distance sampling, we have [posted the lecture notes and practicals](Introductory distance sampling workshop.pdf) (without data to complete them) from former introductory distance sampling workshops.  Thumb through these to remind yourself about distance sampling concepts.  Some of these lectures are also [available in video format](http://distancesampling.org/videos.html).
 
 ## Software
 
@@ -54,7 +57,7 @@ install.packages(c("mrds", "Distance", "dsm", "DSsim", "ggplot2", "rgdal", "knit
                    "plyr", "raster", "reshape2", "viridis", "htmltools",
                    "caTools", "bitops", "rmarkdown", "tweedie", "shapefiles"))
 ```
-There may be quite a lot of packages downloaded, including many not listed here because the packages listed depend upon many other packages.
+There may be quite a lot of packages downloaded (35 I counted), including many not listed here because the packages listed depend upon many other packages.
 
 Several participants have noted they are unfamiliar with R and RStudio.  There are three things that can be done to increase your familiarity.
 
@@ -64,6 +67,14 @@ Several participants have noted they are unfamiliar with R and RStudio.  There a
     - DataCamp's [tutorial working with RStudio](https://www.datacamp.com/courses/working-with-the-rstudio-ide-part-1)
 *  Tutorial prior to the distance sampling workshop
     - we will spend Sunday (30 August) afternoon 1400-1700 working through a tutorial that will be available as part of the workshop practical exercises
+*  Test your R skills with this quiz based around distance sampling of ducknests
+    - I have posted a set of self-evaluated questions you can answer while analysing a ducknest data set.  The questions are hosted on a site run by RStudio called shinyapps.  Feel free to [follow this link](https://erex.shinyapps.io/distance_sampling_analysis_of_duck_nests/) to test your skill at fitting detection functions and assessing those models.
+
+### Reporting bugs, suggesting improvements
+
+If during the course you encounter bugs in Distance or the distance sampling R packages, or if you have suggestions for improvements in our software, you can report these using the following Google Form. Please try to include as much information as possible.
+
+**[Bug reports and suggestions](https://docs.google.com/forms/d/14ipIeUiiLegvFWq8nnzkOONdN9j_n4Q4ZeJ1dzWZEfc/)**
 
 ### Etherpad
 
