@@ -13,7 +13,7 @@ Here you can find the slides used in the lectures. They are provided in three fo
 Lecture name                                |                                                      PDF                                                                |                      HTML               |             Rpres
 --------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|-----------------------------------------|---------------------------------------------------------------------------------------------------------------------------
 Introduction to R                           | [PDF](slides/Introduction-to-R.pdf) | |
-Distance sampling review & assumptions      | Interactive session | |
+Distance sampling review & assumptions      | [Len's notes](slides/DistanceWorkshop_RecapAndAssumptions.pdf) | |
 Simulation of distance sampling    | [PDF](slides/SimulationsNotes.pdf) | |
 What is a density surface model?            | [PDF](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/slides/dsm1-what-is-a-dsm.pdf)     | [HTML](slides/dsm1-what-is-a-dsm.html)     | [Rpres](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/slides/dsm1-what-is-a-dsm.Rpres)
 Generalized Additive Models                 | [PDF](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/slides/dsm2-gams.pdf)              | [HTML](slides/dsm2-gams.html)              | [Rpres](https://raw.githubusercontent.com/DistanceDevelopment/spatial-workshops/master/slides/dsm2-gams.Rpres)
