@@ -55,6 +55,7 @@ Ha, fooled you.  Data for this practical will be simulated; therefore no dataset
 - [Amakihi](practicals/amakihi.csv)
 - [Amakihi Distance project](practicals/Amakihi2.zip)
 - [Odd spike Distance project](practicals/OddSpike-Demo_2.zip)
+- [Blue monkey data](practicals/bluemonkey.csv)
 - [Blue monkey Distance project](practicals/BlueMonkey-Demo_3.zip)
 
 
