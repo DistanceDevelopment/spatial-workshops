@@ -29,6 +29,7 @@ Number | Practical Description            | Rmd file | Solutions |
 9      | DSM Prediction | [Rmd](practicals/09-prediction.Rmd) |  |
 10     | DSM Variance | [Rmd](practicals/10-variance.Rmd) |  |
 11     | `mrds` | [Rmd](practicals/11-mrds.Rmd) |  |
+11     | MRDS in Distance | [PDF](practicals/11-mrds-distance.pdf) |  |
 
 ## Data sets *(under construction)*
 
