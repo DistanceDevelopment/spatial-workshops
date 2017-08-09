@@ -1,0 +1,208 @@
+---
+title: 'Estimating variance'
+author: David L Miller
+css: custom.css
+
+---
+
+The analysis here is conditional on selecting a detection function and DSM in the previous exercises; I've shown a variety of models selected in the previous solutions to show the differences between models.
+
+Much of the text below is as in the exercise itself, so it should be relatively easy to navigate.
+
+<div class="boxout">
+Additional text and code is highlighted using boxes like this.
+</div>
+
+Now we've fitted some models and estimated abundance, we can estimate the variance associated with the abundance estimate (and plot it).
+
+# Load packages and data
+
+```{r load-packages}
+library(dsm)
+library(raster)
+library(ggplot2)
+library(viridis)
+library(plyr)
+library(knitr)
+library(rgdal)
+```
+
+Load the models and prediction grid:
+```{r load-models}
+load("dsms.RData")
+load("dsms-xy.RData")
+load("predgrid.RData")
+```
+
+# Estimation of variance
+
+Depending on the model response (count or Horvitz-Thompson) we can use either `dsm.var.prop` or `dsm.var.gam`, respectively. `dsm_nb_xy_ms` doesn't include any covariates at the observer level in the detection function, so we can use the variance propagation method and estimate the uncertainty in detection function parameters in one step.
+
+```{r varest}
+# need to remove the NAs as we did when plotting
+predgrid_var <- predgrid[!is.na(predgrid$Depth),]
+# now estimate variance
+var_nb_xy_ms <- dsm.var.prop(dsm_nb_xy_ms, predgrid_var, off.set=predgrid_var$off.set)
+```
+To summarise the results of this variance estimate:
+```{r varest-summary}
+summary(var_nb_xy_ms)
+```
+
+Try this out for some of the other models you've saved. Remember to use `dsm.var.gam` when there are covariates in the detection function and `dsm.var.prop` when there aren't.
+
+<div class="boxout">
+We'll skip this and go straight to summarising all our models so far in the next section...
+</div>
+
+# Summarise multiple models
+
+We can again summarise all the models, as we did with the DSMs and detection functions, now including the variance:
+
+```{r summarise-var}
+summarize_dsm_var <- function(model, predgrid){
+
+  summ <- summary(model)
+  
+  vp <- summary(dsm.var.prop(model, predgrid, off.set=predgrid$off.set))
+  unconditional.cv.square <- vp$cv^2
+  asymp.ci.c.term <- exp(1.96*sqrt(log(1+unconditional.cv.square)))
+  asymp.tot <- c(vp$pred.est / asymp.ci.c.term,
+                 vp$pred.est,
+                 vp$pred.est * asymp.ci.c.term)
+
+  data.frame(response = model$family$family,
+             terms    = paste(rownames(summ$s.table), collapse=", "),
+             AIC      = AIC(model),
+             REML     = model$gcv.ubre,
+             "Deviance_explained" = paste0(round(summ$dev.expl*100,2),"%"),
+             "lower_CI" = round(asymp.tot[1],2),
+             "Nhat" = round(asymp.tot[2],2),
+             "upper_CI" = round(asymp.tot[3],2)
+             )
+}
+```
+<div class="boxout">
+
+This takes a long time!
+
+```{r var-table}
+# make a list of models
+model_list <- list(dsm_nb_xy, dsm_nb_x_y, dsm_nb_xy_ms, dsm_nb_x_y_ms,
+                           dsm_tw_xy, dsm_tw_x_y, dsm_tw_xy_ms, dsm_tw_x_y_ms)
+# give the list names for the models, so we can identify them later
+names(model_list) <- c("dsm_nb_xy", "dsm_nb_x_y", "dsm_nb_xy_ms", "dsm_nb_x_y_ms",
+                           "dsm_tw_xy", "dsm_tw_x_y", "dsm_tw_xy_ms", "dsm_tw_x_y_ms")
+per_model_var <- ldply(model_list, summarize_dsm_var, predgrid=predgrid_var)
+```
+</div>
+
+```{r print-table}
+kable(per_model_var)
+```
+
+
+# Plotting
+
+We can plot a map of the coefficient of variation, but we first need to estimate the variance per prediction cell, rather than over the whole area. This calculation takes a while!
+
+```{r per-cell-var}
+# use the split function to make each row of the predictiond data.frame into
+# an element of a list
+predgrid_var_split <- split(predgrid_var, 1:nrow(predgrid_var))
+var_split_nb_xy_ms <- dsm.var.prop(dsm_nb_xy_ms, predgrid_var_split, off.set=predgrid_var$off.set)
+```
+Now we have the per-cell coefficients of variation, we assign that to a column of the prediction grid data and plot it as usual:
+
+```{r varest-map-obs}
+predgrid_var_map <- predgrid_var
+cv <- sqrt(var_split_nb_xy_ms$pred.var)/unlist(var_split_nb_xy_ms$pred)
+predgrid_var_map$CV <- cv
+p <- ggplot(predgrid_var_map) +
+       geom_tile(aes(x=x, y=y, fill=CV, width=10*1000, height=10*1000)) +
+       scale_fill_viridis() +
+       coord_equal() +
+       geom_point(aes(x=x,y=y, size=count), data=dsm_nb_xy_ms$data[dsm_nb_xy_ms$data$count>0,])
+print(p)
+```
+
+Note that here we overplot the segments where sperm whales were observed (and scale the size of the point according to the number observed), using `geom_point()`.
+
+Try this with the other models you fitted and see what the differences are between the maps of coefficient of variation.
+
+<div class="boxout">
+We can use a similar technique as we did in the prediction exercises to get coefficient of variation maps for all of the models...
+
+**Note this can take a long time!**
+
+```{r predsp-allgen, fig.width=15, fig.height=7}
+# make a function that calculates the CV, adds them to a column named CV
+# and adds a column called "model" that stores the model name, then returns the
+# data.frame.
+make_cv_dat <- function(model_name, predgrid_split, predgrid){
+  # we use get() here to grab the object with the name of its argument
+  var_obj <- dsm.var.prop(get(model_name), predgrid_split, off.set=predgrid$off.set)
+  predgrid[["CV"]] <- sqrt(var_obj$pred.var)/unlist(var_obj$pred)
+  predgrid[["model"]] <- model_name
+  return(predgrid)
+} 
+
+# load plyr and apply to a list of the names of the models, make_cv_dat returns
+# a data.frame (hence this is an "ld" function: list->data.frame) that it then binds
+# together
+library(plyr)
+big_cv <- ldply(list("dsm_nb_xy", "dsm_nb_x_y", "dsm_nb_xy_ms", "dsm_nb_x_y_ms",
+                     "dsm_tw_xy", "dsm_tw_x_y", "dsm_tw_xy_ms", "dsm_tw_x_y_ms"),
+                make_cv_dat, predgrid_split=predgrid_var_split, predgrid=predgrid_var_map)
+```
+
+```{r predsp-allplot}
+p <- ggplot(big_cv) +
+       geom_tile(aes(x=x, y=y, fill=CV, width=10*1000, height=10*1000)) +
+       scale_fill_viridis() +
+       coord_equal() +
+       facet_wrap(~model, nrow=2)
+print(p)
+```
+
+One issue with producing this kind of plot is that `ggplot2` will use a common legend, meaning if there are some cells with high values, this can throw out the rest of the scale.
+
+As suggested in the lectures, we'll now use `cut()` to create a categorised version of the CV and plot that instead:
+
+
+```{r predsp-allplot-cut}
+big_cv$CV_cut <- cut(big_cv$CV, c(seq(0,2,0.2),3:6))
+p <- ggplot(big_cv) +
+       geom_tile(aes(x=x, y=y, fill=CV_cut, width=10*1000, height=10*1000)) +
+       scale_fill_viridis(discrete=TRUE) +
+       coord_equal() +
+       facet_wrap(~model, nrow=2)
+print(p)
+```
+
+This is a bit easier to read.
+
+</div>
+
+# Save the uncertainty maps to raster files
+
+As with the predictions, we'd like to save our uncertainty estimates to a raster layer so we can plot them in GIS. Again, this involves a bit of messing about with the data format before we can save.
+
+```{r savecv-raster}
+# setup the storage for the cvs
+cv_raster <- raster(predictorStack)
+# we removed the NA values to make the predictions and the raster needs them
+# so make a vector of NAs, and insert the CV values...
+cv_na <- rep(NA, nrow(predgrid))
+cv_na[!is.na(predgrid$Depth)] <- cv
+# put the values in, making sure they are numeric first
+cv_raster <- setValues(cv_raster, cv_na)
+# name the new, last, layer in the stack
+names(cv_raster) <- "CV_nb_xy"
+```
+We can then save that object to disk as a raster file:
+```{r write-raster}
+writeRaster(cv_raster, "cv_raster.img", datatype="FLT4S")
+```
+
+

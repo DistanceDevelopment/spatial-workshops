@@ -1,0 +1,332 @@
+---
+title: 'Simple density surface models'
+author: David L Miller
+output:
+  html_document:
+    css: custom.css
+---
+
+Here is a "solution" for practical 3. As with any data analysis, there is no correct answer, but this shows how I would approach this analysis. The analysis here is conditional on selecting a detection function in the previous exercises; I've chosen `df_hn` and `df_hr_ss_size` that we saved previously (see detection function solutions).
+
+Much of the text below is as in the exercise itself, so it should be relatively easy to navigate.
+
+<div class="boxout">
+Additional text and code is highlighted using boxes like this.
+</div>
+
+# Load the packages and data
+
+```{r load-packages}
+library(Distance)
+library(dsm)
+library(ggplot2)
+library(knitr)
+```
+
+Loading the `RData` files where we saved our results:
+```{r load-data}
+load("sperm-data.RData")
+load("df-models.RData")
+```
+
+
+
+# Pre-model fitting
+
+Before we fit a model using `dsm()` we must first remove the observations from the spatial data that we excluded when we fitted the detection function -- those observations at distances greater than the truncation.
+
+```{r truncate-obs}
+obs <- obs[obs$distance <= df_hn$ddf$meta.data$width, ]
+```
+
+Here we've used the value of the truncation stored in the detection function object, but we could also use the numeric value (which we can also find by checking the model's `summary()`).
+
+Also note that if you want to fit DSMs using detection functions with different truncation distances, then you'll need to reload the `sperm-data.RData` and do the truncation again for that detection function.
+
+# Fitting DSMs
+
+Using the data that we've saved so far, we can build a call to the `dsm()` function and fit out first density surface model. Here we're only going to look at models that include spatial smooths.
+
+Let's start with a very simple model -- a bivariate smooth of `x` and `y`:
+
+```{r nb-xy}
+dsm_nb_xy <- dsm(count~s(x,y),
+                 ddf.obj=df_hn, segment.data = segs, observation.data=obs,
+                 family=nb())
+```
+
+Note again that we try to have informative model object names so that we can work out what the main features of the model were from its name alone.
+
+We can look at a `summary()` of this model. Look through the summary output and try to pick out the important information based on what we've talked about in the lectures so far.
+```{r nb-xy-summary}
+summary(dsm_nb_xy)
+```
+
+<div class="boxout">
+Important things to look at here include the `EDF` column, the `R-sq.(adj)` and `Deviance explained`. Note that the significance of the terms isn't that useful at the moment, since we only have one smooth in the model (though if this wasn't significant we might be worried about including that variable!).
+</div>
+
+## Visualising output
+
+As discussed in the lectures, the `plot` output is not terribly useful for bivariate smooths like these. We'll use `vis.gam()` to visualise the smooth instead:
+```{r nb-xy-visgam, fig.width=5, fig.height=5}
+vis.gam(dsm_nb_xy, view=c("x","y"), plot.type="contour", too.far=0.1, main="s(x,y) (link scale)", asp=1)
+```
+
+Notes:
+
+1. The plot is on the scale of the link function, the offset is not taken into account -- the contour values do not represent abundance, just the "influence" of the smooth.
+2. We set `view=c("x","y")` to display the smooths for `x` and `y` (we can choose any two variables in our model to display like this)
+3. `plot.type="contour"` gives this "flat" plot, set `plot.type="persp"` for a "perspective" plot, in 3D.
+4. The `too.far=0.1` argument displays the values of the smooth not "too far" from the data (try changing this value to see what happens.
+5. `asp=1` ensures that the aspect ratio of the plot is 1, making the pixels square.
+6. Read the `?vis.gam` manual page for more information on the plotting options.
+
+
+## Checking the model
+
+We can use the `gam.check()` and `rqgam.check` functions to check the model. 
+```{r nb-xy-check, fig.width=6, fig.height=6}
+gam.check(dsm_nb_xy)
+```
+
+```{r nb-xy-rqcheck, fig.width=6, fig.height=6}
+rqgam.check(dsm_nb_xy)
+```
+
+Remember that the left side of the `gam.check()` plot and the right side of the `rqgam.check()` plot are most useful.
+
+Looking back through the lecture notes, do you see any problems in these plots or in the text output from `gam.check()`.
+
+<div class="boxout">
+First looking at the `gam.check` plots, the Q-Q plot seems to show good agreement between theoretical and actual values when the residuals are small, but this performance degrades as the values get larger (though not horribly). This is reflected in the histogram below where we see the distribution is skewed. The left side plots are not terribly interpretable (more on that below), because the artifact of the zeros in the model (almost solid line of dots) it's hard to discern whether there is heteroskedasticity (non-constant variance).
+
+The right side `rqgam.check` plots are much easier to interpret. The top right plot shows that we need not worry about non-constant variance here. Note that the left side doesn't tell us anything as the randomised quantile residuals are normally distributed (so the Q-Q looks okay and the histogram looks like a normal distribution, no surprises there).
+
+Now looking at the text output underneath: although the `k-index` and `p-value` values are low, the value of `k'` (the basis complexity we set) is much higher than the value of `edf` (the effective degrees of freedom), so we don't need to worry about the basis being to small. 
+</div>
+
+## Setting basis complexity
+
+We can set the basis complexity via the `k` argument to the `s()` term in the formula. For example the following re-fits the above model with a much smaller basis complexity than before:
+
+```{r nb-xy-smallk}
+dsm_nb_xy_smallk <- dsm(count~s(x, y, k=10),
+                        ddf.obj=df_hn, segment.data = segs, observation.data=obs,
+                        family=nb())
+```
+
+Compare the output of `vis.gam()` and `gam.check()` for this model to the model with a larger basis complexity.
+
+<div class="boxout">
+Setting the basis size to be "too" small yields the following output:
+
+```{r nb-xt-check-smallk, fig.keep="none"}
+# here we suppress the plot using fig.keep="none" as a chunk option
+gam.check(dsm_nb_xy_smallk)
+```
+
+Here we see that the `edf` and `k'` values are very close, so if we had set `k=10` to begin with, we'd try doubling it here to see what effect that had on the model.
+
+Plotting the smooth side-by-side with the more flexible model shows the differences in the resulting surfaces. In particular note how the northern area of the surface is very flat when `k` is small:
+```{r nb-xy-visgam-lowk, fig.width=10, fig.height=5}
+par(mfrow=c(1,2))
+vis.gam(dsm_nb_xy, view=c("x","y"), plot.type="contour", too.far=0.1, main="s(x,y) (link scale)", asp=1, zlim=c(-9,1))
+vis.gam(dsm_nb_xy_smallk, view=c("x","y"), plot.type="contour", too.far=0.1, main="s(x,y) (small k, link scale)", asp=1, zlim=c(-9,1))
+```
+Note we use `zlim` to ensure that the plots are on the same colourscale.
+</div>
+
+# Estimated abundance as response
+
+So far we've just used `count` as the response. That is, we adjusted the offset of the model to make it take into account the "effective area" of the segments (see lecture notes for a refresher).
+
+Instead of using `count` we could use `abundance.est`, which will leave the segment areas as they are and calculate the Horvitz-Thompson estimates of the abundance per segment and use that as the response in the model. This is most useful when we have covariates in the detection function (though we can use it any time).
+
+Try copying the code that fits the model `dsm_nb_xy` and make a model `dsm_nb_xy_ae` that replaces `count` for `abundance.est` in the model formula and uses the `df_hr_ss_size` detection function. Compare the results of summaries, plots and checks between this and the count model.
+
+<div class="boxout">
+Suggested, changing the response to `abundance.est` and the detection function to `df_hr_ss_size` we can fit:
+```{r nb-xy-ae}
+dsm_nb_xy_ae <- dsm(abundance.est~s(x,y),
+                    ddf.obj=df_hr_ss_size, segment.data = segs, observation.data=obs,
+                    family=nb(), method="REML")
+```
+looking at a summary:
+```{r nb-xy-ae-summary}
+summary(dsm_nb_xy_ae)
+```
+Note here the difference in the parameter of the negative binomial distribution, `r round(dsm_nb_xy_ae$family$getTheta(TRUE),3)` vs. `r round(dsm_nb_xy$family$getTheta(TRUE),3)`, due to the different response.
+
+The EDF of the spatial smooth, however is rather similar. Looking at that spatial smooth:
+```{r nb-xy-ae-visgam, fig.width=5, fig.height=5}
+vis.gam(dsm_nb_xy_ae, view=c("x","y"), plot.type="contour", too.far=0.1, main="s(x,y) (link scale)", asp=1)
+```
+
+Looking at check results:
+```{r nb-xy-ae-check, fig.width=5, fig.height=5}
+gam.check(dsm_nb_xy_ae)
+```
+
+Here we see a much bigger deviation from the $x=y$ line. We'll visit this again below when we look at assessing the response distribution.
+</div>
+
+
+# Univariate models
+
+Instead of fitting a bivariate smooth of `x` and `y` using `s(x, y)`, we could instead use the additive nature and fit the following model:
+
+```{r additive-xy-nb}
+dsm_nb_x_y <- dsm(count~s(x) + s(y),
+                 ddf.obj=df_hn, segment.data = segs, observation.data=obs,
+                 family=nb())
+```
+
+Compare this model with `dsm_nb_xy` using `vis.gam()` (Note you can display two plots side-by-side using `par(mfrow=c(1,2))`). Investigate the output from `summary()` and the check functions too, comparing with the other models, adjust `k` if necessary.
+
+<div class="boxout">
+First we should check if the basis size needs to be increased for this model:
+```{r nb-x-y-basis, fig.keep="none"}
+# again surpressing the figure output using fig.keep="none" in this chunk
+gam.check(dsm_nb_x_y)
+```
+(Everything looks good there.)
+```{r nb-xy-x-y-compare, fig.width=10, fig.height=5}
+par(mfrow=c(1,2))
+vis.gam(dsm_nb_xy, view=c("x","y"), plot.type="contour", too.far=0.1, main="s(x,y) (link scale)", asp=1, zlim=c(-9,1))
+vis.gam(dsm_nb_x_y, view=c("x","y"), plot.type="contour", too.far=0.1, main="s(x)+s(y) (link scale)", asp=1, zlim=c(-9,1))
+```
+
+The plot shows that due to the lack of interaction between the `x` and `y` terms, we don't get as detailed a plot. The contour lines are much simpler when the additive structure is used. Though we do note that the pattern is broadly-speaking similar in both cases.
+
+Also note that the bivariate model has a higher percentage deviance explained than the additive model.
+</div>
+
+# Tweedie response distribution
+
+So far, we've used `nb()` as the response -- the negative binomial distribution. We can also try out the Tweedie distribution as a response by replacing `nb()` with `tw()`.
+
+Try this out and compare the resulting check plots.
+
+<div class="boxout">
+First looking at the model with count as the response and changing the response to Tweedie by specifying `family=tw()`:
+```{r tw-xy}
+dsm_tw_xy <- dsm(count~s(x,y),
+                 ddf.obj=df_hn, segment.data = segs, observation.data=obs,
+                 family=tw())
+```
+Summarising that model:
+```{r tw-xy-summary}
+summary(dsm_tw_xy)
+```
+For brevity here, we can just compare the quantile-quantile plots using the `qq.gam()` function:
+```{r count-nb-tw-qq-comp, fig.width=10, fig.height=5}
+par(mfrow=c(1,2))
+qq.gam(dsm_nb_xy, main="Negative binomial")
+qq.gam(dsm_tw_xy, main="Tweedie")
+```
+
+The result here is far from clear-cut but (to my eye) it seems like the Tweedie model is better (in Q-Q plot terms at least).
+
+We can also repeat our model with additive terms but using a Tweedie response, for the sake of completeness:
+```{r tw-x-y}
+dsm_tw_x_y <- dsm(count~s(x) + s(y),
+                  ddf.obj=df_hn, segment.data = segs, observation.data=obs,
+                  family=tw(), method="REML")
+summary(dsm_tw_x_y)
+```
+
+
+
+Moving on to the estimated abundance response, we saw a pretty badly behaved Q-Q plot when we looked at the estimated abundance model with negative binomial response above. We can instead try using the Tweedie distribution, by specifying `family=tw()`:
+```{r tw-xy-ae}
+dsm_tw_xy_ae <- dsm(abundance.est~s(x,y),
+                    ddf.obj=df_hr_ss_size, segment.data = segs, observation.data=obs,
+                    family=tw())
+```
+Summarising that model:
+```{r tw-xy-ae-summary}
+summary(dsm_tw_xy_ae)
+```
+Comparing Q-Q plots:
+```{r ae-nb-tw-qq-comp, fig.width=10, fig.height=5}
+par(mfrow=c(1,2))
+qq.gam(dsm_nb_xy_ae, main="Negative binomial")
+qq.gam(dsm_tw_xy_ae, main="Tweedie")
+```
+
+This plot is much easier to read, clearly the Tweedie response is much better!
+</div>
+
+# Save models
+
+It'll be interesting to see how these models compare to the more complex models we'll see later on. Let's save the fitted models at this stage.
+
+```{r save-models}
+# add your models here
+save(dsm_nb_x_y, dsm_nb_xy, dsm_tw_x_y, dsm_tw_xy,
+     file="dsms-xy.RData")
+```
+
+
+# Extra credit
+
+If you have time, try the following:
+
+- What happens when we set `family=quasipoisson()`? Compare results of `gam.check` for this and the other models.
+
+<div class="boxout">
+Fitting a quasi-Poisson model and looking at the summary:
+```{r qp-xy}
+dsm_qp_xy <- dsm(count~s(x,y),
+                 ddf.obj=df_hn, segment.data = segs, observation.data=obs,
+                 family=quasipoisson())
+summary(dsm_qp_xy)
+```
+It looks like a significantly better $R^2$... what about checks...
+```{r qp-xy-check}
+gam.check(dsm_qp_xy)
+```
+Looks like we need to increase `k`, but also check out the Q-Q plot -- not very nice!
+```{r qp-xy-k}
+dsm_qp_xy_k <- dsm(count~s(x, y, k=60),
+                   ddf.obj=df_hn, segment.data = segs, observation.data=obs,
+                   family=quasipoisson())
+gam.check(dsm_qp_xy_k)
+```
+Looks like the complexity is high enough but the Q-Q plot is still not very nice.
+
+```{r qp-xy-visgam, fig.width=5, fig.height=5}
+vis.gam(dsm_qp_xy_k, view=c("x","y"), plot.type="contour", too.far=0.1, main="qp s(x,y) (link scale)", asp=1)
+```
+
+Broadly speaking the spatial pettern is rather similar, but seems much more intricate. Given the poor Q-Q plots, we're inclined to discard this model (though we'll revisit it in the prediction exercise).
+</div>
+
+
+
+- Make the `k` value very big (~100 or so), what do you notice?
+
+<div class="boxout">
+Let's try setting `k=100` for the Tweedie model:
+```{r tw-xy-bigk}
+dsm_tw_xy_bigk <- dsm(count~s(x, y, k=100),
+                      ddf.obj=df_hn, segment.data = segs, observation.data=obs,
+                      family=tw())
+summary(dsm_tw_xy_bigk)
+```
+The first thing you should notice is that this model took longer to fit. Looking at the `summary()` and `gam.check()` results we see that the EDF has jumped up to ~`r round(sum(dsm_tw_xy_bigk$edf)-1,0)` much less than the 100 we gave it, though still much greater than the EDF of, say, `dsm_tw_xy`:
+```{r tw-xt-check-smallk, fig.keep="none"}
+# here we suppress the plot using fig.keep="none" as a chunk option
+gam.check(dsm_tw_xy_bigk)
+```
+
+Now comparing the spatial effects, we see that there is not too much of a difference in the spatial pattern. The biggest difference is the much faster drop-off once we get nearer the coast (which may be better modelled by, say a depth covariate in the next exercise?)
+```{r tw-xy-visgam-bigk, fig.width=10, fig.height=5}
+par(mfrow=c(1,2))
+vis.gam(dsm_tw_xy, view=c("x","y"), plot.type="contour", too.far=0.1, main="s(x,y) (link scale)", asp=1, zlim=c(-12,1))
+vis.gam(dsm_tw_xy_bigk, view=c("x","y"), plot.type="contour", too.far=0.1, main="s(x,y) (big k, link scale)", asp=1, zlim=c(-12,1))
+```
+</div>
+
+

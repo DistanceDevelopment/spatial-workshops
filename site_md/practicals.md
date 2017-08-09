@@ -16,20 +16,20 @@ An HTML version of all practicals is provided [here](practicals/bookdown/) and i
 
 Note that the practicals are designed to be run sequentially, files generated from previous analyses are loaded and used in subsequent analyses.
 
-Number | Practical Description            | Rmd file | Solutions |
--------|----------------------------------|----------|-----------|
-1      | R tutorial                       | [Rmd](practicals/01-Rtutorial.Rmd) | [Rmd](practicals/solutions/01-Rtutorial-solution.Rmd) |
-2      | Straightforward distance samping | [Rmd](practicals/02-simple-analysis-simulated.Rmd) |  |
-3      | Awkward data sets                | [Rmd](practicals/03-problem-datasets.Rmd) |  |
-4      | Simulation of distance sampling data | [Rmd](practicals/04-dssim.Rmd) |  |
-5      | Processing data                  | [Rmd](practicals/05-process-geodata.Rmd) |  |
-6      | Fitting detection functions       | [Rmd](practicals/06-detection-functions.Rmd) |  |
-7      | Fitting DSMs                     |[Rmd](practicals/07-simple-dsms.Rmd) |  |
-8      | Multiple term DSMs, model checking and selection | [Rmd](practicals/08-advanced-dsms.Rmd) |  |
-9      | DSM Prediction | [Rmd](practicals/09-prediction.Rmd) |  |
-10     | DSM Variance | [Rmd](practicals/10-variance.Rmd) |  |
-11     | `mrds` | [Rmd](practicals/11-mrds.Rmd) |  |
-11     | MRDS in Distance | [PDF](practicals/11-mrds-distance.pdf) |  |
+Number | Practical Description                            | Rmd file                                           | Solutions |
+-------|--------------------------------------------------|----------------------------------------------------|-----------|
+1      | R tutorial                                       | [Rmd](practicals/01-Rtutorial.Rmd)                 | [Rmd](practicals/solutions/01-Rtutorial-solution.Rmd) |
+2      | Straightforward distance samping                 | [Rmd](practicals/02-simple-analysis-simulated.Rmd) |  |
+3      | Awkward data sets                                | [Rmd](practicals/03-problem-datasets.Rmd)          |  |
+4      | Simulation of distance sampling data             | [Rmd](practicals/04-dssim.Rmd)                     |  |
+5      | Processing data                                  | [Rmd](practicals/05-process-geodata.Rmd)           |  |
+6      | Fitting detection functions                      | [Rmd](practicals/06-detection-functions.Rmd)       | [Rmd](practicals/solutions/06-detection-functions-solutions.Rmd)     |
+7      | Fitting DSMs                                     | [Rmd](practicals/07-simple-dsms.Rmd)               | [Rmd](practicals/solutions/07-simple-dsms-solutions.Rmd)             |
+8      | Multiple term DSMs, model checking and selection | [Rmd](practicals/08-advanced-dsms.Rmd)             | [Rmd](practicals/solutions/08-advanced-dsms-solutions.Rmd)           |
+9      | DSM Prediction                                   | [Rmd](practicals/09-prediction.Rmd)                | [Rmd](practicals/solutions/09-prediction-solutions.Rmd)              |
+10     | DSM Variance                                     | [Rmd](practicals/10-variance.Rmd)                  | [Rmd](practicals/solutions/10-variance-solutions.Rmd)                |
+11     | `mrds`                                           | [Rmd](practicals/11-mrds.Rmd)                      |  |
+11     | MRDS in Distance                                 | [PDF](practicals/11-mrds-distance.pdf)             |  |
 
 ## Data sets *(under construction)*
 

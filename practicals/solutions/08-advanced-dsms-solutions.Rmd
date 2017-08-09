@@ -1,0 +1,593 @@
+---
+title: 'Density surface models with multiple smooths, model selection'
+author: David L Miller
+css: custom.css
+
+---
+
+Here is a "solution" for practical 3. As with any data analysis, there is no correct answer, but this shows how I would approach this analysis. The analysis here is conditional on selecting a detection function in the previous exercises; I've chosen `df_hn` and `df_hr_ss_size` that we saved previously (see detection function practical).
+
+Much of the text below is as in the exercise itself, so it should be relatively easy to navigate.
+
+<div class="boxout">
+Additional text and code is highlighted using boxes like this.
+</div>
+
+
+# Load data and packages
+
+```{r load-packages}
+library(Distance)
+library(dsm)
+library(ggplot2)
+library(knitr)
+library(plyr)
+library(reshape2)
+```
+
+Loading the data processed from GIS and the fitted detection function objects from the previous exercises:
+```{r load-data}
+load("sperm-data.RData")
+load("df-models.RData")
+```
+
+# Exploratory analysis
+
+We can do some exploratory analysis by aggregating the counts to each cell and plotting what's going on.
+
+*Don't worry about understanding what this code is doing at the moment.*
+
+```{r make-data}
+# join the observations onto the segments
+join_dat <- join(segs, obs, by="Sample.Label", type="full")
+# sum up the observations per segment
+n <- ddply(join_dat, .(Sample.Label), summarise, n=sum(size), .drop = FALSE) 
+# sort the segments by their labsl
+segs_eda <- segs[sort(segs$Sample.Label),]
+# make a new column for the counts
+segs_eda$n <- n$n
+
+# remove the columns we don't need,
+segs_eda$CentreTime <- NULL
+segs_eda$POINT_X <- NULL
+segs_eda$POINT_Y <- NULL
+segs_eda$segment.area <- NULL
+segs_eda$off.set <- NULL
+segs_eda$CenterTime <- NULL
+segs_eda$Effort <- NULL
+segs_eda$Length <- NULL
+segs_eda$SegmentID <- NULL
+segs_eda$coords.x1 <- NULL
+segs_eda$coords.x2 <- NULL
+
+# "melt" the data so we have four columns:
+#   Sample.Label, n (number of observations),
+#   variable (which variable), value (its value)
+segs_eda <- melt(segs_eda, id.vars=c("Sample.Label", "n"))
+# try head(segs_eda)
+```
+
+
+Finally, we can plot histograms of counts for different values of the covariates:
+```{r}
+p <- ggplot(segs_eda) +
+       geom_histogram(aes(value, weight=n)) +
+       facet_wrap(~variable, scale="free") +
+       xlab("Covariate value") +
+       ylab("Aggregated counts")
+print(p)
+```
+
+We can also just plot the counts against the covariates, note the high number of zeros (but still some interesting patterns): 
+```{r}
+p <- ggplot(segs_eda) +
+       geom_point(aes(value, n)) +
+       facet_wrap(~variable, scale="free") +
+       xlab("Covariate value") +
+       ylab("Aggregated counts")
+print(p)
+```
+
+
+These plots give a very rough idea of the relationships we can expect in the model. Notably these plots don't take into account interactions between the variables and potential correlations between the terms, as well as detectability.
+
+# Pre-model fitting
+
+As we did in the previous exercise we must remove the observations from the spatial data that we excluded when we fitted the detection function -- those observations at distances greater than the truncation.
+```{r truncate-obs}
+obs <- obs[obs$distance <= df_hn$ddf$meta.data$width, ]
+```
+Here we've used the value of the truncation stored in the detection function object, but we could also use the numeric value (which we can also find by checking the model's `summary()`).
+
+Again note that if you want to fit DSMs using detection functions with different truncation distances, then you'll need to reload the `sperm-data.RData` and do the truncation again for that detection function.
+
+
+# Our new friend `+`
+
+We can build a really big model using `+` to include all the terms that we want in the model. We can check what's available to us by using `head()` to look at the segment table:
+```{r seg-table}
+head(segs)
+```
+
+We can then fit a model with the available covariates in it, each as an `s()` term.
+```{r nb-xy}
+dsm_nb_xy_ms <- dsm(count~s(x,y, bs="ts") +
+                       s(Depth, bs="ts") +
+                       s(DistToCAS, bs="ts") +
+                       s(SST, bs="ts") +
+                       s(EKE, bs="ts") +
+                       s(NPP, bs="ts"),
+                 df_hn, segs, obs,
+                 family=nb())
+summary(dsm_nb_xy_ms)
+```
+
+Notes:
+
+1. We're using `bs="ts"` to use the shrinkage thin plate regression spline. More technical detail on these smooths can be found on their manual page `?smooth.construct.ts.smooth.spec`.
+2. We've not specified basis complexity (`k`) at the moment. Note that if you want to specify the same complexity for multiple terms, it's often easier to make a variable that can then be given as `k` (for example, setting `k1<-15` and then setting `k=k1` in the required `s()` terms).
+
+<div class="boxout">
+Looking at the `summary()` here we can see that many of the terms have been shrunk out of the model. We could simply use this model to make predictions at this point since those shrunken terms will have little effect on the results (since their EDFs are so small), but it makes sense to remove them (if only because then predictions will be faster, and we might avoid building many prediction grids for those covariates -- more on that later).
+</div>
+
+
+## Plot
+
+Let's plot the smooths from this model:
+
+```{r plot-nb-xy}
+plot(dsm_nb_xy_ms, pages=1, scale=0)
+```
+
+Notes:
+
+1. Setting `shade=TRUE` gives prettier confidence bands.
+2. As with `vis.gam()` the response is on the link scale.
+3. `scale=0` puts each plot on a different $y$-axis scale, making it easier to see the effects. Setting `scale=-1` will put the plots on a common $y$-axis scale
+
+
+We can also plot the bivariate smooth of `x` and `y` as we did before, using `vis.gam()`:
+```{r nb-xy-visgam, fig.width=5, fig.height=5}
+vis.gam(dsm_nb_xy_ms, view=c("x","y"), plot.type="contour", too.far=0.1, main="s(x,y) (link scale)", asp=1)
+```
+
+Compare this plot to the one that was generated in the previous practical when only `x` and `y` were included in the model.
+
+<div class="boxout">
+We can load up that saved model and compare the bivariate smooth of location:
+```{r nb-xy-ms-visgam-compare, fig.width=10, fig.height=5}
+load("dsms-xy.RData")
+par(mfrow=c(1,2))
+vis.gam(dsm_nb_xy, view=c("x","y"), plot.type="contour", too.far=0.1, main="s(x,y) (spatial only, link scale)", asp=1)
+vis.gam(dsm_nb_xy_ms, view=c("x","y"), plot.type="contour", too.far=0.1, main="s(x,y) (full model, link scale)", asp=1)
+```
+
+Once additional covariates are included in the model the spatial term is much simpler, as those terms are explaining variation that we'd previously only been able to describe via spatial variation. 
+</div>
+
+
+
+## Check
+
+As before, we can use `gam.check()` and `rqgam.check()` to look at the residual check plots for this model. Do this in the below gaps and comment on the resulting plots and diagnostics.
+
+<div class="boxout">
+```{r check-nb-xy}
+gam.check(dsm_nb_xy_ms)
+```
+
+The left side of the `gam.check()` plot shows the Q-Q plot looks okay, the histogram less so.
+
+```{r rqcheck-nb-xy}
+rqgam.check(dsm_nb_xy_ms)
+```
+
+`rqgam.check()` shows we don't need to be concerned with non-constant variance.
+</div>
+
+You might decide from the diagnostics that you need to increase `k` for some of the terms in the model. Do this and re-run the above code to ensure that the smooths are flexible enough. The `?choose.k` manual page can offer some guidance. Generally if teh EDF is close to the value of `k` you supplied, it's worth doubling `k` and refitting to see what happens. You can always switch back to the smaller `k` if there is little difference.
+
+<div class="boxout">
+It doesn't seem like `k` needs to be increased for any of the terms.
+</div>
+
+## Select terms
+
+As was covered in the lectures, we can select terms by (approximate) $p$-values and by looking for terms that have EDFs significantly less than 1 (those which have been shrunk).
+
+Decide on a significance level that you'll use to discard terms in the model. Remove the terms that are non-significant at this level and re-run the above checks, summaries and plots to see what happens. It's helpful to make notes to yourself as you go 
+
+It's easiest to either comment out the terms that are to be removed (using `#`) or by copying the code chunk above and pasting it below.
+
+Having removed a smooth and reviewed your model, you may decide you wish to remove another. Follow the process again, removing a term, looking at plots and diagnostics.
+
+
+<div class="boxout">
+Looking again at the model summary:
+```{r nb-xy-ms-summary}
+summary(dsm_nb_xy_ms)
+```
+Terms `DistToCAS`, `SST` and `NPP` seem to have been shrunk to be very small. We can start by removing `DistToCAS` from the model (as it has been shrunk the most):
+```{r nb-xy-ms1}
+dsm_nb_xy_ms <- dsm(count~s(x,y, bs="ts") +
+                       s(Depth, bs="ts") +
+                       s(SST, bs="ts") +
+                       s(EKE, bs="ts") +
+                       s(NPP, bs="ts"),
+                 df_hn, segs, obs,
+                 family=nb())
+```
+Looking at the summary of our new model:
+```{r nb-xy-ms1-summary}
+summary(dsm_nb_xy_ms)
+```
+Let's now remove `NPP`:
+```{r nb-xy-ms2}
+dsm_nb_xy_ms <- dsm(count~s(x,y, bs="ts") +
+                       s(Depth, bs="ts") +
+                       s(SST, bs="ts") +
+                       s(EKE, bs="ts"),
+                 df_hn, segs, obs,
+                 family=nb())
+summary(dsm_nb_xy_ms)
+```
+And now removing `SST`:
+```{r nb-xy-ms3}
+dsm_nb_xy_ms <- dsm(count~s(x,y, bs="ts") +
+                       s(Depth, bs="ts") +
+                       s(EKE, bs="ts"),
+                 df_hn, segs, obs,
+                 family=nb())
+summary(dsm_nb_xy_ms)
+```
+
+At this point we could leave `EKE` in the model, but I've decided that my cutoff for removing terms is that they are `***` significant, so I'll remove that too:
+```{r nb-xy-ms4}
+dsm_nb_xy_ms <- dsm(count~s(x,y, bs="ts") +
+                       s(Depth, bs="ts"),
+                 df_hn, segs, obs,
+                 family=nb())
+summary(dsm_nb_xy_ms)
+```
+
+Again note no major differences in the EDFs of the model. This model is also appealing as it contains only static covariates (we'll talk about this more in the lectures).
+</div>
+
+## Compare response distributions
+
+Use the `gam.check()` to compare quantile-quantile plots between negative binomial and Tweedie distributions for the response.
+
+
+<div class="boxout">
+First we need to perform model selection again, when Tweedie is used as the response distribution:
+
+```{r tw-xy-ms}
+dsm_tw_xy_ms <- dsm(count~s(x,y, bs="ts") +
+                          s(Depth, bs="ts") +
+                          s(DistToCAS, bs="ts") +
+                          s(SST, bs="ts") +
+                          s(EKE, bs="ts") +
+                          s(NPP, bs="ts"),
+                    df_hn, segs, obs,
+                    family=tw())
+summary(dsm_tw_xy_ms)
+```
+
+Again it doesn't seem like we need to increase `k` from the default values for any of the terms in the model, and again it looks like we should remove `DistToCAS` first:
+```{r tw-xy-ms1}
+dsm_tw_xy_ms <- dsm(count~s(x,y, bs="ts") +
+                          s(Depth, bs="ts") +
+                          s(SST, bs="ts") +
+                          s(EKE, bs="ts") +
+                          s(NPP, bs="ts"),
+                    df_hn, segs, obs,
+                    family=tw())
+summary(dsm_tw_xy_ms)
+```
+Now we see a bit of a change from the negative binomial model. Rather than having the EDFs stay roughly the same, we see instead that the $p$-value for `s(x,y)` has increased and `NPP` has become significant. Let's now remove `SST` and see what happens:
+```{r tw-xy-ms2}
+dsm_tw_xy_ms <- dsm(count~s(x,y, bs="ts") +
+                          s(Depth, bs="ts") +
+                          s(EKE, bs="ts") +
+                          s(NPP, bs="ts"),
+                    df_hn, segs, obs,
+                    family=tw())
+summary(dsm_tw_xy_ms)
+```
+Removing `SST` has moved us back to roughly the smooth terms EDF/$p$ -values we has previously. Let's remove `NPP`...
+```{r tw-xy-ms3}
+dsm_tw_xy_ms <- dsm(count~s(x,y, bs="ts") +
+                          s(Depth, bs="ts") +
+                          s(EKE, bs="ts"),
+                    df_hn, segs, obs,
+                    family=tw())
+summary(dsm_tw_xy_ms)
+```
+Again, we could leave `EKE` in the model but let's remove it:
+```{r tw-xy-ms4}
+dsm_tw_xy_ms <- dsm(count~s(x,y, bs="ts") +
+                          s(Depth, bs="ts"),
+                    df_hn, segs, obs,
+                    family=tw())
+summary(dsm_tw_xy_ms)
+```
+We're now left with the same model structure as `dsm_nb_xy_ms`, but by rather a different path. This demonstrates some potential instabilities in the model and the effect of using a different response distribution (and different mean-variance relationship).
+
+Let's look at check plots for this model
+
+```{r tw-xy-ms-check}
+gam.check(dsm_tw_xy_ms)
+```
+
+```{r tw-xy-ms-rqcheck}
+rqgam.check(dsm_tw_xy_ms)
+```
+
+These plots look okay and don't show any major issues. Let's compare the Q-Q plots for the negative binomial and Tweedie models side-by-side:
+
+```{r tw-nb-qq-comp, fig.width=10, fig.height=5}
+par(mfrow=c(1,2))
+qq.gam(dsm_nb_xy_ms, main="Negative binomial")
+qq.gam(dsm_tw_xy_ms, main="Tweedie")
+```
+
+It looks like the negative binomial model has a better Q-Q plot here, so we're inclined to pick that model.
+</div>
+
+
+# Estimated abundance as a response
+
+Again, we've only looked at models with `count` as the response. Try using a detection function with covariates and the `abundance.est` response in the chunk below:
+
+<div class="boxout">
+Let's test out both negative binomial and Tweedie distributions with estimated abundance as the response.
+
+Starting with negative binomial. To save space I've commented the terms out as I've gone and annotated them with numbers to show the sequence.
+
+
+```{r abund-est-nb}
+dsm_nb_xy_ms_ae <- dsm(abundance.est~s(x,y, bs="ts") +
+                                     s(Depth, bs="ts"),# +
+                                     # s(DistToCAS, bs="ts") + # 3
+                                     #s(SST, bs="ts") + # 1
+                                     #s(EKE, bs="ts"), #+ # 4
+                                     #s(NPP, bs="ts"), # 2
+                       df_hr_ss_size, segs, obs,
+                       family=nb())
+summary(dsm_nb_xy_ms_ae)
+```
+
+Again the model structure is the same at the end of the selection, but it takes a different route.
+
+```{r abund-est-tw}
+dsm_tw_xy_ms_ae <- dsm(abundance.est~s(x,y, bs="ts") +
+                                     s(Depth, bs="ts"), # +
+                                     #s(DistToCAS, bs="ts") + # 2
+                                     #s(SST, bs="ts") + # 3
+                                     #s(EKE, bs="ts"),# +
+                                     #s(NPP, bs="ts"), # 1
+                       df_hr_ss_size, segs, obs,
+                       family=tw())
+summary(dsm_tw_xy_ms_ae)
+```
+
+We see the same terms get selected here too, reassuring!
+
+Now quickly plotting the Q-Q plots to compare Tweedie and negative binomial models:
+
+```{r ae-tw-nb-qq-comp, fig.width=10, fig.height=5}
+par(mfrow=c(1,2))
+qq.gam(dsm_nb_xy_ms_ae, main="Negative binomial")
+qq.gam(dsm_tw_xy_ms_ae, main="Tweedie")
+```
+
+This is a close call, neither distribution appears to perform considerably better than the other in Q-Q plot terms. We might perfer the Tweedie model as their is a smaller distance between point and line at larger values.
+</div>
+
+# Concurvity
+
+Checking concurvity of terms in the model can be accomplished using the `concurvity()` function.
+
+```{r concurvity-checks}
+concurvity(dsm_nb_xy_ms)
+```
+
+By default the function returns a matrix of a measure of concurvity between one of the terms and the rest of the model.
+
+Compare the output of the models before and after removing terms.
+
+<div class="boxout">
+We can see from the above that by the "worst" measure of concurvity, `s(x,y)` and `s(Depth)` are highly concurve with the rest of the model, respectively. We expect to see this in our models in general, since depth can be expressed as a function of location pretty easily (thinking about how bathymetry changes as we move away from the shore).
+
+Looking at how bad things could be, let's re-fit out model with all the terms in and look at those results:
+
+```{r nb-xy-all}
+dsm_nb_xy_all <- dsm(count~s(x,y, bs="ts") +
+                       s(Depth, bs="ts") +
+                       s(DistToCAS, bs="ts") +
+                       s(SST, bs="ts") +
+                       s(EKE, bs="ts") +
+                       s(NPP, bs="ts"),
+                 df_hn, segs, obs,
+                 family=nb())
+concurvity(dsm_nb_xy_all)
+```
+Here we see (generally speaking) most of the terms are highly concurve with the rest of the model using most of the measures of concurvity. We'll look at term-term concurvity next...
+</div>
+
+Reading these matrices can be a little laborious and not very fun. Here is a little bit of code to visualise the concurvity *between terms* in a model by colour coding the matrix.
+
+Again compare the results of plotting for models with different terms.
+
+<div class="boxout">
+Visualising the term-term concurvity in the model with all terms:
+
+```{r nb-xy-all-concur}
+vis.concurvity(dsm_nb_xy_all)
+```
+
+Here we can see that all terms are strongly concurve with the spatial smooth -- to be expected. We also see that `NPP` and `SST` are highly concurve, which seems biologically plausible. 
+</div>
+
+# Sensitivity
+
+## Compare bivariate and additive spatial effects
+
+If we replace the bivariate smooth of location (`s(x, y)`) with an additive terms (`s(x)+s(y)`), we may see a difference in the final model (different covariates selected). For the negative binomial distribution:
+
+```{r nb-x-y}
+dsm_nb_x_y_ms <- dsm(count~s(x, bs="ts") +
+                           s(y, bs="ts") +
+                           s(Depth, bs="ts") +
+                           s(DistToCAS, bs="ts") +
+                           s(SST, bs="ts") +
+                           s(EKE, bs="ts") +
+                           s(NPP, bs="ts"),
+                  df_hn, segs, obs,
+                  family=nb())
+summary(dsm_nb_x_y_ms)
+```
+
+Try performing model selection as before from this base model and compare the resulting models.
+
+<div class="boxout">
+Again saving space by doing this in one code chunk, I've numbered the order in which the terms were removed:
+```{r nb-x-y-ms}
+dsm_nb_x_y_ms <- dsm(count~ #s(x, bs="ts") + # 5
+                           s(y, bs="ts") +
+                           s(Depth, bs="ts"),# +
+                           #s(DistToCAS, bs="ts") + # 1
+                           #s(SST, bs="ts") + # 2
+                           #s(EKE, bs="ts"),# + # 4
+                           #s(NPP, bs="ts"), # 3
+                  df_hn, segs, obs,
+                  family=nb())
+summary(dsm_nb_x_y_ms)
+```
+
+Here we actually remove the `x` term (as it's $p$-value was 0.00269, which was larger than the significance I'd decided on).
+
+Looking at check plots for this model
+
+```{r nb-x-y-ms-check}
+gam.check(dsm_nb_x_y_ms)
+```
+
+```{r nb-x-y-ms-rqcheck}
+rqgam.check(dsm_nb_x_y_ms)
+```
+
+All looks fine here.
+
+Let's do the same with the Tweedie distribution for the sake of completeness.
+```{r tw-x-y-ms}
+dsm_tw_x_y_ms <- dsm(count~ #s(x, bs="ts") +
+                           #s(y, bs="ts") +
+                           s(Depth, bs="ts") +
+                           #s(DistToCAS, bs="ts") + # 2
+                           #s(SST, bs="ts") + # 1
+                           #s(EKE, bs="ts") +
+                           s(NPP, bs="ts"),
+                  df_hn, segs, obs,
+                  family=tw())
+summary(dsm_tw_x_y_ms)
+```
+
+Now we pick rather different covariates in the model...
+
+Looking at check plots for this model
+
+```{r tw-x-y-ms-check}
+gam.check(dsm_tw_x_y_ms)
+```
+
+```{r tw-x-y-ms-rqcheck}
+rqgam.check(dsm_tw_x_y_ms)
+```
+
+The plots look okay for this model, perhaps there is a slight issue with non-constant variance for the smaller values of the linear predictor.
+
+</div>
+
+Compare the resulting smooths from like terms in the model. For example, if depth were selected in both models, compare EDFs and plots, e.g.:
+
+<div class="boxout">
+Plotting all of the `Depth` terms, which are common to all models:
+```{r compare-depth, fig.width=12, fig.height=6}
+par(mfrow=c(2,3))
+plot(dsm_nb_xy_ms, main="dsm_nb_xy_ms", select=2, scale=0, ylim=c(-4,4))
+plot(dsm_nb_x_y_ms, main="dsm_nb_x_y_ms", select=2, scale=0, ylim=c(-4,4))  
+plot(dsm_nb_xy_ms_ae, main="dsm_nb_xy_ms_ae", select=2, scale=0, ylim=c(-4,4))
+plot(dsm_tw_xy_ms, main="dsm_tw_xy_ms", select=2, scale=0, ylim=c(-4,4)) 
+plot(dsm_tw_x_y_ms, main="dsm_tw_x_y_ms", select=1, scale=0, ylim=c(-4,4))  
+plot(dsm_tw_xy_ms_ae, main="dsm_tw_xy_ms_ae", select=2, scale=0, ylim=c(-4,4))
+```
+
+As we can see, these are pretty similar between models. In general showing a peak at around 2000m.
+</div>
+
+Note that there `select=` picks just one term to plot. These are in the order in which the terms occur in the `summary()` output (so you may well need to adjust the above code).
+
+
+# Comparing models
+
+As with the detection functions in the earlier exercises, here is a quick function to generate model results tables with appropriate summary statistics:
+
+```{r summarize-models}
+summarize_dsm <- function(model){
+
+  summ <- summary(model)
+
+  data.frame(response = model$family$family,
+             terms    = paste(rownames(summ$s.table), collapse=", "),
+             AIC      = AIC(model),
+             REML     = model$gcv.ubre,
+             "Deviance_explained" = paste0(round(summ$dev.expl*100,2),"%")
+            )
+
+}
+```
+
+We can, again, make a list of the models and give that to the above function
+
+<div class="boxout">
+Note here we're just going to compare the models that have count as the response:
+
+```{r apply-summary}
+# add your models to this list!
+model_list <- list(dsm_nb_xy, dsm_nb_x_y_ms, dsm_tw_xy_ms, dsm_tw_x_y_ms)
+library(plyr)
+summary_table <- ldply(model_list, summarize_dsm)
+row.names(summary_table) <- c("dsm_nb_xy", "dsm_nb_x_y_ms", "dsm_tw_xy_ms", "dsm_tw_x_y_ms")
+```
+</div>
+
+```{r print-table, results="asis"}
+summary_table <- summary_table[order(summary_table$REML, decreasing=TRUE),]
+kable(summary_table)
+```
+
+<div class="boxout">
+We can also plot the Q-Q plots for these models to compare their distributional assumptions:
+
+```{r big-qq-compare, fig.width=9, fig.height=9}
+par(mfrow=c(2,2))
+qq.gam(dsm_nb_xy_ms, main="Negative binomial, s(x,y)")
+qq.gam(dsm_tw_xy_ms, main="Tweedie, s(x,y)")
+qq.gam(dsm_nb_x_y_ms, main="Negative binomial, s(x)+s(y)")
+qq.gam(dsm_tw_x_y_ms, main="Tweedie, s(x)+s(y)")
+```
+
+We'll save all four models below, but our selection were based on the deviance explained and the Q-Q plot would be for `dsm_nb_xy_ms`.
+</div>
+
+# Saving models
+
+Now save the models that you'd like to use to predict with later. I recommend saving as many models as you can so you can compare their results in the next practical.
+
+```{r save-models}
+# add your models here
+save(dsm_nb_xy_ms, dsm_nb_x_y_ms, dsm_tw_xy_ms, dsm_tw_x_y_ms,
+     file="dsms.RData")
+```
